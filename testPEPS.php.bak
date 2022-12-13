@@ -1,0 +1,6 @@
+<?php
+require("conexion.inc");
+require("funcionRecalculoCostos.php");
+
+$funcionX=recalculaCostos(1782,1002);
+?>

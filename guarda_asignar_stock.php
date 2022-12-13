@@ -1,0 +1,33 @@
+<meta charset="utf-8">
+<?php
+
+require("conexionmysqli.inc");
+require("estilos.inc");
+require("funcion_nombres.php");
+
+$rpt_ciudad=$_POST["rpt_ciudad"];
+$user=$_POST["rpt_personal"];
+$fechaActual=date("Y-m-d H:i:s");
+
+$sql="select count(*) from funcionarios_agencias where codigo_funcionario='$user' and cod_ciudad='$rpt_ciudad'";
+$resp = mysqli_query($enlaceCon,$sql);
+$numeroFilas=0;
+if($dat=mysqli_fetch_array($resp)){
+	$numeroFilas=$dat[0];
+}
+
+if($numeroFilas>0){
+	echo "<script language='Javascript'>
+		alert('La persona ya tiene asignada la sucursal.');
+		location.href = 'asignarSucursalPersonal.php?p=$user&c=$rpt_ciudad';
+	</script>";	
+}else{
+	$sqlInsert="insert into funcionarios_agencias (codigo_funcionario, cod_ciudad) values 
+		($user, $rpt_ciudad)";
+	$respInsert=mysqli_query($enlaceCon,$sqlInsert);	
+	echo "<script language='Javascript'>
+		alert('Se asigno el funcionario a la sucursal correctamente');
+		location.href = 'asignarSucursalPersonal.php?p=$user&c=$rpt_ciudad';
+	</script>";	
+}
+?>
