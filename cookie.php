@@ -11,6 +11,7 @@ $sql = "
     SELECT f.cod_cargo, f.cod_ciudad
     FROM funcionarios f, usuarios_sistema u
     WHERE u.codigo_funcionario=f.codigo_funcionario AND u.codigo_funcionario='$usuario' AND u.contrasena='$contrasena' ";
+	echo $sql;
 $resp = mysql_query($sql);
 $num_filas = mysql_num_rows($resp);
 if ($num_filas != 0) {

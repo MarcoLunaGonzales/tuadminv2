@@ -78,15 +78,6 @@ while ($dat = mysql_fetch_array($resp)) {
 		<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
 		</a>
 	</td>
-	<td align='center'>
-		<a  href='costosImportacionIngreso.php?codigo_ingreso=$codigo'>
-			<img src='imagenes/imp9.jpg' border='0' width='50' heigth='50' title='Asociar Costos de Importacion'>
-		</a>
-	</td>
-	<td align='center'>
-		<a target='_BLANK' href='navegador_detalleingresomateriales2.php?codigo_ingreso=$codigo'>
-		<img src='imagenes/documento.png' border='0' width='30' heigth='30' title='Ingreso y Costos de Importacion'></a>
-	</td>
 	</tr>";
 }
 

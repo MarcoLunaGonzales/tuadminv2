@@ -264,8 +264,7 @@ while ($dat = mysql_fetch_array($resp)) {
 		</a>
 	</td>
 	<td align='center'>
-		<a target='_BLANK' href='navegador_detalleingresomateriales2.php?codigo_ingreso=$codigo'>
-		<img src='imagenes/documento.png' border='0' width='30' heigth='30' title='Ingreso y Costos de Importacion'></a>
+		<a target='_BLANK' href='navegador_detalleingresomateriales2.php?codigo_ingreso=$codigo'>RPT COSTOS</a>
 	</td>
 	</tr>";
 }

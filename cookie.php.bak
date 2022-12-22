@@ -1,6 +1,8 @@
 <?php
 
 require("conexion.inc");
+require("funciones.php");
+
 $usuario = $_POST["usuario"];
 $contrasena = $_POST["contrasena"];
 $contrasena = str_replace("'", "''", $contrasena);
