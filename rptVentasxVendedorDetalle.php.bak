@@ -45,9 +45,9 @@ if($rpt_ver==1){
 	<tr>
 	<th>-</th>
 	<th colspan='7'>Vendedor</th>
-	<th>-</th>
-	<th>-</th>
 	<th>Dif.(Bs.)</th>
+	<th>-</th>
+	<th>-</th>
 	<th>Monto Venta</th>
 	<th>Descuento</th>
 	<th>Subtotal</th>

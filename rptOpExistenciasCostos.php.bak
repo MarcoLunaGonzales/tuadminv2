@@ -1,5 +1,5 @@
 <?php
-require("conexionmysqli.inc");
+require("conexionmysqli2.inc");
 require("estilos_almacenes.inc");
 
 echo "<script language='JavaScript'>

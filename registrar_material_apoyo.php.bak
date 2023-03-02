@@ -101,12 +101,12 @@ echo "<td align='left'>
 
 echo "<tr><th align='left'>Costo</th>";
 echo "<td align='left'>
-	<input type='number' class='texto' name='costo_producto' id='costo_producto' step='0.01'>
+	<input type='number' class='texto' name='costo_producto' id='costo_producto' step='0.1'>
 	</td></tr>";
 
 echo "<tr><th align='left'>Precio de Venta</th>";
 echo "<td align='left'>
-	<input type='number' class='texto' name='precio_producto' id='precio_producto' step='0.01'>
+	<input type='number' class='texto' name='precio_producto' id='precio_producto' step='0.1'>
 	</td></tr>";
 
 ?>	

@@ -47,7 +47,7 @@ $respInsertPrecio=mysql_query($sqlInsertPrecio);
 $sqlInsertPrecio="insert into precios values($codigo, 1,$precioProducto,'$globalAgencia')";
 $respInsertPrecio=mysql_query($sqlInsertPrecio);
 
-
+/*
 if($resp_inserta){
 		echo "<script language='Javascript'>
 			alert('Los datos fueron insertados correctamente.');
@@ -60,4 +60,5 @@ if($resp_inserta){
 			</script>";
 }
 	
+*/
 ?>
