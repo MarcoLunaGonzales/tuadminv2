@@ -227,7 +227,7 @@ function nombreTipoDoc($codigo){
 function precioVenta($codigo,$agencia){
 	
 	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and p.cod_ciudad='$agencia'";
-	echo $consulta;
+	//echo $consulta;
 	$rs=mysql_query($consulta);
 	$registro=mysql_fetch_array($rs);
 	$precioVenta=$registro[0];

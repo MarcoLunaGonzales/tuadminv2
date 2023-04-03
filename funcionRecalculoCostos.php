@@ -142,7 +142,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 					$suma_ingresos=$suma_ingresos+$cantidad_ingreso;
 					$cantidad_kardex=$cantidad_kardex+$cantidad_ingreso;
 					
-						if($codTipoIngreso!=1030){
+						if($codTipoIngreso!=1002 || $codTipoIngreso!=1003){   //X AJUSTE Y POR TRASPASO
 							$valorNetoIngreso=$precioNetoIngreso*$cantidad_ingreso;	
 							$nuevoCostoPromedio=0;
 							if($cantidad_kardex>0){
@@ -153,7 +153,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 								cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$codigoItem'";
 							$respUpdCosto=mysql_query($sqlUpdCosto);
 						}
-						if($codTipoIngreso==1030){
+						if( $codTipoIngreso==1002 || $codTipoIngreso==1003 ){
 							$valorNetoIngreso=$nuevoCostoPromedio*$cantidad_ingreso;	
 							$sqlUpdCosto="update ingreso_detalle_almacenes set costo_promedio='$nuevoCostoPromedio' where 
 								cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$codigoItem'";
@@ -195,7 +195,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 					
 					//echo $sqlUpd."<br>";
 					
-					if($codTipoSalida==1030){
+					if($codTipoSalida==1007){  //SALIDA POR AJUSTE
 						//costeamos el ingreso 
 						$sqlIngCambioItem="select i.`cod_ingreso_almacen` from `ingreso_almacenes` i where i.`cod_salida_almacen`=$cod_salida";
 						$respIngCambioItem=mysql_query($sqlIngCambioItem);

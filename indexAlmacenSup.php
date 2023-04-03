@@ -103,6 +103,7 @@ include("datosUsuario.php");
 						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
 						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
 						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
+						<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
 						<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li>
 						<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
 						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>

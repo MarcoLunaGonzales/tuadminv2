@@ -327,9 +327,14 @@ a:active {
 }
 
 .textomedianorojo {
-	font-family: Verdana;
-	font-size: 14pt;
-	color: #CD5C5C;
+    font-family: Verdana;
+    font-size: 14pt;
+    color: #CD5C5C;
+}
+.textopequenorojo {
+    font-family: Verdana;
+    font-size: 10pt;
+    color: #CD5C5C;
 }
 .boton
 {

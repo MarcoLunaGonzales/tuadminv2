@@ -224,9 +224,7 @@ echo "<script language='Javascript'>
 		<td>$nombreLinea</td>
 		<td align='center'>$precioVenta</td>
 		<td align='center'><img src='imagenesprod/$imagen' width='$tamanioImagen'></td>
-		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a>
-		<a href='ticketMaterial.php?cod_material=$codigo' target='_blank'><img src='imagenes/icono-barra.png' width='25'></a>
-		</td>
+		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a></td>
 		</tr>";
 		$indice_tabla++;
 	}
