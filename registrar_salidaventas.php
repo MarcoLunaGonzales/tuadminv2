@@ -108,7 +108,7 @@ function actStock(indice){
 	ajax.send(null);
 }
 
-function ajaxPrecioItem(indice){
+/*function ajaxPrecioItem(indice){
 	var contenedor;
 	contenedor=document.getElementById("idprecio"+indice);
 	var codmat=document.getElementById("materiales"+indice).value;
@@ -121,6 +121,21 @@ function ajaxPrecioItem(indice){
 			var respuesta=ajax.responseText.split("#####");
 			contenedor.innerHTML = respuesta[0];
             document.getElementById("descuentoProducto"+indice).value=(respuesta[1]*parseFloat(cantidadUnitaria)); 
+			calculaMontoMaterial(indice);
+		}
+	}
+	ajax.send(null);
+}*/
+function ajaxPrecioItem(indice){
+	var contenedor;
+	contenedor=document.getElementById("idprecio"+indice);
+	var codmat=document.getElementById("materiales"+indice).value;
+	var tipoPrecio=1; // DEFINIMOS CUALQUIERA PORQUE ES UN DATO QUE NO SE NECESITA
+	ajax=nuevoAjax();
+	ajax.open("GET", "ajaxPrecioItem.php?codmat="+codmat+"&indice="+indice+"&tipoPrecio="+tipoPrecio,true);
+	ajax.onreadystatechange=function() {
+		if (ajax.readyState==4) {
+			contenedor.innerHTML = ajax.responseText;
 			calculaMontoMaterial(indice);
 		}
 	}
@@ -567,7 +582,7 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 
 <table class='texto' align='center' width='100%' style="width:100px;">
 <tr>
-<th>TipoDoc</th>
+<th>TipoDoc/Nro.</th>
 <th align='center'>
 	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
@@ -592,21 +607,40 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 		}
 		echo "</select>";
 		?>
+	<div id='divNroDoc'>
+	<?php
+	
+	$vectorNroCorrelativo=numeroCorrelativo($tipoDocDefault);
+	$nroCorrelativo=$vectorNroCorrelativo[0];
+	$banderaErrorFacturacion=$vectorNroCorrelativo[1];
+
+	echo "<span class='textogranderojo'>$nroCorrelativo</span>";
+
+	?>
+	</div>	
 </th>
 <input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
-<th>Nro.</th>
+<th>Cliente</th>
 <th align='center'>
-	<div id='divNroDoc'>
-		<?php
-		
-		$vectorNroCorrelativo=numeroCorrelativo($tipoDocDefault);
-		$nroCorrelativo=$vectorNroCorrelativo[0];
-		$banderaErrorFacturacion=$vectorNroCorrelativo[1];
-	
-		echo "<span class='textogranderojo'>$nroCorrelativo</span>";
-	
-		?>
-	</div>
+	<select name='cliente' class='texto' id='cliente' required>
+	<option value=''>----</option>
+	<?php
+	$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.cod_area_empresa='$globalAgencia' order by 2";
+	$resp2=mysql_query($sql2);
+	while($dat2=mysql_fetch_array($resp2)){
+   		$codCliente=$dat2[0];
+		$nombreCliente=$dat2[1];
+		if($codCliente==$clienteDefault){
+	?>		
+	<option value='<?php echo $codCliente?>' selected><?php echo $nombreCliente?></option>
+	<?php			
+		}else{
+	?>		
+	<option value='<?php echo $codCliente?>'><?php echo $nombreCliente?></option>
+	<?php			
+		}
+	}
+	?>
 </th>
 <th>Fecha</th>
 <th align='center'>
@@ -615,24 +649,7 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 <!--
 <th>Cliente</th>
 <td align='center'>
-	<select name='cliente' class='texto' id='cliente' onChange='ajaxTipoPrecio(form1);' required>
-		<option value=''>----</option>
-<?php
-/*$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.cod_area_empresa='$globalAgencia' order by 2";
-$resp2=mysql_query($sql2);
-while($dat2=mysql_fetch_array($resp2)){
-   $codCliente=$dat2[0];
-	$nombreCliente=$dat2[1];
-	if($codCliente==$clienteDefault){
-*/
-?>		
-	<!-option value='<?php echo $codCliente?>' selected><?php echo $nombreCliente?></option-->
-<?php			
-	//}else{
-?>		
-	<!--option value='<?php echo $codCliente?>'><?php echo $nombreCliente?></option-->
-<?php			
-/*	}
+
 
 }*/
 ?>

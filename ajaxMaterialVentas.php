@@ -44,23 +44,8 @@ require("conexion.inc");
 </td>
 
 <td align="center" width="15%">
-	<?php
-			$sql1="select codigo, nombre, abreviatura from tipos_precio where estado=1 order by 3";
-			$resp1=mysql_query($sql1);
-			echo "<select name='tipoPrecio' class='texto".$num."' id='tipoPrecio".$num."' style='width:55px !important;float:left;' onchange='ajaxPrecioItem(".$num.")'>";
-			while($dat=mysql_fetch_array($resp1)){
-				$codigo=$dat[0];
-				$nombre=$dat[1];
-				$abreviatura=$dat[2];
-				if($codigo==$cod_precio){
-                 echo "<option value='$codigo' selected>$abreviatura %</option>";					 
-				}else{
-				echo "<option value='$codigo'>$abreviatura %</option>";					
-				}
-			}
-			echo "</select>";
-			?>
-	<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01" readonly>
+	<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01">
+	<!--input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01" readonly-->
 </td>
 
 <td align="center" width="10%">
