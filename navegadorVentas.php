@@ -302,6 +302,8 @@ function enviar_datosdespacho(f)
 function llamar_preparado(f, estado_preparado, codigo_salida){   
 	window.open('navegador_detallesalidamateriales.php?codigo_salida='+codigo_salida,'popup','');
 }
+
+
 function ShowFacturar(codVenta,numCorrelativo){
 	document.getElementById("cod_venta").value=codVenta;
 	document.getElementById("nro_correlativo").value=numCorrelativo;
@@ -316,6 +318,45 @@ function HiddenFacturar(){
 	document.getElementById('divProfileData2').style.visibility='hidden';
 	document.getElementById('divProfileDetail2').style.visibility='hidden';
 }
+
+// EDITAR DATOS
+function ShowFacturarEditar(codVenta,numCorrelativo, codVendedor, codTipoPago){
+	document.getElementById("cod_venta_edit").value=codVenta;
+	document.getElementById("nro_correlativo_edit").value=numCorrelativo;
+	
+	document.getElementById('divRecuadroExt2_edit').style.visibility='visible';
+	document.getElementById('divProfileData2_edit').style.visibility='visible';
+	document.getElementById('divProfileDetail2_edit').style.visibility='visible';
+
+    $('#edit_cod_vendedor').val(codVendedor).trigger('click');
+    $('#edit_cod_tipopago').val(codTipoPago).trigger('click');
+}
+function HiddenFacturarEditar(){
+	document.getElementById('divRecuadroExt2_edit').style.visibility='hidden';
+	document.getElementById('divProfileData2_edit').style.visibility='hidden';
+	document.getElementById('divProfileDetail2_edit').style.visibility='hidden';
+}
+
+        // ACTUALIZACIÒN DE DATOS
+        function UpdateFacturarEditar(){
+            let formData = new FormData();
+            formData.append('cod_venta_edit', $('#cod_venta_edit').val());
+            formData.append('edit_cod_vendedor', $('#edit_cod_vendedor').val());
+            formData.append('edit_cod_tipopago', $('#edit_cod_tipopago').val());
+            $.ajax({
+                url:"actualizarFactura.php?cod_venta_edit="+$('#cod_venta_edit').val()+"&edit_cod_vendedor="+$('#edit_cod_vendedor').val()+"&edit_cod_tipopago="+$('#edit_cod_tipopago').val(),
+                type:"POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success:function(response){
+                    let resp = JSON.parse(response);
+                    console.log(resp)
+                    location.href="navegadorVentas.php";
+                }
+            });
+            HiddenFacturarEditar();
+        }
         </script>
     </head>
     <body>
@@ -349,8 +390,8 @@ echo "<div class='divBotones'>
     </div>";
 		
 echo "<center><table class='texto'>";
-echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th>
-	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir</th>";
+echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
+	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Editar</th><th>Imprimir</th>";
 
 if($global_admin_cargo==1){
     echo "<th>Convertir</th>";
@@ -366,7 +407,10 @@ $consulta = "
 	(select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
 	s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
 	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
-	(select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor
+	(select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
+	(select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
+    s.cod_chofer,
+    s.cod_tipopago
 	FROM salida_almacenes s, tipos_salida ts 
 	WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
 
@@ -400,6 +444,10 @@ while ($dat = mysql_fetch_array($resp)) {
 	$razonSocial=$dat[12];
 	$nitCli=$dat[13];
 	$vendedor=$dat[14];
+	$tipoPago=$dat[15];
+
+    $codVendedor = $dat[16];
+    $codTipoPago = $dat[17];
 	
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
 	
@@ -421,9 +469,16 @@ while ($dat = mysql_fetch_array($resp)) {
     echo "<td align='center'>$nombreTipoDoc-$nro_correlativo</td>";
     echo "<td align='center'>$fecha_salida_mostrar $hora_salida</td>";
     echo "<td>$vendedor</td>";
+    echo "<td>$tipoPago</td>";
     echo "<td>&nbsp;$razonSocial</td><td>&nbsp;$nitCli</td><td>&nbsp;$obs_salida</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
    
+    // Editar Datos
+    echo "<td bgcolor='$color_fondo'>
+            <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
+            <img src='imagenes/icon_detail.png' width='30' border='0' title='Editar'></a>
+        </td>";
+
 	if($codTipoDoc==1){
 		echo "<td  bgcolor='$color_fondo'><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
 	}
@@ -531,6 +586,7 @@ echo "</form>";
 				<input type='text' name='nro_correlativo' id="nro_correlativo" class='texto' disabled>
 				</td>
 			</tr>
+            
 			<tr>
 				<td>Razon Social</td>
 				<td>
@@ -552,6 +608,73 @@ echo "</form>";
 		</form>
 	</div>
 </div>
+
+
+<!-- EDITAR DATOS -->
+<div id="divRecuadroExt2_edit" style="background-color:#666; position:absolute; width:800px; height: 350px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2;">
+</div>
+<div id="divProfileData2_edit" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
+  	<div id="divProfileDetail2_edit" style="visibility:hidden; text-align:center">
+		<h2 align='center' class='texto'>Cambiar Datos a Factura</h2>
+		<form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
+		<table align='center' class='texto'>
+			<tr>
+				<input type="hidden" name="cod_venta_edit" id="cod_venta_edit" value="0">
+				<td>Nro.</td>
+				<td>
+				<input type='text' name='nro_correlativo_edit' id="nro_correlativo_edit" class='texto' disabled>
+				</td>
+			</tr>
+            
+			<tr>
+				<td>Vendedor</td>
+				<td>
+            <?php $sql1="SELECT codigo_funcionario, UPPER(CONCAT(nombres, ' ', paterno, ' ', materno)) as nombre_funcionario
+                        FROM funcionarios f ";
+                    $resp1=mysql_query($sql1);
+            ?>
+            <select name='cod_vendedor' id='edit_cod_vendedor' required>
+                <?php while($dat1=mysql_fetch_array($resp1))
+                    {	
+                        $codLinea=$dat1[0];
+                        $nombreLinea=$dat1[1];
+                ?>
+                <option value="<?=$codLinea;?>"><?=$nombreLinea;?></option>
+                <?php } ?>
+            </select>
+				</td>
+			</tr>
+
+            
+			<tr>
+				<td>Tipo Pago</td>
+				<td>
+            <?php $sql1="SELECT cod_tipopago, nombre_tipopago
+                        FROM tipos_pago";
+                    $resp1=mysql_query($sql1);
+            ?>
+            <select name='cod_tipopago' id='edit_cod_tipopago' required>
+                <?php while($dat1=mysql_fetch_array($resp1))
+                    {	
+                        $codLinea=$dat1[0];
+                        $nombreLinea=$dat1[1];
+                ?>
+                <option value="<?=$codLinea;?>"><?=$nombreLinea;?></option>
+                <?php } ?>
+            </select>
+				</td>
+			</tr>
+
+		</table>	
+		<center>
+			<input type='button' value='Actualizar' class='boton' onClick="UpdateFacturarEditar()">
+			<input type='button' value='Cancelar' class='boton2' onClick="HiddenFacturarEditar()">
+			
+		</center>
+		</form>
+	</div>
+</div>
+
 
 
         <script type='text/javascript' language='javascript'>

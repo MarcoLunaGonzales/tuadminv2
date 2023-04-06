@@ -85,8 +85,7 @@ while($datDatosVenta=mysql_fetch_array($respDatosVenta)){
 $pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,$nombre1,0,0,"C");
 $pdf->SetXY(0,$y+6);		$pdf->Cell(0,0,$nombre2,0,0,"C");
 
-//$pdf->SetXY(0,$y+9);		$pdf->Cell(0,0,"$nombreTipoDoc Nro. $nroDocVenta", 0,0,"C");
-$pdf->SetXY(0,$y+9);		$pdf->Cell(0,0,"ProForma Nro. $nroDocVenta", 0,0,"C");
+$pdf->SetXY(0,$y+9);		$pdf->Cell(0,0,"$nombreTipoDoc Nro. $nroDocVenta", 0,0,"C");
 $pdf->SetXY(0,$y+12);		$pdf->Cell(0,0,"-------------------------------------------------------------------------------", 0,0,"C");
 
 
