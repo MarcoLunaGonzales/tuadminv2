@@ -107,6 +107,7 @@ function cambiaCosto(f, fila){
 	document.getElementById('divUltimoCosto'+fila).innerHTML="["+ultimoCosto+"]["+calculoCosto+"]";
 	document.getElementById('divPrecioTotal'+fila).innerHTML=calculoPrecioTotal;
 	
+	totalesMonto();
 }
 function enviar_form(f)
 {   f.submit();
@@ -153,6 +154,54 @@ function pressEnter(e, f){
 		return false;
 	}
 }
+/**************************************************/
+function calculaPrecioCliente(preciocompra, index){
+	//alert('calculaPrecioCliente');
+	var costo=preciocompra.value;
+	var margen=document.getElementById('margenlinea'+index).value;
+	var cantidad=document.getElementById('cantidad_unitaria'+index).value;
+	var costounitario=costo/cantidad;
+
+	console.log("costoUnitario: "+costounitario); // s dejo esta parte de codigo
+
+	var preciocliente=costounitario+(costounitario*(margen/100));
+	preciocliente=redondear(preciocliente,2);
+	preciocliente=number_format(preciocliente,2);
+	document.getElementById('preciocliente'+index).value=preciocliente;
+
+	var margenNuevo=(preciocliente-costounitario)/costounitario;
+	var margenNuevoF="M ["+ number_format((margenNuevo*100),0) + "%]";
+	document.getElementById('divmargen'+index).innerHTML=margenNuevoF;
+
+	totalesMonto();
+}
+
+function totalesMonto(){
+	var cantidadTotal=0;
+	var precioTotal=0;
+	var montoTotal=0;
+    for(var ii=1;ii<=num;ii++){
+		if(document.getElementById('material'+ii)!=null){
+			
+			var cantidad = document.getElementById("cantidad_unitaria"+ii).value;
+			var precio=document.getElementById("precio"+ii).value;
+
+			var total = parseFloat(cantidad) * parseFloat(precio);
+			
+			montoTotal=montoTotal+parseFloat(total);
+			// montoTotal=montoTotal+parseFloat(precio);
+		}
+	}
+	montoTotal=Math.round(montoTotal*100)/100;
+	
+    document.getElementById("totalCompra").value=montoTotal;
+	//alert(montoTotal);
+	var descuentoTotal=document.getElementById("descuentoTotal").value;
+	var totalSD=montoTotal-descuentoTotal;
+	//alert(totalSD);
+	document.getElementById("totalCompraSD").value=totalSD;
+}
+/**************************************************/
 	
 function validar(f){   
 	f.cantidad_material.value=num;
@@ -258,8 +307,21 @@ echo "</table><br>";
 					<td width="10%" align="center">&nbsp;</td>
 				</tr>
 			</table>
+			
+			<div id="divMaterialLinea"></div>
 		</fieldset>
 
+		<table align="center"class="text" cellSpacing="1" cellPadding="2" width="100%" border="0" id="data0" style="border:#ccc 1px solid;">
+			<tr>
+				<td align='right'>Total Compra</td><td align='right'><input type='number' name='totalCompra' id='totalCompra' value='0' size='10' readonly></td>
+			</tr>
+			<tr>
+				<td align='right'>Descuento</td><td align='right'><input type='number' name='descuentoTotal' id='descuentoTotal' value='0' size='10' onKeyUp='totalesMonto();' required></td>
+			</tr>
+			<tr>
+				<td align='right'>Total</td><td align='right'><input type='number' name='totalCompraSD' id='totalCompraSD' value='0' size='10' readonly></td>
+			</tr>
+		</table>
 
 <?php
 
