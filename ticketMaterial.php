@@ -22,7 +22,8 @@ $sqlConf="SELECT ma.codigo_material, ma.descripcion_material, ROUND(p.precio, 2)
 $respConf=mysqli_query($enlaceCon,$sqlConf);
 $registro = mysqli_fetch_array($respConf);
 
-$nombre_producto = $registro['descripcion_material'];
+// $nombre_producto = $registro['descripcion_material'];
+$nombre_producto = '';
 $codigo          = $registro['codigo_material'];
 $precio          = empty($registro['precio']) ? '0.00' : $registro['precio'];
 
