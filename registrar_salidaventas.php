@@ -112,15 +112,12 @@ function ajaxPrecioItem(indice){
 	var contenedor;
 	contenedor=document.getElementById("idprecio"+indice);
 	var codmat=document.getElementById("materiales"+indice).value;
-	var tipoPrecio=document.getElementById("tipoPrecio"+indice).value;
-	var cantidadUnitaria=document.getElementById("cantidad_unitaria"+indice).value;
+	var tipoPrecio=1; // DEFINIMOS CUALQUIERA PORQUE ES UN DATO QUE NO SE NECESITA
 	ajax=nuevoAjax();
 	ajax.open("GET", "ajaxPrecioItem.php?codmat="+codmat+"&indice="+indice+"&tipoPrecio="+tipoPrecio,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
-			var respuesta=ajax.responseText.split("#####");
-			contenedor.innerHTML = respuesta[0];
-            document.getElementById("descuentoProducto"+indice).value=(respuesta[1]*parseFloat(cantidadUnitaria)); 
+			contenedor.innerHTML = ajax.responseText;
 			calculaMontoMaterial(indice);
 		}
 	}

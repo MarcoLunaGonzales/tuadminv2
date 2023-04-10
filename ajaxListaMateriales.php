@@ -2,7 +2,7 @@
 <body>
 <table align='center' class="texto">
 <tr>
-<th>Linea</th><th>CodInterno</th><th>Producto</th><th>Stock</th><th>Precio</th>
+<th>Grupo</th><th>CodInterno</th><th>Producto</th><th>Stock</th><th>Precio</th>
 </tr>
 <?php
 require("conexion.inc");
@@ -17,8 +17,12 @@ $globalAgencia=$_COOKIE["global_agencia"];
 
 
 
+	// $sql="select m.codigo_material, m.descripcion_material,
+	// (select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor) 
+	// , m.codigo_anterior  from material_apoyo m where estado=1 and m.codigo_material not in ($itemsNoUtilizar)";
+
 	$sql="select m.codigo_material, m.descripcion_material,
-	(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor) 
+	(select g.nombre_grupo from grupos g where g.cod_grupo=m.cod_grupo) 
 	, m.codigo_anterior  from material_apoyo m where estado=1 and m.codigo_material not in ($itemsNoUtilizar)";
 	if($nombreItem!=""){
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
@@ -42,7 +46,7 @@ $globalAgencia=$_COOKIE["global_agencia"];
 			$linea=$dat[2];
 			$codigoInterno=$dat[3];
 			
-			$nombreCompletoProducto=$linea."-".$nombre;
+			$nombreCompletoProducto=$linea."-".$nombre."(".$codigoInterno.")";
 			$nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
 
 			$stockProducto=stockProducto($globalAlmacen, $codigo);
