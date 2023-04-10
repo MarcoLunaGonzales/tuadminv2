@@ -391,10 +391,10 @@ echo "<div class='divBotones'>
 		
 echo "<center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
-	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Editar</th><th>Imprimir</th>";
+	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir</th>";
 
 if($global_admin_cargo==1){
-    echo "<th>Convertir</th>";
+    echo "<th>Convertir</th><th>Cambiar <br>Vendedor/TipoPago</th>";
 }	
 echo "</tr>";
 	
@@ -474,10 +474,6 @@ while ($dat = mysql_fetch_array($resp)) {
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
    
     // Editar Datos
-    echo "<td bgcolor='$color_fondo'>
-            <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
-            <img src='imagenes/icon_detail.png' width='30' border='0' title='Editar'></a>
-        </td>";
 
 	if($codTipoDoc==1){
 		echo "<td  bgcolor='$color_fondo'><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
@@ -488,7 +484,12 @@ while ($dat = mysql_fetch_array($resp)) {
 	if($global_admin_cargo==1 && $codTipoDoc==2){
 		echo "<td bgcolor='$color_fondo'>
 		<a href='#' onClick='ShowFacturar($codigo,$nro_correlativo);'>
-		<img src='imagenes/icon_detail.png' width='30' border='0' title='Convertir en Factura'></a></td>";	
+		<img src='imagenes/icon_detail.png' width='30' border='0' title='Convertir en Factura'></a></td>";
+        echo "<td bgcolor='$color_fondo' align='center'>
+            <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
+            <img src='imagenes/change.png' width='30' border='0' title='Editar'></a>
+        </td>";
+	
 	}	
 	echo "</tr>";
 }
@@ -615,7 +616,7 @@ echo "</form>";
 </div>
 <div id="divProfileData2_edit" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
   	<div id="divProfileDetail2_edit" style="visibility:hidden; text-align:center">
-		<h2 align='center' class='texto'>Cambiar Datos a Factura</h2>
+		<h2 align='center' class='texto'>Cambiar Datos de Venta</h2>
 		<form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
 		<table align='center' class='texto'>
 			<tr>
