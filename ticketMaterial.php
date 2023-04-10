@@ -22,12 +22,12 @@ $sqlConf="SELECT ma.codigo_material, ma.descripcion_material, ROUND(p.precio, 2)
 $respConf=mysqli_query($enlaceCon,$sqlConf);
 $registro = mysqli_fetch_array($respConf);
 
-// $nombre_producto = $registro['descripcion_material'];
-$nombre_producto = '';
+$nombre_producto = $registro['descripcion_material'];
+// $nombre_producto = '';
 $codigo          = $registro['codigo_material'];
 $precio          = empty($registro['precio']) ? '0.00' : $registro['precio'];
 
-barcode('codigo_barra/'.$codigo.'.png', $codigo, 20, 'horizontal', 'code128', true);
+barcode('codigo_barra/'.$codigo.'.png', $codigo, 30, 'horizontal', 'code128', true);
 
 // Redirecciona a otro archivo PHP pasando los datos en la URL como parámetros
 header('Location: ticketMaterialPrint.php?codigo=' . urlencode($codigo) . '&nombre=' . urlencode($nombre_producto) . '&precio=' . urlencode($precio) . '&margen_x=' . urlencode($margen_x) . '&margen_y=' . urlencode($margen_y) . '&margen_x2=' . urlencode($margen_x2) . '&margen_y2=' . urlencode($margen_y2) . '&card_width=' . urlencode($card_width) . '&card_height=' . urlencode($card_height));

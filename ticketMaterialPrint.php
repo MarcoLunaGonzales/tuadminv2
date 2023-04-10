@@ -103,7 +103,8 @@ $pdf->multiCell($card_width - 2, 3, utf8_decode($nombre_producto), 0, 'C', false
 $pdf->Ln();
 
 $y = $pdf->getY();
-$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
+// $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y, $card_width, ($card_height/2)+5);
 $pdf->Ln();
 
 $pdf->setY($margen_seg_y + $card_height-7);
@@ -126,7 +127,8 @@ $pdf->multiCell($card_width - 2, 3, utf8_decode($nombre_producto), 0, 'C', false
 $pdf->Ln();
 
 $y = $pdf->getY();
-$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x+2, $y, $card_width-5, ($card_height/2));
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)+5);
+// $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x+2, $y, $card_width-5, ($card_height/2));
 $pdf->Ln();
 
 $pdf->setY($margen_seg_y + $card_height-7);
