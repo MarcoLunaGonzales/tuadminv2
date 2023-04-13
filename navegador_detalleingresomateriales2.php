@@ -33,7 +33,7 @@
 	</table>
 <?php	
 
-	$sql2="select count(*) nroItems, sum(i.cantidad_unitaria*i.costo_almacen)total, sum(metros_cubicos)m3 from ingreso_detalle_almacenes i where i.cod_ingreso_almacen='".$codIngreso."'"; 
+	$sql2="select count(*) nroItems, sum(i.cantidad_unitaria*i.precio_bruto)total, sum(metros_cubicos)m3 from ingreso_detalle_almacenes i where i.cod_ingreso_almacen='".$codIngreso."'"; 
 	//echo $sql2;
 	$resp2=mysql_query($sql2);
 	$nroItems=0;
@@ -46,7 +46,7 @@
 	}
 
 	//echo  "nroItems:".$nroItems." total".$total;
-	$sql_detalle="select m.codigo_anterior, i.cantidad_unitaria, i.costo_almacen, i.lote, DATE_FORMAT(i.fecha_vencimiento, '%d/%m/%Y'),
+	$sql_detalle="select m.codigo_anterior, i.cantidad_unitaria, i.precio_bruto, i.lote, DATE_FORMAT(i.fecha_vencimiento, '%d/%m/%Y'),
 	m.descripcion_material, m.codigo_material, i.metros_cubicos from ingreso_detalle_almacenes i, material_apoyo m
 	where i.cod_ingreso_almacen='".$codIngreso."' 
 	and m.codigo_material=i.cod_material order by m.descripcion_material";
@@ -54,7 +54,7 @@
 	$resp_detalle=mysql_query($sql_detalle);
 ?>
 	<br><table border=0 class='texto' align='center'>
-	<tr><th>&nbsp;</th><th>Codigo</th><th>Producto</th><th>Cantidad</th><th>MetrosCubicos/<br>Peso[Kg]</th><th>Precio<br>Compra U.(Bs.)</th><th>Precio<br>Compra(Bs.)</th>
+	<tr><th>&nbsp;</th><th>Codigo</th><th>CodigoInterno</th><th>Producto</th><th>Cantidad</th><th>MetrosCubicos/<br>Peso[Kg]</th><th>Precio<br>Compra U.(Bs.)</th><th>Precio<br>Compra(Bs.)</th>
 	<!--th>Participacion %</th-->
 <?php	
 	$sqlCii="select cii.cod_costoimp,ci.nombre_costoimp,tipo_calculo,monto from costos_importacion_ingreso  cii
@@ -99,6 +99,8 @@
 		$loteProducto=$dat_detalle[3];
 		$fechaVenc=$dat_detalle[4];
 		$nombre_material=$dat_detalle[5];
+		$codigoSistema=$dat_detalle[6];
+
 		$metrosCubicos=$dat_detalle[7];
 		
 		$totalValorItem=$cantidad_unitaria*$precioNeto;
@@ -118,6 +120,7 @@
 ?>
 <tr>
 <td align='center'><?=$indice;?></td>
+	<td><?=$codigoSistema;?></td>
 	<td><?=$cod_material;?></td>
 	<td><?=$nombre_material;?></td>
 	<td align='center'><?=$cantidad_unitaria;?></td>
@@ -177,7 +180,7 @@
 	$totalCostoImpProdFormato=redondear2($totalCostoImpProd);
 ?>	
 <tr>
-<td colspan="4">&nbsp;</td>
+<td colspan="5">&nbsp;</td>
 <td align="right" ><?=$totalMetrosCubicos;?></td>
 <td align="right" >&nbsp;</td>
 <td align="right" ><?=$totalFormato;?></td>

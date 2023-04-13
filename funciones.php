@@ -252,6 +252,21 @@ function precioVentaN($enlaceCon,$codigo,$agencia){
 	$precioVenta=redondear2($precioVenta);
 	return $precioVenta;
 }
+
+function precioVentaCosto($codigo,$agencia){
+	
+	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='0' and p.cod_ciudad='$agencia'";
+	//echo $consulta;
+	$rs=mysql_query($consulta);
+	$registro=mysql_fetch_array($rs);
+	$precioVenta=$registro[0];
+	if($precioVenta=="")
+	{   $precioVenta=0;
+	}
+
+	$precioVenta=redondear2($precioVenta);
+	return $precioVenta;
+}
 //COSTO 
 function costoVentaFalse($codigo,$agencia){	
 	$consulta="select sd.costo_almacen from salida_almacenes s, salida_detalle_almacenes sd where 
