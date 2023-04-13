@@ -142,7 +142,7 @@ $consulta = "
     SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.estado_liquidacion
     FROM ingreso_almacenes i, tipos_ingreso ti
     WHERE i.cod_tipoingreso=ti.cod_tipoingreso and i.ingreso_anulado=0
-    AND i.cod_almacen='$global_almacen' and i.cod_tipoingreso in (1000,1002) ";
+    AND i.cod_almacen='$global_almacen' and i.cod_tipoingreso in (1000,1001,1002) ";
 	
 if($txtnroingreso!="")
    {$consulta = $consulta."AND i.nro_correlativo='$txtnroingreso' ";
