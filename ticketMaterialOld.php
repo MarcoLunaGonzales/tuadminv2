@@ -53,11 +53,9 @@ $precio          = $_GET['precio'];
   <tr>
     <td style="max-width: 50mm; max-height: 30mm;">
         <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
-            <div style="font-weight: bold; padding-bottom:5px; font-size:11px;"><?=$nombre_producto;?></div>
             <div style="font-weight: bold; text-align: center;">
-                <img src="barcode.php?text=<?=$codigo_general;?>&size=40&codetype=Code39&print=true"  style="max-width: 100%; max-height: 100%; display: inline-block;"/>
+                <img src="barcode.php?text=<?=$codigo_general;?>&size=20&codetype=Code39&print=true" width="200" style="display: inline-block;"/>
             </div>
-            <div style="font-weight: bold;">P: <?=$precio;?></div>
         </div>
     </td>
     <td style="max-width: 50mm; max-height: 30mm;">
