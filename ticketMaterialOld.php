@@ -21,7 +21,7 @@
 </style>
 <?php
 $estilosVenta=1;
-require('conexionmysqli.inc');
+// require('conexionmysqli.inc');
 // require('funcionesBar.php');
 
 error_reporting(E_ALL);
