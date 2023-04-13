@@ -564,7 +564,7 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 
 <table class='texto' align='center' width='100%' style="width:100px;">
 <tr>
-<th>TipoDoc</th>
+<th>TipoDoc/Nro</th>
 <th align='center'>
 	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
@@ -589,52 +589,48 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 		}
 		echo "</select>";
 		?>
-</th>
-<input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
-<th>Nro.</th>
-<th align='center'>
 	<div id='divNroDoc'>
-		<?php
-		
-		$vectorNroCorrelativo=numeroCorrelativo($tipoDocDefault);
-		$nroCorrelativo=$vectorNroCorrelativo[0];
-		$banderaErrorFacturacion=$vectorNroCorrelativo[1];
+	<?php
 	
-		echo "<span class='textogranderojo'>$nroCorrelativo</span>";
-	
-		?>
+	$vectorNroCorrelativo=numeroCorrelativo($tipoDocDefault);
+	$nroCorrelativo=$vectorNroCorrelativo[0];
+	$banderaErrorFacturacion=$vectorNroCorrelativo[1];
+
+	echo "<span class='textogranderojo'>$nroCorrelativo</span>";
+
+	?>
 	</div>
 </th>
+<input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
 <th>Fecha</th>
 <th align='center'>
 	<input type='date' class='texto' value='<?php echo $fecha?>' id='fecha' size='10' name='fecha' readonly>
 </th>
-<!--
+
 <th>Cliente</th>
-<td align='center'>
+<th align='center'>
 	<select name='cliente' class='texto' id='cliente' onChange='ajaxTipoPrecio(form1);' required>
 		<option value=''>----</option>
 <?php
-/*$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.cod_area_empresa='$globalAgencia' order by 2";
+$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.cod_area_empresa='$globalAgencia' order by 2";
 $resp2=mysql_query($sql2);
 while($dat2=mysql_fetch_array($resp2)){
    $codCliente=$dat2[0];
 	$nombreCliente=$dat2[1];
 	if($codCliente==$clienteDefault){
-*/
 ?>		
-	<!-option value='<?php echo $codCliente?>' selected><?php echo $nombreCliente?></option-->
+	<option value='<?php echo $codCliente?>' selected><?php echo $nombreCliente?></option>
 <?php			
-	//}else{
+	}else{
 ?>		
-	<!--option value='<?php echo $codCliente?>'><?php echo $nombreCliente?></option-->
+	<option value='<?php echo $codCliente?>'><?php echo $nombreCliente?></option>
 <?php			
-/*	}
-
-}*/
+	}
+}
 ?>
-	<!--/select>
-</td-->
+	</select>
+</th>
+
 <th>Tipo Pago</th>
 <th>
 	<div id='divTipoVenta'>
