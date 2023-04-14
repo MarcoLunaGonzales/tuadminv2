@@ -29,16 +29,16 @@ $precio          = empty($registro['precio']) ? '0.00' : $registro['precio'];
 
 // barcode('codigo_barra/'.$codigo.'.png', $codigo, 10, 'horizontal', 'code128', true);
 
-// Aumentar la altura del código de barras a 50 unidades:
-// barcode('codigo_barra/'.$codigo.'.png', $codigo, 50, 'horizontal', 'code128', true);
-// Utilizar un tipo de código de barras diferente, como Code39:
-// barcode('codigo_barra/'.$codigo.'.png', $codigo, 40, 'horizontal', 'code39', true);
-// Cambiar la orientación del código de barras a vertical:
-// barcode('codigo_barra/'.$codigo.'.png', $codigo, 10, 'vertical', 'code128', true);
-// Deshabilitar el checksum:
+//Aumentar la altura del código de barras a 50 unidades:
+//barcode('codigo_barra/'.$codigo.'.png', $codigo, 50, 'horizontal', 'code128', true);
+//Utilizar un tipo de código de barras diferente, como Code39:
+//barcode('codigo_barra/'.$codigo.'.png', $codigo, 40, 'horizontal', 'code39', true);
+//Cambiar la orientación del código de barras a vertical:
+//barcode('codigo_barra/'.$codigo.'.png', $codigo, 10, 'vertical', 'code128', true);
+//Deshabilitar el checksum:
 barcode('codigo_barra/'.$codigo.'.png', $codigo, 5, 'horizontal', 'code128', false);
 
-// Redirecciona a otro archivo PHP pasando los datos en la URL como parámetros
+//Redirecciona a otro archivo PHP pasando los datos en la URL como parámetros
 header('Location: ticketMaterialPrint.php?codigo=' . urlencode($codigo) . '&nombre=' . urlencode($nombre_producto) . '&precio=' . urlencode($precio) . '&margen_x=' . urlencode($margen_x) . '&margen_y=' . urlencode($margen_y) . '&margen_x2=' . urlencode($margen_x2) . '&margen_y2=' . urlencode($margen_y2) . '&card_width=' . urlencode($card_width) . '&card_height=' . urlencode($card_height));
 
 
