@@ -36,7 +36,7 @@ $precio          = empty($registro['precio']) ? '0.00' : $registro['precio'];
 //Cambiar la orientación del código de barras a vertical:
 //barcode('codigo_barra/'.$codigo.'.png', $codigo, 10, 'vertical', 'code128', true);
 //Deshabilitar el checksum:
-barcode('codigo_barra/'.$codigo.'.png', $codigo, 5, 'horizontal', 'code128', false);
+barcode('codigo_barra/'.$codigo.'.jpg', $codigo, 5, 'horizontal', 'code128', false);
 
 //Redirecciona a otro archivo PHP pasando los datos en la URL como parámetros
 header('Location: ticketMaterialPrint.php?codigo=' . urlencode($codigo) . '&nombre=' . urlencode($nombre_producto) . '&precio=' . urlencode($precio) . '&margen_x=' . urlencode($margen_x) . '&margen_y=' . urlencode($margen_y) . '&margen_x2=' . urlencode($margen_x2) . '&margen_y2=' . urlencode($margen_y2) . '&card_width=' . urlencode($card_width) . '&card_height=' . urlencode($card_height));

@@ -105,7 +105,7 @@ $pdf->Ln();
 $y = $pdf->getY();
 // $pdf->Image('barcode.php?text='.$codigo_general.'&size=40&codetype=Code39&print=true', $margen_x+2, $y, $card_width-5, ($card_height/2));
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
-$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y, $card_width, ($card_height/2)-5);
+$pdf->Image('codigo_barra/'.$codigo_general.'.jpg', $margen_x, $y, $card_width, ($card_height/2)-5);
 $pdf->Ln();
 // PRECIO
 $pdf->setY($margen_seg_y + $card_height-7);
@@ -138,7 +138,7 @@ $pdf->Ln();
 
 $y = $pdf->getY();
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)+5);
-$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)-5);
+$pdf->Image('codigo_barra/'.$codigo_general.'.jpg', $margen_seg_x, $y, $card_width, ($card_height/2)-5);
 $pdf->Ln();
 
 // PRECIO
