@@ -12,7 +12,7 @@ $hoja        = array(115,150); // (ancho, alto)
 // Tipo de letra
 $tipo_letra     = 'Arial';
 $estilo         = 'B';
-$tamanio_letra  = 9;
+$tamanio_letra  = 8;
 // Definimos los márgenes y las medidas de los cards
 
 // Configuracion
@@ -103,18 +103,27 @@ $pdf->multiCell($card_width - 2, 3, utf8_decode($nombre_producto), 0, 'C', false
 $pdf->Ln();
 
 $y = $pdf->getY();
-$pdf->Image('barcode.php?text='.$codigo_general.'&size=40&codetype=Code39&print=true', $margen_x+2, $y, $card_width-5, ($card_height/2));
+// $pdf->Image('barcode.php?text='.$codigo_general.'&size=40&codetype=Code39&print=true', $margen_x+2, $y, $card_width-5, ($card_height/2));
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
-// $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y, $card_width, ($card_height/2)+5);
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y, $card_width, ($card_height/2)-5);
 $pdf->Ln();
-
+// PRECIO
 $pdf->setY($margen_seg_y + $card_height-7);
 $pdf->setX($margen_x+1);
 $pdf->multiCell($card_width, 3, utf8_decode("P: ".$precio), 0, 'B', false);
 $pdf->Ln();
 
+// CODIGO
+$pdf->setY($margen_seg_y + $card_height-10);
+$margen_seg_x_code = (($card_width)/2)-3;
+$pdf->setX($margen_seg_x_code);
+$pdf->SetFont($tipo_letra, $estilo, 12);
+$pdf->multiCell($card_width, 3, utf8_decode($codigo_general), 0, 'B', false);
+$pdf->Ln();
+
 // ****************
 // Valor iniciarl
+$pdf->SetFont($tipo_letra, $estilo, $tamanio_letra);
 $pdf->setY($margen_y2+2);
 /*###########################################################################*/
 $margen_seg_y = $pdf->getY();
@@ -129,12 +138,20 @@ $pdf->Ln();
 
 $y = $pdf->getY();
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)+5);
-$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x+2, $y, $card_width-5, ($card_height/2));
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)-5);
 $pdf->Ln();
 
+// PRECIO
 $pdf->setY($margen_seg_y + $card_height-7);
 $pdf->setX($margen_seg_x+1);
 $pdf->multiCell($card_width, 3, utf8_decode("P: ".$precio), 0, 'B', false);
+$pdf->Ln();
+// CODIGO
+$pdf->setY($margen_seg_y + $card_height-10);
+$margen_seg_x = ($margen_x + $card_width + $margen_x2) + $margen_seg_x_code-3;
+$pdf->setX($margen_seg_x);
+$pdf->SetFont($tipo_letra, $estilo, 12);
+$pdf->multiCell($card_width, 3, utf8_decode($codigo_general), 0, 'B', false);
 $pdf->Ln();
 /*****************************************************************************/
 /*###########################################################################*/
