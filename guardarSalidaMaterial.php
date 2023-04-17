@@ -55,10 +55,11 @@ $sqlConf="select valor_configuracion from configuraciones where id_configuracion
 $respConf=mysql_query($sqlConf);
 $facturacionActivada=mysql_result($respConf,0,0);
 
+
 //SACAMOS LA CONFIGURACION PARA LA VALIDACION DE STOCKS
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=4";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$datConf=mysqli_fetch_array($respConf);
+$respConf=mysql_query($sqlConf);
+$datConf=mysql_fetch_array($respConf);
 $banderaValidacionStock=$datConf[0];
 
 
@@ -132,6 +133,11 @@ if($sql_inserta==1){
 				$respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $i);
 			}
 
+			if(isset($_POST["salvar_precio$i"])){
+				$sqlSalvarPrecio="update precios set precio='$precioUnitario' where codigo_material='$codMaterial' and cod_ciudad='1' and cod_precio=1;";
+				$respSalvarPrecio=mysql_query($sqlSalvarPrecio);
+			}
+
 			if($respuesta!=1){
 				echo "<script>
 					alert('Existio un error en el detalle. Contacte con el administrador del sistema.');
@@ -163,13 +169,13 @@ if($sql_inserta==1){
 			location.href='formatoNotaRemision.php?codVenta=$codigo';
 			</script>";	
 		}*/		
+		
 		echo "<script type='text/javascript' language='javascript'>
+			alert('Se registro la venta.');
 			location.href='navegadorVentas.php';
-			</script>";
+		</script>";
+	
 	}else{
-		/*echo "<script type='text/javascript' language='javascript'>
-		location.href='navegador_detallesalidamateriales.php?codigo_salida=$codigo';
-		</script>";*/
 		echo "<script type='text/javascript' language='javascript'>
 			location.href='navegador_salidamateriales.php';
 			</script>";

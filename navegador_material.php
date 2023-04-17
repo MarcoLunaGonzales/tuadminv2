@@ -144,7 +144,7 @@ echo "<script language='Javascript'>
 	if($vista_ordenar==2){
 		$sql=$sql." order by 6,2";	
 	}
-	
+	$sql=$sql." limit 0,50";
 	
 	//echo $sql;
 	$resp=mysql_query($sql);

@@ -552,3 +552,19 @@ a:active {
     text-decoration:line-through;
     color: red;
 }
+.mycheck {
+  border: 3px solid red;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  background-origin: border-box;
+  padding: 0;
+  color: #2563eb;
+  background-color: #888;
+  border-color: #6b7280;
+  border-width: 1px;
+}
+.mycheck:checked {
+    background-color: orange;
+}
