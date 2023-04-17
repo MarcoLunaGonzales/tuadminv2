@@ -609,7 +609,7 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 
 <th>Cliente</th>
 <th align='center'>
-	<select name='cliente' class='texto' id='cliente' onChange='ajaxTipoPrecio(form1);' required>
+	<select name='cliente' class='texto' id='cliente' required>
 		<option value=''>----</option>
 <?php
 $sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.cod_area_empresa='$globalAgencia' order by 2";
