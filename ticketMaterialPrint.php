@@ -84,6 +84,7 @@ $pdf->SetFont($tipo_letra, $estilo, $tamanio_letra);
 $nombre_producto = $_GET['nombre'];
 $codigo_general  = $_GET['codigo'];
 $precio          = $_GET['precio'];
+$costo           = $_GET['costo'];
 
 // Dibujamos la primera card
 $pdf->RoundedRect($margen_x, $margen_y, $card_width, $card_height, $radio_borde);
@@ -105,13 +106,18 @@ $pdf->Ln();
 $y = $pdf->getY();
 // $pdf->Image('barcode.php?text='.$codigo_general.'&size=40&codetype=Code39&print=true', $margen_x+2, $y, $card_width-5, ($card_height/2));
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
-$pdf->Image('codigo_barra/'.$codigo_general.'.jpg', $margen_x, $y, $card_width, ($card_height/2)-5);
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y, $card_width, ($card_height/2)-5, 'PNG');
 $pdf->Ln();
 // PRECIO
 $pdf->setY($margen_seg_y + $card_height-7);
 $pdf->setX($margen_x+1);
 $pdf->multiCell($card_width, 3, utf8_decode("P: ".$precio), 0, 'B', false);
+// COSTO FALSE
+$pdf->setY($margen_seg_y + $card_height-7);
+$pdf->setX($card_width - 12);
+$pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo), 0, 'L');
 $pdf->Ln();
+
 
 // CODIGO
 $pdf->setY($margen_seg_y + $card_height-10);
@@ -138,14 +144,19 @@ $pdf->Ln();
 
 $y = $pdf->getY();
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)+5);
-$pdf->Image('codigo_barra/'.$codigo_general.'.jpg', $margen_seg_x, $y, $card_width, ($card_height/2)-5);
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)-5, 'PNG');
 $pdf->Ln();
 
 // PRECIO
 $pdf->setY($margen_seg_y + $card_height-7);
 $pdf->setX($margen_seg_x+1);
 $pdf->multiCell($card_width, 3, utf8_decode("P: ".$precio), 0, 'B', false);
+// COSTO FALSE
+$pdf->setY($margen_seg_y + $card_height-7);
+$pdf->setX($margen_seg_x + $card_width - 14);
+$pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo), 0, 'L');
 $pdf->Ln();
+
 // CODIGO
 $pdf->setY($margen_seg_y + $card_height-10);
 $margen_seg_x = ($margen_x + $card_width + $margen_x2) + $margen_seg_x_code-3;

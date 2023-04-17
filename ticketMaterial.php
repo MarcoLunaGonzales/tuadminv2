@@ -1,5 +1,6 @@
 <?php
 require_once 'conexionmysqli.inc';
+require_once 'funciones.php';
 // require_once 'functions.php';
 include 'assets/php-barcode-master/barcode.php';
 
@@ -22,10 +23,17 @@ $sqlConf="SELECT ma.codigo_material, ma.descripcion_material, ROUND(p.precio, 2)
 $respConf=mysqli_query($enlaceCon,$sqlConf);
 $registro = mysqli_fetch_array($respConf);
 
+/******************************************************************************/
 $nombre_producto = $registro['descripcion_material'];
-// $nombre_producto = '';
+// Ajuste de texto
+if(strlen($nombre_producto) > 39) {
+    $nombre_producto = substr($nombre_producto, 0, 39) . "..";
+}
+
 $codigo          = $registro['codigo_material'];
 $precio          = empty($registro['precio']) ? '0.00' : $registro['precio'];
+$precio_costo    = intval(costoVentaFalse($cod_material,$global_agencia));
+/******************************************************************************/
 
 // barcode('codigo_barra/'.$codigo.'.png', $codigo, 10, 'horizontal', 'code128', true);
 
@@ -36,10 +44,11 @@ $precio          = empty($registro['precio']) ? '0.00' : $registro['precio'];
 //Cambiar la orientación del código de barras a vertical:
 //barcode('codigo_barra/'.$codigo.'.png', $codigo, 10, 'vertical', 'code128', true);
 //Deshabilitar el checksum:
-barcode('codigo_barra/'.$codigo.'.jpg', $codigo, 5, 'horizontal', 'code128', false);
+barcode('codigo_barra/'.$codigo.'.png', $codigo, 5, 'horizontal', 'code128', false);
+
 
 //Redirecciona a otro archivo PHP pasando los datos en la URL como parámetros
-header('Location: ticketMaterialPrint.php?codigo=' . urlencode($codigo) . '&nombre=' . urlencode($nombre_producto) . '&precio=' . urlencode($precio) . '&margen_x=' . urlencode($margen_x) . '&margen_y=' . urlencode($margen_y) . '&margen_x2=' . urlencode($margen_x2) . '&margen_y2=' . urlencode($margen_y2) . '&card_width=' . urlencode($card_width) . '&card_height=' . urlencode($card_height));
+header('Location: ticketMaterialPrint.php?codigo=' . urlencode($codigo) . '&nombre=' . urlencode($nombre_producto) . '&precio=' . urlencode($precio) . '&costo=' . urlencode($precio_costo) . '&margen_x=' . urlencode($margen_x) . '&margen_y=' . urlencode($margen_y) . '&margen_x2=' . urlencode($margen_x2) . '&margen_y2=' . urlencode($margen_y2) . '&card_width=' . urlencode($card_width) . '&card_height=' . urlencode($card_height));
 
 
 function obtenerConfiguracion($id_configuracion){
