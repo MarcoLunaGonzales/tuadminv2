@@ -351,4 +351,28 @@ function montoVentaDocumento($codVenta){
 	}
 	return($totalVenta);	
 }
+
+function actualizarPrecios($enlaceCon, $codProducto, $arrayPrecios){
+	foreach ( $arrayPrecios as $clave => $valor ){
+	    //echo "ciudad: ".$clave." valor: ".$valor."<br>";
+	    $sqlVerificaPrecio="select count(*) from precios p where p.cod_precio=1 and p.codigo_material='$codProducto' and p.cod_ciudad='$clave'";
+		 $respVerificaPrecio=mysqli_query($enlaceCon, $sqlVerificaPrecio);
+	    $bandera=0;
+	    if($datVerificaPrecio=mysqli_fetch_array($respVerificaPrecio)){
+	    	$bandera=$datVerificaPrecio[0];
+	    }
+
+	    if($bandera==0){    //insertamos
+	    	$sqlActPrecio="insert into precios (codigo_material, cod_precio, precio, cod_ciudad) values 
+	    	('$codProducto','1','$valor','$clave')";
+	    }elseif($bandera>0){
+	    	$sqlActPrecio="update precios set precio='$valor' where codigo_material='$codProducto' and cod_precio=1 and 
+	    		cod_ciudad='$clave'";
+	    }
+	    //echo $sqlActPrecio."<br>";
+	    $respPrecio=mysqli_query($enlaceCon,$sqlActPrecio);
+	}
+	return(1);
+}
+
 ?>

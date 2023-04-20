@@ -1,31 +1,21 @@
 <?php
-require('conexion.inc');
+require('conexionmysqli.inc');
+require('funciones.php');
+
 $item=$_GET['item'];
-$precio1=$_GET['precio1'];
-$precio2=$_GET['precio2'];
-$precio3=$_GET['precio3'];
-$precio4=$_GET['precio4'];
-$costo=$_GET['costo'];
+$precios=$_GET['precios'];
 
-$globalAgencia=$_COOKIE['global_agencia'];
+$arrayPreciosModificados=[];
 
-	$sqlDel="delete from precios where codigo_material=$item";
-	$respDel=mysql_query($sqlDel);
+$arrayPrecios=explode(",",$precios);
+for($i=0;$i<sizeof($arrayPrecios);$i++){
+	list($precioValor, $cadena, $index, $codCiudad) = explode("|",$arrayPrecios[$i]);
+	//echo $codCiudad." ".$precioValor."<br>";
+	$arrayPreciosModificados[$codCiudad]=$precioValor;
+}
 
-	$sqlInsert="insert into precios values($item, 0,$costo,'$globalAgencia')";
-	$respInsert=mysql_query($sqlInsert);
-	
-	$sqlInsert="insert into precios values($item, 1,$precio1,'$globalAgencia')";
-	$respInsert=mysql_query($sqlInsert);
-	
-	$sqlInsert="insert into precios values($item, 2,$precio2,'$globalAgencia')";
-	$respInsert=mysql_query($sqlInsert);
-	
-	$sqlInsert="insert into precios values($item, 3,$precio3,'$globalAgencia')";
-	$respInsert=mysql_query($sqlInsert);
-	
-	$sqlInsert="insert into precios values($item, 4,$precio4,'$globalAgencia')";
-	$respInsert=mysql_query($sqlInsert);
+$resp=actualizarPrecios($enlaceCon,$item,$arrayPreciosModificados);
 
-echo "Precio Guardado!";
+
+echo "<img src='imagenes/guardarOK.png' width='30'><br>Precio Guardado!";
 ?>
