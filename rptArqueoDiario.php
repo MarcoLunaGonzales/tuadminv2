@@ -7,6 +7,9 @@ require('funciones.php');
 
 $fecha_ini=$_GET['fecha_ini'];
 $rpt_territorio=$_GET['rpt_territorio'];
+// RANGO
+$rep_inicio = $_GET['rep_inicio'];
+$rep_final  = $_GET['rep_final'];
 
 $variableAdmin=$_GET["variableAdmin"];
 if($variableAdmin!=1){
@@ -51,7 +54,8 @@ $sql="select s.`fecha`,
 	s.hora_salida
 	from `salida_almacenes` s where s.`cod_tiposalida`=1001 and s.salida_anulada=0 and
 	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio')
-	and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_iniconsulta'";
+	and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_iniconsulta'
+	AND s.nro_correlativo BETWEEN '$rep_inicio' and '$rep_final'";
 
 if($variableAdmin==1){
 	$sql.=" and s.cod_tipo_doc in (1,2,3)";

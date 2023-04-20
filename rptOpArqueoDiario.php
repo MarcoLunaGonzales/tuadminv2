@@ -46,6 +46,20 @@ echo"<form method='post' action='rptArqueoDiario.php'>";
 				<INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial'>";
     		echo"  </TD>";
 	echo "</tr>";
+
+	// INICIO
+	echo "<tr><th align='left'>Inicio:</th>";
+			echo" <TD bgcolor='#ffffff'>
+				<INPUT  type='number' class='texto' id='rep_inicio' size='10' name='rep_inicio'>";
+    		echo"  </TD>";
+	echo "</tr>";
+
+	// FINAL
+	echo "<tr><th align='left'>Final:</th>";
+			echo" <TD bgcolor='#ffffff'>
+				<INPUT  type='number' class='texto' id='rep_final' size='10' name='rep_final'>";
+    		echo"  </TD>";
+	echo "</tr>";
 	
 	echo"\n </table><br>";
 	echo "<center><input type='button' name='reporte' value='Ver Reporte' onClick='envia_formulario(this.form,$variableAdmin)' class='boton'>

@@ -19,7 +19,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -70,12 +70,7 @@ echo "<script language='Javascript'>
 			modo_vista=f.vista.value;
 			modo_orden=f.vista_ordenar.value;
 			grupo=f.grupo.value;
-			
-			var grupo2=$('#itemGrupoBusqueda').val();
-			var proveedor=$('#itemProveedorBusqueda').val();
-			var itemNombreBusqueda=$('#itemNombreBusqueda').val();
-			
-			location.href='navegador_material.php?vista='+modo_vista+'&vista_ordenar='+modo_orden+'&grupo='+grupo+'&grupo2='+grupo2+'&proveedor2='+proveedor+'&itemNombreBusqueda='+itemNombreBusqueda;
+			location.href='navegador_material.php?vista='+modo_vista+'&vista_ordenar='+modo_orden+'&grupo='+grupo;
 		}
 		function duplicar(f)
 		{
@@ -105,12 +100,10 @@ echo "<script language='Javascript'>
 					location.href='duplicarProducto.php?cod_material='+j_ciclo+'&tipo=1';
 				}
 			}
-		}		
+		}
+		
 		</script>";
-	
-	echo "<script type='text/javascript' src='functionsGeneral.js'></script>
-	<script type='text/javascript' src='lib/externos/jquery/jquery-1.4.4.min.js'></script>";
-
+		
 	require("conexion.inc");
 	require('estilos.inc');
 	require("funciones.php");
@@ -119,8 +112,6 @@ echo "<script language='Javascript'>
 	$vista=$_GET['vista'];
 	$globalAgencia=$_COOKIE['global_agencia'];
 	$grupo=$_GET['grupo'];
-	
-
 
 	echo "<h1>Registro de Productos</h1>";
 
@@ -144,20 +135,6 @@ echo "<script language='Javascript'>
 	if($grupo!=0){
 		$sql.=" and m.cod_grupo in ($grupo) ";
 	}
-	$grupo2=0;
-	$proveedor=0;
-	if(isset($_GET['grupo2'])&&$_GET['grupo2']!=0){
-      $sql.=" and m.cod_grupo in (".$_GET["grupo2"].")";
-      $grupo2=$_GET['grupo2'];
-	}
-	if(isset($_GET['proveedor'])&&$_GET['proveedor']!=0){
-      $sql.=" and m.cod_linea_proveedor	in (".$_GET["proveedor"].")";
-      $proveedor=$_GET['proveedor'];
-	}
-	if(isset($_GET['itemNombreBusqueda'])&&$_GET['itemNombreBusqueda']!=""){
-      $sql.=" and m.descripcion_material like '%".$_GET["itemNombreBusqueda"]."%'";
-      $itemNombreBusqueda=$_GET['itemNombreBusqueda'];
-  }
 	if($vista_ordenar==0){
 		$sql=$sql." order by 4,2";
 	}
@@ -167,8 +144,7 @@ echo "<script language='Javascript'>
 	if($vista_ordenar==2){
 		$sql=$sql." order by 6,2";	
 	}
-	
-	$sql.=" limit 0, 150";
+	$sql=$sql." limit 0,50";
 	
 	//echo $sql;
 	$resp=mysql_query($sql);
@@ -215,7 +191,6 @@ echo "<script language='Javascript'>
 		<input type='button' value='Editar' name='Editar' class='boton' onclick='editar_nav(this.form)'>
 		<input type='button' value='Eliminar' name='eliminar' class='boton2' onclick='eliminar_nav(this.form)'>
 		<input type='button' value='Duplicar' name='Duplicar' class='boton' onclick='duplicar(this.form)'>
-		<a href='#' class='boton-verde' onclick='mostrarBusqueda()'><img src='imagenes/buscar2.png' width='30px'></a>
 		</div>";
 	
 	echo "<center><table class='texto'>";
@@ -249,7 +224,9 @@ echo "<script language='Javascript'>
 		<td>$nombreLinea</td>
 		<td align='center'>$precioVenta</td>
 		<td align='center'><img src='imagenesprod/$imagen' width='$tamanioImagen'></td>
-		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a></td>
+		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a>
+		<a href='ticketMaterial.php?cod_material=$codigo' target='_blank'><img src='imagenes/icono-barra.png' width='25'></a>
+		</td>
 		</tr>";
 		$indice_tabla++;
 	}
@@ -260,96 +237,7 @@ echo "<script language='Javascript'>
 		<input type='button' value='Editar' name='Editar' class='boton' onclick='editar_nav(this.form)'>
 		<input type='button' value='Eliminar' name='eliminar' class='boton2' onclick='eliminar_nav(this.form)'>
 		<input type='button' value='Duplicar' name='Duplicar' class='boton' onclick='duplicar(this.form)'>
-		<a href='#' class='boton-verde' onclick='mostrarBusqueda()'><img src='imagenes/buscar2.png' width='30px'></a>
-		</div>";		
+		</div>";
+		
+	echo "</form>";
 ?>
-
-<script>
-function mostrarBusqueda(){
-	document.getElementById('divRecuadroExt').style.visibility='visible';
-	document.getElementById('divProfileData').style.visibility='visible';
-	document.getElementById('divProfileDetail').style.visibility='visible';
-	document.getElementById('divboton').style.visibility='visible';
-	document.getElementById('divListaMateriales').innerHTML='';
-	document.getElementById('itemNombreMaterial').value='';	
-	document.getElementById('itemNombreMaterial').focus();		
-}
-
-
-
-function Hidden(){
-	document.getElementById('divRecuadroExt').style.visibility='hidden';
-	document.getElementById('divProfileData').style.visibility='hidden';
-	document.getElementById('divProfileDetail').style.visibility='hidden';
-	document.getElementById('divboton').style.visibility='hidden';
-
-}
-</script>
-
-<div id="divRecuadroExt" style="background-color:#666; position:absolute; width:800px; height: 500px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2;">
-</div>
-
-<div id="divboton" style="position: absolute; top:20px; left:920px;visibility:hidden; text-align:center; z-index:3">
-	<a href="javascript:Hidden();"><img src="imagenes/cerrar4.png" height="45px" width="45px"></a>
-</div>
-
-<div id="divProfileData" style="background-color:#FFF; width:750px; height:450px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
-  	<div id="divProfileDetail" style="visibility:hidden; text-align:center; height:445px; overflow-y: scroll;">
-		<table align='center' class="texto">
-			<tr><th>Grupo</th><th>Proveedor</th></tr>
-			<tr>
-			<td><select name='itemGrupoBusqueda' id="itemGrupoBusqueda" class="textomedianorojo" style="width:300px">
-			<?php
-			$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g
-			where g.estado=1 order by 2;";
-			$respTipo=mysql_query($sqlTipo);
-			echo "<option value='0'>--</option>";
-			while($datTipo=mysql_fetch_array($respTipo)){
-				$codTipoMat=$datTipo[0];
-				$nombreTipoMat=$datTipo[1];
-				if($codTipoMat==$gr){
-				  echo "<option value=$codTipoMat selected>$nombreTipoMat</option>";	
-				}else{
-					echo "<option value=$codTipoMat>$nombreTipoMat</option>";
-				}
-			}
-			?>
-			</select>
-			</td>
-			<td>
-				<select name='itemProveedorBusqueda' id="itemProveedorBusqueda" class="textomedianorojo" style="width:300px">
-			<?php
-			$sqlTipo="SELECT pl.cod_linea_proveedor, pl.nombre_linea_proveedor from proveedores_lineas pl
-			where pl.estado=1 order by 2;";
-			$respTipo=mysql_query($sqlTipo);
-			echo "<option value='0'>--</option>";
-			while($datTipo=mysql_fetch_array($respTipo)){
-				$codTipoMat=$datTipo[0];
-				$nombreTipoMat=$datTipo[1];
-				if($codTipoMat==$ma){
-				  echo "<option value=$codTipoMat selected>$nombreTipoMat</option>";	
-				}else{
-					echo "<option value=$codTipoMat>$nombreTipoMat</option>";
-				}
-				
-			}
-			?>
-			</select>
-			</td>
-			</tr>
-			<tr><th colspan="2">Nombre Producto</th></tr>
-			<tr>
-				<td colspan="2">
-					<input type='text' style="width:100%" name='itemNombreBusqueda' id="itemNombreBusqueda" class="textomedianorojo"  onkeypress="return pressEnter(event, this.form);" value="<?=$nm?>">
-				</td>
-			</tr>
-
-		</table>
-		<div class="div-center">
-             <input type='button' class='boton' value='Buscar Producto' id="btnBusqueda" onClick="cambiar_vista(this.form)">
-		</div>
-	
-	</div>
-</div>
-
-</form>
