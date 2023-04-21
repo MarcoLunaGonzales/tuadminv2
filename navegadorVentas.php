@@ -92,9 +92,14 @@ function ajaxBuscarVentas(f){
 	ajax.send(null)*/
 }
 
-function enviar_nav()
+function enviar_nav(cod_venta=0)
 {   location.href='registrar_salidaventas.php';
 }
+
+function enviar_nav2(cod_venta=0)
+{   location.href='registrar_salidaventas2.php?cod_venta='+cod_venta;
+}
+
 function editar_salida(f)
 {   var i;
     var j=0;
@@ -391,7 +396,7 @@ echo "<div class='divBotones'>
 		
 echo "<center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
-	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th>";
+	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th><th>Duplicar</th>";
 
 if($global_admin_cargo==1){
     echo "<!--th>Convertir</th--><th>Cambiar <br>Datos Venta</th>";
@@ -483,6 +488,9 @@ while ($dat = mysql_fetch_array($resp)) {
 
         echo "<td  bgcolor='$color_fondo'><a href='formatoNotaRemision.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
 	}
+    
+    echo "<td  bgcolor='$color_fondo'><a href='#' onclick='enviar_nav2($codigo)'><img src='imagenes/detalle.png' width='30' border='0' title='Duplicar Factura'></a></td>";
+
 	if($global_admin_cargo==1 && $codTipoDoc==2){
 		echo "<!--td bgcolor='$color_fondo'>
 		<a href='#' onClick='ShowFacturar($codigo,$nro_correlativo);'>

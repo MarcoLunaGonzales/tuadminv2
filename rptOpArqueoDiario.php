@@ -1,11 +1,17 @@
 <script language='JavaScript'>
 function envia_formulario(f, variableAdmin)
 {	var fecha_ini;
+	var fecha_fin;
+	var rep_inicio;
+	var rep_final;
 	var rpt_territorio;
 	rpt_territorio=f.rpt_territorio.value;
 	
 	fecha_ini=f.exafinicial.value;
-	window.open('rptArqueoDiario.php?rpt_territorio='+rpt_territorio+'&fecha_ini='+fecha_ini+'&variableAdmin='+variableAdmin,'','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
+	fecha_fin=f.exafin.value;
+	rep_inicio=f.rep_inicio.value;
+	rep_final=f.rep_final.value;
+	window.open('rptArqueoDiario.php?rpt_territorio='+rpt_territorio+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&rep_inicio='+rep_inicio+'&rep_final='+rep_final+'&variableAdmin='+variableAdmin,'','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
 	return(true);
 }
 </script>
@@ -41,9 +47,30 @@ echo"<form method='post' action='rptArqueoDiario.php'>";
 	}
 	echo "</select></td></tr>";
 	
-	echo "<tr><th align='left'>Fecha:</th>";
+	echo "<tr><th align='left'>Fecha Inicio:</th>";
 			echo" <TD bgcolor='#ffffff'>
-				<INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial'>";
+				<INPUT  type='date' class='texto fechas' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial'>";
+    		echo"  </TD>";
+	echo "</tr>";
+
+	
+	echo "<tr><th align='left'>Fecha Fin:</th>";
+			echo" <TD bgcolor='#ffffff'>
+				<INPUT  type='date' class='texto fechas' value='$fecha_rptdefault' id='exafin' size='10' name='exafin'>";
+    		echo"  </TD>";
+	echo "</tr>";
+
+	// INICIO
+	echo "<tr><th align='left'>Inicio:</th>";
+			echo" <TD bgcolor='#ffffff'>
+				<INPUT  type='number' class='texto' id='rep_inicio' size='10' name='rep_inicio'>";
+    		echo"  </TD>";
+	echo "</tr>";
+
+	// FINAL
+	echo "<tr><th align='left'>Final:</th>";
+			echo" <TD bgcolor='#ffffff'>
+				<INPUT  type='number' class='texto' id='rep_final' size='10' name='rep_final'>";
     		echo"  </TD>";
 	echo "</tr>";
 	
@@ -55,3 +82,23 @@ echo"<form method='post' action='rptArqueoDiario.php'>";
 	echo"<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
 
 ?>
+
+<script type="text/javascript" src="lib/externos/jquery/jquery-1.4.4.min.js"></script>
+<script>
+	$('.fechas').change(function(){
+		let inicio = $('#exafinicial').val();
+		let fin = $('#exafin').val();
+		
+		$.ajax({
+			url:"ajaxNroCorrelativo.php?fechaInicio="+inicio+"&fechaFin="+fin,
+			type:"GET",
+			contentType: false,
+			processData: false,
+			success:function(response){
+				let resp = JSON.parse(response);
+				$('#rep_inicio').val(resp.inicio);
+				$('#rep_final').val(resp.fin);
+			}
+		});
+	});
+</script>

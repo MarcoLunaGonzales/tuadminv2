@@ -6,7 +6,11 @@ require('funcion_nombres.php');
 require('funciones.php');
 
 $fecha_ini=$_GET['fecha_ini'];
+$fecha_fin=$_GET['fecha_fin'];
 $rpt_territorio=$_GET['rpt_territorio'];
+// RANGO
+$rep_inicio = $_GET['rep_inicio'];
+$rep_final  = $_GET['rep_final'];
 
 $variableAdmin=$_GET["variableAdmin"];
 if($variableAdmin!=1){
@@ -15,6 +19,7 @@ if($variableAdmin!=1){
 
 //desde esta parte viene el reporte en si
 $fecha_iniconsulta=$fecha_ini;
+$fecha_finconsulta=$fecha_fin;
 
 $fecha_reporte=date("d/m/Y");
 
@@ -51,7 +56,8 @@ $sql="select s.`fecha`,
 	s.hora_salida
 	from `salida_almacenes` s where s.`cod_tiposalida`=1001 and s.salida_anulada=0 and
 	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio')
-	and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_iniconsulta'";
+	and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta'
+	AND s.nro_correlativo BETWEEN '$rep_inicio' and '$rep_final'";
 
 if($variableAdmin==1){
 	$sql.=" and s.cod_tipo_doc in (1,2,3)";
@@ -146,7 +152,8 @@ echo "<tr><th>Fecha</th><th>Tipo</th>
 
 $consulta = "select g.cod_gasto, g.descripcion_gasto, 
 	(select nombre_tipogasto from tipos_gasto where cod_tipogasto=g.cod_tipogasto)tipogasto, 
-	DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g where fecha_gasto='$fecha_iniconsulta' 
+	DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g 
+	where fecha_gasto BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' 
 	and g.estado=1 and g.cod_ciudad='$rpt_territorio' and g.cod_tipogasto in (select tg.cod_tipogasto from tipos_gasto tg where tg.tipo=1) order by g.cod_gasto";
 //echo $consulta;
 
