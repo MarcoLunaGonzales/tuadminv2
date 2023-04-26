@@ -67,13 +67,12 @@ function modifPreciosAjax(indice){
 	echo "<form method='POST' name='form_precios' id='form_precios' action='guardarPrecios.php' name='form1'>";
 	
 	$sql="select ma.codigo_material, ma.descripcion_material, 
-	(select pl.nombre_linea_proveedor from proveedores_lineas pl where pl.cod_linea_proveedor=ma.cod_linea_proveedor)as linea,
-	(select p.nombre_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=ma.cod_linea_proveedor)as proveedor 
+	(select g.nombre_grupo from grupos g where g.cod_grupo=ma.cod_grupo)as grupo	
 	from material_apoyo ma
 	where ma.estado=1";
 
 	if($codigoProveedor>0){
-		$sql.=" and ma.cod_linea_proveedor in (select cod_linea_proveedor from proveedores_lineas p where p.cod_proveedor='$codigoProveedor')";
+		$sql.=" and ma.cod_grupo in ($codigoProveedor)";
 	}
 	if($nombreProducto!=""){
 		$sql.=" and ma.descripcion_material like '%$nombreProducto%' ";		
@@ -91,7 +90,7 @@ function modifPreciosAjax(indice){
 
 	echo "<h1 align='center'>Ajuste de Precios</h1>";	
 	echo "<center><table class='texto' id='main'>";
-	echo "<tr><th>Proveedor / Linea</th>
+	echo "<tr><th>Grupo</th>
 	<th>Material</th>
 	<th>Stock</th>";
 	$sqlSucursales="select cod_ciudad, descripcion from ciudades order by 1";
@@ -109,9 +108,8 @@ function modifPreciosAjax(indice){
 	{
 		$codigo=$dat[0];
 		$nombreMaterial=$dat[1];
-		$nombreLinea=$dat[2];
-		$nombreProveedor=$dat[3];
-
+		$nombreGrupo=$dat[2];
+		
 		$cadenaPrecios="";
 		$sqlSucursales="select cod_ciudad, descripcion from ciudades order by 1";
 		$respSucursales=mysqli_query($enlaceCon,$sqlSucursales);
@@ -140,7 +138,7 @@ function modifPreciosAjax(indice){
 		}
 		//(Ultima compra: $precioBase  --  Precio+Margen: $precioConMargen)
 		echo "<tr>
-		<td>$nombreProveedor - $nombreLinea</td>
+		<td>$nombreGrupo</td>
 		<td><a href='editar_material_apoyo.php?cod_material=$codigo&pagina_retorno=2'><div class='textomedianorojo'>$nombreMaterial</div></a></td>
 		<td align='center'><div class='textomedianorojo'>$stockProducto</div></td>";
 		echo "<input type='hidden' name='item_$indice' id='item_$indice' value='$codigo'>";

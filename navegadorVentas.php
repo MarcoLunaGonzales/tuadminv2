@@ -375,6 +375,8 @@ $txtnroingreso = $_GET["nroCorrelativoBusqueda"];
 $fecha1 = $_GET["fechaIniBusqueda"];
 $fecha2 = $_GET["fechaFinBusqueda"];
 
+$globalAgencia=$_COOKIE["global_agencia"];
+
 require("estilos_almacenes.inc");
 
 echo "<form method='post' action=''>";
@@ -489,7 +491,7 @@ while ($dat = mysql_fetch_array($resp)) {
         echo "<td  bgcolor='$color_fondo'><a href='formatoNotaRemision.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
 	}
     
-    echo "<td  bgcolor='$color_fondo'><a href='#' onclick='enviar_nav2($codigo)'><img src='imagenes/detalle.png' width='30' border='0' title='Duplicar Factura'></a></td>";
+    echo "<td  bgcolor='$color_fondo'><a href='#' onclick='enviar_nav2($codigo)'><img src='imagenes/clone3.png' width='30' border='0' title='Duplicar Venta'></a></td>";
 
 	if($global_admin_cargo==1 && $codTipoDoc==2){
 		echo "<!--td bgcolor='$color_fondo'>
@@ -641,7 +643,7 @@ echo "</form>";
 				<td>Vendedor</td>
 				<td>
             <?php $sql1="SELECT codigo_funcionario, UPPER(CONCAT(nombres, ' ', paterno, ' ', materno)) as nombre_funcionario
-                        FROM funcionarios f ";
+                        FROM funcionarios f where f.estado=1 and f.cod_ciudad='$globalAgencia' ";
                     $resp1=mysql_query($sql1);
             ?>
             <select name='cod_vendedor' id='edit_cod_vendedor' required>

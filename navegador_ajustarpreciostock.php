@@ -43,7 +43,7 @@ if($globalAdmin==1){
                     <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>Linea</th><th>Producto</th><th>Codigo de Barras</th>
+                          <th>Grupo</th><th>Producto</th><th>Codigo de Barras</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -51,9 +51,9 @@ if($globalAdmin==1){
                           <td align="center">                            
                                <select name="cod_proveedor" id="cod_proveedor"  data-style="btn btn-info" data-show-subtext="true" data-live-search="true" required>
 
-                              <option value="0">--SELECCIONE EL PROVEEDOR--</option>
+                              <option value="0">--SELECCIONE EL GRUPO--</option>
                               <?php
-                               $sql="SELECT p.cod_proveedor,p.nombre_proveedor from proveedores p where p.cod_proveedor>0 order by 2;";
+                               $sql="select g.cod_grupo, g.nombre_grupo from grupos g where g.estado=1 order by 2;";
                                $resp=mysqli_query($enlaceCon,$sql);
                                while($dat=mysqli_fetch_array($resp)){
                                  $codigo=$dat[0];

@@ -6,6 +6,7 @@ require('funcion_nombres.php');
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
+$rpt_ver=$_GET['rpt_ver'];
 $codTipoDoc=$_GET['codTipoDoc'];
 
 
@@ -24,7 +25,7 @@ echo "<table align='center' class='textotit' width='70%'><tr><td align='center'>
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
-$sql="select concat(s.`fecha`,' ',s.hora_salida)as fecha,  
+$sql="select s.`fecha`,  
 	(select c.nombre_cliente from clientes c where c.`cod_cliente`=s.cod_cliente) as cliente, 
 	s.`razon_social`, s.`observaciones`, 
 	(select t.`abreviatura` from `tipos_docs` t where t.`codigo`=s.cod_tipo_doc),
@@ -33,6 +34,10 @@ $sql="select concat(s.`fecha`,' ',s.hora_salida)as fecha,
 	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio')
 	and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' and 
 	s.cod_tipo_doc in ($codTipoDoc)";
+
+if($rpt_ver==1){
+	$sql.=" and s.estado_salida=4 ";
+}
 
 $sql.=" order by s.fecha, s.nro_correlativo";
 	

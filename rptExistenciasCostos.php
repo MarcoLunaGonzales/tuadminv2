@@ -1,4 +1,5 @@
 <?php
+
 require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
 require('funciones.php');

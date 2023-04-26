@@ -106,7 +106,6 @@ echo"<form method='post' action='rpt_op_inv_kardex.php'>";
 	echo "<tr><th align='left'>Material</th><td>
 	<div id='divItemReporte'>
 	<select name='rpt_item' class='texto'>";
-	
 	$sql_item="select codigo_material, descripcion_material from material_apoyo where codigo_material<>0 order by descripcion_material";
 	
 	$resp=mysql_query($sql_item);

@@ -15,7 +15,7 @@ require("conexion.inc");
 require("estilos_almacenes.inc");
 
 $fecha_rptdefault=date("Y-m-d");
-echo "<h1>Ranking de Utilidades x Linea e Item</h1>";
+echo "<h1>Ranking de Utilidades x Item</h1>";
 echo"<form method='post' action='rptUtilidadesxItem.php' target='_blank'>";
 
 	echo"<center><table class='texto'>\n";
@@ -50,17 +50,6 @@ echo"<form method='post' action='rptUtilidadesxItem.php' target='_blank'>";
 			echo" <td><input type='date' class='texto' value='$fecha_rptdefault' id='exaffinal' size='10' name='exaffinal' required>";
     		echo"  </td>";
 	echo "</tr>";
-
-
-	echo "<tr><th align='left'>Ordenar por:</th>
-		<td>
-		<select name='rpt_ver' id='rpt_ver' class='texto' size='3'>";
-		echo "<option value='0' selected>Por Item</option>";
-		echo "<option value='1'>Por Linea e Item</option>";
-		echo "<option value='2'>Por Linea</option>";
-		echo "</select></td></tr>";
-	echo "</tr>";	
-
 	
 	echo"\n </table><br>";
 	require('home_almacen.php');

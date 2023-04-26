@@ -6,11 +6,42 @@ echo "<script language='JavaScript'>
 			rpt_almacen=f.rpt_almacen.value;
 			fecha_ini=f.exafinicial.value;
 			fecha_fin=f.exaffinal.value;
-			tipo_item=f.tipo_item.value;
 			rpt_item=f.rpt_item.value;
-			window.open('rptKardexCostos.php?rpt_territorio='+rpt_territorio+'&rpt_almacen='+rpt_almacen+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&tipo_item='+tipo_item+'&rpt_item='+rpt_item+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
+			window.open('rptKardexCostos.php?rpt_territorio='+rpt_territorio+'&rpt_almacen='+rpt_almacen+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&rpt_item='+rpt_item+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
 			return(true);
 		}
+
+		function nuevoAjax()
+		{	var xmlhttp=false;
+			try {
+					xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+			} catch (e) {
+			try {
+				xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+			} catch (E) {
+				xmlhttp = false;
+			}
+			}
+			if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+			xmlhttp = new XMLHttpRequest();
+			}
+			return xmlhttp;
+		}
+
+		function ajaxReporteItems(f){
+			var contenedor;
+			contenedor=document.getElementById('divItemReporte');
+			ajax=nuevoAjax();
+			var codGrupo=(f.rpt_grupo.value);
+			ajax.open('GET', 'ajaxReporteItems.php?codGrupo='+codGrupo,true);
+			ajax.onreadystatechange=function() {
+				if (ajax.readyState==4) {
+					contenedor.innerHTML = ajax.responseText
+				}
+			}
+			ajax.send(null);
+		}
+
 		function envia_select(form){
 			form.submit();
 			return(true);
@@ -58,14 +89,22 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 		}
 	}
 	echo "</select></td></tr>";
-	echo "<tr><th align='left'>Tipo de Item:</th>";
-	echo "<td><select name='tipo_item' class='texto' onChange='envia_select(this.form)'>";
-	
-	echo "<option value='2'>Materiales</option>";
-	
+
+	echo "<tr><th align='left'>Grupo</th><td><select name='rpt_grupo' class='texto' size='5' onChange='ajaxReporteItems(this.form);'>";
+	$sql="select cod_grupo, nombre_grupo from grupos where estado=1 order by 2";
+	$resp=mysql_query($sql);
+	while($dat=mysql_fetch_array($resp))
+	{	$codigo=$dat[0];
+		$nombre=$dat[1];
+		echo "<option value='$codigo'>$nombre</option>";
+	}
+	echo "</select></td></tr>";
 	echo "</tr>";
-	echo "<tr><th align='left'>Material</th><td><select name='rpt_item' class='texto'>";
-	
+
+
+	echo "<tr><th align='left'>Material</th><td>
+	<div id='divItemReporte'>
+	<select name='rpt_item' class='texto'>";
 	$sql_item="select codigo_material, descripcion_material from material_apoyo where codigo_material<>0 order by descripcion_material";
 	
 	$resp=mysql_query($sql_item);
@@ -85,7 +124,11 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 		{	echo "<option value='$codigo_item'>$nombre_item</option>";
 		}
 	}
-	echo "</select></td></tr>";	
+	echo "</select></td>
+	</div>
+	</tr>";
+
+
 	echo "<tr><th align='left'>Fecha inicio:</th>";
 			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial'>";
     		echo"  </TD>";

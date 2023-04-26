@@ -1,4 +1,5 @@
 <?php
+
 echo "<script language='JavaScript'>
 		function envia_formulario(f)
 		{	var rpt_territorio, rpt_almacen, tipo_item, rpt_ver, rpt_fecha, rpt_ordenar, rpt_grupo, rpt_formato;
@@ -74,7 +75,7 @@ echo"<form method='post' action=''>";
 	echo "</select></td></tr>";
 
 	echo "<tr><th align='left'>Grupo</th><td><select name='rpt_grupo' class='texto' size='10' multiple>";
-	$sql="select p.cod_linea_proveedor, p.nombre_linea_proveedor from proveedores_lineas p order by 2";
+	$sql="select cod_grupo, nombre_grupo from grupos where estado=1 order by 2";
 	$resp=mysql_query($sql);
 	while($dat=mysql_fetch_array($resp))
 	{	$codigo=$dat[0];
@@ -111,8 +112,6 @@ echo"<form method='post' action=''>";
 	echo "<td><select name='rpt_formato' class='texto'>";
 	echo "<option value='1'>Normal</option>";
 	echo "<option value='2'>Para Inventario</option>";
-	echo "<option value='3'>Valorado con Precio Costo</option>";
-	echo "<option value='4'>Valorado con Precio Venta</option>";
 	echo "</tr>";
 	
 	echo"\n </table><br>";
