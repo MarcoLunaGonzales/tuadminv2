@@ -394,7 +394,7 @@ echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th>
 	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th>";
 
 if($global_admin_cargo==1){
-    echo "<!--th>Convertir</th--><th>Cambiar <br>Datos Venta</th>";
+    echo "<th>Convertir</th><th>Cambiar <br>Datos Venta</th>";
 }	
 echo "</tr>";
 	
@@ -485,9 +485,9 @@ while ($dat = mysql_fetch_array($resp)) {
 	}
     
 	if($global_admin_cargo==1 && $codTipoDoc==2){
-		echo "<!--td bgcolor='$color_fondo'>
+		echo "<td bgcolor='$color_fondo'>
 		<a href='#' onClick='ShowFacturar($codigo,$nro_correlativo);'>
-		<img src='imagenes/icon_detail.png' width='30' border='0' title='Convertir en Factura'></a></td-->";
+		<img src='imagenes/icon_detail.png' width='30' border='0' title='Convertir en Factura'></a></td>";
         echo "<td bgcolor='$color_fondo' align='center'>
             <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
             <img src='imagenes/change.png' width='30' border='0' title='Editar'></a>
