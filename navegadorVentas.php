@@ -425,10 +425,17 @@ if($txtnroingreso!="")
    {$consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
    }
 if($fecha1!="" && $fecha2!="")
-   {$consulta = $consulta."AND '$fecha1'<=s.fecha AND s.fecha<='$fecha2' ";
+   {$consulta = $consulta."AND fecha BETWEEN '$fecha1' AND '$fecha2' ";
    }
-$consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc limit 0, 50 ";
+$consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc ";
 
+if($txtnroingreso!="" || $fecha1!=""){
+    $consulta = $consulta." limit 0, 500 ";
+}else{
+    $consulta = $consulta." limit 0, 100 ";
+}
+
+//echo $consulta;
 //
 $resp = mysql_query($consulta);
 	
