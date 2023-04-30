@@ -188,6 +188,7 @@ font-family: sans-serif, Arial;
 }*/
 .texto td, .texto th {
     padding: 10px;
+    text-align: center;
     border-bottom: 1px solid #f2f2f2;    
 }
 
