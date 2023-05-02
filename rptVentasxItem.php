@@ -23,7 +23,7 @@ echo "<table align='center' class='textotit' width='100%'><tr><td align='center'
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 	
-$sql="select m.`codigo_material`, m.codigo_anterior, m.`descripcion_material`, 
+$sql="select m.`codigo_material`, m.`descripcion_material`, 
 	(sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria), s.descuento, s.monto_total
 	from `salida_almacenes` s, `salida_detalle_almacenes` sd, `material_apoyo` m 
 	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta'
@@ -36,7 +36,6 @@ $resp=mysql_query($sql);
 echo "<br><table align='center' class='texto' width='100%'>
 <tr>
 <th>Codigo</th>
-<th>CodigoInterno</th>
 <th>Item</th>
 <th>Cantidad</th>
 <th>Monto Venta</th>
@@ -45,13 +44,12 @@ echo "<br><table align='center' class='texto' width='100%'>
 $totalVenta=0;
 while($datos=mysql_fetch_array($resp)){	
 	$codItem=$datos[0];
-	$codInterno=$datos[1];
-	$nombreItem=$datos[2];
-	$montoVenta=$datos[3];
-	$cantidad=$datos[4];
+	$nombreItem=$datos[1];
+	$montoVenta=$datos[2];
+	$cantidad=$datos[3];
 
-	$descuentoVenta=$datos[5];
-	$montoNota=$datos[6];
+	$descuentoVenta=$datos[4];
+	$montoNota=$datos[5];
 	
 	if($descuentoVenta>0){
 		$porcentajeVentaProd=($montoVenta/$montoNota);
@@ -66,7 +64,6 @@ while($datos=mysql_fetch_array($resp)){
 	$totalVenta=$totalVenta+$montoVenta;
 	echo "<tr>
 	<td>$codItem</td>
-	<td>$codInterno</td>
 	<td>$nombreItem</td>
 	<td>$cantidadFormat</td>
 	<td>$montoPtr</td>

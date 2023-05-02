@@ -1,58 +1,55 @@
+<script language='JavaScript'>
+function envia_formulario(f)
+{	var rpt_territorio, rpt_almacen, tipo_item, rpt_ver, rpt_fecha;
+	rpt_territorio=f.rpt_territorio.value;
+	rpt_almacen=f.rpt_almacen.value;
+	rpt_ver=f.rpt_ver.value;
+	rpt_fecha=f.rpt_fecha.value;
+	var rpt_grupo=new Array();	
+			
+	var j=0;
+	for(i=0;i<=f.rpt_grupo.options.length-1;i++)
+	{	if(f.rpt_grupo.options[i].selected)
+		{	rpt_grupo[j]=f.rpt_grupo.options[i].value;
+			j++;
+		}
+	}	
+	
+	window.open('rptExistenciasCostos.php?rpt_territorio='+rpt_territorio+'&rpt_almacen='+rpt_almacen+'&rpt_ver='+rpt_ver+'&rpt_fecha='+rpt_fecha+'&rpt_grupo='+rpt_grupo,'','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');
+
+	return(true);
+}
+
+function activa_tipomaterial(f){
+	if(f.tipo_item.value==1)
+	{	f.rpt_tipomaterial.disabled=true;
+	}
+	else
+	{	f.rpt_tipomaterial.disabled=false;
+	}
+}
+function envia_select(form){
+	form.submit();
+	return(true);
+}
+</script>
 <?php
-require("conexionmysqli.inc");
+
+require("conexion.inc");
 require("estilos_almacenes.inc");
 
-echo "<script language='JavaScript'>
-		function envia_formulario(f)
-		{	var rpt_territorio, rpt_almacen, tipo_item, rpt_ver, rpt_fecha, rpt_ordenar;
-			rpt_territorio=f.rpt_territorio.value;
-			rpt_almacen=f.rpt_almacen.value;
-			rpt_ver=f.rpt_ver.value;
-			rpt_fecha=f.rpt_fecha.value;
-			rpt_ordenar=f.rpt_ordenar.value;
-			
-			var rpt_distribuidor=new Array();
-			var j=0;
-			for(i=0;i<=f.rpt_distribuidor.options.length-1;i++)
-			{	if(f.rpt_distribuidor.options[i].selected)
-				{	rpt_distribuidor[j]=f.rpt_distribuidor.options[i].value;
-					j++;
-				}
-			}
-
-			window.open('rptExistenciasCostosPrecios.php?rpt_territorio='+rpt_territorio+'&rpt_almacen='+rpt_almacen+'&rpt_ver='+rpt_ver+'&rpt_fecha='+rpt_fecha+'&rpt_ordenar='+rpt_ordenar+'&rpt_distribuidor='+rpt_distribuidor,'','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');
-
-			return(true);
-		}
-		function activa_tipomaterial(f){
-			if(f.tipo_item.value==1)
-			{	f.rpt_tipomaterial.disabled=true;
-			}
-			else
-			{	f.rpt_tipomaterial.disabled=false;
-			}
-		}
-		function envia_select(form){
-			form.submit();
-			return(true);
-		}
-		</script>";
 $fecha_rptdefault=date("d/m/Y");
+echo "<h1>Reporte Existencias con Costo</h1>";
 
-$rpt_territorio=$_POST["rpt_territorio"];
-//echo "rpt territorio: ".$rpt_territorio;
-
-echo "<h1>Reporte Existencias Almacen Valorado</h1>";
 echo"<form method='post' action=''>";
-	
-	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
+	echo"<center><table class='texto'>";
 	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
 	
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	
-	$resp=mysqli_query($enlaceCon, $sql);
-	echo "<option value='0'>Todos</option>";
-	while($dat=mysqli_fetch_array($resp))
+	$resp=mysql_query($sql);
+	echo "<option value='0'>------</option>";
+	while($dat=mysql_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
 		if($rpt_territorio==$codigo_ciudad)
@@ -65,8 +62,8 @@ echo"<form method='post' action=''>";
 	echo "</select></td></tr>";
 	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_almacen' class='texto'>";
 	$sql="select cod_almacen, nombre_almacen from almacenes where cod_ciudad='$rpt_territorio'";
-	$resp=mysqli_query($enlaceCon, $sql);
-	while($dat=mysqli_fetch_array($resp))
+	$resp=mysql_query($sql);
+	while($dat=mysql_fetch_array($resp))
 	{	$codigo_almacen=$dat[0];
 		$nombre_almacen=$dat[1];
 		if($rpt_almacen==$codigo_almacen)
@@ -78,18 +75,17 @@ echo"<form method='post' action=''>";
 	}
 	echo "</select></td></tr>";
 
-
-	echo "<tr><th align='left'>Distribuidor</th><td>
-		<select name='rpt_distribuidor' id='rpt_distribuidor' class='texto' multiple size='7'>";
-	$sql="select p.cod_proveedor, p.nombre_proveedor from proveedores p order by 2";
-	$resp=mysqli_query($enlaceCon, $sql);
-	while($dat=mysqli_fetch_array($resp))
+		echo "<tr><th align='left'>Grupo</th><td><select name='rpt_grupo' class='texto' size='10' multiple>";
+	$sql="select cod_grupo, nombre_grupo from grupos where estado=1 order by 2";
+	$resp=mysql_query($sql);
+	while($dat=mysql_fetch_array($resp))
 	{	$codigo=$dat[0];
 		$nombre=$dat[1];
 		echo "<option value='$codigo' selected>$nombre</option>";
 	}
 	echo "</select></td></tr>";
 
+	
 	echo "<tr><th align='left'>Ver:</th>";
 	echo "<td><select name='rpt_ver' class='texto'>";
 	echo "<option value='1'>Todo</option>";
@@ -108,13 +104,8 @@ echo"<form method='post' action=''>";
     		echo"  </TD>";
 	echo "</tr>";
 
-	echo "<tr><th align='left'>Ordenar Por:</th>";
-	echo "<td><select name='rpt_ordenar' class='texto'>";
-	echo "<option value='1'>Producto</option>";
-	echo "<option value='2'>Linea y Producto</option>";
-	echo "</tr>";
-	
 	echo"\n </table><br>";
+	require('home_almacen.php');
 	echo "<center><input type='button' name='reporte' value='Ver Reporte' onClick='envia_formulario(this.form)' class='boton'>
 	</center><br>";
 	echo"</form>";

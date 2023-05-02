@@ -2,6 +2,7 @@
 function envia_formulario(f)
 {	var rpt_territorio,fecha_ini, fecha_fin, rpt_ver;
 	rpt_territorio=f.rpt_territorio.value;
+	rpt_ver=f.rpt_ver.value;
 	
 	var codTipoDoc=new Array();
 	var j=0;
@@ -14,7 +15,7 @@ function envia_formulario(f)
 	
 	fecha_ini=f.exafinicial.value;
 	fecha_fin=f.exaffinal.value;
-	window.open('rptVentasDocumento.php?rpt_territorio='+rpt_territorio+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&codTipoDoc='+codTipoDoc+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
+	window.open('rptVentasDocumento.php?rpt_territorio='+rpt_territorio+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&rpt_ver='+rpt_ver+'&codTipoDoc='+codTipoDoc+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
 	return(true);
 }
 </script>
@@ -35,14 +36,20 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 	while($dat=mysql_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
-		echo "<option value='$codigo_ciudad' selected>$nombre_ciudad</option>";
+		echo "<option value='$codigo_ciudad'>$nombre_ciudad</option>";
 	}
 	echo "</select></td></tr>";
 
 	echo "<tr><th align='left'>Tipo de Documento:</th>
 	<td><select name='rpt_tipodoc' class='texto' multiple>";
-	echo "<option value='1' selected>FACTURA</option>";
-	echo "<option value='2' selected>NOTA DE REMISION</option>";
+	echo "<option value='1'>FACTURA</option>";
+	echo "<option value='2'>NOTA DE REMISION</option>";
+	echo "</select></td></tr>";
+	
+	echo "<tr><th align='left'>Ver:</th>
+	<td><select name='rpt_ver' class='texto'>";
+	echo "<option value='0'>Todos</option>";
+	echo "<option value='1'>Ver No Cancelados</option>";
 	echo "</select></td></tr>";
 	
 	echo "<tr><th align='left'>Fecha inicio:</th>";

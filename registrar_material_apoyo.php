@@ -93,11 +93,7 @@ echo "<tr><th align='left'>Codigo Barras</th>";
 echo "<td align='left'>
 	<input type='text' class='texto' name='codigo_barras' id='codigo_barras'>
 	</td></tr>";
-echo "<tr><th align='left'>Codigo Interno</th>";
 
-echo "<td align='left'>
-	<input type='text' class='texto' name='codigo_interno' id='codigo_interno' required='true'>
-	</td></tr>";
 
 echo "<tr><th align='left'>Costo</th>";
 echo "<td align='left'>

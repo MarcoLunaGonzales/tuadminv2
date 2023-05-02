@@ -13,13 +13,15 @@ function envia_formulario(f)
 require("conexion.inc");
 require("estilos_almacenes.inc");
 
+$globalSucursal=$_COOKIE["global_agencia"];
+
 $fecha_rptdefault=date("d/m/Y");
 echo "<h1>Reporte Kardex x Cliente</h1>";
 echo"<form method='post' action=''>";
 
 	echo"\n<center><table class='texto' width='50%'>\n";
 	echo "<tr><th align='left'>Cliente</th><td><select name='rpt_cliente' class='texto'>";
-	$sql="select cod_cliente, nombre_cliente from clientes order by 2";
+	$sql="select cod_cliente, nombre_cliente from clientes where cod_area_empresa='$globalSucursal' order by 2";
 	$resp=mysql_query($sql);
 	echo "<option value=''></option>";
 	while($dat=mysql_fetch_array($resp))

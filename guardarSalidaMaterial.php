@@ -134,7 +134,8 @@ if($sql_inserta==1){
 			}
 
 			if(isset($_POST["salvar_precio$i"])){
-				$sqlSalvarPrecio="update precios set precio='$precioUnitario' where codigo_material='$codMaterial' and cod_ciudad='1' and cod_precio=1;";
+				$sqlSalvarPrecio="update precios set precio='$precioUnitario' where codigo_material='$codMaterial' and cod_precio='1'";
+				//echo $sqlSalvarPrecio."<br>";
 				$respSalvarPrecio=mysql_query($sqlSalvarPrecio);
 			}
 

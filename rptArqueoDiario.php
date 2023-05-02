@@ -73,7 +73,7 @@ $resp=mysql_query($sql);
 echo "<br><table align='center' class='textomediano' width='70%'>
 <tr><th colspan='6'>Detalle de Ingresos</th></tr>
 <tr>
-<th>Hora</th>
+<th>Fecha / Hora</th>
 <th>Razon Social</th>
 <th>Observaciones</th>
 <th>TipoPago</th>
@@ -107,7 +107,7 @@ while($datos=mysql_fetch_array($resp)){
 	$totalTarjetaF=number_format($totalTarjeta,2,".",",");
 	
 	echo "<tr>
-	<td>$horaVenta</td>
+	<td>$fechaVenta $horaVenta</td>
 	<td>$razonSocial</td>
 	<td>$obsVenta</td>
 	<td>$nombreTipoPago</td>
