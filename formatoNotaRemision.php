@@ -120,7 +120,8 @@ while($datDetalle=mysql_fetch_array($respDetalle)){
 	$cantUnit=$datDetalle[1];
 	$cantUnit=redondear2($cantUnit);
 	$nombreMat=$datDetalle[2];
-	$nombreMat=substr($nombreMat,0,45);
+	// $nombreMat=substr($nombreMat,0,45);
+	$nombreMat=$nombreMat;
 	$precioUnit=$datDetalle[3];
 	$precioUnit=redondear2($precioUnit);
 	$descUnit=$datDetalle[4];
@@ -130,8 +131,11 @@ while($datDetalle=mysql_fetch_array($respDetalle)){
 	
 	$pdf->SetFont('Arial','',7);
 	//$pdf->SetXY(5,$y+$yyy);		$pdf->MultiCell(60,3,"$nombreMat",1,"C");
-	$pdf->SetXY(2,$y+$yyy);		$pdf->Cell(80,3,"$nombreMat",0,0,"L");
-	
+	// $pdf->SetXY(2,$y+$yyy);		$pdf->Cell(80,3,"$nombreMat",0,0,"L");
+	$pdf->SetXY(2, $y+$yyy);
+	$pdf->MultiCell(73, 3, $nombreMat, 0, 'L');
+	$yyy=$yyy+3;
+
 	$pdf->SetFont('Arial','',9);
 	
 	$pdf->SetXY(30,$y+$yyy+2);		$pdf->Cell(10,5,"$cantUnit",0,0,"R");
