@@ -6,6 +6,7 @@ require('funcion_nombres.php');
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
+
 $rpt_territorio=$_GET['rpt_territorio'];
 $rpt_persona=$_GET['rpt_persona'];
 $rpt_grupo=$_GET['rpt_grupo'];

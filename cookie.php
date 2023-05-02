@@ -38,13 +38,6 @@ if ($num_filas != 0) {
 	setcookie("global_almacen",$global_almacen);
 	setcookie("globalGestion", $globalGestion);
 	
-	if($cod_cargo==1000 || $cod_cargo==1001 || $cod_cargo==1002){//ADMINISTRADORES
-		header("location:indexAlmacenSup.php");
-	}elseif($cod_cargo==1019){//CAJA
-		header("location:indexAlmacenReg.php");
-	}elseif($cod_cargo==1016){//VENDEDOR
-		header("location:indexAlmacenCaja.php");
-	}
 	$stringGlobalAdmins=obtenerValorConfiguracion(0);
 	$posBuscada = strpos($stringGlobalAdmins, $usuario);
 	if ($posBuscada === true) {
@@ -52,6 +45,17 @@ if ($num_filas != 0) {
 	}else{
 		setcookie("global_admin_cargo", 1);		
 	}
+
+	if($cod_cargo==1000 || $cod_cargo==1001 || $cod_cargo==1002){//ADMINISTRADORES
+		header("location:indexAlmacenSup.php");
+	}elseif($cod_cargo==1019){//CAJA
+		header("location:indexAlmacenReg.php");
+		setcookie("global_admin_cargo", 0);		
+	}elseif($cod_cargo==1016){//VENDEDOR
+		header("location:indexAlmacenCaja.php");
+		setcookie("global_admin_cargo", 0);		
+	}
+	
 } else {
     echo "<link href='stilos.css' rel='stylesheet' type='text/css'>
         <form action='problemas_ingreso.php' method='post' name='formulario'>

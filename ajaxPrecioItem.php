@@ -21,22 +21,6 @@ if($cadRespuesta=="")
 {   $cadRespuesta=0;
 }
 
-$sqlTipoPrecio="select abreviatura from tipos_precio where codigo='$codTipoPrecio'";
-$rsTipoPrecio=mysql_query($sqlTipoPrecio);
-$datTipoPrecio=mysql_fetch_array($rsTipoPrecio);
-$descuentoPrecio=$datTipoPrecio[0];
-$indiceConversion=0;
-$descuentoPrecioMonto=0;
-if($descuentoPrecio>0){
-	$indiceConversion=($descuentoPrecio/100);
-	$descuentoPrecioMonto=round(($cadRespuesta*($indiceConversion)),1);
-	//$cadRespuesta=$cadRespuesta-($cadRespuesta*($indiceConversion));
-}
-
-//$cadRespuesta=redondear2($cadRespuesta);
-//redondeamos al entero
-$cadRespuesta=round($cadRespuesta,1);
-$valorPrecioMinimo=0;
 
 if($banderaBajarPrecio==0){
 	$valorPrecioMinimo=$cadRespuesta;
@@ -56,11 +40,12 @@ $respCosto=mysql_query($sqlCosto);
 $costoMaterialii=0;
 while($datCosto=mysql_fetch_array($respCosto)){
 	$costoMaterialii=$datCosto[0];
-	$costoMaterialii=redondear2($costoMaterialii);
+	//$costoMaterialii=redondear2($costoMaterialii);
+	$costoMaterialii=round($costoMaterialii,1);
 }
 
 echo "<input type='number' id='precio_unitario$indice' name='precio_unitario$indice' value='$cadRespuesta' min='$valorPrecioMinimo' class='inputnumber' onKeyUp='calculaMontoMaterial($indice);' step='0.01'>";
-echo " [$costoMaterialii] <span style='color:red'>D:$descuentoPrecio%</span>";
-echo "<input type='hidden' id='costoUnit$indice' value='$costoMaterialii' name='costoUnit$indice'>#####".$descuentoPrecioMonto;
+echo " [C:$costoMaterialii]";
+echo "<input type='hidden' id='costoUnit$indice' value='$costoMaterialii' name='costoUnit$indice'>";
 
 ?>
