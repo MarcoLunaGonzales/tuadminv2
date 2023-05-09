@@ -44,8 +44,11 @@ while($datCosto=mysql_fetch_array($respCosto)){
 	$costoMaterialii=round($costoMaterialii,1);
 }
 
+//$costoString = str_pad($costoMaterialii, 3, "0", STR_PAD_LEFT );
+$costoString=$costoMaterialii;
+
 echo "<input type='number' id='precio_unitario$indice' name='precio_unitario$indice' value='$cadRespuesta' min='$valorPrecioMinimo' class='inputnumber' onKeyUp='calculaMontoMaterial($indice);' step='0.01'>";
-echo " [C:$costoMaterialii]";
 echo "<input type='hidden' id='costoUnit$indice' value='$costoMaterialii' name='costoUnit$indice'>";
+echo "######[000".$costoString."000]";
 
 ?>
