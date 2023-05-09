@@ -19,7 +19,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -249,7 +249,8 @@ echo "<script language='Javascript'>
 		<td>$nombreLinea</td>
 		<td align='center'>$precioVenta</td>
 		<td align='center'><img src='imagenesprod/$imagen' width='$tamanioImagen'></td>
-		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a></td>
+		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a>
+		<a href='ticketMaterial.php?cod_material=$codigo' target='_blank'><img src='imagenes/icono-barra.png' width='25'></a></td>
 		</tr>";
 		$indice_tabla++;
 	}

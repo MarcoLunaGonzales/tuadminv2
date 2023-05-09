@@ -26,13 +26,28 @@ $registro = mysqli_fetch_array($respConf);
 /******************************************************************************/
 $nombre_producto = $registro['descripcion_material'];
 // Ajuste de texto
-if(strlen($nombre_producto) > 39) {
-    $nombre_producto = substr($nombre_producto, 0, 39) . "..";
+if(strlen($nombre_producto) > 65) {
+    $nombre_producto = substr($nombre_producto, 0, 65) . "..";
 }
 
 $codigo          = $registro['codigo_material'];
+/***********************************************/
+/*              SE OBTIENE PRECIO              */
+/***********************************************/
+$sqlCosto="select id.costo_promedio from ingreso_almacenes i, ingreso_detalle_almacenes id
+where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.ingreso_anulado=0 and 
+id.cod_material='$codMaterial' and i.cod_almacen='$global_almacen' ORDER BY i.cod_ingreso_almacen desc limit 0,1";
+$respCosto=mysql_query($sqlCosto);
+$costoMaterialii=0;
+while($datCosto=mysql_fetch_array($respCosto)){
+	$costoMaterialii=$datCosto[0];
+	//$costoMaterialii=redondear2($costoMaterialii);
+	$costoMaterialii=round($costoMaterialii,1);
+}
+/***********************************************/
 $precio          = empty($registro['precio']) ? '0.00' : $registro['precio'];
-$precio_costo    = intval(costoVentaFalse($cod_material,$global_agencia));
+// $precio_costo    = intval(costoVentaFalse($cod_material,$global_agencia));
+$precio_costo    = $costoMaterialii;
 /******************************************************************************/
 
 // barcode('codigo_barra/'.$codigo.'.png', $codigo, 10, 'horizontal', 'code128', true);
