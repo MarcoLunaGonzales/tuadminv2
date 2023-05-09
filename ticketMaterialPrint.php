@@ -103,6 +103,7 @@ $pdf->setX($margen_x);
 $pdf->multiCell($card_width - 2, 3, utf8_decode($nombre_producto), 0, 'C', false);
 $pdf->Ln();
 
+$pdf->setY($margen_seg_y + 12);
 $y = $pdf->getY();
 // $pdf->Image('barcode.php?text='.$codigo_general.'&size=40&codetype=Code39&print=true', $margen_x+2, $y, $card_width-5, ($card_height/2));
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
@@ -142,6 +143,7 @@ $pdf->setX($margen_seg_x);
 $pdf->multiCell($card_width - 2, 3, utf8_decode($nombre_producto), 0, 'C', false);
 $pdf->Ln();
 
+$pdf->setY($margen_seg_y + 12);
 $y = $pdf->getY();
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)+5);
 $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y-3, $card_width, ($card_height/2)-6, 'PNG');
