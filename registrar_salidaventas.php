@@ -117,7 +117,12 @@ function ajaxPrecioItem(indice){
 	ajax.open("GET", "ajaxPrecioItem.php?codmat="+codmat+"&indice="+indice+"&tipoPrecio="+tipoPrecio,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
-			contenedor.innerHTML = ajax.responseText;
+			var datos=ajax.responseText.split('######');
+			console.log(datos);
+
+			contenedor.innerHTML = datos[0];
+			var costoitem = datos[1];
+			document.getElementById("menos"+indice).title=costoitem;
 			calculaMontoMaterial(indice);
 		}
 	}

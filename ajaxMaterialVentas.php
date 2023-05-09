@@ -56,7 +56,7 @@ require("conexion.inc");
 	<input class="inputnumber" type="number" value="0" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01"  required readonly> 
 </td>
 
-<td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
+<td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" id="menos<?=$num;?>" id="menos<?=$num;?>" /></td>
 
 </tr>
 </table>

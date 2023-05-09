@@ -30,7 +30,7 @@ echo "<tr><th>Fecha</th><th>Tipo</th>
 
 $consulta = "select g.cod_gasto, g.descripcion_gasto, 
 	(select nombre_tipogasto from tipos_gasto where cod_tipogasto=g.cod_tipogasto)tipogasto, 
-	DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g where fecha_gasto between '$fecha_iniconsulta' and '$fecha_finconsulta' and g.estado=1 and g.cod_ciudad='$rpt_territorio' order by g.cod_gasto";
+	DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g, tipos_gasto tg where g.cod_tipogasto=tg.cod_tipogasto and fecha_gasto between '$fecha_iniconsulta' and '$fecha_finconsulta' and g.estado=1 and tg.tipo in (1,2) and g.cod_ciudad='$rpt_territorio' order by g.cod_gasto";
 //echo $consulta;
 
 $resp = mysql_query($consulta);
