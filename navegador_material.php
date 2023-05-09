@@ -19,7 +19,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{

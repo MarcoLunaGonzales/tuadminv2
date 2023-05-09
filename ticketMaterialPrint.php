@@ -12,7 +12,7 @@ $hoja        = array(115,150); // (ancho, alto)
 // Tipo de letra
 $tipo_letra     = 'Arial';
 $estilo         = 'B';
-$tamanio_letra  = 8;
+$tamanio_letra  = 7;
 // Definimos los márgenes y las medidas de los cards
 
 // Configuracion
@@ -106,7 +106,7 @@ $pdf->Ln();
 $y = $pdf->getY();
 // $pdf->Image('barcode.php?text='.$codigo_general.'&size=40&codetype=Code39&print=true', $margen_x+2, $y, $card_width-5, ($card_height/2));
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
-$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y, $card_width, ($card_height/2)-5, 'PNG');
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y-3, $card_width, ($card_height/2)-6, 'PNG');
 $pdf->Ln();
 // PRECIO
 $pdf->setY($margen_seg_y + $card_height-7);
@@ -144,7 +144,7 @@ $pdf->Ln();
 
 $y = $pdf->getY();
 // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)+5);
-$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)-5, 'PNG');
+$pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y-3, $card_width, ($card_height/2)-6, 'PNG');
 $pdf->Ln();
 
 // PRECIO
