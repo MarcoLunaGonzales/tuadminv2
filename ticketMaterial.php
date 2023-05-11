@@ -9,6 +9,7 @@ ini_set('display_errors', '1');
 
 // Codigo de CIUDAD
 $global_agencia = $_COOKIE["global_agencia"];
+$global_almacen = $_COOKIE["global_almacen"];
 
 // Modigo de Material
 $cod_material = $_GET['cod_material'];
@@ -31,15 +32,18 @@ if(strlen($nombre_producto) > 65) {
 }
 
 $codigo          = $registro['codigo_material'];
+
+
 /***********************************************/
 /*              SE OBTIENE PRECIO              */
 /***********************************************/
 $sqlCosto="select id.costo_promedio from ingreso_almacenes i, ingreso_detalle_almacenes id
 where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.ingreso_anulado=0 and 
-id.cod_material='$codMaterial' and i.cod_almacen='$global_almacen' ORDER BY i.cod_ingreso_almacen desc limit 0,1";
-$respCosto=mysql_query($sqlCosto);
+id.cod_material='$cod_material' and i.cod_almacen='$global_almacen' ORDER BY i.cod_ingreso_almacen desc limit 0,1";
+//echo $sqlCosto;
+$respCosto=mysqli_query($enlaceCon, $sqlCosto);
 $costoMaterialii=0;
-while($datCosto=mysql_fetch_array($respCosto)){
+while($datCosto=mysqli_fetch_array($respCosto)){
 	$costoMaterialii=$datCosto[0];
 	//$costoMaterialii=redondear2($costoMaterialii);
 	$costoMaterialii=round($costoMaterialii,1);
