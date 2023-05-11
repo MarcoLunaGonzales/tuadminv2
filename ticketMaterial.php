@@ -7,6 +7,7 @@ include 'assets/php-barcode-master/barcode.php';
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+$global_almacen = $_COOKIE['global_almacen'];
 // Codigo de CIUDAD
 $global_agencia = $_COOKIE["global_agencia"];
 $global_almacen = $_COOKIE["global_almacen"];
@@ -40,8 +41,12 @@ $codigo          = $registro['codigo_material'];
 $sqlCosto="select id.costo_promedio from ingreso_almacenes i, ingreso_detalle_almacenes id
 where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.ingreso_anulado=0 and 
 id.cod_material='$cod_material' and i.cod_almacen='$global_almacen' ORDER BY i.cod_ingreso_almacen desc limit 0,1";
+<<<<<<< HEAD
 //echo $sqlCosto;
 $respCosto=mysqli_query($enlaceCon, $sqlCosto);
+=======
+$respCosto=mysql_query($sqlCosto);
+>>>>>>> 23c94273150297eef6fb6363ed82f759de2816b7
 $costoMaterialii=0;
 while($datCosto=mysqli_fetch_array($respCosto)){
 	$costoMaterialii=$datCosto[0];
