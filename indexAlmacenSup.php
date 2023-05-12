@@ -44,6 +44,9 @@ include("datosUsuario.php");
 			<li><span>Datos Generales</span>
 				<ul>
 					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Proveedores</a></li>
+
+					<li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Materiales Serviteca</a></li>
+
 					<li><span>Gestion de Productos</span>
 						<ul>
 							<li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li>
