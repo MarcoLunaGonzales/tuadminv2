@@ -396,6 +396,7 @@ echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th>
 if($global_admin_cargo==1){
     echo "<th>Convertir</th><th>Cambiar <br>Datos Venta</th>";
 }	
+echo "<th>Materiales</th>";
 echo "</tr>";
 	
 echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='global_almacen'>";
@@ -494,6 +495,8 @@ while ($dat = mysql_fetch_array($resp)) {
         </td>";
 	
 	}	
+    echo "<td  bgcolor='$color_fondo'><a href='materiales_serviteca/materialesServitecaAdicionar.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/nuevoMaterial.png' width='30' border='0' title='Materiales'></a></td>";
+
 	echo "</tr>";
 }
 echo "</table></center><br>";

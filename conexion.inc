@@ -13,7 +13,7 @@ if(!function_exists('register_globals')){
 
 
 
-$conexion=mysql_connect("localhost","root","4868422Marco");
+$conexion=mysql_connect("localhost","root","123456789");
 $bd=mysql_select_db("maitkava290423");
 //$bd=mysql_select_db("tiendatest");
 
