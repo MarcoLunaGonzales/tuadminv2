@@ -754,6 +754,8 @@ if($tipoDocDefault==2){
 				$dup_cantidad= $dat[3];
 				$dup_descuento = $dat[4];
 				$dup_total 	   = ($precio * $dup_cantidad)-$dup_descuento;
+
+				$stockProductoX=stockProducto($globalAlmacen, $dup_codigo);
 	?>
 
 	<div id="div<?=$num;?>">
@@ -778,11 +780,11 @@ if($tipoDocDefault==2){
 	</td>
 
 	<td width="10%" align="center">
-		<div id="idstock<?=$num?>"><input type="text" id="stock<?=$num?>" name="stock<?=$num?>" value="<?=stockProducto($codigo_venta_duplicado, $dup_codigo);?>" readonly="" size="4"></div>
+		<div id="idstock<?=$num?>"><input type="text" id="stock<?=$num?>" name="stock<?=$num?>" value="<?=$stockProductoX;?>" readonly="" size="4"></div>
 	</td>
 
 	<td align="center" width="8%">
-		<input class="inputnumber" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="<?=$dup_cantidad?>" required> 
+		<input class="inputnumber" type="number" min="0.1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" value="<?=$dup_cantidad?>" required> 
 	</td>
 
 

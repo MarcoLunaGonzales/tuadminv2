@@ -39,11 +39,12 @@ if ($num_filas != 0) {
 	setcookie("globalGestion", $globalGestion);
 	
 	$stringGlobalAdmins=obtenerValorConfiguracion(0);
-	$posBuscada = strpos($stringGlobalAdmins, $usuario);
-	if ($posBuscada === true) {
-		setcookie("global_admin_cargo", 0);	    
-	}else{
+	$arrayAdmins = explode(",", $stringGlobalAdmins);
+
+	if(in_array($usuario, $arrayAdmins)){
 		setcookie("global_admin_cargo", 1);		
+	}else{
+		setcookie("global_admin_cargo", 0);		
 	}
 
 	if($cod_cargo==1000 || $cod_cargo==1001 || $cod_cargo==1002){//ADMINISTRADORES

@@ -74,8 +74,9 @@ echo "<script language='Javascript'>
 			var grupo2=$('#itemGrupoBusqueda').val();
 			var proveedor=$('#itemProveedorBusqueda').val();
 			var itemNombreBusqueda=$('#itemNombreBusqueda').val();
+			var itemStock=$('#itemStock').val();
 			
-			location.href='navegador_material.php?vista='+modo_vista+'&vista_ordenar='+modo_orden+'&grupo='+grupo+'&grupo2='+grupo2+'&proveedor2='+proveedor+'&itemNombreBusqueda='+itemNombreBusqueda;
+			location.href='navegador_material.php?vista='+modo_vista+'&vista_ordenar='+modo_orden+'&grupo='+grupo+'&grupo2='+grupo2+'&proveedor2='+proveedor+'&itemNombreBusqueda='+itemNombreBusqueda+'&itemStock='+itemStock;
 		}
 		function duplicar(f)
 		{
@@ -119,6 +120,15 @@ echo "<script language='Javascript'>
 	$vista=$_GET['vista'];
 	$globalAgencia=$_COOKIE['global_agencia'];
 	$grupo=$_GET['grupo'];
+
+	$globalAlmacen=$_COOKIE['global_almacen'];
+
+	$itemMostrarStock=0;
+	if(isset($_GET['itemStock'])){
+		$itemMostrarStock=$_GET['itemStock'];
+	}else{
+		$itemMostrarStock=0;
+	}
 	
 
 
@@ -220,7 +230,7 @@ echo "<script language='Javascript'>
 	
 	echo "<center><table class='texto'>";
 	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Descripcion</th>
-		<th>Grupo</th><th>Tipo</th><th>Proveedor</th><th>Precio de Venta [Bs]</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+		<th>Grupo</th><th>Tipo</th><th>Proveedor</th><th>Stock</th><th>Precio de Venta [Bs]</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 	
 	$indice_tabla=1;
 	while($dat=mysql_fetch_array($resp))
@@ -235,24 +245,34 @@ echo "<script language='Javascript'>
 		$imagen=$dat[7];
 		$precioVenta=precioVenta($codigo,$globalAgencia);
 		$precioVenta=$precioVenta;
+
+		$stockProducto=stockProducto($globalAlmacen, $codigo);
+
+		if($stockProducto==0){
+			$stockProducto="-";
+		}
 		
 		if($imagen=='default.png'){
 			$tamanioImagen=80;
 		}else{
 			$tamanioImagen=200;
 		}
-		echo "<tr><td align='center'>$indice_tabla</td><td align='center'>
-		<input type='checkbox' name='codigo' value='$codigo'></td>
-		<td>$nombreProd</td><td>$observaciones</td>
-		<td>$grupo</td>
-		<td>$tipoMaterial</td>
-		<td>$nombreLinea</td>
-		<td align='center'>$precioVenta</td>
-		<td align='center'><img src='imagenesprod/$imagen' width='$tamanioImagen'></td>
-		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a>
-			<a href='ticketMaterial.php?cod_material=$codigo' target='_blank'><img src='imagenes/icono-barra.png' width='25'></a>
-		</td>
-		</tr>";
+
+		if( ($itemMostrarStock==0) || ($itemMostrarStock==2 && $stockProducto=="-") || ($itemMostrarStock==1 && $stockProducto>0) ){
+			echo "<tr><td align='center'>$indice_tabla</td><td align='center'>
+			<input type='checkbox' name='codigo' value='$codigo'></td>
+			<td>$nombreProd</td><td>$observaciones</td>
+			<td>$grupo</td>
+			<td>$tipoMaterial</td>
+			<td>$nombreLinea</td>
+			<td><span class='textomedianorojo'>$stockProducto</span></td>
+			<td align='center'>$precioVenta</td>
+			<td align='center'><img src='imagenesprod/$imagen' width='$tamanioImagen'></td>
+			<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a>
+				<a href='ticketMaterial.php?cod_material=$codigo' target='_blank'><img src='imagenes/icono-barra.png' width='25'></a>
+			</td>
+			</tr>";
+		}
 		$indice_tabla++;
 	}
 	echo "</table></center><br>";
@@ -343,6 +363,17 @@ function Hidden(){
 			<tr>
 				<td colspan="2">
 					<input type='text' style="width:100%" name='itemNombreBusqueda' id="itemNombreBusqueda" class="textomedianorojo"  onkeypress="return pressEnter(event, this.form);" value="<?=$nm?>">
+				</td>
+			</tr>
+
+			<tr><th colspan="2">Ver Stock</th></tr>
+			<tr>
+				<td>
+					<select name='itemStock' id="itemStock" class="textomedianorojo" style="width:300px">
+						<option value="0">Todo</option>
+						<option value="1">Solo con Stock</option>
+						<option value="2">Sin Stock</option>
+					</select>
 				</td>
 			</tr>
 
