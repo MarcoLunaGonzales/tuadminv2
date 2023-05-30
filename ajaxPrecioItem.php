@@ -7,6 +7,8 @@ $indice = $_GET["indice"];
 $codTipoPrecio=$_GET["tipoPrecio"];
 $globalAgencia=$_COOKIE["global_agencia"];
 
+$stringGlobalAdmins=$_COOKIE['global_admin_cargo'];
+
 
 $banderaBajarPrecio=obtenerValorConfiguracion(6);
 //
@@ -49,6 +51,8 @@ $costoString=$costoMaterialii;
 
 echo "<input type='number' id='precio_unitario$indice' name='precio_unitario$indice' value='$cadRespuesta' min='$valorPrecioMinimo' class='inputnumber' onKeyUp='calculaMontoMaterial($indice);' step='0.01'>";
 echo "<input type='hidden' id='costoUnit$indice' value='$costoMaterialii' name='costoUnit$indice'>";
+
+/*Esta parte la control en el Registrar Venta el metodo AjaxPrecioItem*/
 echo "######[000".$costoString."000]";
 
 ?>

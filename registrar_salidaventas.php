@@ -113,16 +113,24 @@ function ajaxPrecioItem(indice){
 	contenedor=document.getElementById("idprecio"+indice);
 	var codmat=document.getElementById("materiales"+indice).value;
 	var tipoPrecio=1; // DEFINIMOS CUALQUIERA PORQUE ES UN DATO QUE NO SE NECESITA
+	var admin=document.getElementById("global_admin_form").value;
+
 	ajax=nuevoAjax();
 	ajax.open("GET", "ajaxPrecioItem.php?codmat="+codmat+"&indice="+indice+"&tipoPrecio="+tipoPrecio,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
-			var datos=ajax.responseText.split('######');
-			console.log(datos);
+			if(admin==0){
+				var datos=ajax.responseText.split('######');
+				console.log(datos);
+				contenedor.innerHTML = datos[0];
+				var costoitem = datos[1];
+				document.getElementById("menos"+indice).title=costoitem;
+			}else{
+				var textoajax=ajax.responseText;
+				textoajax2=textoajax.replace('######','');
+				contenedor.innerHTML = textoajax2;
+			}
 
-			contenedor.innerHTML = datos[0];
-			var costoitem = datos[1];
-			document.getElementById("menos"+indice).title=costoitem;
 			calculaMontoMaterial(indice);
 		}
 	}
@@ -541,6 +549,10 @@ if($fecha==""){
 $usuarioVentas=$_COOKIE['global_usuario'];
 $globalAgencia=$_COOKIE['global_agencia'];
 $globalAlmacen=$_COOKIE['global_almacen'];
+$globalAdmin=$_COOKIE['global_admin_cargo'];
+
+
+
 
 //SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
@@ -571,6 +583,7 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 <tr>
 <th>TipoDoc/Nro</th>
 <th align='center'>
+	<input type="hidden" value="<?=$globalAdmin;?>" id="global_admin_form" name="global_admin_form">	
 	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
 
