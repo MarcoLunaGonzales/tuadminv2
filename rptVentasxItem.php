@@ -29,7 +29,7 @@ $sql="select m.`codigo_material`, m.codigo_anterior, m.`descripcion_material`,
 	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta'
 	and s.`salida_anulada`=0 and sd.`cod_material`=m.`codigo_material` and s.`cod_tiposalida`=1001 and  
 	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio')
-	group by m.`codigo_material` order by 3 desc;";
+	group by m.`codigo_material` order by 4 desc;";
 	
 $resp=mysql_query($sql);
 
@@ -67,7 +67,7 @@ while($datos=mysql_fetch_array($resp)){
 	echo "<tr>
 	<td>$codItem</td>
 	<td>$codInterno</td>
-	<td>$nombreItem</td>
+	<td align='left'>$nombreItem</td>
 	<td>$cantidadFormat</td>
 	<td>$montoPtr</td>
 	
