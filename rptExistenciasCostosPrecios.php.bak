@@ -131,7 +131,8 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 				/*FIN COSTO*/
 		
 				$cadena_mostrar.="<td align='center'>$stockCajas</td><td align='center'>$stockUnidades</td>
-				<td align='center'>$precioUnitario</td><td align='center'>$costoItemF</td></tr>";
+				<td align='center'>$precioUni
+				</td><td align='center'>$costoItemF</td></tr>";
 			}
 
 			$totalCosto=$totalCosto+$costoItem;
