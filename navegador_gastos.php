@@ -84,7 +84,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 			if($fechaGasto==$fechaHoy){
 				$chkbox = "<input type='checkbox' name='codigo' value='$codGasto'>";
 			}else{
-				$chkbox="";
+				$chkbox = "<input type='checkbox' name='codigo' value='$codGasto'>";
 			}
 		}
 		

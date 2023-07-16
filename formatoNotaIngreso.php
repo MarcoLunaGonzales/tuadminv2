@@ -82,11 +82,13 @@ while($datDetalle=mysql_fetch_array($respDetalle)){
 	$yyy=$yyy+8;
 }
 $pdf->SetXY(0,$y+$yyy+2);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");		
-$yyy=$yyy+0;
+$yyy=$yyy+5;
 
 $pdf->SetFont('Arial','',7);
-$pdf->SetXY(0,$y+$yyy+15);		$pdf->Cell(0,0,"_______________________________________",0,0,"C");
-$pdf->SetXY(0,$y+$yyy+20);		$pdf->Cell(0,0,"Recibi Conforme",0,0,"C");
+$pdf->SetXY(0,$y+$yyy+15);		$pdf->Cell(0,0,"_ _ _ _ _ _ _ _ _ _ _ _ _ _         _ _ _ _ _ _ _ _ _ _ _ _ _ _",0,0,"C");
+$pdf->SetXY(9,$y+$yyy+20);		$pdf->Cell(0,0,"Recibi Conforme",0,0,"L");
+$pdf->SetXY(45,$y+$yyy+20);		$pdf->Cell(0,0,"Entregue Conforme",0,0,"L");
+
 
 $pdf->Output();
 ?>

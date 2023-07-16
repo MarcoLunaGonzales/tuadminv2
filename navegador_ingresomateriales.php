@@ -194,7 +194,9 @@ echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
 $consulta = "
     SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
-	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor, i.nro_factura_proveedor
+	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor, i.nro_factura_proveedor, 
+	(select s.nro_correlativo from salida_almacenes s where s.cod_salida_almacenes=i.cod_salida_almacen), 
+	(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen) 
     FROM ingreso_almacenes i, tipos_ingreso ti
     WHERE i.cod_tipoingreso=ti.cod_tipoingreso
     AND i.cod_almacen='$global_almacen'";
@@ -228,6 +230,18 @@ while ($dat = mysql_fetch_array($resp)) {
 	$proveedor=$dat[8];
 	$nroFacturaProveedor=$dat[9];
 
+	$nroSalidaOrigen=$dat[10];
+	$almacenOrigen=$dat[11];
+
+	$txtTraspasoOrigen="";
+	if($nroSalidaOrigen!="" || $nroSalidaOrigen!=0){
+		$txtTraspasoOrigen="<span class='textomedianoazul'>A. Origen: $almacenOrigen Nro. Doc: $nroSalidaOrigen</span>";
+	}
+
+	if($nroFacturaProveedor==0){
+		$nroFacturaProveedor="-";
+	}
+
     echo "<input type='hidden' name='fecha_ingreso$nro_correlativo' value='$fecha_ingreso_mostrar'>";
     $sql_verifica_movimiento = "select * from salida_almacenes s, salida_detalle_almacenes sd, ingreso_almacenes i
 		where s.cod_salida_almacenes=sd.cod_salida_almacen  and sd.cod_ingreso_almacen=i.cod_ingreso_almacen and s.salida_anulada=0 and i.cod_ingreso_almacen='$codigo'";
@@ -249,7 +263,7 @@ while ($dat = mysql_fetch_array($resp)) {
     echo "<tr bgcolor='$color_fondo'><td align='center'>$chkbox</td><td align='center'>$nro_correlativo</td><td align='center'>$nroFacturaProveedor</td>
 	<td align='center'>$fecha_ingreso_mostrar $hora_ingreso</td><td>$nombre_tipoingreso</td>
 	<td>&nbsp;$proveedor</td>
-	<td>&nbsp;$obs_ingreso</td>
+	<td align='left'>&nbsp;$txtTraspasoOrigen $obs_ingreso</td>
 	<td align='center'>
 		<a target='_BLANK' href='formatoNotaIngreso.php?codigo_ingreso=$codigo'><img src='imagenes/factura1.jpg' border='0' width='30' heigth='30' title='Imprimir'></a>
 	</td>	<td align='center'>
@@ -293,15 +307,15 @@ echo "</form>";
 		<h2 align='center' class='texto'>Buscar Ingresos</h2>
 		<table align='center' class='texto'>
 			<tr>
-				<td>Fecha Ini(dd/mm/aaaa)</td>
+				<td>Fecha Ini</td>
 				<td>
-				<input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
+				<input type='date' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
 				</td>
 			</tr>
 			<tr>
-				<td>Fecha Fin(dd/mm/aaaa)</td>
+				<td>Fecha Fin</td>
 				<td>
-				<input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
+				<input type='date' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
 				</td>
 			</tr>
 			<tr>

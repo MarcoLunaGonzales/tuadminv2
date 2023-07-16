@@ -18,34 +18,34 @@
         <script type='text/javascript' language='javascript'>
 
 function nuevoAjax()
-{   var xmlhttp=false;
-    try {
-            xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
-    } catch (e) {
-    try {
-        xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
-    } catch (E) {
-        xmlhttp = false;
-    }
-    }
-    if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-    xmlhttp = new XMLHttpRequest();
-    }
-    return xmlhttp;
-}       
-    
+{	var xmlhttp=false;
+	try {
+			xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+	} catch (e) {
+	try {
+		xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+	} catch (E) {
+		xmlhttp = false;
+	}
+	}
+	if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+ 	xmlhttp = new XMLHttpRequest();
+	}
+	return xmlhttp;
+}		
+	
 function ShowBuscar(){
-    document.getElementById('divRecuadroExt').style.visibility='visible';
-    document.getElementById('divProfileData').style.visibility='visible';
-    document.getElementById('divProfileDetail').style.visibility='visible';
+	document.getElementById('divRecuadroExt').style.visibility='visible';
+	document.getElementById('divProfileData').style.visibility='visible';
+	document.getElementById('divProfileDetail').style.visibility='visible';
 }
 
 function HiddenBuscar(){
-    document.getElementById('divRecuadroExt').style.visibility='hidden';
-    document.getElementById('divProfileData').style.visibility='hidden';
-    document.getElementById('divProfileDetail').style.visibility='hidden';
+	document.getElementById('divRecuadroExt').style.visibility='hidden';
+	document.getElementById('divProfileData').style.visibility='hidden';
+	document.getElementById('divProfileDetail').style.visibility='hidden';
 }
-    
+	
 function funOk(codReg,funOkConfirm)
 {   $.get("programas/salidas/frmConfirmarCodigoSalida.php","codigo="+codReg, function(inf1) {
         dlgAC("#pnldlgAC","Codigo de confirmacion",inf1,function(){
@@ -70,26 +70,26 @@ function funOk(codReg,funOkConfirm)
 }
 
 function ajaxBuscarVentas(f){
-    var fechaIniBusqueda, fechaFinBusqueda, nroCorrelativoBusqueda, verBusqueda, global_almacen, clienteBusqueda;
-    fechaIniBusqueda=document.getElementById("fechaIniBusqueda").value;
-    fechaFinBusqueda=document.getElementById("fechaFinBusqueda").value;
-    nroCorrelativoBusqueda=document.getElementById("nroCorrelativoBusqueda").value;
-    verBusqueda=document.getElementById("verBusqueda").value;
-    global_almacen=document.getElementById("global_almacen").value;
-    clienteBusqueda=document.getElementById("clienteBusqueda").value;
-    var contenedor;
-    contenedor = document.getElementById('divCuerpo');
-    ajax=nuevoAjax();
-    
-    location.href="navegadorVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda;
-    /*ajax.open("GET", "ajaxSalidaVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda,true);
-    ajax.onreadystatechange=function() {
-        if (ajax.readyState==4) {
-            contenedor.innerHTML = ajax.responseText;
-            HiddenBuscar();
-        }
-    }
-    ajax.send(null)*/
+	var fechaIniBusqueda, fechaFinBusqueda, nroCorrelativoBusqueda, verBusqueda, global_almacen, clienteBusqueda;
+	fechaIniBusqueda=document.getElementById("fechaIniBusqueda").value;
+	fechaFinBusqueda=document.getElementById("fechaFinBusqueda").value;
+	nroCorrelativoBusqueda=document.getElementById("nroCorrelativoBusqueda").value;
+	verBusqueda=document.getElementById("verBusqueda").value;
+	global_almacen=document.getElementById("global_almacen").value;
+	clienteBusqueda=document.getElementById("clienteBusqueda").value;
+	var contenedor;
+	contenedor = document.getElementById('divCuerpo');
+	ajax=nuevoAjax();
+	
+	location.href="navegadorVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda;
+	/*ajax.open("GET", "ajaxSalidaVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda,true);
+	ajax.onreadystatechange=function() {
+		if (ajax.readyState==4) {
+			contenedor.innerHTML = ajax.responseText;
+			HiddenBuscar();
+		}
+	}
+	ajax.send(null)*/
 }
 
 function enviar_nav(cod_venta=0)
@@ -185,10 +185,10 @@ function cambiarCancelado(f)
         {   alert('Debe seleccionar un registro.');
         }
         else
-        {      
-            funOk(j_cod_registro,function() {
-                location.href='cambiarEstadoCancelado.php?codigo_registro='+j_cod_registro+'';
-            });            
+		{      
+			funOk(j_cod_registro,function() {
+				location.href='cambiarEstadoCancelado.php?codigo_registro='+j_cod_registro+'';
+			});            
         }
     }
 }
@@ -300,41 +300,41 @@ function enviar_datosdespacho(f)
     }
 }
 function llamar_preparado(f, estado_preparado, codigo_salida){   
-    window.open('navegador_detallesalidamateriales.php?codigo_salida='+codigo_salida,'popup','');
+	window.open('navegador_detallesalidamateriales.php?codigo_salida='+codigo_salida,'popup','');
 }
 
 
 function ShowFacturar(codVenta,numCorrelativo){
-    document.getElementById("cod_venta").value=codVenta;
-    document.getElementById("nro_correlativo").value=numCorrelativo;
-    
-    document.getElementById('divRecuadroExt2').style.visibility='visible';
-    document.getElementById('divProfileData2').style.visibility='visible';
-    document.getElementById('divProfileDetail2').style.visibility='visible';
+	document.getElementById("cod_venta").value=codVenta;
+	document.getElementById("nro_correlativo").value=numCorrelativo;
+	
+	document.getElementById('divRecuadroExt2').style.visibility='visible';
+	document.getElementById('divProfileData2').style.visibility='visible';
+	document.getElementById('divProfileDetail2').style.visibility='visible';
 }
 
 function HiddenFacturar(){
-    document.getElementById('divRecuadroExt2').style.visibility='hidden';
-    document.getElementById('divProfileData2').style.visibility='hidden';
-    document.getElementById('divProfileDetail2').style.visibility='hidden';
+	document.getElementById('divRecuadroExt2').style.visibility='hidden';
+	document.getElementById('divProfileData2').style.visibility='hidden';
+	document.getElementById('divProfileDetail2').style.visibility='hidden';
 }
 
 // EDITAR DATOS
 function ShowFacturarEditar(codVenta,numCorrelativo, codVendedor, codTipoPago){
-    document.getElementById("cod_venta_edit").value=codVenta;
-    document.getElementById("nro_correlativo_edit").value=numCorrelativo;
-    
-    document.getElementById('divRecuadroExt2_edit').style.visibility='visible';
-    document.getElementById('divProfileData2_edit').style.visibility='visible';
-    document.getElementById('divProfileDetail2_edit').style.visibility='visible';
+	document.getElementById("cod_venta_edit").value=codVenta;
+	document.getElementById("nro_correlativo_edit").value=numCorrelativo;
+	
+	document.getElementById('divRecuadroExt2_edit').style.visibility='visible';
+	document.getElementById('divProfileData2_edit').style.visibility='visible';
+	document.getElementById('divProfileDetail2_edit').style.visibility='visible';
 
     $('#edit_cod_vendedor').val(codVendedor).trigger('click');
     $('#edit_cod_tipopago').val(codTipoPago).trigger('click');
 }
 function HiddenFacturarEditar(){
-    document.getElementById('divRecuadroExt2_edit').style.visibility='hidden';
-    document.getElementById('divProfileData2_edit').style.visibility='hidden';
-    document.getElementById('divProfileDetail2_edit').style.visibility='hidden';
+	document.getElementById('divRecuadroExt2_edit').style.visibility='hidden';
+	document.getElementById('divProfileData2_edit').style.visibility='hidden';
+	document.getElementById('divProfileDetail2_edit').style.visibility='hidden';
 }
 
         // ACTUALIZACIÒN DE DATOS
@@ -375,7 +375,7 @@ require("estilos_almacenes.inc");
 echo "<form method='post' action=''>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
-echo "<h1>Listado de Ventas</h1>";
+echo "<h1>Listado de Ventas Serviteca</h1>";
 echo "<table class='texto' cellspacing='0' width='90%'>
 <tr><th>Leyenda:</th>
 <th>Ventas Registradas</th><td bgcolor='#f9e79f' width='5%'></td>
@@ -384,35 +384,36 @@ echo "<table class='texto' cellspacing='0' width='90%'>
 <td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
 //
 echo "<div class='divBotones'>
-        <input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
-        <input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'></td>      
-        <input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>
+		<input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
+		<input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'></td>		
+		<input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>
     </div>";
-        
+		
 echo "<center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
-    <th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th>";
+	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th>";
 
-if($global_admin_cargo==1){
-    echo "<th>Convertir</th><th>Cambiar <br>Datos Venta</th>";
-}   
+echo "<th>Convertir</th><th>Cambiar <br>Datos Venta</th>";
+echo "<th>Asignar Materiales</th>";
+echo "<th>Materiales Registrados</th>";
+
 echo "</tr>";
-    
+	
 echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='global_almacen'>";
 
 echo "<div id='divCuerpo'>";
 
 $consulta = "
-    SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
-    (select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
-    s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
-    (select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
-    (select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
-    (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
+	SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
+	(select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
+	s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
+	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
+	(select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
+	(select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
     s.cod_chofer,
     s.cod_tipopago
-    FROM salida_almacenes s, tipos_salida ts 
-    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
+	FROM salida_almacenes s, tipos_salida ts 
+	WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
 
 if($txtnroingreso!="")
    {$consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
@@ -424,8 +425,8 @@ $consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc limit 0, 50 ";
 
 //
 $resp = mysql_query($consulta);
-    
-    
+	
+	
 while ($dat = mysql_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_salida = $dat[1];
@@ -438,30 +439,35 @@ while ($dat = mysql_fetch_array($resp)) {
     $nro_correlativo = $dat[7];
     $salida_anulada = $dat[8];
     $cod_almacen_destino = $dat[9];
-    $nombreCliente=$dat[10];
-    $codTipoDoc=$dat[11];
-    $nombreTipoDoc=nombreTipoDoc($codTipoDoc);
-    $razonSocial=$dat[12];
-    $nitCli=$dat[13];
-    $vendedor=$dat[14];
-    $tipoPago=$dat[15];
+	$nombreCliente=$dat[10];
+	$codTipoDoc=$dat[11];
+	$nombreTipoDoc=nombreTipoDoc($codTipoDoc);
+	$razonSocial=$dat[12];
+	$nitCli=$dat[13];
+	$vendedor=$dat[14];
+	$tipoPago=$dat[15];
 
     $codVendedor = $dat[16];
     $codTipoPago = $dat[17];
-    
-    echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
-    
-    $sqlEstadoColor="select color from estados_salida where cod_estado='$estado_almacen'";
-    $respEstadoColor=mysql_query($sqlEstadoColor);
-    $numFilasEstado=mysql_num_rows($respEstadoColor);
-    if($numFilasEstado>0){
-        $color_fondo=mysql_result($respEstadoColor,0,0);
-    }else{
-        $color_fondo="#ffffff";
-    }
-    $chk = "<input type='checkbox' name='codigo' value='$codigo'>";
 
-    
+    /*Revisamos si tiene materiales*/
+    $sqlMat="SELECT count(*) from ventas_materialesserviteca v where v.cod_venta='$codigo'";
+    $respMat=mysql_query($sqlMat);
+    $banderaMateriales=mysql_result($respMat,0,0);
+	
+    echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
+	
+	$sqlEstadoColor="select color from estados_salida where cod_estado='$estado_almacen'";
+	$respEstadoColor=mysql_query($sqlEstadoColor);
+	$numFilasEstado=mysql_num_rows($respEstadoColor);
+	if($numFilasEstado>0){
+		$color_fondo=mysql_result($respEstadoColor,0,0);
+	}else{
+		$color_fondo="#ffffff";
+	}
+	$chk = "<input type='checkbox' name='codigo' value='$codigo'>";
+
+	
     echo "<input type='hidden' name='estado_preparado' value='$estado_preparado'>";
     //echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>$nombre_almacen</td><td>$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>$txt_detalle</td></tr>";
     echo "<tr>";
@@ -475,24 +481,30 @@ while ($dat = mysql_fetch_array($resp)) {
    
     // Editar Datos
 
-    if($codTipoDoc==1){
-        echo "<td  bgcolor='$color_fondo'><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
-    }
-    else{
-        echo "<td  bgcolor='$color_fondo'><a href='notaSalida.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/detalle.png' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
+	if($codTipoDoc==1){
+		echo "<td  bgcolor='$color_fondo'><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
+	}
+	else{
+		echo "<td  bgcolor='$color_fondo'><a href='notaSalida.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/detalle.png' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
 
         echo "<td  bgcolor='$color_fondo'><a href='formatoNotaRemision.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
-    }
+	}
     
-    if($global_admin_cargo==1 && $codTipoDoc==2){
-        echo "<td bgcolor='$color_fondo'>
-        <a href='#' onClick='ShowFacturar($codigo,$nro_correlativo);'>
-        <img src='imagenes/icon_detail.png' width='30' border='0' title='Convertir en Factura'></a></td>";
-    }   
-    echo "<td bgcolor='$color_fondo' align='center'>
+	if($global_admin_cargo==1 && $codTipoDoc==2){
+		echo "<td bgcolor='$color_fondo'>
+		<a href='#' onClick='ShowFacturar($codigo,$nro_correlativo);'>
+		<img src='imagenes/icon_detail.png' width='30' border='0' title='Convertir en Factura'></a></td>";
+        echo "<td bgcolor='$color_fondo' align='center'>
             <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
             <img src='imagenes/change.png' width='30' border='0' title='Editar'></a>
         </td>";
+	}	
+    echo "<td  bgcolor='$color_fondo'><a href='materiales_serviteca/materialesServitecaAdicionar.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/nuevoMaterial.png' width='30' border='0' title='Materiales'></a></td>";
+	if($banderaMateriales>0){
+        echo "<td  bgcolor='$color_fondo'><a href='materiales_serviteca/materialesServitecaDetalle.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/ruteroaprobado.png' width='30' border='0' title='Materiales'></a></td>";
+    }else{
+        echo "<td  bgcolor='$color_fondo'>&nbsp;</td>";
+    }
     echo "</tr>";
 }
 echo "</table></center><br>";
@@ -500,11 +512,11 @@ echo "</table></center><br>";
 echo "</div>";
 
 echo "<div class='divBotones'>
-        <input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
-        <input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'></td>      
-        <input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>
+		<input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
+		<input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'></td>		
+		<input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>
     </div>";
-    
+	
 echo "</form>";
 
 ?>
@@ -512,170 +524,170 @@ echo "</form>";
 <div id="divRecuadroExt" style="background-color:#666; position:absolute; width:800px; height: 400px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2;">
 </div>
 
-<div id="divProfileData" style="background-color:#FFF; width:750px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px;     -moz-border-radius: 20px; visibility: hidden; z-index:2;">
-    <div id="divProfileDetail" style="visibility:hidden; text-align:center">
-        <h2 align='center' class='texto'>Buscar Ventas</h2>
-        <table align='center' class='texto'>
-            <tr>
-                <td>Fecha Ini(aaaa-mm-dd)</td>
-                <td>
-                <input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
-                </td>
-            </tr>
-            <tr>
-                <td>Fecha Fin(aaaa-mm-dd)</td>
-                <td>
-                <input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
-                </td>
-            </tr>
-            <tr>
-                <td>Nro. de Documento</td>
-                <td>
-                <input type='text' name='nroCorrelativoBusqueda' id="nroCorrelativoBusqueda" class='texto'>
-                </td>
-            </tr>           
-            <tr>
-                <td>Cliente:</td>
-                <td>
-                    <select name="clienteBusqueda" class="texto" id="clienteBusqueda">
-                        <option value="0">Todos</option>
-                    <?php
-                        $sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
-                        $respClientes=mysql_query($sqlClientes);
-                        while($datClientes=mysql_fetch_array($respClientes)){
-                            $codCliBusqueda=$datClientes[0];
-                            $nombreCliBusqueda=$datClientes[1];
-                    ?>
-                            <option value="<?php echo $codCliBusqueda;?>"><?php echo $nombreCliBusqueda;?></option>
-                    <?php
-                        }
-                    ?>
-                    </select>
-                
-                </td>
-            </tr>           
+<div id="divProfileData" style="background-color:#FFF; width:750px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
+  	<div id="divProfileDetail" style="visibility:hidden; text-align:center">
+		<h2 align='center' class='texto'>Buscar Ventas</h2>
+		<table align='center' class='texto'>
+			<tr>
+				<td>Fecha Ini(aaaa-mm-dd)</td>
+				<td>
+				<input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
+				</td>
+			</tr>
+			<tr>
+				<td>Fecha Fin(aaaa-mm-dd)</td>
+				<td>
+				<input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
+				</td>
+			</tr>
+			<tr>
+				<td>Nro. de Documento</td>
+				<td>
+				<input type='text' name='nroCorrelativoBusqueda' id="nroCorrelativoBusqueda" class='texto'>
+				</td>
+			</tr>			
+			<tr>
+				<td>Cliente:</td>
+				<td>
+					<select name="clienteBusqueda" class="texto" id="clienteBusqueda">
+						<option value="0">Todos</option>
+					<?php
+						$sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
+						$respClientes=mysql_query($sqlClientes);
+						while($datClientes=mysql_fetch_array($respClientes)){
+							$codCliBusqueda=$datClientes[0];
+							$nombreCliBusqueda=$datClientes[1];
+					?>
+							<option value="<?php echo $codCliBusqueda;?>"><?php echo $nombreCliBusqueda;?></option>
+					<?php
+						}
+					?>
+					</select>
+				
+				</td>
+			</tr>			
 
-            <tr>
-                <td>Ver:</td>
-                <td>
-                <select name='verBusqueda' id='verBusqueda' class='texto' >
-                    <option value='0'>Todo</option>
-                    <option value='1'>No Cancelados</option>
+			<tr>
+				<td>Ver:</td>
+				<td>
+				<select name='verBusqueda' id='verBusqueda' class='texto' >
+					<option value='0'>Todo</option>
+					<option value='1'>No Cancelados</option>
                     <option value='2'>Anulados</option>
-                </select>
-                </td>
-            </tr>           
-        </table>    
-        <center>
-            <input type='button' value='Buscar' onClick="ajaxBuscarVentas(this.form)">
-            <input type='button' value='Cancelar' onClick="HiddenBuscar()">
-            
-        </center>
-    </div>
+				</select>
+				</td>
+			</tr>			
+		</table>	
+		<center>
+			<input type='button' value='Buscar' onClick="ajaxBuscarVentas(this.form)">
+			<input type='button' value='Cancelar' onClick="HiddenBuscar()">
+			
+		</center>
+	</div>
 </div>
 
 
 <div id="divRecuadroExt2" style="background-color:#666; position:absolute; width:800px; height: 350px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2;">
 </div>
-<div id="divProfileData2" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px;    -moz-border-radius: 20px; visibility: hidden; z-index:2;">
-    <div id="divProfileDetail2" style="visibility:hidden; text-align:center">
-        <h2 align='center' class='texto'>Convertir a Factura</h2>
-        <form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
-        <table align='center' class='texto'>
-            <tr>
-                <input type="hidden" name="cod_venta" id="cod_venta" value="0">
-                <td>Nro.</td>
-                <td>
-                <input type='text' name='nro_correlativo' id="nro_correlativo" class='texto' disabled>
-                </td>
-            </tr>
+<div id="divProfileData2" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
+  	<div id="divProfileDetail2" style="visibility:hidden; text-align:center">
+		<h2 align='center' class='texto'>Convertir a Factura</h2>
+		<form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
+		<table align='center' class='texto'>
+			<tr>
+				<input type="hidden" name="cod_venta" id="cod_venta" value="0">
+				<td>Nro.</td>
+				<td>
+				<input type='text' name='nro_correlativo' id="nro_correlativo" class='texto' disabled>
+				</td>
+			</tr>
             
-            <tr>
-                <td>Razon Social</td>
-                <td>
-                <input type='text' name='razon_social_convertir' id="razon_social_convertir" class='texto' required>
-                </td>
-            </tr>
-            <tr>
-                <td>NIT</td>
-                <td>
-                <input type='number' name='nit_convertir' id="nit_convertir" class='texto' required>
-                </td>
-            </tr>
-        </table>    
-        <center>
-            <input type='submit' value='Convertir' class='boton' >
-            <input type='button' value='Cancelar' class='boton2' onClick="HiddenFacturar()">
-            
-        </center>
-        </form>
-    </div>
+			<tr>
+				<td>Razon Social</td>
+				<td>
+				<input type='text' name='razon_social_convertir' id="razon_social_convertir" class='texto' required>
+				</td>
+			</tr>
+			<tr>
+				<td>NIT</td>
+				<td>
+				<input type='number' name='nit_convertir' id="nit_convertir" class='texto' required>
+				</td>
+			</tr>
+		</table>	
+		<center>
+			<input type='submit' value='Convertir' class='boton' >
+			<input type='button' value='Cancelar' class='boton2' onClick="HiddenFacturar()">
+			
+		</center>
+		</form>
+	</div>
 </div>
 
 
 <!-- EDITAR DATOS -->
 <div id="divRecuadroExt2_edit" style="background-color:#666; position:absolute; width:800px; height: 350px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2;">
 </div>
-<div id="divProfileData2_edit" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px;   -moz-border-radius: 20px; visibility: hidden; z-index:2;">
-    <div id="divProfileDetail2_edit" style="visibility:hidden; text-align:center">
-        <h2 align='center' class='texto'>Cambiar Datos de Venta</h2>
-        <form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
-        <table align='center' class='texto'>
-            <tr>
-                <input type="hidden" name="cod_venta_edit" id="cod_venta_edit" value="0">
-                <td>Nro.</td>
-                <td>
-                <input type='text' name='nro_correlativo_edit' id="nro_correlativo_edit" class='texto' disabled>
-                </td>
-            </tr>
+<div id="divProfileData2_edit" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
+  	<div id="divProfileDetail2_edit" style="visibility:hidden; text-align:center">
+		<h2 align='center' class='texto'>Cambiar Datos de Venta</h2>
+		<form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
+		<table align='center' class='texto'>
+			<tr>
+				<input type="hidden" name="cod_venta_edit" id="cod_venta_edit" value="0">
+				<td>Nro.</td>
+				<td>
+				<input type='text' name='nro_correlativo_edit' id="nro_correlativo_edit" class='texto' disabled>
+				</td>
+			</tr>
             
-            <tr>
-                <td>Vendedor</td>
-                <td>
+			<tr>
+				<td>Vendedor</td>
+				<td>
             <?php $sql1="SELECT codigo_funcionario, UPPER(CONCAT(nombres, ' ', paterno, ' ', materno)) as nombre_funcionario
                         FROM funcionarios f ";
                     $resp1=mysql_query($sql1);
             ?>
             <select name='cod_vendedor' id='edit_cod_vendedor' required>
                 <?php while($dat1=mysql_fetch_array($resp1))
-                    {   
+                    {	
                         $codLinea=$dat1[0];
                         $nombreLinea=$dat1[1];
                 ?>
                 <option value="<?=$codLinea;?>"><?=$nombreLinea;?></option>
                 <?php } ?>
             </select>
-                </td>
-            </tr>
+				</td>
+			</tr>
 
             
-            <tr>
-                <td>Tipo Pago</td>
-                <td>
+			<tr>
+				<td>Tipo Pago</td>
+				<td>
             <?php $sql1="SELECT cod_tipopago, nombre_tipopago
                         FROM tipos_pago";
                     $resp1=mysql_query($sql1);
             ?>
             <select name='cod_tipopago' id='edit_cod_tipopago' required>
                 <?php while($dat1=mysql_fetch_array($resp1))
-                    {   
+                    {	
                         $codLinea=$dat1[0];
                         $nombreLinea=$dat1[1];
                 ?>
                 <option value="<?=$codLinea;?>"><?=$nombreLinea;?></option>
                 <?php } ?>
             </select>
-                </td>
-            </tr>
+				</td>
+			</tr>
 
-        </table>    
-        <center>
-            <input type='button' value='Actualizar' class='boton' onClick="UpdateFacturarEditar()">
-            <input type='button' value='Cancelar' class='boton2' onClick="HiddenFacturarEditar()">
-            
-        </center>
-        </form>
-    </div>
+		</table>	
+		<center>
+			<input type='button' value='Actualizar' class='boton' onClick="UpdateFacturarEditar()">
+			<input type='button' value='Cancelar' class='boton2' onClick="HiddenFacturarEditar()">
+			
+		</center>
+		</form>
+	</div>
 </div>
 
 

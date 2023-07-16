@@ -11,7 +11,7 @@ $sql = "
     SELECT f.cod_cargo, f.cod_ciudad
     FROM funcionarios f, usuarios_sistema u
     WHERE u.codigo_funcionario=f.codigo_funcionario AND u.codigo_funcionario='$usuario' AND u.contrasena='$contrasena' ";
-	echo $sql;
+//	echo $sql;
 $resp = mysql_query($sql);
 $num_filas = mysql_num_rows($resp);
 if ($num_filas != 0) {
@@ -44,7 +44,11 @@ if ($num_filas != 0) {
 		header("location:indexAlmacenReg.php");
 	}elseif($cod_cargo==1016){//VENDEDOR
 		header("location:indexAlmacenCaja.php");
+	}elseif ($cod_cargo==1020){
+		header("location:indexServiteca.php");
 	}
+
+
 	$stringGlobalAdmins=obtenerValorConfiguracion(0);
 	$posBuscada = strpos($stringGlobalAdmins, $usuario);
 	if ($posBuscada === true) {

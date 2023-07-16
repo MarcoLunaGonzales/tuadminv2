@@ -26,12 +26,7 @@ echo "<h1>Reporte Salidas Almacen</h1>";
 echo"<form method='post' action=''>";
 	echo"\n<table class='texto' align='center'>\n";
 	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
-	if($global_tipoalmacen==1)
-	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
-	}
-	else
-	{	$sql="select cod_ciudad, descripcion from ciudades where cod_ciudad='$global_agencia' order by descripcion";
-	}
+	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysql_query($sql);
 	echo "<option value=''></option>";
 	while($dat=mysql_fetch_array($resp))
@@ -79,29 +74,17 @@ echo"<form method='post' action=''>";
 	echo "</select></td>";
 
 	echo "<tr><th align='left'>Fecha inicio:</th>";
-			echo" <TD bgcolor='#ffffff'><INPUT  type='text' class='texto' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial'>";
-    		echo" <IMG id='imagenFecha' src='imagenes/fecha.bmp'>";
-    		echo" <DLCALENDAR tool_tip='Seleccione la Fecha' ";
-    		echo" daybar_style='background-color: DBE1E7; font-family: verdana; color:000000;' ";
-    		echo" navbar_style='background-color: 7992B7; color:ffffff;' ";
-    		echo" input_element_id='exafinicial' ";
-    		echo" click_element_id='imagenFecha'></DLCALENDAR>";
+			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial'>";
     		echo"  </TD>";
 	echo "</tr>";
 	echo "<tr><th align='left'>Fecha final:</th>";
-			echo" <TD bgcolor='#ffffff'><INPUT  type='text' class='texto' value='$fecha_rptdefault' id='exaffinal' size='10' name='exaffinal'>";
-    		echo" <IMG id='imagenFecha1' src='imagenes/fecha.bmp'>";
-    		echo" <DLCALENDAR tool_tip='Seleccione la Fecha' ";
-    		echo" daybar_style='background-color: DBE1E7; font-family: verdana; color:000000;' ";
-    		echo" navbar_style='background-color: 7992B7; color:ffffff;' ";
-    		echo" input_element_id='exaffinal' ";
-    		echo" click_element_id='imagenFecha1'></DLCALENDAR>";
+			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exaffinal' size='10' name='exaffinal'>";
     		echo"  </TD>";
 	echo "</tr>";
 	echo "<tr><th align='left'>Ver Reporte Por:</th>";
 	echo "<td><select name='tipo_reporte' class='texto'>";
 	echo "<option value='0'>Nro. de Salida</option>";
-	echo "<option value='1'>Producto</option>";
+	//echo "<option value='1'>Producto</option>";
 	echo "</tr>";
 
 	echo"\n </table><br>";

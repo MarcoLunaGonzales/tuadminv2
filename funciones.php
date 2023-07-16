@@ -191,7 +191,7 @@ function numeroCorrelativo($tipoDoc){
 			return $vectorCodigo;
 		}
 	}
-	if(($facturacionActivada==1 && $tipoDoc==2) || $facturacionActivada!=1){
+	if( ( $facturacionActivada==1 && ($tipoDoc==2 || $tipoDoc==3) ) || $facturacionActivada!=1){
 		$sql="select IFNULL(max(nro_correlativo)+1,1) from salida_almacenes where cod_tipo_doc='$tipoDoc' and cod_almacen='$globalAlmacen'";
 		$resp=mysql_query($sql);
 		while($dat=mysql_fetch_array($resp)){
@@ -239,8 +239,8 @@ function precioVenta($codigo,$agencia){
 	return $precioVenta;
 }
 function precioVentaN($enlaceCon,$codigo,$agencia){
-	
-	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and p.cod_ciudad='$agencia'";
+	$agenciaDefecto=1;
+	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and p.cod_ciudad='$agenciaDefecto'";
 	//echo $consulta;
 	$rs=mysqli_query($enlaceCon,$consulta);
 	$registro=mysqli_fetch_array($rs);

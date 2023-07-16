@@ -28,31 +28,37 @@ if($tipo_reporte==0)
 {
 
 	//desde esta parte viene el reporte en si
-	$fecha_iniconsulta=cambia_formatofecha($fecha_ini);
-	$fecha_finconsulta=cambia_formatofecha($fecha_fin);
+	// $fecha_iniconsulta=cambia_formatofecha($fecha_ini);
+	// $fecha_finconsulta=cambia_formatofecha($fecha_fin);
+	$fecha_iniconsulta=$fecha_ini;
+	$fecha_finconsulta=$fecha_fin;
+
 
 	$sql="select s.cod_salida_almacenes, s.fecha, ts.nombre_tiposalida, 
 	(select c.descripcion from ciudades c where c.cod_ciudad=s.territorio_destino)territorio_destino, 
-	a.nombre_almacen, s.observaciones, s.estado_salida, s.nro_correlativo, s.salida_anulada
+	a.nombre_almacen, s.observaciones, s.estado_salida, s.nro_correlativo, s.salida_anulada,
+	(select es.nombre_estado from estados_salida es where es.cod_estado=s.estado_salida)as estado
 	FROM salida_almacenes s, tipos_salida ts, almacenes a
 	where s.cod_tiposalida=ts.cod_tiposalida and s.cod_almacen='$global_almacen' 
 	and a.cod_almacen=s.cod_almacen and 
 	s.fecha>='$fecha_iniconsulta' and s.fecha<='$fecha_finconsulta' 
-	and s.tipo_salida='$tipo_salida' order by s.nro_correlativo";
+	and s.cod_tiposalida='$tipo_salida' and s.salida_anulada=0 order by s.nro_correlativo";
 	if($tipo_salida=="")
 	{	$sql="select s.cod_salida_almacenes, s.fecha, ts.nombre_tiposalida, 
 		(select c.descripcion from ciudades c where c.cod_ciudad=s.territorio_destino)territorio_destino, 
 		a.nombre_almacen, 
-		s.observaciones, s.estado_salida, s.nro_correlativo, s.salida_anulada
+		s.observaciones, s.estado_salida, s.nro_correlativo, s.salida_anulada,
+		(select es.nombre_estado from estados_salida es where es.cod_estado=s.estado_salida)as estado
 		FROM salida_almacenes s, tipos_salida ts, almacenes a
 		where s.cod_tiposalida=ts.cod_tiposalida and s.cod_almacen='$global_almacen' 
 		and a.cod_almacen=s.cod_almacen and 
-		s.fecha>='$fecha_iniconsulta' and s.fecha<='$fecha_finconsulta' 
+		s.fecha>='$fecha_iniconsulta' and s.fecha<='$fecha_finconsulta' and s.salida_anulada=0 
 		order by s.nro_correlativo";
 	}
+//	echo $sql;
 	$resp=mysql_query($sql);
 	echo "<center><br><table class='texto'>";
-	echo "<tr><th>Nro.</th><th>Fecha</th><th>Tipo de Salida</th><th>Territorio<br>Destino</th><th>Almacen Destino</th><th>Cliente</th><th>Observaciones</th><th>Estado</th><th>Detalle</th></tr>";
+	echo "<tr><th>Nro.</th><th>Fecha</th><th>Tipo de Salida</th><th>Almacen Destino</th><th>Observaciones</th><th>Estado</th><th>Detalle</th></tr>";
 	while($dat=mysql_fetch_array($resp))
 	{
 		$codigo=$dat[0];
@@ -65,25 +71,12 @@ if($tipo_reporte==0)
 		$estado_almacen=$dat[6];
 		$nro_correlativo=$dat[7];
 		$salida_anulada=$dat[8];
+		$nombreEstadoSalida=$dat[9];
 		echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
-		if($estado_almacen==0)
-		{	$estado_salida='';
-		}
-		//salida despachada
-		if($estado_almacen==1)
-		{	$estado_salida='Despachada';
-		}
-		//salida recepcionada
-		if($estado_almacen==2)
-		{	$estado_salida='Recepcionada';
-		}
-		if($salida_anulada==1)
-		{	$estado_salida='Anulada';
-		}
 
 		//aqui sacamos el detalle
 		$detalle_salida="";
-		$detalle_salida.="<table border='1' class='texto' cellspacing='0' width='100%' align='center'>";
+		$detalle_salida.="<table border='0' class='textomini' cellspacing='0' width='100%' align='center'>";
 		$detalle_salida.="<tr><th>&nbsp;</th><th width='80%'>Material</th><th width='20%'>Cantidad</th></tr>";
 		$sql_detalle="select s.cod_material, s.cantidad_unitaria from salida_detalle_almacenes s
 		where s.cod_salida_almacen='$codigo'";
@@ -115,16 +108,17 @@ if($tipo_reporte==0)
 		$detalle_salida.="</table>";
 		//fin detalle
 		if($rpt_linea==0)
-		{	echo "<tr><td align='center'>$nro_correlativo</td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>&nbsp;$nombre_almacen</td><td>&nbsp;$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>&nbsp;$estado_salida</td><td>&nbsp;$detalle_salida</td></tr>";
+		{	echo "<tr><td align='center'>$nro_correlativo</td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>&nbsp;$nombre_almacen</td><td>&nbsp;$obs_salida</td><td>&nbsp;$nombreEstadoSalida</td><td>&nbsp;$detalle_salida</td></tr>";
 		}
 		if($rpt_linea!=0 and $bandera==1)
-		{	echo "<tr><td align='center'>$nro_correlativo</td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>&nbsp;$nombre_almacen</td><td>&nbsp;$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>&nbsp;$estado_salida</td><td>&nbsp;$detalle_salida</td></tr>";
+		{	echo "<tr><td align='center'>$nro_correlativo</td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>&nbsp;$nombre_almacen</td><td>&nbsp;$obs_salida</td><td>&nbsp;$nombreEstadoSalida</td><td>&nbsp;$detalle_salida</td></tr>";
 		}
 
 	}
 	echo "</table></center><br>";
 }
-if($tipo_reporte==1)
+
+/*if($tipo_reporte==1)
 {	
 	$sql_producto="select codigo_material, descripcion_material from material_apoyo order by descripcion_material";
 
@@ -187,6 +181,5 @@ if($tipo_reporte==1)
 		}
 	}
 	echo "</table>";
-}
-include("imprimirInc.php");
+}*/
 ?>

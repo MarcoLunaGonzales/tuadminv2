@@ -29,7 +29,7 @@ echo "<h1>Ranking de Utilidades x Linea e Item</h1>
 	<br>Fecha Reporte: $fecha_reporte</h2>";
 	
 $sql="select m.`codigo_material`, m.`descripcion_material`, 
-	(sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria), sum(sd.cantidad_unitaria*sd.costo_almacen)costo, 
+	sum( (sd.monto_unitario-sd.descuento_unitario) - (((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento))montoVenta, sum(sd.cantidad_unitaria), sum(sd.cantidad_unitaria*sd.costo_almacen)costo, 
 	s.descuento, s.monto_total, ((sum(sd.monto_unitario)-sum(sd.descuento_unitario))-sum(sd.cantidad_unitaria*sd.costo_almacen))as utilidad,
 	(select g.nombre_grupo from grupos g where g.cod_grupo=m.cod_grupo)as nombregrupo,
 	(select pl.nombre_linea_proveedor from proveedores_lineas pl where pl.cod_linea_proveedor=m.cod_linea_proveedor)as nombrelinea
@@ -80,12 +80,10 @@ while($datos=mysql_fetch_array($resp)){
 	$montoNota=$datos[6];
 	$nombreGrupo=$datos[8];
 	$nombreLinea=$datos[9];
+
 	
-	if($descuentoVenta>0){
-		$porcentajeVentaProd=($montoVenta/$montoNota);
-		$descuentoAdiProducto=($descuentoVenta*$porcentajeVentaProd);
-		$montoVenta=$montoVenta-$descuentoAdiProducto;
-	}
+	$montoVenta=$montoVenta;
+
 	
 	$montoPtr=number_format($montoVenta,2,".",",");
 	$cantidadFormat=number_format($cantidad,2,".",",");

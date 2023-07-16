@@ -1,3 +1,10 @@
+<script>
+function validar(f){	
+	document.getElementById("btsubmit").value = "Enviando...";
+	document.getElementById("btsubmit").disabled = true;   
+	document.forms[0].submit();
+}
+</script>
 <?php
 require("conexion.inc");
 require("estilos.inc");
@@ -12,7 +19,7 @@ $datos_salidaorigen=mysql_fetch_array($resp_datos_salidaorigen);
 $correlativo_salidaorigen=$datos_salidaorigen[0];
 $tipo_salidaorigen=$datos_salidaorigen[1];
 $nombre_almacen_origen=$datos_salidaorigen[2];
-echo "<form action='guarda_ingresomateriales.php' method='post'>";
+echo "<form action='guarda_ingresomateriales.php' method='post' onsubmit='return validar(this)'>";
 echo "<h1>Registrar Ingreso en Transito</h1>";
 echo "<center>
 	<table class='texto'>";
@@ -74,7 +81,7 @@ echo "<input type='hidden' name='cantidad_material' value='$indice_detalle'>";
 echo "<input type='hidden' name='cod_salida' value='$codigo_registro'>";
 
 echo "<div class='divBotones'>
-<input type='submit' class='boton' value='Guardar'>
+<input type='submit' id='btsubmit' class='boton' value='Guardar'>
 <input type='button' class='boton2' value='Cancelar' onClick='location.href=\"navegador_ingresotransito.php\"'>
 </div>";
 echo "</form>";

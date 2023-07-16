@@ -24,7 +24,7 @@ echo "<h1>Utilidad Neta x Periodo</h1>
 	<h2>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</h2>";
 	
-$sql="select (select p.nombre_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)as proveedor, (sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria), sum(sd.cantidad_unitaria*sd.costo_almacen)costo, s.descuento, s.monto_total, ((sum(sd.monto_unitario)-sum(sd.descuento_unitario))-sum(sd.cantidad_unitaria*sd.costo_almacen))as utilidad 
+$sql="select (select p.nombre_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)as proveedor, sum( (sd.monto_unitario-sd.descuento_unitario) - (((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento))montoVenta, sum(sd.cantidad_unitaria), sum(sd.cantidad_unitaria*sd.costo_almacen)costo, s.descuento, s.monto_total, ((sum(sd.monto_unitario)-sum(sd.descuento_unitario))-sum(sd.cantidad_unitaria*sd.costo_almacen))as utilidad 
 	from `salida_almacenes` s, `salida_detalle_almacenes` sd, `material_apoyo` m 
 	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' 
 	and s.`salida_anulada`=0 and s.`cod_tiposalida`=1001 and sd.`cod_material`=m.`codigo_material` and
@@ -61,12 +61,6 @@ while($datos=mysql_fetch_array($resp)){
 	
 	$descuentoVenta=$datos[4];
 	$montoNota=$datos[5];
-	
-	if($descuentoVenta>0){
-		$porcentajeVentaProd=($montoVenta/$montoNota);
-		$descuentoAdiProducto=($descuentoVenta*$porcentajeVentaProd);
-		$montoVenta=$montoVenta-$descuentoAdiProducto;
-	}
 	
 	$montoPtr=number_format($montoVenta,2,".",",");
 	$cantidadFormat=number_format($cantidad,2,".",",");
