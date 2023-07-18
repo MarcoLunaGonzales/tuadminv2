@@ -9,9 +9,9 @@ $globalCiudad=$_COOKIE["global_agencia"];
 
 
 $sql="SELECT cod_costoimp FROM costos_importacion ORDER BY cod_costoimp DESC";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $codigo=1;
 }
@@ -25,7 +25,7 @@ $createdDate=date("Y-m-d H:i:s");
 
 $sql_inserta="INSERT INTO costos_importacion (cod_costoimp, nombre_costoimp,  estado, created_by,created_date )
 		values ('".$codigo."','".$nombre_costoimp."',1, '".$createdBy."', '".$createdDate."')";
-$sql_inserta=mysql_query($sql_inserta);
+$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 ?>
 <script type='text/javascript' language='javascript'>
   alert('Los datos fueron insertados correctamente.');

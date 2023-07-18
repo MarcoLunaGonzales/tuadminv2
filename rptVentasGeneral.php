@@ -33,7 +33,7 @@ $sql="select s.`fecha`,
 
 $sql.=" order by s.fecha, s.nro_correlativo";
 
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table align='center' class='texto' width='70%'>
 <tr>
@@ -54,7 +54,7 @@ echo "<br><table align='center' class='texto' width='70%'>
 </tr>";
 
 $totalVenta=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$fechaVenta=$datos[0];
 	$nombreCliente=$datos[1];
 	$razonSocial=$datos[2];
@@ -75,12 +75,12 @@ while($datos=mysql_fetch_array($resp)){
 	s.cod_salida_almacenes='$codSalida'
 	group by m.`codigo_material` order by 2 desc;";
 	
-	$respX=mysql_query($sqlX);
+	$respX=mysqli_query($enlaceCon,$sqlX);
 
 	$tablaDetalle="<table width='100%'>";
 	
 	$totalVentaX=0;
-	while($datosX=mysql_fetch_array($respX)){	
+	while($datosX=mysqli_fetch_array($respX)){	
 		$codItem=$datosX[0];
 		$nombreItem=$datosX[1];
 		$montoVenta=$datosX[2];

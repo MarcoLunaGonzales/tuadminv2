@@ -36,7 +36,7 @@ where s.cod_salida_almacenes=sd.cod_salida_almacen and  sd.cod_material=m.codigo
 s.cod_almacen in (select a.cod_almacen from almacenes a where a.cod_ciudad='$rpt_territorio') and s.fecha BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' and s.salida_anulada=0 
 and s.cod_tiposalida=1001 order by lineaproveedor, s.fecha, m.descripcion_material;";
 	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table align='center' class='texto' width='100%'>
 <tr>
@@ -64,7 +64,7 @@ $totalDescuentosCabecera=0;
 $totalAntesDescuentosCabecera=0;
 
 $sumaDiferenciaPreciosCabecera=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$numeroDoc=$datos[0]."-".$datos[1];	
 	$fechaHora=$datos[2]." ".$datos[3];
 	$lineaProveedor=$datos[5];

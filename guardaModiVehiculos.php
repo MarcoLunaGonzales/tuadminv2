@@ -8,7 +8,7 @@ $nombre=$_POST['nombre'];
 $peso=$_POST['peso'];
 
 $sql="update vehiculos set placa='$placa', nombre='$nombre', peso_maximo='$peso' where codigo='$codigo'";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<script language='Javascript'>
 			alert('Los datos fueron modificados correctamente.');

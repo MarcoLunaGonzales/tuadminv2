@@ -8,9 +8,9 @@ else
 {   require("estilos_almacenes.inc");
 }
 $sql="SELECT cod_salida_almacenes FROM salida_almacenes ORDER BY cod_salida_almacenes DESC";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $codigo=1;
 }
@@ -19,9 +19,9 @@ else
     $codigo++;
 }
 $sql="SELECT nro_correlativo FROM salida_almacenes WHERE cod_almacen='$global_almacen' ORDER BY cod_salida_almacenes DESC";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $nro_correlativo=1;
 }
@@ -47,7 +47,7 @@ $sql_inserta="INSERT INTO `salida_almacenes` (`cod_salida_almacenes`, `cod_almac
 	VALUES($codigo,$global_almacen,$tipo_salida,'$fecha_real','$hora_salida','$territorio','$almacen','$observaciones',0,2,'','',0,0,0,0,'','$nro_correlativo',0,0,0)";
 */
 
-$sql_inserta=mysql_query($sql_inserta);
+$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 for($i=0;$i<=$cantidad_material-1;$i++)
 {   $cod_material=$vector_material[$i];
@@ -61,10 +61,10 @@ for($i=0;$i<=$cantidad_material-1;$i++)
         FROM ingreso_detalle_almacenes id, ingreso_almacenes i
         WHERE i.cod_ingreso_almacen=id.cod_ingreso_almacen AND i.ingreso_anulado=0 AND i.cod_almacen='$global_almacen' AND id.cod_material='$cod_material' AND id.cantidad_restante<>0
         ORDER BY id.cod_ingreso_almacen";
-    $resp_detalle_ingreso=mysql_query($sql_detalle_ingreso);
+    $resp_detalle_ingreso=mysqli_query($enlaceCon,$sql_detalle_ingreso);
     $cantidad_bandera=$cantidad;
     $bandera=0;
-    while($dat_detalle_ingreso=mysql_fetch_array($resp_detalle_ingreso))
+    while($dat_detalle_ingreso=mysqli_fetch_array($resp_detalle_ingreso))
     {   $cod_ingreso_almacen=$dat_detalle_ingreso[0];
         $cantidad_restante=$dat_detalle_ingreso[1];
         $nro_lote=$dat_detalle_ingreso[2];
@@ -72,26 +72,26 @@ for($i=0;$i<=$cantidad_material-1;$i++)
         {   if($cantidad_bandera>$cantidad_restante)
             {   $sql_salida_det_ingreso="INSERT INTO salida_detalle_ingreso 
 				VALUES('$codigo','$cod_ingreso_almacen','$cod_material','$nro_lote','$cantidad_restante','2')";
-                $resp_salida_det_ingreso=mysql_query($sql_salida_det_ingreso);
+                $resp_salida_det_ingreso=mysqli_query($enlaceCon,$sql_salida_det_ingreso);
                 $cantidad_bandera=$cantidad_bandera-$cantidad_restante;
                 $upd_cantidades="UPDATE ingreso_detalle_almacenes SET cantidad_restante=0 WHERE cod_ingreso_almacen='$cod_ingreso_almacen' AND cod_material='$cod_material' AND nro_lote='$nro_lote'";
-                $resp_upd_cantidades=mysql_query($upd_cantidades);
+                $resp_upd_cantidades=mysqli_query($enlaceCon,$upd_cantidades);
             }
             else
             {   $sql_salida_det_ingreso="INSERT INTO salida_detalle_ingreso 
 				VALUES('$codigo','$cod_ingreso_almacen','$cod_material','$nro_lote','$cantidad_bandera','2')";
-                $resp_salida_det_ingreso=mysql_query($sql_salida_det_ingreso);
+                $resp_salida_det_ingreso=mysqli_query($enlaceCon,$sql_salida_det_ingreso);
                 $cantidad_a_actualizar=$cantidad_restante-$cantidad_bandera;
                 $bandera=1;
                 $upd_cantidades="UPDATE ingreso_detalle_almacenes SET cantidad_restante=$cantidad_a_actualizar WHERE cod_ingreso_almacen='$cod_ingreso_almacen' AND cod_material='$cod_material' AND nro_lote='$nro_lote'";
-                $resp_upd_cantidades=mysql_query($upd_cantidades);
+                $resp_upd_cantidades=mysqli_query($enlaceCon,$upd_cantidades);
                 $cantidad_bandera=$cantidad_bandera-$cantidad_restante;
             }
         }
     }
 	$sql_insertaDetalle="INSERT INTO salida_detalle_almacenes VALUES($codigo,'$cod_material',$cantidad,$precioUnitario,' ',0,0,0)";
 	echo $sql_insertaDetalle;
-    $sql_inserta2=mysql_query($sql_insertaDetalle);
+    $sql_inserta2=mysqli_query($enlaceCon,$sql_insertaDetalle);
 }
 
 ?>

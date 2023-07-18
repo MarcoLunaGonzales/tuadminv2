@@ -41,7 +41,7 @@ echo "<script language='Javascript'>
 			FROM $table 
 			WHERE cod_estado=1 
 			ORDER BY 2";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<h1>$moduleNamePlural</h1>";
 		
 	echo "<input type='text' name='cod_venta' value='".$cod_venta."' size='10' hidden>";
@@ -57,7 +57,7 @@ echo "<script language='Javascript'>
 			<th>Monto</th></tr>";
 	$index=0;
 	$total = 0;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$index++;
 		$codigo=$dat[0];

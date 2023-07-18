@@ -32,7 +32,7 @@ $sql="select m.`codigo_material`, m.codigo_anterior, m.`descripcion_material`,
 	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio')
 	group by m.`codigo_material` order by 4 desc;";
 	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table align='center' class='texto' width='100%'>
 <tr>
@@ -46,7 +46,7 @@ echo "<br><table align='center' class='texto' width='100%'>
 </tr>";
 
 $totalVenta=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$codItem=$datos[0];
 	$codInterno=$datos[1];
 	$nombreItem=$datos[2];

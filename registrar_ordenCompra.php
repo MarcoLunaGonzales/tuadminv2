@@ -94,9 +94,9 @@ echo "<table border='1' class='texto' cellspacing='0' align='center' width='90%'
 echo "<tr><th>Nro. OC</th><th>Fecha</th><th>Proveedor</th></tr>";
 echo "<tr>";
 $sql="select nro_orden from orden_compra order by cod_orden desc";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $nro_correlativo=1;
 }
@@ -118,9 +118,9 @@ echo "</td>";
 
 $sql1="select p.`cod_proveedor`, p.`nombre_proveedor` from `proveedores` p order by p.`nombre_proveedor`";
 
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td align='center'><select name='cod_proveedor' class='texto'>";
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $codProveedor=$dat1[0];
     $nombreProveedor=$dat1[1];
 	
@@ -155,8 +155,8 @@ for($indice_detalle=1;$indice_detalle<=$cantidad_material;$indice_detalle++)
     echo "<td align='center'><select name='materiales$indice_detalle' class='textomini'>";
     echo "<option></option>";
     $sql_materiales="select * from material_apoyo where estado='Activo' and codigo_material<>0 order by descripcion_material";
-    $resp_materiales=mysql_query($sql_materiales);
-    while($dat_materiales=mysql_fetch_array($resp_materiales))
+    $resp_materiales=mysqli_query($enlaceCon,$sql_materiales);
+    while($dat_materiales=mysqli_fetch_array($resp_materiales))
     {   $cod_material=$dat_materiales[0];
         $nombre_material=$dat_materiales[1];
         if($cod_material==$valor_material)

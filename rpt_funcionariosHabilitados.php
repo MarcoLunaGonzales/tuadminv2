@@ -14,8 +14,8 @@ $sql="select f.codigo_funcionario, c.`descripcion`, concat(f.`paterno`,' ',f.`no
 			f.`cod_ciudad` = c.`cod_ciudad` and f.`estado`=1 and f.cod_cargo=ca.cod_cargo order by  
       c.`descripcion`, ca.cargo, f.`paterno`";
 
-$resp=mysql_query($sql);
-while($dat=mysql_fetch_array($resp)){
+$resp=mysqli_query($enlaceCon,$sql);
+while($dat=mysqli_fetch_array($resp)){
 	$codFuncionario=$dat[0];
 	$territorio=$dat[1];
 	$visitador=$dat[2];
@@ -23,9 +23,9 @@ while($dat=mysql_fetch_array($resp)){
 	$sqlLinea="select l.`nombre_linea` from `funcionarios_lineas` fl, 
 	     lineas l where fl.`codigo_linea` = l.`codigo_linea` and  fl.`codigo_funcionario`=$codFuncionario and l.`estado`=1
 	     order by l.nombre_linea";
-	$respLinea=mysql_query($sqlLinea);
+	$respLinea=mysqli_query($enlaceCon,$sqlLinea);
 	$lineas="&nbsp;";
-	while($datLinea=mysql_fetch_array($respLinea)){
+	while($datLinea=mysqli_fetch_array($respLinea)){
 		$lineas=$lineas.$datLinea[0]."<br>";
 	}
 	echo "<tr><td>$territorio</td><td>$cargo</td><td>$visitador</td><td>$lineas</td></tr>";

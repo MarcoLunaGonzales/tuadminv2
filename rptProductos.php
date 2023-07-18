@@ -20,14 +20,14 @@
 		from material_apoyo m
 		where m.estado='1' and m.cod_tipomaterial in (1,2) and m.cod_grupo in ($rpt_grupo) order by 4,2";
 	
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 			
 	echo "<center><table class='texto'>";
 	echo "<tr><th>Indice</th><th>Nombre Producto</th><th>Unidad</th>
 		<th>Grupo</th><th>Proveedor</th><th>Costo[Bs]</th><th>PrecioVenta[Bs]</th><th>&nbsp;</th></tr>";
 	
 	$indice_tabla=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombreProd=$dat[1];

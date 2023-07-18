@@ -177,8 +177,8 @@ if($fecha=="")
 }
 
 $sqlDolar="select valor from `cotizaciondolar`";
-$respDolar=mysql_query($sqlDolar);
-$tipoCambio=mysql_result($respDolar,0,0);
+$respDolar=mysqli_query($enlaceCon,$sqlDolar);
+$tipoCambio=mysqli_result($respDolar,0,0);
 
 echo "<form action='guardaOCTerceros.php' method='post' name='form1'>";
 echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Orden de Compra de Terceros</th></tr></table><br>";
@@ -186,9 +186,9 @@ echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%'
 echo "<tr><th>Numero de O.C.</th><th>Fecha O.C.</th><th>Proveedor</th><th>Nro. Factura</th><th>Tipo de Pago</th><th>Monto OC Bs.</th><th>Monto OC Dolares</th></tr>";
 echo "<tr>";
 $sql="select nro_orden from orden_compra order by cod_orden desc";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $nro_correlativo=1;
 }
@@ -209,9 +209,9 @@ echo" click_element_id='imagenFecha'></DLCALENDAR>";
 echo"  </TD>";
 
 $sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td align='center'><select name='proveedor' id='proveedor' class='texto'>";
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $codigo=$dat1[0];
     $nombre=$dat1[1];
     echo "<option value='$codigo'>$nombre</option>";
@@ -221,9 +221,9 @@ echo "</select></td>";
 echo "<td align='center'><input type='text' class='texto' name='nro_factura' id='nro_factura' size='10' value='0'></td>";
 
 $sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by cod_tipopago";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td align='center'><select name='tipo_pago' id='tipo_pago' class='texto'>";
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $cod_tipopago=$dat1[0];
     $nombre_tipopago=$dat1[1];
     echo "<option value='$cod_tipopago'>$nombre_tipopago</option>";

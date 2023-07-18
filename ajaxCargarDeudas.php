@@ -14,13 +14,13 @@ $sql="select s.`cod_salida_almacenes`, s.`nro_correlativo`,
 	s.`fecha`, s.`monto_final`, s.`monto_cancelado`
 	from `salida_almacenes` s where s.`cod_cliente`='$codCliente' and s.`salida_anulada`=0 and 
 	s.`monto_final`>s.`monto_cancelado` and  s.cod_almacen=1000 and s.cod_tiposalida=1001 order by s.`fecha`;";
-$resp=mysql_query($sql);
-$numFilas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$numFilas=mysqli_num_rows($resp);
 
 echo "<input type='hidden' name='nroFilas' id='nroFilas' value='$numFilas'>";
 
 $i=1;
-while($dat=mysql_fetch_array($resp)){
+while($dat=mysqli_fetch_array($resp)){
 	$codigo=$dat[0];
 	$numero=$dat[1];
 	$nombreDoc=$dat[2];

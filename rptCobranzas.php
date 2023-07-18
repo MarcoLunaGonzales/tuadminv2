@@ -35,7 +35,7 @@ if($rpt_cliente!=0){
 	$sql=$sql." and cl.cod_cliente in ($rpt_cliente)";
 }
 $sql=$sql." order by 1";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='100%'>
 <tr>
@@ -49,7 +49,7 @@ echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='10
 </tr>";
 
 $totalCobro=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$codCobro=$datos[0];
 	$fecha=$datos[1];
 	$nroCobro=$datos[2];

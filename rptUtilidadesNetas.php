@@ -33,7 +33,7 @@ $sql="select (select p.nombre_proveedor from proveedores p, proveedores_lineas p
 
 //echo $sql;	
 	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<center><table class='texto' style='border: gray 0.5px solid;' width='80%'>
 <tr>
@@ -53,7 +53,7 @@ $totalCosto=0;
 $subTotalVenta=0;
 $subTotalCosto=0;
 
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$nombreProveedor=$datos[0];
 	$montoVenta=$datos[1];
 	$cantidad=$datos[2];
@@ -130,10 +130,10 @@ $consulta = "SELECT g.cod_gasto, (select nombre_tipogasto from tipos_gasto where
 
 //echo $consulta;
 
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 $totalGastos=0;
 $indice=1;
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
 	$codGasto = $dat[0];
 	$tipoGasto=$dat[1];
 	$montoGasto = $dat[2];

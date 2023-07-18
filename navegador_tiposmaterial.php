@@ -69,7 +69,7 @@ echo "<script language='Javascript'>
 	
 	echo "<form method='post' action=''>";
 	$sql="select cod_tipomaterial, nombre_tipomaterial, obs_tipomaterial from tipos_material order by nombre_tipomaterial";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<h1>Registro de Tipos de Producto</h1>";
 	
 	/*echo "<div class='divBotones'>
@@ -81,7 +81,7 @@ echo "<script language='Javascript'>
 	
 	echo "<center><table class='texto'>";
 	echo "<tr><th>&nbsp;</th><th>Tipo</th><th>Definicion</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$material=$dat[1];

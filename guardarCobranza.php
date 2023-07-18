@@ -22,9 +22,9 @@ $observaciones=$_POST["observaciones"];
 
 $sql="SELECT cod_cobro FROM cobros_cab ORDER BY cod_cobro DESC";
 echo $sql;
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $codigo=1;
 }
@@ -55,12 +55,12 @@ for($i=1;$i<=$nroFilas;$i++)
 		$sql_inserta="INSERT INTO `cobros_detalle` (`cod_cobro`,`cod_venta`,`monto_detalle`,`nro_doc`) 
 			VALUE ('$codigo','$codVenta','$montoPago','$nroDoc')";
 		echo $sql_inserta;
-		$sql_inserta=mysql_query($sql_inserta);
+		$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 	}
 	
 	//actualizamos la tabla ordenes de compra
 	$sqlUpd="update salida_almacenes set monto_cancelado=monto_cancelado+$montoPago where cod_salida_almacenes='$codVenta'";
-	$respUpd=mysql_query($sqlUpd);
+	$respUpd=mysqli_query($enlaceCon,$sqlUpd);
 
 	//echo $i;
 }
@@ -70,7 +70,7 @@ $sqlInsertC="INSERT INTO `cobros_cab` (`cod_cobro`,`fecha_cobro`,`monto_cobro`,`
 
 echo $sqlInsertC;
 
-$respInsertC=mysql_query($sqlInsertC);
+$respInsertC=mysqli_query($enlaceCon,$sqlInsertC);
 
 echo "<script type='text/javascript' language='javascript'>";
 echo "    alert('Los datos fueron insertados correctamente.');";

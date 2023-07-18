@@ -13,18 +13,18 @@
 	$cod_visitador=$_GET['cod_visitador'];
 	$cod_devolucion=$_GET['cod_devolucion'];
 	
-	$sqlNombreVis=mysql_query("select paterno, nombres from funcionarios where codigo_funcionario=$cod_visitador");
-	$datNombreVis=mysql_fetch_array($sqlNombreVis);
+	$sqlNombreVis=mysqli_query($enlaceCon,"select paterno, nombres from funcionarios where codigo_funcionario=$cod_visitador");
+	$datNombreVis=mysqli_fetch_array($sqlNombreVis);
 	$nombreVisitador="$datNombreVis[0] $datNombreVis[1]";
 	
 	$sqlCantidades="select d.codigo_material, m.descripcion_material, d.cantidad_devolucion 
 				from devoluciones_ciclodetalle d, material_apoyo m
 				 where d.codigo_devolucion=$cod_devolucion and d.codigo_material=m.codigo_material";
-	$respCantidades=mysql_query($sqlCantidades);
+	$respCantidades=mysqli_query($enlaceCon,$sqlCantidades);
 	echo "<center><table border='0' class='textotit'><tr><th>Devolucion de MA por Visitador<br>Ciclo: $cod_ciclo Visitador: $nombreVisitador</th></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='60%'>";
 	echo "<tr><th>Producto</th><th>Cantidad</th><th>Cantidad a Registrar</th></tr>";
-	while($datCantidades=mysql_fetch_array($respCantidades))
+	while($datCantidades=mysqli_fetch_array($respCantidades))
 	{	$codigoMaterial=$datCantidades[0];
 		$nombreMaterial=$datCantidades[1];
 		$cantidadMaterial=$datCantidades[2];

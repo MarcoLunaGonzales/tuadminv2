@@ -26,9 +26,9 @@ $codCostoImpEditar=$_GET["codigo"];
 	$consulta = "select cod_costoimp, nombre_costoimp, estado,created_by, modified_by, created_date,modified_date
 	FROM costos_importacion  where  cod_costoimp=".$codCostoImpEditar;
 	
-	$resp = mysql_query($consulta);
+	$resp = mysqli_query($enlaceCon,$consulta);
 
-	while ($dat = mysql_fetch_array($resp)) {
+	while ($dat = mysqli_fetch_array($resp)) {
 		
 		$codCostoimp = $dat['cod_costoimp'];
 		$nombreCostoimp= $dat['nombre_costoimp'];

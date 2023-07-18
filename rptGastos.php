@@ -33,9 +33,9 @@ $consulta = "select g.cod_gasto, g.descripcion_gasto,
 	DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g where fecha_gasto between '$fecha_iniconsulta' and '$fecha_finconsulta' and g.estado=1 and g.cod_ciudad='$rpt_territorio' order by g.cod_gasto";
 //echo $consulta;
 
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 $totalGastos=0;
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
 	$codGasto = $dat[0];
 	$descripcionGasto= $dat[1];
 	$tipoGasto=$dat[2];

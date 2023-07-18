@@ -20,11 +20,11 @@ echo "<td align='left'>
 echo "<tr><th align='left'>Proveedor</th>";
 $sql1="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) from proveedores p, proveedores_lineas pl 
 where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 		<select name='codLinea' id='codLinea' required>
 		<option value=''></option>";
-		while($dat1=mysql_fetch_array($resp1))
+		while($dat1=mysqli_fetch_array($resp1))
 		{	$codLinea=$dat1[0];
 		$nombreLinea=$dat1[1];
 		echo "<option value='$codLinea'>$nombreLinea</option>";
@@ -35,10 +35,10 @@ echo "</tr>";
 
 echo "<tr><th>Tipo</th>";
 $sql1="select f.cod_tipomaterial, f.nombre_tipomaterial from tipos_material f where f.cod_tipomaterial in (1,2) order by 2;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 			<select name='cod_tipo' id='cod_tipo' required>";
-			while($dat1=mysql_fetch_array($resp1))
+			while($dat1=mysqli_fetch_array($resp1))
 			{	$codTipo=$dat1[0];
 				$nombreTipo=$dat1[1];
 				echo "<option value='$codTipo'>$nombreTipo</option>";
@@ -50,11 +50,11 @@ echo "</tr>";
 echo "<tr><th>Grupo</th>";
 $sql1="select f.cod_grupo, f.nombre_grupo from grupos f 
 where f.estado=1 order by 2;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 			<select name='cod_grupo' id='cod_grupo' required>
 			<option value=''></option>";
-			while($dat1=mysql_fetch_array($resp1))
+			while($dat1=mysqli_fetch_array($resp1))
 			{	$codGrupo=$dat1[0];
 				$nombreGrupo=$dat1[1];
 				echo "<option value='$codGrupo'>$nombreGrupo</option>";
@@ -70,11 +70,11 @@ echo "<td align='left'>
 
 echo "<tr><th>Unidad de Manejo</th>";
 $sql1="select u.codigo, u.nombre, u.abreviatura from unidades_medida u order by 1;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 			<select name='cod_unidad' id='cod_unidad' required>
 			<option value=''></option>";
-			while($dat1=mysql_fetch_array($resp1))
+			while($dat1=mysqli_fetch_array($resp1))
 			{	$codUnidad=$dat1[0];
 				$nombreUnidad=$dat1[1];
 				$abreviatura=$dat1[2];

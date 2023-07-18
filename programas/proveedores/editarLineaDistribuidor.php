@@ -23,8 +23,8 @@ $nombreProveedor=nombreProveedor($codProveedor);
 
 $sqlLineas="select cod_linea_proveedor, nombre_linea_proveedor, abreviatura_linea_proveedor, contacto1, contacto2, cod_proveedor, estado, 
 cod_procedencia, margen_precio from proveedores_lineas where cod_linea_proveedor='$codLinea' and cod_proveedor='$codProveedor'";
-$respLineas=mysql_query($sqlLineas);
-while($datLineas=mysql_fetch_array($respLineas)){
+$respLineas=mysqli_query($enlaceCon,$sqlLineas);
+while($datLineas=mysqli_fetch_array($respLineas)){
 	$nombreLineaX=$datLineas[1];
 	$abreviaturaLineaX=$datLineas[2];
 	$contacto1X=$datLineas[3];

@@ -5,7 +5,7 @@ $precio=$_GET['precio'];
 $tipoPrecio=$_GET['tipoPrecio'];
 
 $sql="update precios set precio='$precio' where codigo_material='$codigo' and cod_precio='$tipoPrecio'";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo $precio;
 ?>

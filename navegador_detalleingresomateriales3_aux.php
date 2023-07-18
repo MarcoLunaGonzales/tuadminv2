@@ -13,7 +13,7 @@
 	
 	//echo $sql;
 	
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 ?>	
 	<center><table border='0' class='textotit'><tr><th>Detalle de Ingreso y Costos de Importacion</th></tr></table></center><br>
 	
@@ -21,7 +21,7 @@
 	<tr><th>Nro. de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Observaciones</th></tr>
 	
 <?php	
-	$dat=mysql_fetch_array($resp);
+	$dat=mysqli_fetch_array($resp);
 	$codigo=$dat[0];
 	$fecha_ingreso=$dat[1];
 	$fecha_ingreso_mostrar="$fecha_ingreso[8]$fecha_ingreso[9]-$fecha_ingreso[5]$fecha_ingreso[6]-$fecha_ingreso[0]$fecha_ingreso[1]$fecha_ingreso[2]$fecha_ingreso[3]";
@@ -35,11 +35,11 @@
 
 	$sql2="select count(*) nroItems, sum(i.cantidad_unitaria*i.precio_bruto)total, sum(metros_cubicos)m3 from ingreso_detalle_almacenes i where i.cod_ingreso_almacen='".$codIngreso."'"; 
 	//echo $sql2;
-	$resp2=mysql_query($sql2);
+	$resp2=mysqli_query($enlaceCon,$sql2);
 	$nroItems=0;
 	$total=0;
 	$totalCubicaje=0;
-	while($dat2=mysql_fetch_array($resp2)){
+	while($dat2=mysqli_fetch_array($resp2)){
 		$nroItems=$dat2[0];
 		$total=$dat2[1];
 		$totalCubicaje=$dat2[2];
@@ -51,7 +51,7 @@
 	where i.cod_ingreso_almacen='".$codIngreso."' 
 	and m.codigo_material=i.cod_material order by m.descripcion_material";
 	//echo $sql_detalle;
-	$resp_detalle=mysql_query($sql_detalle);
+	$resp_detalle=mysqli_query($enlaceCon,$sql_detalle);
 ?>
 	<br><table border=0 class='texto' align='center'>
 	<tr><th>&nbsp;</th><th>Codigo</th><th>CodigoInterno</th><th>Producto</th><th>Cantidad</th><th>Costo</th><th>ValorTotal</th><th>CantAnterior</th><th>CostoAnterior</th><th>ValorAnterior</th><th>ValorTotal</th><th>CantidadTotal</th><th>CostoPromedio</th>		
@@ -61,7 +61,7 @@
 	$costoImpProd=0;
 	$totalCostoImpProd=0;
 	$totalMetrosCubicos=0;
-	while($dat_detalle=mysql_fetch_array($resp_detalle))
+	while($dat_detalle=mysqli_fetch_array($resp_detalle))
 	{	$cod_material=$dat_detalle[0];
 		$cantidad_unitaria=$dat_detalle[1];
 		$precioNeto=redondear2($dat_detalle[2]);

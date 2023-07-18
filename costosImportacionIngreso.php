@@ -62,8 +62,8 @@ $consulta = " select i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_t
  left join 	tipos_ingreso ti on( i.cod_tipoingreso=ti.cod_tipoingreso)
     WHERE  i.cod_almacen='".$global_almacen."' and i.cod_ingreso_almacen='".$codIngreso."'";
 
-$resp = mysql_query($consulta);
-while ($dat = mysql_fetch_array($resp)) {
+$resp = mysqli_query($enlaceCon,$consulta);
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
     $fecha_ingreso_mostrar = "$fecha_ingreso[8]$fecha_ingreso[9]-$fecha_ingreso[5]$fecha_ingreso[6]-$fecha_ingreso[0]$fecha_ingreso[1]$fecha_ingreso[2]$fecha_ingreso[3]";
@@ -99,9 +99,9 @@ while ($dat = mysql_fetch_array($resp)) {
 	<?php
 	$consulta = "SELECT cod_costoimp, nombre_costoimp, estado,created_by, modified_by, created_date,modified_date FROM costos_importacion  where estado=1 order by  nombre_costoimp asc ";
 		
-	$resp = mysql_query($consulta);
+	$resp = mysqli_query($enlaceCon,$consulta);
 
-	while ($dat = mysql_fetch_array($resp)) {
+	while ($dat = mysqli_fetch_array($resp)) {
 		$codCostoimp = $dat['cod_costoimp'];
 		$nombreCostoimp= $dat['nombre_costoimp'];
 		$estado=$dat['estado'];
@@ -114,13 +114,13 @@ while ($dat = mysql_fetch_array($resp)) {
 	  ////////////////
 	  	$sqlItemsImpIngreso="select cod_costoimp,tipo_calculo,monto from costos_importacion_ingreso 
 		where cod_almacen='".$global_almacen."' and cod_ingreso_almacen='".$codIngreso."' and cod_costoimp='".$codCostoimp."'";
-		$respItemsImpIngreso = mysql_query($sqlItemsImpIngreso);
+		$respItemsImpIngreso = mysqli_query($enlaceCon,$sqlItemsImpIngreso);
 
 		$cod_costoimp=0;
 		$tipo_calculo=1;
 		$monto=0; 
 
-		while ($datItemsImpIngreso = mysql_fetch_array($respItemsImpIngreso)) {
+		while ($datItemsImpIngreso = mysqli_fetch_array($respItemsImpIngreso)) {
 			$cod_costoimp=$datItemsImpIngreso['cod_costoimp'];
 			$tipo_calculo=$datItemsImpIngreso['tipo_calculo'];
 			$monto=$datItemsImpIngreso['monto']; 

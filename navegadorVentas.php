@@ -1,3 +1,9 @@
+<?php
+require("conexion.inc");
+require('funciones.php');
+require('function_formatofecha.php');
+require("estilos_almacenes.inc");
+?>
 <html>
     <head>
         <title>Busqueda</title>
@@ -361,16 +367,21 @@ function HiddenFacturarEditar(){
     </head>
     <body>
 <?php
+$estado_preparado=0;
 
-require("conexion.inc");
-require('funciones.php');
-require('function_formatofecha.php');
+$txtnroingreso = "";
+$fecha1 = "";
+$fecha2 = "";
+if(isset($_GET["nroCorrelativoBusqueda"])){
+    $txtnroingreso = $_GET["nroCorrelativoBusqueda"];
+}
+if(isset($_GET["fechaIniBusqueda"])){
+    $fecha1 = $_GET["fechaIniBusqueda"];
+}
+if(isset($_GET["fechaFinBusqueda"])){
+    $fecha2 = $_GET["fechaFinBusqueda"];
+}
 
-$txtnroingreso = $_GET["nroCorrelativoBusqueda"];
-$fecha1 = $_GET["fechaIniBusqueda"];
-$fecha2 = $_GET["fechaFinBusqueda"];
-
-require("estilos_almacenes.inc");
 
 echo "<form method='post' action=''>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
@@ -391,7 +402,7 @@ echo "<div class='divBotones'>
         
 echo "<center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
-    <th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th>";
+    <th>Razon Social</th><th>NIT</th><th>Monto</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th>";
 
 if($global_admin_cargo==1){
     echo "<th>Convertir</th><th>Cambiar <br>Datos Venta</th>";
@@ -409,8 +420,7 @@ $consulta = "
     (select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
     (select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
     (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
-    s.cod_chofer,
-    s.cod_tipopago
+    s.cod_chofer, s.cod_tipopago, s.monto_final
     FROM salida_almacenes s, tipos_salida ts 
     WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
 
@@ -423,10 +433,10 @@ if($fecha1!="" && $fecha2!="")
 $consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc limit 0, 50 ";
 
 //
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
     
     
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_salida = $dat[1];
     $fecha_salida_mostrar = "$fecha_salida[8]$fecha_salida[9]-$fecha_salida[5]$fecha_salida[6]-$fecha_salida[0]$fecha_salida[1]$fecha_salida[2]$fecha_salida[3]";
@@ -448,29 +458,44 @@ while ($dat = mysql_fetch_array($resp)) {
 
     $codVendedor = $dat[16];
     $codTipoPago = $dat[17];
+
+    $montoVenta=$dat[18];
+    $montoVentaFormat=formatonumeroDec($montoVenta);    
     
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
     
     $sqlEstadoColor="select color from estados_salida where cod_estado='$estado_almacen'";
-    $respEstadoColor=mysql_query($sqlEstadoColor);
-    $numFilasEstado=mysql_num_rows($respEstadoColor);
+    $respEstadoColor=mysqli_query($enlaceCon,$sqlEstadoColor);
+    $numFilasEstado=mysqli_num_rows($respEstadoColor);
     if($numFilasEstado>0){
-        $color_fondo=mysql_result($respEstadoColor,0,0);
+        $color_fondo=mysqli_result($respEstadoColor,0,0);
     }else{
         $color_fondo="#ffffff";
     }
+
+    $strikei = "";
+    $strikef = "";
     $chk = "<input type='checkbox' name='codigo' value='$codigo'>";
+
+    if($salida_anulada==1){
+        $strikei = "<strike class='text-danger'>";        
+        $strikef = " (ANULADO)</strike>";
+        $chk = "";        
+    }
 
     
     echo "<input type='hidden' name='estado_preparado' value='$estado_preparado'>";
     //echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>$nombre_almacen</td><td>$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>$txt_detalle</td></tr>";
     echo "<tr>";
     echo "<td align='center'>&nbsp;$chk</td>";
-    echo "<td align='center'>$nombreTipoDoc-$nro_correlativo</td>";
-    echo "<td align='center'>$fecha_salida_mostrar $hora_salida</td>";
-    echo "<td>$vendedor</td>";
-    echo "<td>$tipoPago</td>";
-    echo "<td>&nbsp;$razonSocial</td><td>&nbsp;$nitCli</td><td>&nbsp;$obs_salida</td>";
+    echo "<td align='center'>$strikei $nombreTipoDoc-$nro_correlativo $strikef</td>";
+    echo "<td align='center'>$strikei $fecha_salida_mostrar $hora_salida $strikef</td>";
+    echo "<td>$strikei $vendedor $strikef</td>";
+    echo "<td>$strikei $tipoPago $strikef</td>";
+    echo "<td>$strikei $razonSocial $strikef</td>
+    <td>$strikei $nitCli $strikef</td>
+    <td>$strikei $montoVentaFormat $strikef</td>
+    <td>$strikei $obs_salida $strikef</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
    
     // Editar Datos
@@ -541,8 +566,8 @@ echo "</form>";
                         <option value="0">Todos</option>
                     <?php
                         $sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
-                        $respClientes=mysql_query($sqlClientes);
-                        while($datClientes=mysql_fetch_array($respClientes)){
+                        $respClientes=mysqli_query($enlaceCon,$sqlClientes);
+                        while($datClientes=mysqli_fetch_array($respClientes)){
                             $codCliBusqueda=$datClientes[0];
                             $nombreCliBusqueda=$datClientes[1];
                     ?>
@@ -634,10 +659,10 @@ echo "</form>";
                 <td>
             <?php $sql1="SELECT codigo_funcionario, UPPER(CONCAT(nombres, ' ', paterno, ' ', materno)) as nombre_funcionario
                         FROM funcionarios f ";
-                    $resp1=mysql_query($sql1);
+                    $resp1=mysqli_query($enlaceCon,$sql1);
             ?>
             <select name='cod_vendedor' id='edit_cod_vendedor' required>
-                <?php while($dat1=mysql_fetch_array($resp1))
+                <?php while($dat1=mysqli_fetch_array($resp1))
                     {   
                         $codLinea=$dat1[0];
                         $nombreLinea=$dat1[1];
@@ -654,10 +679,10 @@ echo "</form>";
                 <td>
             <?php $sql1="SELECT cod_tipopago, nombre_tipopago
                         FROM tipos_pago";
-                    $resp1=mysql_query($sql1);
+                    $resp1=mysqli_query($enlaceCon,$sql1);
             ?>
             <select name='cod_tipopago' id='edit_cod_tipopago' required>
-                <?php while($dat1=mysql_fetch_array($resp1))
+                <?php while($dat1=mysqli_fetch_array($resp1))
                     {   
                         $codLinea=$dat1[0];
                         $nombreLinea=$dat1[1];

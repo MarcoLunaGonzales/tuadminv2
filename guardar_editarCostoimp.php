@@ -20,7 +20,7 @@ $consulta.=" nombre_costoimp='".$nombre_costoimp."',";
 $consulta.=" modified_by='".$modifiedBy."',";
 $consulta.=" modified_date='".$modifiedDate."' ";
 $consulta.=" where cod_costoimp='".$codCostoImpEditar."'";
-mysql_query($consulta);
+mysqli_query($enlaceCon,$consulta);
 ?>
 <script type='text/javascript' language='javascript'>
   alert('Los datos fueron editados correctamente.');

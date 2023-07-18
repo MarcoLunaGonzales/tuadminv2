@@ -47,7 +47,7 @@ if($rpt_ver==1 || $rpt_ver==2){
 }
 	
 	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<center><table class='texto'>
 <tr>
@@ -69,7 +69,7 @@ $subTotalCosto=0;
 
 $lineaPivote="XXX";
 
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$codItem=$datos[0];
 	$nombreItem=$datos[1];
 	$montoVenta=$datos[2];

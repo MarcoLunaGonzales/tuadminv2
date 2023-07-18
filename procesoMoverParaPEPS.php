@@ -12,9 +12,9 @@ $fechaCorte="2020-12-21";
 
 
 $sql="select ma.codigo_material, ma.descripcion_material from material_apoyo ma where ma.cod_grupo in ($codGrupos)";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 $i=0;
-while($dat=mysql_fetch_array($resp)){
+while($dat=mysqli_fetch_array($resp)){
 	$codMaterial=$dat[0];
 	$nombreMaterial=$dat[1];
 	
@@ -37,7 +37,7 @@ while($dat=mysql_fetch_array($resp)){
 	$sqlInsert="insert into ingreso_detalle_almacenes(cod_ingreso_almacen, cod_material, cantidad_unitaria, cantidad_restante, lote, fecha_vencimiento, 
 	precio_bruto, costo_almacen, costo_actualizado, costo_actualizado_final, costo_promedio, precio_neto) 
 	values('$codIngreso','$codMaterial','$cantidadCorte','$cantidadCorte','0','','$costoPromedio','$costoPromedio','$costoPromedio','$costoPromedio','$costoPromedio','$costoPromedio')";
-	$sql_inserta2 = mysql_query($sqlInsert);
+	$sql_inserta2 = mysqli_query($enlaceCon,$sqlInsert);
 	
 	echo $codMaterial." ".$nombreMaterial." ".$cantidadCorte." ".$valorCorte." ".$costoPromedio."<br>";
 	

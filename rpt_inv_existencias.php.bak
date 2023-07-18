@@ -18,12 +18,12 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
 
 	$sql_nombre_territorio="select descripcion from ciudades where cod_ciudad='$rpt_territorio'";
-	$resp_nombre_territorio=mysql_query($sql_nombre_territorio);
-	$datos_nombre_territorio=mysql_fetch_array($resp_nombre_territorio);
+	$resp_nombre_territorio=mysqli_query($enlaceCon,$sql_nombre_territorio);
+	$datos_nombre_territorio=mysqli_fetch_array($resp_nombre_territorio);
 	$nombre_territorio=$datos_nombre_territorio[0];
 	$sql_nombre_almacen="select nombre_almacen from almacenes where cod_almacen='$rpt_almacen'";
-	$resp_nombre_almacen=mysql_query($sql_nombre_almacen);
-	$datos_nombre_almacen=mysql_fetch_array($resp_nombre_almacen);
+	$resp_nombre_almacen=mysqli_query($enlaceCon,$sql_nombre_almacen);
+	$datos_nombre_almacen=mysqli_fetch_array($resp_nombre_almacen);
 	$nombre_almacen=$datos_nombre_almacen[0];
 		echo "<h1>Reporte Existencias Almacen<br>Territorio: <strong>$nombre_territorio</strong> Nombre Almacen: <strong>$nombre_almacen</strong> <br>Existencias a Fecha: <strong>$rpt_fecha</strong><br>$txt_reporte</h1>";
 		//desde esta parte viene el reporte en si
@@ -43,7 +43,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		
 		//echo $sql_item;
 		
-		$resp_item=mysql_query($sql_item);
+		$resp_item=mysqli_query($enlaceCon,$sql_item);
 		
 		if($rptOrdenar==1){
 			/*echo "<br><table border=0 align='center' class='textomediano' width='70%'>
@@ -117,7 +117,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		}
 		
 		$indice=1;
-		while($datos_item=mysql_fetch_array($resp_item))
+		while($datos_item=mysqli_fetch_array($resp_item))
 		{	$codigo_item=$datos_item[0];
 			$nombre_item=$datos_item[1];
 			$cantidadPresentacion=$datos_item[2];
@@ -147,8 +147,8 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
 			$sql_stock="select SUM(id.cantidad_restante) from ingreso_detalle_almacenes id, ingreso_almacenes i
 			where id.cod_material='$codigo_item' and i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.ingreso_anulado=0 and i.cod_almacen='$rpt_almacen'";
-			$resp_stock=mysql_query($sql_stock);
-			$dat_stock=mysql_fetch_array($resp_stock);
+			$resp_stock=mysqli_query($enlaceCon,$sql_stock);
+			$dat_stock=mysqli_fetch_array($resp_stock);
 			$stock_real=$dat_stock[0];
 			if($stock_real=="")
 			{	$stock_real=0;
@@ -178,9 +178,9 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$cadena_mostrar.="</tr>";
 			
 			$sql_linea="select * from material_apoyo where codigo_material='$codigo_item'";
-			$resp_linea=mysql_query($sql_linea);
+			$resp_linea=mysqli_query($enlaceCon,$sql_linea);
 			
-			$num_filas=mysql_num_rows($resp_linea);
+			$num_filas=mysqli_num_rows($resp_linea);
 			if($rpt_linea!=0 and $num_filas==0)
 			{	//no se muestra nada
 			}

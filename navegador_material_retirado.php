@@ -41,12 +41,12 @@ echo "<script language='Javascript'>
 	require("estilos_inicio_adm.inc");
 	echo "<form method='post' action=''>";
 	$sql="select * from material_apoyo where estado='Retirado' order by descripcion_material";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Material de Apoyo Retirado de todas las Líneas</td></tr></table></center><br>";
 	$indice_tabla=1;
 	echo "<center><table border='1' class='texto' cellspacing='0' width='40%'>";
 	echo "<tr><th>&nbsp;</th><th>&nbsp;</th><th>Material de Apoyo Retirado</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$desc=$dat[1];

@@ -69,7 +69,7 @@ echo "<script language='Javascript'>
 	
 	echo "<form method='post' action=''>";
 	$sql="select cod_grupo, nombre_grupo, estado from grupos where estado=1 order by 2";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<h1>Registro de Grupos</h1>";
 	
 	echo "<div class='divBotones'>
@@ -81,7 +81,7 @@ echo "<script language='Javascript'>
 	
 	echo "<center><table class='texto'>";
 	echo "<tr><th>&nbsp;</th><th>Grupo</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$material=$dat[1];

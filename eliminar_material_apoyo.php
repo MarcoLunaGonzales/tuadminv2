@@ -7,7 +7,7 @@
 	for($i=0;$i<$n;$i++)
 	{
 		$sql="update material_apoyo set estado=0 where codigo_material=$vector[$i]";
-		$resp=mysql_query($sql);
+		$resp=mysqli_query($enlaceCon,$sql);
 	}
 	echo "<script language='Javascript'>
 			alert('Los datos fueron eliminados.');

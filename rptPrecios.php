@@ -97,7 +97,7 @@ function ajaxBuscarItems(f){
 	echo "<div id='divCuerpo'>";
 	$sql="select codigo_material, descripcion_material, (select g.nombre_grupo from grupos g where g.cod_grupo=ma.cod_grupo)grupo from material_apoyo ma
 			where ma.estado=1 and ma.cod_grupo in ($rpt_grupo) order by 3,2";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	
 	echo "<center><table class='texto'>";
 	echo "<tr><th>Material</th>
@@ -110,7 +110,7 @@ function ajaxBuscarItems(f){
 	<th>Precio Factura</th>
 	</tr>";
 	$indice=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombreMaterial=$dat[1];
@@ -121,14 +121,14 @@ function ajaxBuscarItems(f){
 		$sql_ingresos="select sum(id.cantidad_unitaria) from ingreso_almacenes i, ingreso_detalle_almacenes id
 		where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.fecha<='$rpt_fecha' and i.cod_almacen='$global_almacen'
 		and id.cod_material='$codigo' and i.ingreso_anulado=0";
-		$resp_ingresos=mysql_query($sql_ingresos);
-		$dat_ingresos=mysql_fetch_array($resp_ingresos);
+		$resp_ingresos=mysqli_query($enlaceCon,$sql_ingresos);
+		$dat_ingresos=mysqli_fetch_array($resp_ingresos);
 		$cant_ingresos=$dat_ingresos[0];
 		$sql_salidas="select sum(sd.cantidad_unitaria) from salida_almacenes s, salida_detalle_almacenes sd
 		where s.cod_salida_almacenes=sd.cod_salida_almacen and s.fecha<='$rpt_fecha' and s.cod_almacen='$global_almacen'
 		and sd.cod_material='$codigo' and s.salida_anulada=0";
-		$resp_salidas=mysql_query($sql_salidas);
-		$dat_salidas=mysql_fetch_array($resp_salidas);
+		$resp_salidas=mysqli_query($enlaceCon,$sql_salidas);
+		$dat_salidas=mysqli_fetch_array($resp_salidas);
 		$cant_salidas=$dat_salidas[0];
 		$stock2=$cant_ingresos-$cant_salidas;
 
@@ -137,10 +137,10 @@ function ajaxBuscarItems(f){
 		echo "<td align='center'>$stock2</td>";
 
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`=$codigo and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
+		$respPrecio=mysqli_query($enlaceCon,$sqlPrecio);
+		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
-			$precio0=mysql_result($respPrecio,0,0);
+			$precio0=mysqli_result($respPrecio,0,0);
 			$precio0=redondear2($precio0);
 		}else{
 			$precio0=0;
@@ -148,10 +148,10 @@ function ajaxBuscarItems(f){
 		}
 		
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=1 and p.`codigo_material`=$codigo and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
+		$respPrecio=mysqli_query($enlaceCon,$sqlPrecio);
+		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
-			$precio1=mysql_result($respPrecio,0,0);
+			$precio1=mysqli_result($respPrecio,0,0);
 			$precio1=redondear2($precio1);
 		}else{
 			$precio1=0;
@@ -159,10 +159,10 @@ function ajaxBuscarItems(f){
 		}
 
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=2 and p.`codigo_material`=$codigo  and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
+		$respPrecio=mysqli_query($enlaceCon,$sqlPrecio);
+		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
-			$precio2=mysql_result($respPrecio,0,0);
+			$precio2=mysqli_result($respPrecio,0,0);
 			$precio2=redondear2($precio2);
 		}else{
 			$precio2=0;
@@ -170,10 +170,10 @@ function ajaxBuscarItems(f){
 		}
 
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=3 and p.`codigo_material`=$codigo  and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
+		$respPrecio=mysqli_query($enlaceCon,$sqlPrecio);
+		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
-			$precio3=mysql_result($respPrecio,0,0);
+			$precio3=mysqli_result($respPrecio,0,0);
 			$precio3=redondear2($precio3);
 		}else{
 			$precio3=0;
@@ -181,10 +181,10 @@ function ajaxBuscarItems(f){
 		}
 
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=4 and p.`codigo_material`=$codigo  and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
+		$respPrecio=mysqli_query($enlaceCon,$sqlPrecio);
+		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
-			$precio4=mysql_result($respPrecio,0,0);
+			$precio4=mysqli_result($respPrecio,0,0);
 			$precio4=redondear2($precio4);
 		}else{
 			$precio4=0;

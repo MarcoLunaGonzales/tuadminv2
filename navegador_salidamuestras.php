@@ -229,7 +229,7 @@ if($fecha1!="" && $fecha2!="")
    }
 $consulta = $consulta."ORDER BY s.nro_correlativo DESC limit 0, 50 ";
 //
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 echo "<center><table border='0' class='textotit'><tr><th>Salida de Muestras</th></tr></table></center><br>";
 echo "<table border='1' class='textomini' cellspacing='0' width='90%'><tr><th>Leyenda:</th><th>Salidas Despachadas a otras agencias</th><td bgcolor='#bbbbbb' width='5%'></td><th>Salidas recepcionadas</th><td bgcolor='#33ccff' width='5%'></td><th>Salidas Anuladas</th><td bgcolor='#ff8080' width='5%'></td><th>Salidas en proceso de despacho</th><td bgcolor='#ffff99' width='5%'></td><th>Salidas locales</th><td bgcolor='#66ff99' width='5%'></td><th>Salidas pendientes</th><td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
 require('home_almacen.php');
@@ -262,7 +262,7 @@ if ($global_usuario != 1061 and $global_usuario != 1062 and $global_usuario != 1
 echo "</table></center><br>";
 echo "<center><table border='1' class='texto' cellspacing='0' width='100%'>";
 echo "<tr><th>&nbsp;</th><th>Numero Salida</th><th>Fecha/Hora<br>Registro Salida</th><th>Tipo de Salida</th><th>Territorio<br>Destino</th><th>Almacen Destino</th><th>Funcionario Destino</th><th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_salida = $dat[1];
     $fecha_salida_mostrar = "$fecha_salida[8]$fecha_salida[9]-$fecha_salida[5]$fecha_salida[6]-$fecha_salida[0]$fecha_salida[1]$fecha_salida[2]$fecha_salida[3]";
@@ -310,8 +310,8 @@ while ($dat = mysql_fetch_array($resp)) {
         SELECT f.paterno, f.materno, f.nombres
         FROM funcionarios f, salida_detalle_visitador sv
         WHERE sv.cod_salida_almacen='$codigo' AND f.codigo_funcionario=sv.codigo_funcionario";
-    $resp_funcionario = mysql_query($sql_funcionario);
-    $dat_funcionario = mysql_fetch_array($resp_funcionario);
+    $resp_funcionario = mysqli_query($enlaceCon,$sql_funcionario);
+    $dat_funcionario = mysqli_fetch_array($resp_funcionario);
     $nombre_funcionario = "$dat_funcionario[0] $dat_funcionario[1] $dat_funcionario[2]";
     //echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>$nombre_almacen</td><td>$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>$txt_detalle</td></tr>";
     echo "<tr bgcolor='$color_fondo'>";

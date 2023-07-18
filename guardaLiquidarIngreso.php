@@ -18,7 +18,7 @@ for ($i = 1; $i <= $cantidad_items-1; $i++) {
 		costo_almacen='$precioBruto', costo_actualizado='$precioBruto', costo_actualizado_final='$precioBruto',
 		costo_promedio='$precioBruto'
 		where cod_ingreso_almacen='$codigo_ingreso' and cod_material='$cod_material'";
-	$sql_inserta2 = mysql_query($consulta);
+	$sql_inserta2 = mysqli_query($enlaceCon,$consulta);
 	
 	recalculaCostos($cod_material, $cod_almacen);
 }

@@ -12,8 +12,8 @@ $codSucursalVenta=obtenerCodigoSucursal($almacenVenta);
 
 //consulta cuantos items tiene el detalle
 $sqlNro="select count(*) from `salida_detalle_almacenes` s where s.`cod_salida_almacen`=$codigoVenta";
-$respNro=mysql_query($sqlNro);
-$nroItems=mysql_result($respNro,0,0);
+$respNro=mysqli_query($enlaceCon,$sqlNro);
+$nroItems=mysqli_result($respNro,0,0);
 
 $tamanoLargo=200+($nroItems*3)-3;
 
@@ -24,57 +24,57 @@ $pdf->SetFont('Arial','',8);
 
 
 $sqlConf="select id, valor from configuracion_facturas where id=1 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$nombreTxt=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$nombreTxt=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=2 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$sucursalTxt=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$sucursalTxt=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=3 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$direccionTxt=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$direccionTxt=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=4 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$telefonoTxt=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$telefonoTxt=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=5 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$ciudadTxt=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$ciudadTxt=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=6 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$txt1=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$txt1=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=7 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$txt2=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$txt2=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=8 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$txt3=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$txt3=mysqli_result($respConf,0,1);
 
 $sqlConf="select id, valor from configuracion_facturas where id=9 and cod_ciudad='$codSucursalVenta'";
-$respConf=mysql_query($sqlConf);
-$nitTxt=mysql_result($respConf,0,1);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$nitTxt=mysqli_result($respConf,0,1);
 
 $sqlDatosFactura="select d.nro_autorizacion, DATE_FORMAT(d.fecha_limite_emision, '%d/%m/%Y'), f.codigo_control, f.nit, f.razon_social from facturas_venta f, dosificaciones d
 	where f.cod_dosificacion=d.cod_dosificacion and f.cod_venta=$codigoVenta";
-$respDatosFactura=mysql_query($sqlDatosFactura);
-$nroAutorizacion=mysql_result($respDatosFactura,0,0);
-$fechaLimiteEmision=mysql_result($respDatosFactura,0,1);
-$codigoControl=mysql_result($respDatosFactura,0,2);
-$nitCliente=mysql_result($respDatosFactura,0,3);
-$razonSocialCliente=mysql_result($respDatosFactura,0,4);
+$respDatosFactura=mysqli_query($enlaceCon,$sqlDatosFactura);
+$nroAutorizacion=mysqli_result($respDatosFactura,0,0);
+$fechaLimiteEmision=mysqli_result($respDatosFactura,0,1);
+$codigoControl=mysqli_result($respDatosFactura,0,2);
+$nitCliente=mysqli_result($respDatosFactura,0,3);
+$razonSocialCliente=mysqli_result($respDatosFactura,0,4);
 
 //datos documento
 $sqlDatosVenta="select DATE_FORMAT(f.fecha, '%d/%m/%Y'), t.`nombre`, s.`nro_correlativo`, s.descuento
 		from `salida_almacenes` s, `tipos_docs` t, facturas_venta f
 		where s.cod_salida_almacenes=f.cod_venta and and s.`cod_salida_almacenes`='$codigoVenta' and s.`cod_tipo_doc`=t.`codigo`";
 		//echo $sqlDatosVenta;
-$respDatosVenta=mysql_query($sqlDatosVenta);
-while($datDatosVenta=mysql_fetch_array($respDatosVenta)){
+$respDatosVenta=mysqli_query($enlaceCon,$sqlDatosVenta);
+while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$fechaVenta=$datDatosVenta[0];
 	$nombreTipoDoc=$datDatosVenta[1];
 	$nroDocVenta=$datDatosVenta[2];
@@ -120,12 +120,12 @@ $sqlDetalle="select m.codigo_material, sum(s.`cantidad_unitaria`), m.`descripcio
 		m.`codigo_material`=s.`cod_material` and s.`cod_salida_almacen`=$codigoVenta 
 		group by s.cod_material
 		order by 3";
-$respDetalle=mysql_query($sqlDetalle);
+$respDetalle=mysqli_query($enlaceCon,$sqlDetalle);
 
 $yyy=55;
 
 $montoTotal=0;
-while($datDetalle=mysql_fetch_array($respDetalle)){
+while($datDetalle=mysqli_fetch_array($respDetalle)){
 	$codInterno=$datDetalle[0];
 	$cantUnit=$datDetalle[1];
 	$cantUnit=redondear2($cantUnit);

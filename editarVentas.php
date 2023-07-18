@@ -435,8 +435,8 @@ $sqlSelect="SELECT `cod_salida_almacenes`, `cod_almacen`, `cod_tiposalida`, `cod
  	   FROM `salida_almacenes` s, clientes c where
  	    s.`cod_salida_almacenes`=$codigoRegistro and s.cod_cliente=c.cod_cliente";
 		
-$respSelect=mysql_query($sqlSelect);
-while($datSelect=mysql_fetch_array($respSelect)){
+$respSelect=mysqli_query($enlaceCon,$sqlSelect);
+while($datSelect=mysqli_fetch_array($respSelect)){
 	$codTipoDoc=$datSelect[3];
 	$fechaSalida=$datSelect[4];
 	$fechaSalida=formatearFecha2($fechaSalida);
@@ -465,8 +465,8 @@ while($datSelect=mysql_fetch_array($respSelect)){
 <?php
 
 	$sqlTipo="select cod_tiposalida, nombre_tiposalida from tipos_salida where cod_tiposalida=1001 order by 2";
-	$respTipo=mysql_query($sqlTipo);
-	while($datTipo=mysql_fetch_array($respTipo)){
+	$respTipo=mysqli_query($enlaceCon,$sqlTipo);
+	while($datTipo=mysqli_fetch_array($respTipo)){
 		$codigo=$datTipo[0];
 		$nombre=$datTipo[1];
 ?>
@@ -480,11 +480,11 @@ while($datSelect=mysql_fetch_array($respSelect)){
 	<div id='divTipoDoc'>
 		<?php
 			$sql="select codigo, nombre, abreviatura from tipos_docs where codigo in (1,2) order by 2 desc";
-			$resp=mysql_query($sql);
+			$resp=mysqli_query($enlaceCon,$sql);
 
 			echo "<select name='tipoDoc' class='texto' id='tipoDoc' onChange='ajaxNroDoc(form1)'>";
 			echo "<option value='0'>---</option>";
-			while($dat=mysql_fetch_array($resp)){
+			while($dat=mysqli_fetch_array($resp)){
 				$codigo=$dat[0];
 				$nombre=$dat[1];
 				if($codTipoDoc==$codigo){
@@ -515,8 +515,8 @@ while($datSelect=mysql_fetch_array($respSelect)){
 		<option value='0'>-----</option>
 <?php
 	$sql3="select cod_almacen, nombre_almacen from almacenes order by nombre_almacen";
-	$resp3=mysql_query($sql3);
-	while($dat3=mysql_fetch_array($resp3)){
+	$resp3=mysqli_query($enlaceCon,$sql3);
+	while($dat3=mysqli_fetch_array($resp3)){
 		$cod_almacen=$dat3[0];
 		$nombre_almacen="$dat3[1] $dat3[2] $dat3[3]";
 		if($almacenDestino==$cod_almacen){
@@ -548,9 +548,9 @@ while($datSelect=mysql_fetch_array($respSelect)){
 <?php
     $sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c";
     //$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.`cod_area_empresa`=$global_agencia";
-    $resp2=mysql_query($sql2);
+    $resp2=mysqli_query($enlaceCon,$sql2);
 
-	while($dat2=mysql_fetch_array($resp2)){
+	while($dat2=mysqli_fetch_array($resp2)){
 	   $codCliente=$dat2[0];
 		$nombreCliente=$dat2[1];
 		if($codClienteVenta==$codCliente){
@@ -572,19 +572,19 @@ while($datSelect=mysql_fetch_array($respSelect)){
 			<?php
 			$sql="select t.codigo, t.nombre from `tipos_precio` t 
 					where t.`codigo` in (select c.`cod_tipo_precio` from clientes c where c.`cod_cliente`='$codCliente')";
-			$resp=mysql_query($sql);
-			$numFilas=mysql_num_rows($resp);
+			$resp=mysqli_query($enlaceCon,$sql);
+			$numFilas=mysqli_num_rows($resp);
 			$tipoPrecioCliente=-1;
 			if($numFilas>0){
-				$tipoPrecioCliente=mysql_result($resp,0,0);
+				$tipoPrecioCliente=mysqli_result($resp,0,0);
 			}
 
 			$sql1="select codigo, nombre from tipos_precio order by 2";
-			$resp1=mysql_query($sql1);
+			$resp1=mysqli_query($enlaceCon,$sql1);
 			?>
 			<select name='tipoPrecio' class='texto' id='tipoPrecio'>";
 			<?php
-			while($dat=mysql_fetch_array($resp1)){
+			while($dat=mysqli_fetch_array($resp1)){
 				$codigo=$dat[0];
 				$nombre=$dat[1];
 				if($tipoPrecioCliente==$codigo){
@@ -620,9 +620,9 @@ while($datSelect=mysql_fetch_array($respSelect)){
 			$sql2="select f.`codigo_funcionario`,
 				concat(f.`paterno`,' ', f.`nombres`) as nombre from `funcionarios` f where f.`cod_cargo`=1002 
 				and f.`cod_ciudad`=$global_agencia order by 2";
-			$resp2=mysql_query($sql2);
+			$resp2=mysqli_query($enlaceCon,$sql2);
 
-			while($dat2=mysql_fetch_array($resp2)){
+			while($dat2=mysqli_fetch_array($resp2)){
 				$codChofer=$dat2[0];
 				$nombreChofer=$dat2[1];
 			?>		
@@ -636,9 +636,9 @@ while($datSelect=mysql_fetch_array($respSelect)){
 			<option value=''>----</option>
 			<?php
 			$sql2="select codigo, nombre, placa, peso_maximo from vehiculos order by 2";
-			$resp2=mysql_query($sql2);
+			$resp2=mysqli_query($enlaceCon,$sql2);
 
-			while($dat2=mysql_fetch_array($resp2)){
+			while($dat2=mysqli_fetch_array($resp2)){
 				$codVehi=$dat2[0];
 				$nombreVehi="$dat2[1] $dat2[2]";
 				$pesoMaximoVehiculo=$dat2[3];
@@ -699,9 +699,9 @@ while($datSelect=mysql_fetch_array($respSelect)){
 	   sd.`descuento_unitario`, sd.`precio_unitario`, sd.`monto_unitario`, m.nro_metros, m.peso
 	   from salida_detalle_almacenes sd, material_apoyo m 
 	 where sd.`cod_material`=m.`codigo_material` and sd.`cod_salida_almacen`= $codigoRegistro ";
-	 $respDetalle=mysql_query($sqlDetalle);
+	 $respDetalle=mysqli_query($enlaceCon,$sqlDetalle);
 	 $num=1;
-	 while($datDetalle=mysql_fetch_array($respDetalle)){
+	 while($datDetalle=mysqli_fetch_array($respDetalle)){
 	 	$codMaterial=$datDetalle[0];
 	 	$nombreMaterial=$datDetalle[1];
 	 	$cantUnitariaDet=$datDetalle[2];
@@ -821,9 +821,9 @@ echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'>
 			<td><select name='itemTipoMaterial'>
 			<?php
 			$sqlTipo="select t.`cod_tipomaterial`, t.`nombre_tipomaterial` from `tipos_material` t order by t.`nombre_tipomaterial`";
-			$respTipo=mysql_query($sqlTipo);
+			$respTipo=mysqli_query($enlaceCon,$sqlTipo);
 			echo "<option value='0'>--</option>";
-			while($datTipo=mysql_fetch_array($respTipo)){
+			while($datTipo=mysqli_fetch_array($respTipo)){
 				$codTipoMat=$datTipo[0];
 				$nombreTipoMat=$datTipo[1];
 				echo "<option value=$codTipoMat>$nombreTipoMat</option>";

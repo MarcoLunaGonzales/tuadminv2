@@ -7,9 +7,9 @@ if ($global_tipoalmacen == 1) {
     require("estilos_almacenes.inc");
 }
 $sql = "select cod_ingreso_almacen from ingreso_almacenes order by cod_ingreso_almacen desc";
-$resp = mysql_query($sql);
-$dat = mysql_fetch_array($resp);
-$num_filas = mysql_num_rows($resp);
+$resp = mysqli_query($enlaceCon,$sql);
+$dat = mysqli_fetch_array($resp);
+$num_filas = mysqli_num_rows($resp);
 if ($num_filas == 0) {
     $codigo = 1;
 } else {
@@ -17,9 +17,9 @@ if ($num_filas == 0) {
     $codigo++;
 }
 $sql = "select nro_correlativo from ingreso_almacenes where cod_almacen='$global_almacen' and grupo_ingreso='1' order by cod_ingreso_almacen desc";
-$resp = mysql_query($sql);
-$dat = mysql_fetch_array($resp);
-$num_filas = mysql_num_rows($resp);
+$resp = mysqli_query($enlaceCon,$sql);
+$dat = mysqli_fetch_array($resp);
+$num_filas = mysqli_num_rows($resp);
 if ($num_filas == 0) {
     $nro_correlativo = 1;
 } else {
@@ -36,7 +36,7 @@ $vector_precio = explode(",", $vector_precio);
 $vector_neto = explode(",", $vector_neto);
 $nro_factura = intval($nro_factura);
 $consulta="insert into ingreso_almacenes values($codigo,$global_almacen,$tipo_ingreso,'$fecha_real','$hora_sistema','$observaciones',1,0,'$nota_entrega','$nro_correlativo',0,0,0,$nro_factura)";
-$sql_inserta = mysql_query($consulta);
+$sql_inserta = mysqli_query($enlaceCon,$consulta);
 echo "aaaa:$consulta";
 for ($i = 0; $i <= $cantidad_material - 1; $i++) {
     $cod_material = $vector_material[$i];
@@ -50,7 +50,7 @@ for ($i = 0; $i <= $cantidad_material - 1; $i++) {
     //
     $consulta="insert into ingreso_detalle_almacenes values($codigo,'$cod_material','$numero_lote','$fecha_sistema_vencimiento',$cantidad,$cantidad,$neto,$precio,0,0,0,0)";
     echo "bbb:$consulta";
-    $sql_inserta2 = mysql_query($consulta);
+    $sql_inserta2 = mysqli_query($enlaceCon,$consulta);
 }
 echo "<script language='Javascript'>
     alert('Los datos fueron insertados correctamente.');

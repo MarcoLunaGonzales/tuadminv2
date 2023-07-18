@@ -9,8 +9,8 @@ $indice = $_GET["indice"];
 require("conexion.inc");
 //SACAMOS LA CONFIGURACION PARA LA  VALIDACION DE STOCKS
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=4";
-$respConf=mysql_query($sqlConf);
-$banderaValidacionStock=mysql_result($respConf,0,0);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$banderaValidacionStock=mysqli_result($respConf,0,0);
 
 $stockProducto=stockProducto($codAlmacen, $codMaterial);
 

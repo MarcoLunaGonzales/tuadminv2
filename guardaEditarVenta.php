@@ -43,8 +43,8 @@ $sql_detalle="select cod_ingreso_almacen, material, cantidad_unitaria
 				from salida_detalle_ingreso
 				where cod_salida_almacen='$codigoRegistro'";
 				//echo $sql_detalle;
-	$resp_detalle=mysql_query($sql_detalle);
-	while($dat_detalle=mysql_fetch_array($resp_detalle))
+	$resp_detalle=mysqli_query($enlaceCon,$sql_detalle);
+	while($dat_detalle=mysqli_fetch_array($resp_detalle))
 	{	//echo "entro";
 		$codigo_ingreso=$dat_detalle[0];
 		$material=$dat_detalle[1];
@@ -52,14 +52,14 @@ $sql_detalle="select cod_ingreso_almacen, material, cantidad_unitaria
 		$nro_lote=$dat_detalle[3];
 		$sql_ingreso_cantidad="select cantidad_restante from ingreso_detalle_almacenes
 								where cod_ingreso_almacen='$codigo_ingreso' and cod_material='$material'";
-		$resp_ingreso_cantidad=mysql_query($sql_ingreso_cantidad);
-		$dat_ingreso_cantidad=mysql_fetch_array($resp_ingreso_cantidad);
+		$resp_ingreso_cantidad=mysqli_query($enlaceCon,$sql_ingreso_cantidad);
+		$dat_ingreso_cantidad=mysqli_fetch_array($resp_ingreso_cantidad);
 		$cantidad_restante=$dat_ingreso_cantidad[0];
 		$cantidad_restante_actualizada=$cantidad_restante+$cantidad;
 		$sql_actualiza="update ingreso_detalle_almacenes set cantidad_restante=$cantidad_restante_actualizada
 						where cod_ingreso_almacen='$codigo_ingreso' and cod_material='$material'";
 		//echo "<br>UPDATES".$sql_actualiza;
-		$resp_actualiza=mysql_query($sql_actualiza);			
+		$resp_actualiza=mysqli_query($enlaceCon,$sql_actualiza);			
 	}
 
 if($tipoDoc==1){
@@ -74,10 +74,10 @@ $sqlUpd="UPDATE `salida_almacenes` SET `cod_tiposalida` = '$tipoSalida', `cod_ti
        WHERE  
       `cod_salida_almacenes` = '$codigoRegistro'";
 
-$respUpd=mysql_query($sqlUpd);
+$respUpd=mysqli_query($enlaceCon,$sqlUpd);
 
 $sqlDelete="delete from salida_detalle_almacenes where cod_salida_almacen='$codigoRegistro'";
-$respDelete=mysql_query($sqlDelete);
+$respDelete=mysqli_query($enlaceCon,$sqlDelete);
 
 
 for($i=1;$i<=$cantidad_material;$i++)
@@ -95,10 +95,10 @@ for($i=1;$i<=$cantidad_material;$i++)
         WHERE i.cod_ingreso_almacen=id.cod_ingreso_almacen AND i.ingreso_anulado=0 AND i.cod_almacen='$global_almacen' 
 		AND id.cod_material='$codMaterial' AND id.cantidad_restante<>0
         ORDER BY id.cod_ingreso_almacen";
-    $resp_detalle_ingreso=mysql_query($sql_detalle_ingreso);
+    $resp_detalle_ingreso=mysqli_query($enlaceCon,$sql_detalle_ingreso);
     $cantidad_bandera=$cantidadUnitaria;
     $bandera=0;
-    while($dat_detalle_ingreso=mysql_fetch_array($resp_detalle_ingreso))
+    while($dat_detalle_ingreso=mysqli_fetch_array($resp_detalle_ingreso))
     {   $cod_ingreso_almacen=$dat_detalle_ingreso[0];
         $cantidad_restante=$dat_detalle_ingreso[1];
         $nro_lote=$dat_detalle_ingreso[2];
@@ -106,22 +106,22 @@ for($i=1;$i<=$cantidad_material;$i++)
         {   if($cantidad_bandera>$cantidad_restante)
             {   $sql_salida_det_ingreso="INSERT INTO salida_detalle_ingreso 
 				VALUES('$codigoRegistro','$cod_ingreso_almacen','$codMaterial','$cantidad_restante')";
-                $resp_salida_det_ingreso=mysql_query($sql_salida_det_ingreso);
+                $resp_salida_det_ingreso=mysqli_query($enlaceCon,$sql_salida_det_ingreso);
                 $cantidad_bandera=$cantidad_bandera-$cantidad_restante;
 				
                 $upd_cantidades="UPDATE ingreso_detalle_almacenes SET cantidad_restante=0 WHERE cod_ingreso_almacen='$cod_ingreso_almacen' AND 
 				cod_material='$codMaterial'";
-                $resp_upd_cantidades=mysql_query($upd_cantidades);
+                $resp_upd_cantidades=mysqli_query($enlaceCon,$upd_cantidades);
             }
             else
             {   $sql_salida_det_ingreso="INSERT INTO salida_detalle_ingreso 
 				VALUES('$codigoRegistro','$cod_ingreso_almacen','$codMaterial','$cantidad_bandera')";
-                $resp_salida_det_ingreso=mysql_query($sql_salida_det_ingreso);
+                $resp_salida_det_ingreso=mysqli_query($enlaceCon,$sql_salida_det_ingreso);
                 $cantidad_a_actualizar=$cantidad_restante-$cantidad_bandera;
                 $bandera=1;
                 $upd_cantidades="UPDATE ingreso_detalle_almacenes SET cantidad_restante=$cantidad_a_actualizar 
 				WHERE cod_ingreso_almacen='$cod_ingreso_almacen' AND cod_material='$codMaterial'";
-                $resp_upd_cantidades=mysql_query($upd_cantidades);
+                $resp_upd_cantidades=mysqli_query($enlaceCon,$upd_cantidades);
                 $cantidad_bandera=$cantidad_bandera-$cantidad_restante;
             }
         }
@@ -131,7 +131,7 @@ for($i=1;$i<=$cantidad_material;$i++)
 			`costo_actualizado_final`, `costo_actualizado`) 
 			values('$codigoRegistro', '$codMaterial', '$cantidadUnitaria', '$precioUnitario', '$descuentoProducto', '$montoMaterial',
 			'', '0', '0', '0')";	
-    $sql_inserta2=mysql_query($sql_insertaDetalle);
+    $sql_inserta2=mysqli_query($enlaceCon,$sql_insertaDetalle);
 }
 
 echo "<script type='text/javascript' language='javascript'>";

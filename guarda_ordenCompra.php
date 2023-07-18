@@ -7,9 +7,9 @@ if ($global_tipoalmacen == 1) {
     require("estilos_almacenes.inc");
 }
 $sql = "select cod_orden from orden_compra order by cod_orden desc";
-$resp = mysql_query($sql);
-$dat = mysql_fetch_array($resp);
-$num_filas = mysql_num_rows($resp);
+$resp = mysqli_query($enlaceCon,$sql);
+$dat = mysqli_fetch_array($resp);
+$num_filas = mysqli_num_rows($resp);
 if ($num_filas == 0) {
     $codigo = 1;
 } else {
@@ -17,9 +17,9 @@ if ($num_filas == 0) {
     $codigo++;
 }
 $sql = "select nro_orden from orden_compra order by cod_orden desc";
-$resp = mysql_query($sql);
-$dat = mysql_fetch_array($resp);
-$num_filas = mysql_num_rows($resp);
+$resp = mysqli_query($enlaceCon,$sql);
+$dat = mysqli_fetch_array($resp);
+$num_filas = mysqli_num_rows($resp);
 if ($num_filas == 0) {
     $nro_correlativo = 1;
 } else {
@@ -35,7 +35,7 @@ $vector_precio = explode(",", $vector_precio);
 $consulta="insert into orden_compra values($codigo,$nro_correlativo,$cod_proveedor,'$hora_sistema','$observaciones',1)";
 
 //echo $consulta;
-$sql_inserta = mysql_query($consulta);
+$sql_inserta = mysqli_query($enlaceCon,$consulta);
 
 for ($i = 0; $i <= $cantidad_material - 1; $i++) {
     $cod_material = $vector_material[$i];
@@ -48,7 +48,7 @@ for ($i = 0; $i <= $cantidad_material - 1; $i++) {
     
 	echo "bbb:$consulta";
     
-	$sql_inserta2 = mysql_query($consulta);
+	$sql_inserta2 = mysqli_query($enlaceCon,$consulta);
 }
 /*echo "<script language='Javascript'>
     alert('Los datos fueron insertados correctamente.');

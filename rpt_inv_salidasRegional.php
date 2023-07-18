@@ -17,10 +17,10 @@ $codigo_lineas=$rpt_linea;
 echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Salida de Productos x Regional<br>Tipo de Salida: $nombre_tiposalida<br> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: <strong>$fecha_fin</strong> Tipo de Item: <strong>$nombre_item</strong><br>Linea: <strong>$nombre_lineas</strong><br>$txt_reporte</th></tr></table>";
 
 	$sql_regional="select c.cod_ciudad, c.descripcion, a.cod_almacen from ciudades c, almacenes a where a.cod_ciudad=c.cod_ciudad order by c.descripcion";
-	$resp_regional=mysql_query($sql_regional);
+	$resp_regional=mysqli_query($enlaceCon,$sql_regional);
 	echo "<table border=1 class='texto' align='center'>";
 	echo"<tr><th>Regional</th><th>Producto</th><th>Cantidad</th></tr>";		
-	while($dat_regional=mysql_fetch_array($resp_regional)){
+	while($dat_regional=mysqli_fetch_array($resp_regional)){
 		$codRegional=$dat_regional[0];
 		$nombreRegional=$dat_regional[1];
 		$codAlmacenDestino=$dat_regional[2];
@@ -40,9 +40,9 @@ echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Sali
 			s.cod_tiposalida in ($cod_tiposalida) and s.grupo_salida=2 and s.fecha BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' 
 			and s.salida_anulada=0 group BY sd.cod_material";		
 		}
-		$respProducto=mysql_query($sqlProducto);
+		$respProducto=mysqli_query($enlaceCon,$sqlProducto);
 		$cantidadTotalRegional=0;
-		while($datProducto=mysql_fetch_array($respProducto)){
+		while($datProducto=mysqli_fetch_array($respProducto)){
 			$nombreProducto=$datProducto[0];
 			$cantidad=$datProducto[1];
 			$cantidadTotalRegional=$cantidadTotalRegional+$cantidad;

@@ -177,9 +177,9 @@ if($fecha=="")
 {   $fecha=date("d/m/Y");
 }
 $sql="select nro_correlativo from salida_almacenes where cod_almacen='$global_almacen' order by cod_salida_almacenes desc";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $codigo=1;
 }
@@ -200,10 +200,10 @@ echo "<img id='imagenFecha' src='imagenes/fecha.bmp'>";
 
 echo "</td>";
 $sql1="select cod_tiposalida, nombre_tiposalida from tipos_salida where tipo_almacen='$global_tipoalmacen' order by nombre_tiposalida";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td align='center'><select name='tipo_salida' class='texto' onchange='enviar_form(this.form)'>";
 echo "<option value=''></option>";
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $cod_tiposalida=$dat1[0];
     $nombre_tiposalida=$dat1[1];
     if($cod_tiposalida==$tipo_salida)
@@ -215,10 +215,10 @@ while($dat1=mysql_fetch_array($resp1))
 }
 echo "</select></td>";
 $sql1="select * from ciudades order by descripcion";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td align='center'><select name='territorio' class='texto' OnChange='enviar_form(this.form)'>";
 echo "<option value=''></option>";
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $cod_ciudad=$dat1[0];
     $nombre_ciudad=$dat1[1];
     if($territorio==$cod_ciudad)
@@ -230,9 +230,9 @@ while($dat1=mysql_fetch_array($resp1))
 }
 echo "</select></td>";
 $sql3="select cod_almacen, nombre_almacen from almacenes where cod_ciudad='$territorio' order by nombre_almacen";
-$resp3=mysql_query($sql3);
+$resp3=mysqli_query($enlaceCon,$sql3);
 echo "<td align='center'><select name='almacen' class='texto'>";
-while($dat3=mysql_fetch_array($resp3))
+while($dat3=mysqli_fetch_array($resp3))
 {   $cod_almacen=$dat3[0];
     $nombre_almacen="$dat3[1] $dat3[2] $dat3[3]";
     if($almacen==$cod_almacen)
@@ -247,11 +247,11 @@ echo "</tr>";
 echo "<tr><th colspan=2>Cliente</th><th colspan=2>Observaciones</th><th>Precio Venta</th></tr>";
 
     $sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.`cod_area_empresa`=$territorio";
-    $resp2=mysql_query($sql2);
+    $resp2=mysqli_query($enlaceCon,$sql2);
 	
 echo "<tr><td align='center' colspan=2><select name='funcionario' class='texto'>";
 echo "<option value=''>--Cliente--</option>";
-while($dat2=mysql_fetch_array($resp2))
+while($dat2=mysqli_fetch_array($resp2))
 {   $cod_funcionario=$dat2[0];
     $nombre_funcionario="$dat2[1] $dat2[2] $dat2[3]";
     $cargo=$dat2[4];
@@ -290,13 +290,13 @@ for($indice_detalle=1;$indice_detalle<=$cantidad_material;$indice_detalle++)
     echo "<td align='center'>$indice_detalle</td>";
     echo "<td align='center'>";
     $sql_materiales="select codigo_material, descripcion_material from material_apoyo order by descripcion_material";
-    $resp_materiales=mysql_query($sql_materiales);
+    $resp_materiales=mysqli_query($enlaceCon,$sql_materiales);
     //obtenemos los valores de las variables creadas en tiempo de ejecucion
     $var_material="materiales$indice_detalle";
     $valor_material=$$var_material;
     echo "<select id='idmat$indice_detalle' name='materiales$indice_detalle' class='textomini' onchange='javascript:actPrecio($indice_detalle); javascript:actStock($indice_detalle);'>";
     echo "<option value='0'></option>";
-    while($dat_materiales=mysql_fetch_array($resp_materiales))
+    while($dat_materiales=mysqli_fetch_array($resp_materiales))
     {   $cod_material=$dat_materiales[0];
         $nombre_material=$dat_materiales[1];
         if($cod_material==$valor_material)
@@ -316,8 +316,8 @@ for($indice_detalle=1;$indice_detalle<=$cantidad_material;$indice_detalle++)
 	
     $sql_stock="select SUM(id.cantidad_restante) from ingreso_detalle_almacenes id, ingreso_almacenes i
     where id.cod_material='$valor_material' and i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.ingreso_anulado=0 and i.cod_almacen='$global_almacen'";
-    $resp_stock=mysql_query($sql_stock);
-    $dat_stock=mysql_fetch_array($resp_stock);
+    $resp_stock=mysqli_query($enlaceCon,$sql_stock);
+    $dat_stock=mysqli_fetch_array($resp_stock);
     $stock_real=$dat_stock[0];
     if($stock_real=="")
     {   $stock_real=0;

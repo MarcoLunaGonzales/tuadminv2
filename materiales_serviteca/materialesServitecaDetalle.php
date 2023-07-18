@@ -9,8 +9,8 @@
 		from `salida_almacenes` s, `tipos_docs` t
 		where s.`cod_salida_almacenes`='$cod_venta'  and
 		s.`cod_tipo_doc`=t.`codigo`";
-	$respDatosVenta=mysql_query($sqlDatosVenta);
-	while($datDatosVenta=mysql_fetch_array($respDatosVenta)){
+	$respDatosVenta=mysqli_query($enlaceCon,$sqlDatosVenta);
+	while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 		$fechaVenta=$datDatosVenta[0];
 		$nombreTipoDoc=$datDatosVenta[1];
 		$nroDocVenta=$datDatosVenta[2];
@@ -21,7 +21,7 @@
 			FROM $table 
 			WHERE cod_estado=1 
 			ORDER BY 2";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<h1>$moduleNamePlural<br>$nombreDocumento</h1>";
 		
 	echo "<input type='text' name='cod_venta' value='".$cod_venta."' size='10' hidden>";
@@ -37,7 +37,7 @@
 			<th>Monto</th></tr>";
 	$index=0;
 	$total = 0;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$index++;
 		$codigo=$dat[0];

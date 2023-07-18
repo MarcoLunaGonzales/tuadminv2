@@ -1,3 +1,3 @@
 <?php
-$desconexion=mysql_close($conexion);
+$desconexion=mysqli_close($enlaceCon);
 ?>

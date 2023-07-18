@@ -9,12 +9,12 @@ $fecha_reporte=date("d/m/Y");
 
 $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 $sql_nombre_territorio="select descripcion from ciudades where cod_ciudad='$rpt_territorio'";
-$resp_territorio=mysql_query($sql_nombre_territorio);
-$dat_territorio=mysql_fetch_array($resp_territorio);
+$resp_territorio=mysqli_query($enlaceCon,$sql_nombre_territorio);
+$dat_territorio=mysqli_fetch_array($resp_territorio);
 $nombre_territorio=$dat_territorio[0];
 $sql_nombre_almacen="select nombre_almacen from almacenes where cod_almacen='$rpt_almacen'";
-$resp_nombre_almacen=mysql_query($sql_nombre_almacen);
-$dat_almacen=mysql_fetch_array($resp_nombre_almacen);
+$resp_nombre_almacen=mysqli_query($enlaceCon,$sql_nombre_almacen);
+$dat_almacen=mysqli_fetch_array($resp_nombre_almacen);
 $nombre_almacen=$dat_almacen[0];
 if($tipo_item==1)
 {	$nombre_tipoitem="Muestra Médica";
@@ -24,8 +24,8 @@ else
 {	$nombre_tipoitem="Material de Apoyo";
 	$sql_item="select descripcion_material from material_apoyo where codigo_material='$rpt_item'";
 }
-$resp_item=mysql_query($sql_item);
-$dat_item=mysql_fetch_array($resp_item);
+$resp_item=mysqli_query($enlaceCon,$sql_item);
+$dat_item=mysqli_fetch_array($resp_item);
 $nombre_item="$dat_item[0] $dat_item[1]";
 echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Kardex de Existencia Fisica UEPS<br>Territorio: 
 <strong>$nombre_territorio</strong> Almacen: <strong>$nombre_almacen</strong> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: 
@@ -38,14 +38,14 @@ $fecha_finconsulta=cambia_formatofecha($fecha_fin);
 $sql="select sum(id.cantidad_unitaria) FROM ingreso_almacenes i, ingreso_detalle_almacenes id
 where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha<'$fecha_iniconsulta'";
-$resp=mysql_query($sql);
-$dat_existencias_afecha=mysql_fetch_array($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat_existencias_afecha=mysqli_fetch_array($resp);
 $cantidad_ingresada_afecha=$dat_existencias_afecha[0];
 $sql_salidas_afecha="select sum(sd.cantidad_unitaria) from salida_almacenes s, salida_detalle_almacenes sd
 where s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
 s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha<'$fecha_iniconsulta'";
-$resp_salidas_afecha=mysql_query($sql_salidas_afecha);
-$dat_salidas_afecha=mysql_fetch_array($resp_salidas_afecha);
+$resp_salidas_afecha=mysqli_query($enlaceCon,$sql_salidas_afecha);
+$dat_salidas_afecha=mysqli_fetch_array($resp_salidas_afecha);
 $cantidad_sacada_afecha=$dat_salidas_afecha[0];
 $cantidad_inicial_kardex=$cantidad_ingresada_afecha-$cantidad_sacada_afecha;
 
@@ -60,10 +60,10 @@ if($mesCosto==0){
 $sqlCostoAnterior="select c.`costo_unitario` from `costo_promedio_mes` c where c.`cod_almacen`='$rpt_almacen' and 
 	c.mes='$mesCosto' and c.`anio`='$anioCosto' and c.`cod_material`='$rpt_item'";
 
-$respCostoAnterior=mysql_query($sqlCostoAnterior);
-$nroFilasCostoAnterior=mysql_num_rows($respCostoAnterior);
+$respCostoAnterior=mysqli_query($enlaceCon,$sqlCostoAnterior);
+$nroFilasCostoAnterior=mysqli_num_rows($respCostoAnterior);
 if($nroFilasCostoAnterior==1){
-	$costoUnitarioAnteriorItem=mysql_result($respCostoAnterior,0,0);
+	$costoUnitarioAnteriorItem=mysqli_result($respCostoAnterior,0,0);
 }else{
 	$costoUnitarioAnteriorItem=0;
 }
@@ -95,8 +95,8 @@ $fechaPivote=$fecha_iniconsulta;
 $ii=0;
 $sqlIni="select c.`cod_ingreso`, c.`cantidad`, c.`costo_unitario` from `costos_mes_pueps` c 
 	where c.mes='$mesCosto' and c.`anio`='$anioCosto' and c.`fecha_ingreso`<'$fecha_iniconsulta' and c.cod_material='$rpt_item'";
-$respIni=mysql_query($sqlIni);
-while($datIni=mysql_fetch_array($respIni)){
+$respIni=mysqli_query($enlaceCon,$sqlIni);
+while($datIni=mysqli_fetch_array($respIni)){
 	$codIngreso=$datIni[0];
 	$cantidadIngreso=$datIni[1];
 	$costoUnitario=$datIni[2];
@@ -123,10 +123,10 @@ while($fechaPivote<=$fecha_finconsulta){
 		from `costos_mes_pueps` c, `ingreso_almacenes` i WHERE c.`cod_ingreso` = i.`cod_ingreso_almacen` and 
 		c.`fecha_ingreso` = '$fechaPivote' and c.`cod_material` = '$rpt_item'";
 			
-	$respVeriIng=mysql_query($sqlVeriIng);
-	$nroFilasVeriIng=mysql_num_rows($respVeriIng);
+	$respVeriIng=mysqli_query($enlaceCon,$sqlVeriIng);
+	$nroFilasVeriIng=mysqli_num_rows($respVeriIng);
 	if($nroFilasVeriIng>0){
-		while($datVeriIng=mysql_fetch_array($respVeriIng)){
+		while($datVeriIng=mysqli_fetch_array($respVeriIng)){
 			$codIngreso=$datVeriIng[0];
 			$nroIngreso=$datVeriIng[1];
 			$nombreTipoIng=$datVeriIng[2];
@@ -174,8 +174,8 @@ while($fechaPivote<=$fecha_finconsulta){
 		from `salida_ingreso_costo` s, `salida_almacenes` ss 
 		where s.`cod_material` = '$rpt_item' and s.`fecha_salida` = '$fechaPivote' and 
 		ss.`cod_salida_almacenes` = s.`cod_salida`";
-	$respVeriSalidas=mysql_query($sqlVeriSalidas);
-	while($datVeriSalidas=mysql_fetch_array($respVeriSalidas)){
+	$respVeriSalidas=mysqli_query($enlaceCon,$sqlVeriSalidas);
+	while($datVeriSalidas=mysqli_fetch_array($respVeriSalidas)){
 		$codSalida=$datVeriSalidas[0];
 		$nroSalida=$datVeriSalidas[1];
 		$fechaSalida=$datVeriSalidas[2];

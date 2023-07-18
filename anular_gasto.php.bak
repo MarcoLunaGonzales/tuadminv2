@@ -9,7 +9,7 @@ $codGasto=$_GET['codigo_registro'];
 //anulamos el registro
 
 $sql="UPDATE gastos set estado=2 where cod_gasto='$codGasto'";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<script>
 	alert('Se anulo el gasto.');

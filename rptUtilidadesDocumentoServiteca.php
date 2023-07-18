@@ -45,7 +45,7 @@ if($rpt_ver==1){
 
 $sql.=" order by s.fecha, s.nro_correlativo";
 	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<center><table class='texto'>
 <tr>
@@ -61,7 +61,7 @@ echo "<center><table class='texto'>
 
 $totalVenta=0;
 $totalCosto=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$fechaVenta=$datos[0];
 	$nombreCliente=$datos[1];
 	$razonSocial=$datos[2];
@@ -75,9 +75,9 @@ while($datos=mysql_fetch_array($resp)){
 
 	$sqlCostos="select sum(v.cantidad*v.precio) from ventas_materialesserviteca v where v.cod_venta='$codSalidaAlmacen'";
 	//echo $sqlCostos;
-	$respCostos=mysql_query($sqlCostos);
+	$respCostos=mysqli_query($enlaceCon,$sqlCostos);
 	$montoCosto=0;
-	if($datCostos=mysql_fetch_array($respCostos)){
+	if($datCostos=mysqli_fetch_array($respCostos)){
 		$montoCosto=$datCostos[0];
 	}
 	$totalCosto=$totalCosto+$montoCosto;
@@ -126,10 +126,10 @@ $consulta = "SELECT g.cod_gasto, (select nombre_tipogasto from tipos_gasto where
 
 //echo $consulta;
 
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 $totalGastos=0;
 $indice=1;
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
 	$codGasto = $dat[0];
 	$tipoGasto=$dat[1];
 	$montoGasto = $dat[2];

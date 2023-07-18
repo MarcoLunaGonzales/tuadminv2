@@ -29,8 +29,8 @@ echo"<form method='post' action=''>";
 	
 	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp))
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
 		if($codigo_ciudad==$globalCiudad){

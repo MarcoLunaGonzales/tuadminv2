@@ -11,19 +11,19 @@ $fecha_fin=$_GET["fecha_fin"];
 
 $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	$sql_nombre_territorio="select descripcion from ciudades where cod_ciudad='$rpt_territorio'";
-	$resp_territorio=mysql_query($sql_nombre_territorio);
-	$dat_territorio=mysql_fetch_array($resp_territorio);
+	$resp_territorio=mysqli_query($enlaceCon,$sql_nombre_territorio);
+	$dat_territorio=mysqli_fetch_array($resp_territorio);
 	$nombre_territorio=$dat_territorio[0];
 	$sql_nombre_almacen="select nombre_almacen from almacenes where cod_almacen='$rpt_almacen'";
-	$resp_nombre_almacen=mysql_query($sql_nombre_almacen);
-	$dat_almacen=mysql_fetch_array($resp_nombre_almacen);
+	$resp_nombre_almacen=mysqli_query($enlaceCon,$sql_nombre_almacen);
+	$dat_almacen=mysqli_fetch_array($resp_nombre_almacen);
 	$nombre_almacen=$dat_almacen[0];
 	
 	$nombre_tipoitem="Material de Apoyo";
 		$sql_item="select descripcion_material from material_apoyo where codigo_material='$rpt_item'";
 
-	$resp_item=mysql_query($sql_item);
-	$dat_item=mysql_fetch_array($resp_item);
+	$resp_item=mysqli_query($enlaceCon,$sql_item);
+	$dat_item=mysqli_fetch_array($resp_item);
 	$nombre_item="$dat_item[0] $dat_item[1]";
 	echo "<h1>Reporte Kardex de Existencia Fisica</h1>
 	<h2>Territorio: 
@@ -72,18 +72,18 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	$sql_fechas_ingresos="select distinct(i.fecha) from ingreso_almacenes i, ingreso_detalle_almacenes id
 	where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 	i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha>='$fecha_iniconsulta' and i.fecha<='$fecha_finconsulta' order by i.fecha";
-	$resp_fechas_ingresos=mysql_query($sql_fechas_ingresos);
+	$resp_fechas_ingresos=mysqli_query($enlaceCon,$sql_fechas_ingresos);
 	$i=1;
-	while($dat_fechas_ingresos=mysql_fetch_array($resp_fechas_ingresos))
+	while($dat_fechas_ingresos=mysqli_fetch_array($resp_fechas_ingresos))
 	{	$vector_fechas_ingresos[$i]=$dat_fechas_ingresos[0];
 		$i++;
 	}
 	$sql_fechas_salidas="select distinct(s.fecha) from salida_almacenes s, salida_detalle_almacenes sd
 	where s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
 	s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha>='$fecha_iniconsulta' and s.fecha<='$fecha_finconsulta' order by s.fecha";
-	$resp_fechas_salidas=mysql_query($sql_fechas_salidas);
+	$resp_fechas_salidas=mysqli_query($enlaceCon,$sql_fechas_salidas);
 	$j=1;
-	while($dat_fechas_salidas=mysql_fetch_array($resp_fechas_salidas))
+	while($dat_fechas_salidas=mysqli_fetch_array($resp_fechas_salidas))
 	{	$vector_fechas_salidas[$j]=$dat_fechas_salidas[0];
 		$j++;
 	}
@@ -138,8 +138,8 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		from ingreso_almacenes i, ingreso_detalle_almacenes id, tipos_ingreso ti
 		where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 		i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha='$fecha_consulta'";
-		$resp_ingresos=mysql_query($sql_ingresos);
-		while($dat_ingresos=mysql_fetch_array($resp_ingresos))
+		$resp_ingresos=mysqli_query($enlaceCon,$sql_ingresos);
+		while($dat_ingresos=mysqli_fetch_array($resp_ingresos))
 		{	$nro_ingreso=$dat_ingresos[0];
 			$cantidad_ingreso=$dat_ingresos[1];
 			$obs_ingreso=$dat_ingresos[2];
@@ -179,8 +179,8 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		from salida_almacenes s, salida_detalle_almacenes sd, tipos_salida ts
 		where s.cod_tiposalida=ts.cod_tiposalida and s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
 		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta'";
-		$resp_salidas=mysql_query($sql_salidas);
-		while($dat_salidas=mysql_fetch_array($resp_salidas))
+		$resp_salidas=mysqli_query($enlaceCon,$sql_salidas);
+		while($dat_salidas=mysqli_fetch_array($resp_salidas))
 		{	$nro_salida=$dat_salidas[0];
 			$cantidad_salida=$dat_salidas[1];
 			$nombre_salida=$dat_salidas[2];
@@ -189,8 +189,8 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$costoSalida=$dat_salidas[6];
 			$territorio_destino=$dat_salidas[4];
 				$sql_nombre_territorio_destino="select descripcion from ciudades where cod_ciudad='$territorio_destino'";
-				$resp_nombre_territorio_destino=mysql_query($sql_nombre_territorio_destino);
-				$dat_nombre_territorio_destino=mysql_fetch_array($resp_nombre_territorio_destino);
+				$resp_nombre_territorio_destino=mysqli_query($enlaceCon,$sql_nombre_territorio_destino);
+				$dat_nombre_territorio_destino=mysqli_fetch_array($resp_nombre_territorio_destino);
 				$nombre_territorio_destino=$dat_nombre_territorio_destino[0];
 			$cantidad_kardex=$cantidad_kardex-$cantidad_salida;
 			$valor_kardex=$valor_kardex-($cantidad_salida*$costoSalida);

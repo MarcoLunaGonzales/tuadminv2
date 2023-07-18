@@ -47,7 +47,7 @@
 		from material_apoyo m
 		where m.estado='1' order by grupo, m.descripcion_material";
 
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 
 	echo "<center><table class='texto' id='myTable'>";
 	echo "<thead>";
@@ -61,7 +61,7 @@
 	echo "<tbody>";
 
 	$indice_tabla=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombreProd=$dat[1];
@@ -79,8 +79,8 @@
 		$sqlRestantes="select i.fecha, id.cantidad_unitaria, id.cantidad_restante, id.costo_almacen from ingreso_almacenes i, ingreso_detalle_almacenes id 
 		where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen=$globalAlmacen and 	
 			i.ingreso_anulado=0 and id.cod_material=$codigo and id.cantidad_restante>0.1;"; 
-		$respRestantes=mysql_query($sqlRestantes);
-		while($datRestantes=mysql_fetch_array($respRestantes)){
+		$respRestantes=mysqli_query($enlaceCon,$sqlRestantes);
+		while($datRestantes=mysqli_fetch_array($respRestantes)){
 			$fechaRest=$datRestantes[0];
 			$cantidadRest=$datRestantes[1];
 			$cantidadRest2=$datRestantes[2];

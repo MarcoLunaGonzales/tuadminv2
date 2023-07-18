@@ -12,7 +12,7 @@
 	for($i=0;$i<$n;$i++)
 	{
 		$sql="delete from tipos_salida where cod_tiposalida=$vector[$i]";
-		$resp=mysql_query($sql);
+		$resp=mysqli_query($enlaceCon,$sql);
 	}
 	echo "<script language='Javascript'>
 			alert('Los datos fueron eliminados.');

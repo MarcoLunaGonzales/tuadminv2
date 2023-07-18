@@ -42,7 +42,7 @@ if($rpt_ver==1){
 
 $sql.=" order by s.fecha, s.nro_correlativo";
 	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<center><table class='texto'>
 <tr>
@@ -58,7 +58,7 @@ echo "<center><table class='texto'>
 
 $totalVenta=0;
 $totalCosto=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$fechaVenta=$datos[0];
 	$nombreCliente=$datos[1];
 	$razonSocial=$datos[2];

@@ -23,14 +23,14 @@ function enviar(f){
 	$sql="select codigo_material, descripcion_material, t.`nombre_tipomaterial` from material_apoyo ma, `tipos_material` t
 			where ma.`cod_tipo_material`=t.`cod_tipomaterial` order by 3,2";
 
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Registro de Costos x Mes<br>Año: $codAnio Mes: $codMes</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='60%' id='main'>";
 	echo "<tr><th>Material</th>
 	<th>Costo</th>
 	</tr>";
 	$indice=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombreMaterial=$dat[1];
@@ -40,11 +40,11 @@ function enviar(f){
 
 		$sqlCosto="select c.`costo_unitario` from `costo_promedio_mes` c where 
 			c.`anio`='$codAnio' and c.`mes`='$codMes' and c.`cod_material`='$codigo' and c.cod_almacen='$codAlmacen'";
-		$respCosto=mysql_query($sqlCosto);
-		$numFilas=mysql_num_rows($respCosto);
+		$respCosto=mysqli_query($enlaceCon,$sqlCosto);
+		$numFilas=mysqli_num_rows($respCosto);
 		
 		if($numFilas==1){
-			$costoUnit=mysql_result($respCosto,0,0);
+			$costoUnit=mysqli_result($respCosto,0,0);
 		}else{
 			$costoUnit=0;
 		}

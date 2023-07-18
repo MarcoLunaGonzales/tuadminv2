@@ -87,14 +87,14 @@ function modifPreciosAjax(indice){
 	
 	//echo $sql;
 	
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 ?>	
 	<center><table border='0' class='textotit'><tr><th>Detalle de Ingreso, Costos de Importacion y Definicion de Margenes</th></tr></table></center><br>
 	
 	<table border='0' class='texto' align='center'>
 	<tr><th>Nro. de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Observaciones</th></tr>
 <?php	
-	$dat=mysql_fetch_array($resp);
+	$dat=mysqli_fetch_array($resp);
 	$codigo=$dat[0];
 	$fecha_ingreso=$dat[1];
 	$fecha_ingreso_mostrar="$fecha_ingreso[8]$fecha_ingreso[9]-$fecha_ingreso[5]$fecha_ingreso[6]-$fecha_ingreso[0]$fecha_ingreso[1]$fecha_ingreso[2]$fecha_ingreso[3]";
@@ -111,11 +111,11 @@ function modifPreciosAjax(indice){
 
 	$sql2="select count(*) nroItems, sum(i.cantidad_unitaria*i.costo_almacen)total, sum(metros_cubicos)m3 from ingreso_detalle_almacenes i where i.cod_ingreso_almacen='".$codIngreso."'"; 
 	//echo $sql2;
-	$resp2=mysql_query($sql2);
+	$resp2=mysqli_query($enlaceCon,$sql2);
 	$nroItems=0;
 	$total=0;
 	$totalCubicaje=0;
-	while($dat2=mysql_fetch_array($resp2)){
+	while($dat2=mysqli_fetch_array($resp2)){
 		$nroItems=$dat2[0];
 		$total=$dat2[1];
 		$totalCubicaje=$dat2[2];
@@ -126,7 +126,7 @@ function modifPreciosAjax(indice){
 	from ingreso_detalle_almacenes i, material_apoyo m
 	where i.cod_ingreso_almacen='".$codIngreso."' 
 	and m.codigo_material=i.cod_material order by linea_proveedor, m.descripcion_material";
-	$resp_detalle=mysql_query($sql_detalle);
+	$resp_detalle=mysqli_query($enlaceCon,$sql_detalle);
 ?>
 	<br><table border=0 class='texto' align='center'>
 	<tr><th>&nbsp;</th><th>Codigo</th><th>Producto</th><th>Cantidad</th><th>MetrosCubicos/<br>Peso[Kg]</th><th>Precio<br>Compra U.(Bs.)</th><th>Precio<br>Compra(Bs.)</th>
@@ -136,10 +136,10 @@ function modifPreciosAjax(indice){
 	left join costos_importacion ci on( cii.cod_costoimp=ci.cod_costoimp)
 	where cii.cod_almacen='".$global_almacen."' and cii.cod_ingreso_almacen='".$codIngreso."'
 	order by ci.nombre_costoimp";
-	$respCii=mysql_query($sqlCii);
+	$respCii=mysqli_query($enlaceCon,$sqlCii);
 	$tipoCalculo="";
 	$montoCiiFormato=0;
-	while($datCii=mysql_fetch_array($respCii)){
+	while($datCii=mysqli_fetch_array($respCii)){
 		if($datCii['tipo_calculo']==1){
 			$tipoCalculo="Nro de Items";
 		}
@@ -171,7 +171,7 @@ function modifPreciosAjax(indice){
 	$costoImpProd=0;
 	$totalCostoImpProd=0;
 	$totalMetrosCubicos=0;
-	while($dat_detalle=mysql_fetch_array($resp_detalle))
+	while($dat_detalle=mysqli_fetch_array($resp_detalle))
 	{	$cod_material=$dat_detalle[0];
 		$cantidad_unitaria=$dat_detalle[1];
 		$precioNeto=redondear2($dat_detalle[2]);
@@ -219,13 +219,13 @@ function modifPreciosAjax(indice){
 		left join costos_importacion ci on( cii.cod_costoimp=ci.cod_costoimp)
 		where cii.cod_almacen='".$global_almacen."' and cii.cod_ingreso_almacen='".$codIngreso."'
 		order by ci.nombre_costoimp";
-		$respCii2=mysql_query($sqlCii2);	
+		$respCii2=mysqli_query($enlaceCon,$sqlCii2);	
 		$tipo_calculo=0;
 		$montoCii=0;
 		$costoImpProd=0;
 		$costoProdTotal=0;
 		$costoUnitarioTotal=0;
-		while($datCii2=mysql_fetch_array($respCii2)){
+		while($datCii2=mysqli_fetch_array($respCii2)){
 			$tipo_calculo=$datCii2['tipo_calculo'];
 			$montoCii=$datCii2['monto'];
 
@@ -293,10 +293,10 @@ $sqlCii="select cii.cod_costoimp,ci.nombre_costoimp,tipo_calculo,monto from cost
 	left join costos_importacion ci on( cii.cod_costoimp=ci.cod_costoimp)
 	where cii.cod_almacen='".$global_almacen."' and cii.cod_ingreso_almacen='".$codIngreso."'
 	order by ci.nombre_costoimp";
-	$respCii=mysql_query($sqlCii);
+	$respCii=mysqli_query($enlaceCon,$sqlCii);
 	$tipoCalculo="";
 	$montoCiiFormato=0;
-	while($datCii=mysql_fetch_array($respCii)){
+	while($datCii=mysqli_fetch_array($respCii)){
 		if($datCii['tipo_calculo']==1){
 			$tipoCalculo="Nro de Items";
 		}

@@ -124,9 +124,9 @@ echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Ingres
 echo "<table border='1' class='texto' cellspacing='0' align='center' width='90%'>";
 echo "<tr><th>Numero de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Nota de Entrega</th><th>Factura</th></tr>";
 $sql="select nro_correlativo from ingreso_almacenes where cod_almacen='$global_almacen' and grupo_ingreso='1' order by cod_ingreso_almacen desc";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $nro_correlativo=1;
 }
@@ -148,9 +148,9 @@ echo "click_element_id='imagenFecha'></DLCALENDAR>";*/
 echo "</td>";
 
 $sql1="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso where tipo_almacen='$global_tipoalmacen' order by nombre_tipoingreso";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td align='center'><select name='tipo_ingreso' class='texto'>";
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $cod_tipoingreso=$dat1[0];
     $nombre_tipoingreso=$dat1[1];
     if($cod_tipoingreso==$tipo_ingreso)
@@ -181,13 +181,13 @@ echo "<tr><th width='5%'>&nbsp;</th><th width='35%'>Material</th><th width='20%'
 for($indice_detalle=1;$indice_detalle<=$cantidad_material;$indice_detalle++)
 {   echo "<tr><td align='center'>$indice_detalle</td>";
     $sql_materiales="select codigo, descripcion, presentacion from muestras_medicas order by descripcion";
-    $resp_materiales=mysql_query($sql_materiales);
+    $resp_materiales=mysqli_query($enlaceCon,$sql_materiales);
     //obtenemos los valores de las variables creadas en tiempo de ejecucion
     $var_material="materiales$indice_detalle";
     $valor_material=$$var_material;
     echo "<td align='center'><select name='materiales$indice_detalle' class='textomini'>";
     echo "<option></option>";
-    while($dat_materiales=mysql_fetch_array($resp_materiales))
+    while($dat_materiales=mysqli_fetch_array($resp_materiales))
     {   $cod_material=$dat_materiales[0];
         $nombre_material=$dat_materiales[1];
         $presentacion_material=$dat_materiales[2];

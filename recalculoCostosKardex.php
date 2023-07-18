@@ -11,8 +11,8 @@ $rptLote=$_GET["rptLote"];*/
 $rpt_almacen=1000;
 
 	$sql_nombre_almacen="select nombre_almacen from almacenes where cod_almacen='$rpt_almacen'";
-	$resp_nombre_almacen=mysql_query($sql_nombre_almacen);
-	$dat_almacen=mysql_fetch_array($resp_nombre_almacen);
+	$resp_nombre_almacen=mysqli_query($enlaceCon,$sql_nombre_almacen);
+	$dat_almacen=mysqli_fetch_array($resp_nombre_almacen);
 	$nombre_almacen=$dat_almacen[0];
 	echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Kardex de Existencia x Lote Valorado<br>Territorio: 
 	<strong>$nombre_territorio</strong> Almacen: <strong>$nombre_almacen</strong> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: 
@@ -25,7 +25,7 @@ $sqlAjustes="update `ingreso_detalle_almacenes` set
 	where `ingreso_detalle_almacenes`.`cod_ingreso_almacen` in 
 	(select `ingreso_almacenes`.`cod_ingreso_almacen` from `ingreso_almacenes` where 
 	`ingreso_almacenes`.`cod_tipoingreso`=1002 and `ingreso_almacenes`.`cod_almacen`=$rpt_almacen)";
-$respAjustes=mysql_query($sqlAjustes);
+$respAjustes=mysqli_query($enlaceCon,$sqlAjustes);
 
 $sqlLotes="select distinct(id.`cod_material`)  from `ingreso_almacenes` i, `ingreso_detalle_almacenes` id
 	where i.`cod_ingreso_almacen`=id.`cod_ingreso_almacen` and 
@@ -33,8 +33,8 @@ $sqlLotes="select distinct(id.`cod_material`)  from `ingreso_almacenes` i, `ingr
 	order by 1";
 
 	//and id.lote='4FZ01'
-	$respLotes=mysql_query($sqlLotes);
-while($datLotes=mysql_fetch_array($respLotes)){
+	$respLotes=mysqli_query($enlaceCon,$sqlLotes);
+while($datLotes=mysqli_fetch_array($respLotes)){
 	
 	$rpt_item=$datLotes[0];
 	
@@ -49,14 +49,14 @@ while($datLotes=mysql_fetch_array($respLotes)){
 	
 	//echo $sql."<br>";
 	
-	$resp=mysql_query($sql);
-	$dat_existencias_afecha=mysql_fetch_array($resp);
+	$resp=mysqli_query($enlaceCon,$sql);
+	$dat_existencias_afecha=mysqli_fetch_array($resp);
 	$cantidad_ingresada_afecha=$dat_existencias_afecha[0];
 	$sql_salidas_afecha="select sum(sd.cantidad_unitaria) from salida_almacenes s, salida_detalle_almacenes sd
 	where s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
 	s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha<'$fecha_iniconsulta'";
-	$resp_salidas_afecha=mysql_query($sql_salidas_afecha);
-	$dat_salidas_afecha=mysql_fetch_array($resp_salidas_afecha);
+	$resp_salidas_afecha=mysqli_query($enlaceCon,$sql_salidas_afecha);
+	$dat_salidas_afecha=mysqli_fetch_array($resp_salidas_afecha);
 	$cantidad_sacada_afecha=$dat_salidas_afecha[0];
 	$cantidad_inicial_kardex=$cantidad_ingresada_afecha-$cantidad_sacada_afecha;
 	
@@ -71,10 +71,10 @@ while($datLotes=mysql_fetch_array($respLotes)){
 	$sqlCostoAnterior="select c.`costo_unitario` from `costo_promedio_mes` c where c.`cod_almacen`='$rpt_almacen' and 
 		c.mes='$mesCosto' and c.`anio`='$anioCosto' and c.`cod_material`='$rpt_item'";
 	
-	$respCostoAnterior=mysql_query($sqlCostoAnterior);
-	$nroFilasCostoAnterior=mysql_num_rows($respCostoAnterior);
+	$respCostoAnterior=mysqli_query($enlaceCon,$sqlCostoAnterior);
+	$nroFilasCostoAnterior=mysqli_num_rows($respCostoAnterior);
 	if($nroFilasCostoAnterior==1){
-		$costoUnitarioAnteriorItem=mysql_result($respCostoAnterior,0,0);
+		$costoUnitarioAnteriorItem=mysqli_result($respCostoAnterior,0,0);
 	}else{
 		$costoUnitarioAnteriorItem=0;
 	}
@@ -104,9 +104,9 @@ while($datLotes=mysql_fetch_array($respLotes)){
 	where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 	i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha>='$fecha_iniconsulta' and i.fecha<='$fecha_finconsulta' 
 	order by i.fecha";
-	$resp_fechas_ingresos=mysql_query($sql_fechas_ingresos);
+	$resp_fechas_ingresos=mysqli_query($enlaceCon,$sql_fechas_ingresos);
 	$i=1;
-	while($dat_fechas_ingresos=mysql_fetch_array($resp_fechas_ingresos))
+	while($dat_fechas_ingresos=mysqli_fetch_array($resp_fechas_ingresos))
 	{	$vector_fechas_ingresos[$i]=$dat_fechas_ingresos[0];
 		$i++;
 	}
@@ -117,9 +117,9 @@ while($datLotes=mysql_fetch_array($respLotes)){
 	
 	//echo $sql_fechas_salidas;
 	
-	$resp_fechas_salidas=mysql_query($sql_fechas_salidas);
+	$resp_fechas_salidas=mysqli_query($enlaceCon,$sql_fechas_salidas);
 	$j=1;
-	while($dat_fechas_salidas=mysql_fetch_array($resp_fechas_salidas))
+	while($dat_fechas_salidas=mysqli_fetch_array($resp_fechas_salidas))
 	{	$vector_fechas_salidas[$j]=$dat_fechas_salidas[0];
 		$j++;
 	}
@@ -175,8 +175,8 @@ while($datLotes=mysql_fetch_array($respLotes)){
 		where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 		i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha='$fecha_consulta'";
 		
-		$resp_ingresos=mysql_query($sql_ingresos);
-		while($dat_ingresos=mysql_fetch_array($resp_ingresos))
+		$resp_ingresos=mysqli_query($enlaceCon,$sql_ingresos);
+		while($dat_ingresos=mysqli_fetch_array($resp_ingresos))
 		{	$nro_ingreso=$dat_ingresos[0];
 			$cantidad_ingreso=$dat_ingresos[1];
 			$obs_ingreso=$dat_ingresos[2];
@@ -188,7 +188,7 @@ while($datLotes=mysql_fetch_array($respLotes)){
 				$sqlUpd="update ingreso_detalle_almacenes set costo_almacen='$nuevoCostoPromedio' where 
 						cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$rpt_item'";
 				//echo $sqlUpd."nuevo costo<br><br> $nuevoCostoPromedio $valor_kardex $cantidad_kardex<br><br>";
-				$respUpd=mysql_query($sqlUpd);
+				$respUpd=mysqli_query($enlaceCon,$sqlUpd);
 				$suma_ingresos=$suma_ingresos+$cantidad_ingreso;
 				$cantidad_kardex=$cantidad_kardex+$cantidad_ingreso;
 				
@@ -212,7 +212,7 @@ while($datLotes=mysql_fetch_array($respLotes)){
 				$sqlUpd="update ingreso_detalle_almacenes set costo_almacen='$nuevoCostoPromedio' where 
 						cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$rpt_item' and lote='$rptLote'";
 				echo $sqlUpd."nuevo costo<br><br> $nuevoCostoPromedio $valor_kardex $cantidad_kardex<br><br>";
-				$respUpd=mysql_query($sqlUpd);
+				$respUpd=mysqli_query($enlaceCon,$sqlUpd);
 			}*/
 			//echo $nuevoCostoPromedio."<br>";
 			
@@ -245,8 +245,8 @@ while($datLotes=mysql_fetch_array($respLotes)){
 		
 		//echo $sql_salidas;
 		
-		$resp_salidas=mysql_query($sql_salidas);
-		while($dat_salidas=mysql_fetch_array($resp_salidas))
+		$resp_salidas=mysqli_query($enlaceCon,$sql_salidas);
+		while($dat_salidas=mysqli_fetch_array($resp_salidas))
 		{	$nro_salida=$dat_salidas[0];
 			$cantidad_salida=$dat_salidas[1];
 			$nombre_salida=$dat_salidas[2];
@@ -255,8 +255,8 @@ while($datLotes=mysql_fetch_array($respLotes)){
 			$costoSalida=$dat_salidas[6];
 			$territorio_destino=$dat_salidas[4];
 				$sql_nombre_territorio_destino="select descripcion from ciudades where cod_ciudad='$territorio_destino'";
-				$resp_nombre_territorio_destino=mysql_query($sql_nombre_territorio_destino);
-				$dat_nombre_territorio_destino=mysql_fetch_array($resp_nombre_territorio_destino);
+				$resp_nombre_territorio_destino=mysqli_query($enlaceCon,$sql_nombre_territorio_destino);
+				$dat_nombre_territorio_destino=mysqli_fetch_array($resp_nombre_territorio_destino);
 				$nombre_territorio_destino=$dat_nombre_territorio_destino[0];
 			$cantidad_kardex=$cantidad_kardex-$cantidad_salida;
 			$valor_kardex=$valor_kardex-($cantidad_salida*$costoSalida);
@@ -267,7 +267,7 @@ while($datLotes=mysql_fetch_array($respLotes)){
 			$sqlUpd="update salida_detalle_almacenes set costo_almacen='$nuevoCostoPromedio' where 
 					cod_salida_almacen='$cod_salida' and cod_material='$rpt_item'";
 						
-			$respUpd=mysql_query($sqlUpd);
+			$respUpd=mysqli_query($enlaceCon,$sqlUpd);
 			
 			
 			$cantSalidaFormt=redondear2($cantidad_salida);

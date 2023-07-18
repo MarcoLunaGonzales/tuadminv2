@@ -11,9 +11,9 @@ $globalCiudad=$_COOKIE["global_agencia"];
 
 
 $sql="SELECT cod_gasto FROM gastos ORDER BY cod_gasto DESC";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {   $codigo=1;
 }
@@ -24,7 +24,7 @@ else
 
 $sql_inserta="INSERT INTO gastos (cod_gasto, descripcion_gasto, cod_tipogasto, estado, fecha_gasto, monto, cod_ciudad)
 		values ('$codigo', '$nombreGasto', '$tipoGasto', '1', '$fechaGasto', '$montoGasto','$globalCiudad')";
-$sql_inserta=mysql_query($sql_inserta);
+$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 echo "<script type='text/javascript' language='javascript'>";
 echo "    alert('Los datos fueron insertados correctamente.');";

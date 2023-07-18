@@ -6,9 +6,9 @@ $codGrupo=$_GET['codGrupo'];
 	
 	$sql_item="select codigo_material, descripcion_material from material_apoyo where cod_grupo='$codGrupo' and codigo_material<>0 order by descripcion_material";
 	
-	$resp=mysql_query($sql_item);
+	$resp=mysqli_query($enlaceCon,$sql_item);
 	echo "<option value=''></option>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_item=$dat[0];
 		if($tipo_item==1)
 		{	$nombre_item="$dat[1] $dat[2]";

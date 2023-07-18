@@ -12,8 +12,8 @@ foreach($_POST as $nombre_campo => $valor)
 }
 /*
 $sql="select codigo_material from material_apoyo";
-$resp=mysql_query($sql);
-while($dat=mysql_fetch_array($resp)){
+$resp=mysqli_query($enlaceCon,$sql);
+while($dat=mysqli_fetch_array($resp)){
 
 	$codigoMat=$dat[0];
 	$precio1=$_POST[$codigoMat.'|1'];
@@ -23,23 +23,23 @@ while($dat=mysql_fetch_array($resp)){
 	
 	
 	$sqlDel="delete from precios where codigo_material=$codigoMat";
-	$respDel=mysql_query($sqlDel);
+	$respDel=mysqli_query($enlaceCon,$sqlDel);
 	
 	$sqlInsert="insert into precios values($codigoMat, 1,$precio1)";
 	echo "$sqlInsert<br>";
-	$respInsert=mysql_query($sqlInsert);
+	$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 	
 	$sqlInsert="insert into precios values($codigoMat, 2,$precio2)";
 	echo "$sqlInsert<br>";
-	$respInsert=mysql_query($sqlInsert);
+	$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 	
 	$sqlInsert="insert into precios values($codigoMat, 3,$precio3)";
 	echo "$sqlInsert<br>";
-	$respInsert=mysql_query($sqlInsert);
+	$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 	
 	$sqlInsert="insert into precios values($codigoMat, 4,$precio4)";
 	echo "$sqlInsert<br>";
-	$respInsert=mysql_query($sqlInsert);
+	$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 	
 }*/
 

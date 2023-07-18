@@ -4,8 +4,8 @@ require("../conexion.inc");
 require("../estilos2.inc");
 require("configModule.php");
 
-$sql=mysql_query("select nombre, numero, peso, precio from $table where codigo=$codigo_registro");
-$dat=mysql_fetch_array($sql);
+$sql=mysqli_query($enlaceCon,"select nombre, numero, peso, precio from $table where codigo=$codigo_registro");
+$dat=mysqli_fetch_array($sql);
 
 $nombre=$dat[0];
 $numero=$dat[1];

@@ -52,9 +52,9 @@ echo"<form method='post' action=''>";
 	else
 	{	$sql="select cod_ciudad, descripcion from ciudades where cod_ciudad='$global_agencia' order by descripcion";
 	}
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value=''></option>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
 		if($rpt_territorio==$codigo_ciudad)
@@ -67,8 +67,8 @@ echo"<form method='post' action=''>";
 	echo "</select></td></tr>";
 	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_almacen' class='texto'>";
 	$sql="select cod_almacen, nombre_almacen from almacenes where cod_ciudad='$rpt_territorio'";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp))
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_almacen=$dat[0];
 		$nombre_almacen=$dat[1];
 		if($rpt_almacen==$codigo_almacen)
@@ -86,9 +86,9 @@ echo"<form method='post' action=''>";
 	echo "</tr>";
 	echo "<tr><th align='left'>Tipo de Salida</th>";
 	$sql_tiposalida="select cod_tiposalida, nombre_tiposalida from tipos_salida where tipo_almacen='$global_tipoalmacen' order by nombre_tiposalida";
-	$resp_tiposalida=mysql_query($sql_tiposalida);
+	$resp_tiposalida=mysqli_query($enlaceCon,$sql_tiposalida);
 	echo "<td><select name='tipo_salida' class='texto' multiple size='5'>";
-	while($datos_tiposalida=mysql_fetch_array($resp_tiposalida))
+	while($datos_tiposalida=mysqli_fetch_array($resp_tiposalida))
 	{	$codigo_tiposalida=$datos_tiposalida[0];
 		$nombre_tiposalida=$datos_tiposalida[1];
 		if($tipo_salida==$codigo_tiposalida)
@@ -101,8 +101,8 @@ echo"<form method='post' action=''>";
 	echo "</select></td>";
 	echo "<tr><th align='left'>Línea</th><td><select name='rpt_linea' class='texto' multiple size='8'>";
 	$sql="select codigo_linea, nombre_linea from lineas where linea_inventarios=1 order by nombre_linea";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp))
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_linea=$dat[0];
 		$nombre_linea=$dat[1];
 		if($rpt_linea==$codigo_linea)

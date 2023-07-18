@@ -38,7 +38,7 @@ where s.`cod_salida_almacenes` = sd.`cod_salida_almacen` and
                            where a.`cod_ciudad` = '$rpt_territorio'
       ) and 
       s.`cod_chofer`=f.`codigo_funcionario` group by f.`codigo_funcionario`";	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table align='center' class='texto' width='100%'>
 <tr>
@@ -48,7 +48,7 @@ echo "<br><table align='center' class='texto' width='100%'>
 </tr>";
 
 $totalVenta=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$codItem=$datos[0];
 	$nombrePersona=$datos[1];
 	$montoVenta=$datos[2];

@@ -9,7 +9,7 @@ $codCostoImp=$_GET['codigo_registro'];
 //anulamos el registro
 
 $sql="UPDATE costos_importacion set estado=0 where cod_costoimp='".$codCostoImp."'";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 
 ?>

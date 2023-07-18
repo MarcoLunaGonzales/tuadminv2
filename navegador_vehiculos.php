@@ -75,7 +75,7 @@ echo "<script language='Javascript'>
 	
 	echo "<form method='post' action=''>";
 	$sql="select codigo, placa, nombre, peso_maximo from vehiculos order by placa";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 
 	echo "<div class='divBotones'>
 	<input type='button' value='Adicionar' name='adicionar' class='boton' onclick='enviar_nav()'>
@@ -86,7 +86,7 @@ echo "<script language='Javascript'>
 	echo "<center><table class='texto'>";
 	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Placa</th><th>Nombre</th><th>Peso Maximo (Kg.)</th></tr>";
 	$indice_tabla=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$placa=$dat[1];

@@ -20,11 +20,11 @@ if($nombreItem!=""){
 }
 $sql=$sql." group by m.codigo_material, m.descripcion_material order by 2";
 //echo $sql;
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
-$numFilas=mysql_num_rows($resp);
+$numFilas=mysqli_num_rows($resp);
 if($numFilas>0){	
-	while($dat=mysql_fetch_array($resp)){
+	while($dat=mysqli_fetch_array($resp)){
 		$codigo=$dat[0];
 		$nombre=$dat[1];
 		$stockMaterial=$dat[2];
@@ -41,11 +41,11 @@ if($numFilas>0){
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
 	}
 	$sql=$sql." order by 1";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 
-	$numFilas=mysql_num_rows($resp);
+	$numFilas=mysqli_num_rows($resp);
 	if($numFilas>0){
-		while($dat=mysql_fetch_array($resp)){
+		while($dat=mysqli_fetch_array($resp)){
 			$codigo=$dat[0];
 			$nombre=$dat[1];
 			

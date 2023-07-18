@@ -73,11 +73,11 @@ echo "<script language='Javascript'>
 	require("estilos_administracion.inc");
 	echo "<form method='post' action=''>";
 	$sql="select codigo_motivo, tipo_motivo, descripcion_motivo from motivos_baja order by 2,3";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Registro de Tipos de Baja</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0'>";
 	echo "<tr><th>&nbsp;</th><th>Tipo Motivo</th><th>Motivo</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$tipoMotivo=$dat[1];

@@ -98,14 +98,14 @@ require("estilos_almacenes.inc");
 <tr><th>Cliente</th><th>Fecha Pago</th><th>Observaciones</th></tr>
 <?php
 $sql1="select cod_cliente, nombre_cliente from clientes order by 2";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 ?>
 <tr>
 <td align='center'>
 <select name='cliente' id='cliente' class='texto' onChange="ajaxCargarDeudas();">
 	<option value="0">Seleccione una opcion</option>
 <?php
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $codigo=$dat1[0];
     $nombre=$dat1[1];
 ?>

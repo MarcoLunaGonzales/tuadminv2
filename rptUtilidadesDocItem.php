@@ -41,7 +41,7 @@ m.`codigo_material`, m.`descripcion_material`,
 
 //echo $sql;	
 
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<center><table class='textomediano'>
 <thead>
@@ -66,7 +66,7 @@ echo "<center><table class='textomediano'>
 $totalVenta=0;
 $totalCosto=0;
 echo "<tbody>";
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$fecha=$datos[0];
 	$nroNota=$datos[1]."-".$datos[2];
 	$nombreCliente=$datos[3];

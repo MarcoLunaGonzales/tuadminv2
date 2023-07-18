@@ -9,8 +9,8 @@ $codigoIngreso=$_GET["codigo_ingreso"];
 
 //consulta cuantos items tiene el detalle
 $sqlNro="select count(*) from `ingreso_detalle_almacenes` s where s.`cod_ingreso_almacen`=$codigoIngreso";
-$respNro=mysql_query($sqlNro);
-$nroItems=mysql_result($respNro,0,0);
+$respNro=mysqli_query($enlaceCon,$sqlNro);
+$nroItems=mysqli_result($respNro,0,0);
 
 $tamanoLargo=180+($nroItems*3)-3;
 
@@ -28,8 +28,8 @@ $sqlDatosIngreso="select i.cod_ingreso_almacen, i.fecha, ti.nombre_tipoingreso, 
 (select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen) as almacenorigen
 	FROM ingreso_almacenes i, tipos_ingreso ti
 	where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen='$codigoIngreso'";
-$respDatosIngreso=mysql_query($sqlDatosIngreso);
-while($datDatosIngreso=mysql_fetch_array($respDatosIngreso)){
+$respDatosIngreso=mysqli_query($enlaceCon,$sqlDatosIngreso);
+while($datDatosIngreso=mysqli_fetch_array($respDatosIngreso)){
 	$fecha=$datDatosIngreso[1];
 	$nombreTipoDoc=$datDatosIngreso[2];
 	$nroDocIngreso=$datDatosIngreso[4];
@@ -58,12 +58,12 @@ $pdf->SetXY(0,$y+52);		$pdf->Cell(0,0,"=========================================
 
 $sqlDetalle="select m.codigo_anterior, i.cantidad_unitaria, m.descripcion_material, m.codigo_material	from ingreso_detalle_almacenes i, material_apoyo m
 	where i.cod_ingreso_almacen='$codigoIngreso' and m.codigo_material=i.cod_material order by m.descripcion_material";
-$respDetalle=mysql_query($sqlDetalle);
+$respDetalle=mysqli_query($enlaceCon,$sqlDetalle);
 
 $yyy=55;
 
 $montoTotal=0;
-while($datDetalle=mysql_fetch_array($respDetalle)){
+while($datDetalle=mysqli_fetch_array($respDetalle)){
 	$codInterno=$datDetalle[0];
 	$cantUnit=$datDetalle[1];
 	$cantUnit=redondear2($cantUnit);

@@ -7,8 +7,8 @@ $codigoVenta=$_GET["codVenta"];
 
 //consulta cuantos items tiene el detalle
 $sqlNro="select count(*) from `salida_detalle_almacenes` s where s.`cod_salida_almacen`=$codigoVenta";
-$respNro=mysql_query($sqlNro);
-$nroItems=mysql_result($respNro,0,0);
+$respNro=mysqli_query($enlaceCon,$sqlNro);
+$nroItems=mysqli_result($respNro,0,0);
 
 $tamanoLargo=70+($nroItems*3)-3;
 
@@ -22,15 +22,15 @@ $y=0;
 $incremento=3;
 
 $sqlEmp="select cod_empresa, nombre, nit, direccion, ciudad from datos_empresa";
-$respEmp=mysql_query($sqlEmp);
+$respEmp=mysqli_query($enlaceCon,$sqlEmp);
 
-$nombreEmpresa=mysql_result($respEmp,0,1);
+$nombreEmpresa=mysqli_result($respEmp,0,1);
 
 list($nombre1, $nombre2) = split("&", $nombreEmpresa);
 
-$nitEmpresa=mysql_result($respEmp,0,2);
-$direccionEmpresa=mysql_result($respEmp,0,3);
-$ciudadEmpresa=mysql_result($respEmp,0,4);
+$nitEmpresa=mysqli_result($respEmp,0,2);
+$direccionEmpresa=mysqli_result($respEmp,0,3);
+$ciudadEmpresa=mysqli_result($respEmp,0,4);
 
 		
 $sqlDatosVenta="select concat(s.fecha,' ',s.hora_salida) as fecha, t.`nombre`, 
@@ -39,8 +39,8 @@ s.`nro_correlativo`, s.razon_social, s.observaciones
 		from `salida_almacenes` s, `tipos_docs` t
 		where s.`cod_salida_almacenes`='$codigoVenta'  and
 		s.`cod_tipo_doc`=t.`codigo`";
-$respDatosVenta=mysql_query($sqlDatosVenta);
-while($datDatosVenta=mysql_fetch_array($respDatosVenta)){
+$respDatosVenta=mysqli_query($enlaceCon,$sqlDatosVenta);
+while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$fechaVenta=$datDatosVenta[0];
 	$nombreTipoDoc=$datDatosVenta[1];
 	$nombreCliente=$datDatosVenta[2];
@@ -74,12 +74,12 @@ $sqlDetalle="select m.`orden_grupo`, s.`cantidad_unitaria`, m.`descripcion_mater
 		from `salida_detalle_almacenes` s, `material_apoyo` m , salida_almacenes ss
 		where 
 		m.`codigo_material`=s.`cod_material` and s.`cod_salida_almacen`=$codigoVenta and s.cod_salida_almacen=ss.cod_salida_almacenes order by m.descripcion_material";
-$respDetalle=mysql_query($sqlDetalle);
+$respDetalle=mysqli_query($enlaceCon,$sqlDetalle);
 
 $yyy=36;
 
 $montoTotal=0;
-while($datDetalle=mysql_fetch_array($respDetalle)){
+while($datDetalle=mysqli_fetch_array($respDetalle)){
 	$codInterno=$datDetalle[0];
 	$cantUnit=$datDetalle[1];
 	$cantUnit=redondear2($cantUnit);

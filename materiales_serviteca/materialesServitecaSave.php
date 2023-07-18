@@ -13,7 +13,7 @@ $camposConValor = 0;
 
 // Limpiar
 $sql="DELETE FROM ventas_materialesserviteca WHERE cod_venta = '$cod_venta'";
-$sql_inserta=mysql_query($sql);
+$sql_inserta=mysqli_query($enlaceCon,$sql);
 
 // Recorrer los campos de cantidad y guardar los valores que sean mayores que cero
 for ($i = 1; $i <= $totalCampos; $i++) {
@@ -24,13 +24,13 @@ for ($i = 1; $i <= $totalCampos; $i++) {
     $precio = $_POST["precio$i"];
     // Aquí puedes insertar los valores en la base de datos
     $sql="insert into ventas_materialesserviteca (cod_venta, cod_materialserviteca, cantidad, precio, monto_total) values('$cod_venta','$codMaterial','$cantidad','$precio','".($cantidad*$precio)."')";
-    $sql_inserta=mysql_query($sql);
+    $sql_inserta=mysqli_query($enlaceCon,$sql);
   }
 }
 
 //$sql="insert into $table (nombre, numero, peso, precio, cod_estado) values('$nombre','$numero','$peso','$precio','1')";
 //echo $sql;
-//$sql_inserta=mysql_query($sql);
+//$sql_inserta=mysqli_query($enlaceCon,$sql);
 
 echo "<script language='Javascript'>
 			alert('Los datos fueron insertados correctamente.');

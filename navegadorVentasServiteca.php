@@ -1,3 +1,11 @@
+<?php
+
+require("conexion.inc");
+require('funciones.php');
+require('function_formatofecha.php');
+require("estilos_almacenes.inc");
+
+?>
 <html>
     <head>
         <title>Busqueda</title>
@@ -362,15 +370,21 @@ function HiddenFacturarEditar(){
     <body>
 <?php
 
-require("conexion.inc");
-require('funciones.php');
-require('function_formatofecha.php');
+$estado_preparado=0;
 
-$txtnroingreso = $_GET["nroCorrelativoBusqueda"];
-$fecha1 = $_GET["fechaIniBusqueda"];
-$fecha2 = $_GET["fechaFinBusqueda"];
+$txtnroingreso = "";
+$fecha1 = "";
+$fecha2 = "";
+if(isset($_GET["nroCorrelativoBusqueda"])){
+    $txtnroingreso = $_GET["nroCorrelativoBusqueda"];
+}
+if(isset($_GET["fechaIniBusqueda"])){
+    $fecha1 = $_GET["fechaIniBusqueda"];
+}
+if(isset($_GET["fechaFinBusqueda"])){
+    $fecha2 = $_GET["fechaFinBusqueda"];
+}
 
-require("estilos_almacenes.inc");
 
 echo "<form method='post' action=''>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
@@ -424,10 +438,10 @@ if($fecha1!="" && $fecha2!="")
 $consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc limit 0, 50 ";
 
 //
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 	
 	
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_salida = $dat[1];
     $fecha_salida_mostrar = "$fecha_salida[8]$fecha_salida[9]-$fecha_salida[5]$fecha_salida[6]-$fecha_salida[0]$fecha_salida[1]$fecha_salida[2]$fecha_salida[3]";
@@ -452,16 +466,16 @@ while ($dat = mysql_fetch_array($resp)) {
 
     /*Revisamos si tiene materiales*/
     $sqlMat="SELECT count(*) from ventas_materialesserviteca v where v.cod_venta='$codigo'";
-    $respMat=mysql_query($sqlMat);
-    $banderaMateriales=mysql_result($respMat,0,0);
+    $respMat=mysqli_query($enlaceCon,$sqlMat);
+    $banderaMateriales=mysqli_result($respMat,0,0);
 	
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
 	
 	$sqlEstadoColor="select color from estados_salida where cod_estado='$estado_almacen'";
-	$respEstadoColor=mysql_query($sqlEstadoColor);
-	$numFilasEstado=mysql_num_rows($respEstadoColor);
+	$respEstadoColor=mysqli_query($enlaceCon,$sqlEstadoColor);
+	$numFilasEstado=mysqli_num_rows($respEstadoColor);
 	if($numFilasEstado>0){
-		$color_fondo=mysql_result($respEstadoColor,0,0);
+		$color_fondo=mysqli_result($respEstadoColor,0,0);
 	}else{
 		$color_fondo="#ffffff";
 	}
@@ -553,8 +567,8 @@ echo "</form>";
 						<option value="0">Todos</option>
 					<?php
 						$sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
-						$respClientes=mysql_query($sqlClientes);
-						while($datClientes=mysql_fetch_array($respClientes)){
+						$respClientes=mysqli_query($enlaceCon,$sqlClientes);
+						while($datClientes=mysqli_fetch_array($respClientes)){
 							$codCliBusqueda=$datClientes[0];
 							$nombreCliBusqueda=$datClientes[1];
 					?>
@@ -646,10 +660,10 @@ echo "</form>";
 				<td>
             <?php $sql1="SELECT codigo_funcionario, UPPER(CONCAT(nombres, ' ', paterno, ' ', materno)) as nombre_funcionario
                         FROM funcionarios f ";
-                    $resp1=mysql_query($sql1);
+                    $resp1=mysqli_query($enlaceCon,$sql1);
             ?>
             <select name='cod_vendedor' id='edit_cod_vendedor' required>
-                <?php while($dat1=mysql_fetch_array($resp1))
+                <?php while($dat1=mysqli_fetch_array($resp1))
                     {	
                         $codLinea=$dat1[0];
                         $nombreLinea=$dat1[1];
@@ -666,10 +680,10 @@ echo "</form>";
 				<td>
             <?php $sql1="SELECT cod_tipopago, nombre_tipopago
                         FROM tipos_pago";
-                    $resp1=mysql_query($sql1);
+                    $resp1=mysqli_query($enlaceCon,$sql1);
             ?>
             <select name='cod_tipopago' id='edit_cod_tipopago' required>
-                <?php while($dat1=mysql_fetch_array($resp1))
+                <?php while($dat1=mysqli_fetch_array($resp1))
                     {	
                         $codLinea=$dat1[0];
                         $nombreLinea=$dat1[1];

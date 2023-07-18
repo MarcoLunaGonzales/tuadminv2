@@ -17,8 +17,8 @@ echo "<script language='Javascript'>
 	</script>";
 require("conexion.inc");
 require("estilos_administracion.inc");
-$sql=mysql_query("select * from materiales where cod_material=$codigo_registro");
-$dat=mysql_fetch_array($sql);
+$sql=mysqli_query($enlaceCon,"select * from materiales where cod_material=$codigo_registro");
+$dat=mysqli_fetch_array($sql);
 $codtipomaterial=$dat[1];
 $nombrematerial=$dat[2];
 $codproducto=$dat[3];
@@ -30,9 +30,9 @@ echo "<center><table border='1' class='texto' cellspacing='0'>";
 echo "<input type='hidden' name='codigo' value='$codigo_registro'>";
 echo "<tr><th align='left'>Tipo de Material</th>";
 $sql1="select * from tipos_material order by nombre_tipomaterial";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td><select name='tipo_material' class='texto'>";
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {	$cod_tipomaterial=$dat1[0];
 	$nombre_tipomaterial=$dat1[1];
 	if($codtipomaterial==$cod_tipomaterial)
@@ -49,9 +49,9 @@ echo "<td align='center'><input type='text' class='texto' name='nombre_material'
 echo "</tr>";
 echo "<tr><th align='left'>Producto</th>";
 $sql2="select cod_producto, descripcion from productos order by descripcion";
-$resp2=mysql_query($sql2);
+$resp2=mysqli_query($enlaceCon,$sql2);
 echo "<td><select name='producto' class='texto'>";
-while($dat2=mysql_fetch_array($resp2))
+while($dat2=mysqli_fetch_array($resp2))
 {	$cod_producto=$dat2[0];
 	$nombre_producto=$dat2[1];
 	if($cod_producto==$codproducto)
@@ -65,9 +65,9 @@ echo "</select></td>";
 echo "</tr>";
 echo "<tr><th align='left'>Forma Farmaceutica</th>";
 $sql3="select cod_forma, nombre_forma from formas_farmaceuticas order by nombre_forma";
-$resp3=mysql_query($sql3);
+$resp3=mysqli_query($enlaceCon,$sql3);
 echo "<td><select name='forma_farmaceutica' class='texto'>";
-while($dat3=mysql_fetch_array($resp3))
+while($dat3=mysqli_fetch_array($resp3))
 {	$cod_forma=$dat3[0];
 	$nombre_forma=$dat3[1];
 	if($cod_forma==$codforma)

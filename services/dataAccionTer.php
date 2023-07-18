@@ -30,8 +30,8 @@ header('Content-Type: application/json');
 	$emparray[] = array();
 		
 	$sql="select l.cod_accionterapeutica as value, l.nombre_accionterapeutica as texto from acciones_terapeuticas l;";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp)){
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp)){
 		$id=$dat[0];
 		$nombre=$dat[1];
 		

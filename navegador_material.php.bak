@@ -147,7 +147,7 @@ echo "<script language='Javascript'>
 	
 	
 	//echo $sql;
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	
 	echo "<table align='center' class='texto'><tr><th>Ver Productos:
 	<select name='vista' class='texto' onChange='cambiar_vista(this.form)'>";
@@ -160,8 +160,8 @@ echo "<script language='Javascript'>
 	<select name='grupo' class='texto' onChange='cambiar_vista(this.form)'>";
 	echo "<option value='0'>-</option>";
 	$sqlGrupo="select cod_grupo, nombre_grupo from grupos where estado=1 order by 2";
-	$respGrupo=mysql_query($sqlGrupo);
-	while($datGrupo=mysql_fetch_array($respGrupo)){
+	$respGrupo=mysqli_query($enlaceCon,$sqlGrupo);
+	while($datGrupo=mysqli_fetch_array($respGrupo)){
 		$codGrupoX=$datGrupo[0];
 		$nombreGrupoX=$datGrupo[1];
 		if($codGrupoX==$grupo){
@@ -198,7 +198,7 @@ echo "<script language='Javascript'>
 		<th>Grupo</th><th>Tipo</th><th>Proveedor</th><th>Precio de Venta [Bs]</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 	
 	$indice_tabla=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombreProd=$dat[1];

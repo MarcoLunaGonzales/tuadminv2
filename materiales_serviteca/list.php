@@ -72,7 +72,7 @@ echo "<script language='Javascript'>
 	
 	echo "<form method='post' action=''>";
 	$sql="select codigo, nombre, numero, peso, precio, cod_estado from $table where cod_estado=1 order by 2";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<h1>Lista de $moduleNamePlural</h1>";
 	
 	echo "<div class='divBotones'>
@@ -84,7 +84,7 @@ echo "<script language='Javascript'>
 	
 	echo "<center><table class='texto'>";
 	echo "<tr><th>&nbsp;</th><th>Codigo</th><th>Nombre</th><th>Numero</th><th>Peso</th><th>Precio</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombre=$dat[1];

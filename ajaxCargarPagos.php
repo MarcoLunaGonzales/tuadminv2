@@ -9,14 +9,14 @@ $sql="select o.cod_orden, o.nro_orden, o.cod_proveedor, o.fecha_orden, o.monto_o
 	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=o.cod_proveedor) as proveedor 
 	from orden_compra o
 	where o.cod_proveedor='$codProveedor' and cod_estado=1 and monto_orden>monto_cancelado order by o.fecha_orden";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
-$numFilas=mysql_num_rows($resp);
+$numFilas=mysqli_num_rows($resp);
 
 echo "<input type='hidden' name='nroFilas' id='nroFilas' value='$numFilas'>";
 
 $i=1;
-while($dat=mysql_fetch_array($resp)){
+while($dat=mysqli_fetch_array($resp)){
 	$codigo=$dat[0];
 	$numero=$dat[1];
 	$codProveedor=$dat[2];

@@ -13,8 +13,8 @@ $consulta="
     FROM ingreso_detalle_almacenes id, ingreso_almacenes i
     WHERE id.cod_material='$codMaterial' AND i.cod_ingreso_almacen=id.cod_ingreso_almacen AND i.ingreso_anulado=0 AND i.cod_almacen='$codAlmacen'";
 //echo "$consulta<br>";
-$rs=mysql_query($consulta);
-$registro=mysql_fetch_array($rs);
+$rs=mysqli_query($enlaceCon,$consulta);
+$registro=mysqli_fetch_array($rs);
 $cadRespuesta=$registro[0];
 if($cadRespuesta=="")
 {   $cadRespuesta=0;

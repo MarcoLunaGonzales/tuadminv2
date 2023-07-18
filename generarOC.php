@@ -131,17 +131,17 @@ function validar(f){
 	echo "<form method='post' action='guardaGenerarOC.php'>";
 	
 	$sqlDolar="select valor from `cotizaciondolar`";
-	$respDolar=mysql_query($sqlDolar);
-	$tipoCambio=mysql_result($respDolar,0,0);
+	$respDolar=mysqli_query($enlaceCon,$sqlDolar);
+	$tipoCambio=mysqli_result($respDolar,0,0);
 	
 	echo "<center><table border='0' class='textotit'><tr><th>Generar OC</th></tr></table></center><br>";
 	echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
 	echo "<tr><th>Numero de O.C.</th><th>Fecha OC</th><th>Proveedor</th><th>Nro. Factura</th><th>Tipo de Pago</th><th>Orden Propia</th></tr>";
 	echo "<tr>";
 	$sql="select nro_orden from orden_compra order by cod_orden desc";
-	$resp=mysql_query($sql);
-	$dat=mysql_fetch_array($resp);
-	$num_filas=mysql_num_rows($resp);
+	$resp=mysqli_query($enlaceCon,$sql);
+	$dat=mysqli_fetch_array($resp);
+	$num_filas=mysqli_num_rows($resp);
 	if($num_filas==0)
 	{   $nro_correlativo=1;
 	}
@@ -161,9 +161,9 @@ function validar(f){
 	echo"  </TD>";
 
 	$sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
-	$resp1=mysql_query($sql1);
+	$resp1=mysqli_query($enlaceCon,$sql1);
 	echo "<td align='center'><select name='proveedor' id='proveedor' class='texto'>";
-	while($dat1=mysql_fetch_array($resp1))
+	while($dat1=mysqli_fetch_array($resp1))
 	{   $codigo=$dat1[0];
 		$nombre=$dat1[1];
 		echo "<option value='$codigo'>$nombre</option>";
@@ -173,9 +173,9 @@ function validar(f){
 	echo "<td align='center'><input type='text' class='texto' name='nro_factura' id='nro_factura' size='10' value='0'></td>";
 
 	$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by cod_tipopago";
-	$resp1=mysql_query($sql1);
+	$resp1=mysqli_query($enlaceCon,$sql1);
 	echo "<td align='center'><select name='tipo_pago' id='tipo_pago' class='texto'>";
-	while($dat1=mysql_fetch_array($resp1))
+	while($dat1=mysqli_fetch_array($resp1))
 	{   $cod_tipopago=$dat1[0];
 		$nombre_tipopago=$dat1[1];
 		echo "<option value='$cod_tipopago'>$nombre_tipopago</option>";
@@ -183,9 +183,9 @@ function validar(f){
 	echo "</select></td>";
 	
 	$sqlOP="select o.`cod_propiedad`, o.`nombre_propiedad` from `ordenes_propias` o";
-	$resp1=mysql_query($sqlOP);
+	$resp1=mysqli_query($enlaceCon,$sqlOP);
 	echo "<td align='center'><select name='propiedadOC' id='propiedadOC' class='texto'>";
-	while($dat1=mysql_fetch_array($resp1))
+	while($dat1=mysqli_fetch_array($resp1))
 	{   $codigo=$dat1[0];
 		$nombre=$dat1[1];
 		echo "<option value='$codigo'>$nombre</option>";
@@ -206,8 +206,8 @@ function validar(f){
 	$sql_detalle="select i.`cod_material`, m.`descripcion_material`, sum(i.`cantidad_unitaria`) from `ingreso_detalle_almacenes` i, `material_apoyo` m
 		where i.`cod_ingreso_almacen` in ($codIngresos) and i.`cod_material`=m.`codigo_material`
 		group by i.`cod_material`, m.`descripcion_material` order by 2";
-	$resp_detalle=mysql_query($sql_detalle);
-	$filasDetalle=mysql_num_rows($resp_detalle);
+	$resp_detalle=mysqli_query($enlaceCon,$sql_detalle);
+	$filasDetalle=mysqli_num_rows($resp_detalle);
 	echo "<input type='hidden' value='$filasDetalle' name='numeroItems' id='numeroItems'>";
 	echo "<br><table border=1 cellspacing='0' class='textomini' width='90%' align='center' id='detalle'>";
 	
@@ -215,7 +215,7 @@ function validar(f){
 	
 	$indice=1;
 	$montoTotal=0;
-	while($dat_detalle=mysql_fetch_array($resp_detalle))
+	while($dat_detalle=mysqli_fetch_array($resp_detalle))
 	{	$codMaterial=$dat_detalle[0];
 		$nombreMaterial=$dat_detalle[1];
 		$cantidad=$dat_detalle[2];

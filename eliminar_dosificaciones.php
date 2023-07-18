@@ -6,7 +6,7 @@
 	for($i=0;$i<$n;$i++)
 	{
 		$sql="update dosificaciones set cod_estado='4' where cod_dosificacion=$vector[$i]";
-		$resp=mysql_query($sql);
+		$resp=mysqli_query($enlaceCon,$sql);
 	}
 	echo "<script language='Javascript'>
 			alert('Los datos fueron eliminados.');

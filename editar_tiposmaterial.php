@@ -12,8 +12,8 @@ echo "<script language='Javascript'>
 	</script>";
 require("conexion.inc");
 require("estilos.inc");
-$sql=mysql_query("select nombre_tipomaterial, obs_tipomaterial from tipos_material where cod_tipomaterial=$codigo_registro");
-$dat=mysql_fetch_array($sql);
+$sql=mysqli_query($enlaceCon,"select nombre_tipomaterial, obs_tipomaterial from tipos_material where cod_tipomaterial=$codigo_registro");
+$dat=mysqli_fetch_array($sql);
 $nombre_tipomaterial=$dat[0];
 $obs_tipomaterial=$dat[1];
 echo "<form action='guarda_modi_tiposmaterial.php' method='post'>";

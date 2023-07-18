@@ -42,18 +42,18 @@ $hora=date("H:i:s");
 
 //SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
-$respConf=mysql_query($sqlConf);
-$tipoDocDefault=mysql_result($respConf,0,0);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$tipoDocDefault=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA EL CLIENTE POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=2";
-$respConf=mysql_query($sqlConf);
-$clienteDefault=mysql_result($respConf,0,0);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$clienteDefault=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
-$respConf=mysql_query($sqlConf);
-$facturacionActivada=mysql_result($respConf,0,0);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$facturacionActivada=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA LA VALIDACION DE STOCKS
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=4";
@@ -63,8 +63,8 @@ $banderaValidacionStock=$datConf[0];
 
 
 $sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
-$resp=mysql_query($sql);
-$codigo=mysql_result($resp,0,0);
+$resp=mysqli_query($enlaceCon,$sql);
+$codigo=mysqli_result($resp,0,0);
 
 
 $vectorNroCorrelativo=numeroCorrelativo($tipoDoc);
@@ -75,9 +75,9 @@ if($facturacionActivada==1 && $tipoDoc==1){
 		//SACAMOS DATOS DE LA DOSIFICACION PARA INSERTAR EN LAS FACTURAS EMITIDAS
 	$sqlDatosDosif="select d.nro_autorizacion, d.llave_dosificacion 
 		from dosificaciones d where d.cod_dosificacion='$cod_dosificacion'";
-	$respDatosDosif=mysql_query($sqlDatosDosif);
-	$nroAutorizacion=mysql_result($respDatosDosif,0,0);
-	$llaveDosificacion=mysql_result($respDatosDosif,0,1);
+	$respDatosDosif=mysqli_query($enlaceCon,$sqlDatosDosif);
+	$nroAutorizacion=mysqli_result($respDatosDosif,0,0);
+	$llaveDosificacion=mysqli_result($respDatosDosif,0,1);
 	include 'controlcode/sin/ControlCode.php';
 	$controlCode = new ControlCode();
 	$code = $controlCode->generate($nroAutorizacion,//Numero de autorizacion
@@ -98,7 +98,7 @@ $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almace
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
 		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial', 
 		'$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta')";
-$sql_inserta=mysql_query($sql_inserta);
+$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 if($sql_inserta==1){
 	
@@ -107,7 +107,7 @@ if($sql_inserta==1){
 		$sqlInsertFactura="insert into facturas_venta (cod_dosificacion, cod_sucursal, nro_factura, cod_estado, razon_social, nit, fecha, importe, 
 		codigo_control, cod_venta) values ('$cod_dosificacion','$globalSucursal','$nro_correlativo','1','$razonSocial','$nitCliente','$fecha','$totalFinal',
 		'$code','$codigo')";
-		$respInsertFactura=mysql_query($sqlInsertFactura);	
+		$respInsertFactura=mysqli_query($enlaceCon,$sqlInsertFactura);	
 	}
 
 	$montoTotalVentaDetalle=0;
@@ -144,11 +144,11 @@ if($sql_inserta==1){
 	//ACTUALIZAMOS EL PRECIO CON EL DETALLE
 	$sqlUpdMonto="update salida_almacenes set monto_total='$montoTotalVentaDetalle', monto_final='$montoTotalConDescuento' 
 				where cod_salida_almacenes='$codigo'";
-	$respUpdMonto=mysql_query($sqlUpdMonto);
+	$respUpdMonto=mysqli_query($enlaceCon,$sqlUpdMonto);
 	if($facturacionActivada==1){
 		$sqlUpdMonto="update facturas_venta set importe='$montoTotalConDescuento' 
 					where cod_venta='$codigo'";
-		$respUpdMonto=mysql_query($sqlUpdMonto);
+		$respUpdMonto=mysqli_query($enlaceCon,$sqlUpdMonto);
 	}
 	
 	if($tipoSalida==1001){

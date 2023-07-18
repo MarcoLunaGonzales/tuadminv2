@@ -31,13 +31,13 @@ $consulta = $consulta."ORDER BY i.nro_correlativo DESC";
 
 //echo $consulta;
 //
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 	
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nro.Factura</th><th>Fecha</th><th>Tipo de Ingreso</th>
 <th>Proveedor</th>
 <th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
     $fecha_ingreso_mostrar = "$fecha_ingreso[8]$fecha_ingreso[9]-$fecha_ingreso[5]$fecha_ingreso[6]-$fecha_ingreso[0]$fecha_ingreso[1]$fecha_ingreso[2]$fecha_ingreso[3]";
@@ -54,8 +54,8 @@ while ($dat = mysql_fetch_array($resp)) {
     $sql_verifica_movimiento = "select * from salida_almacenes s, salida_detalle_almacenes sd, ingreso_almacenes i
         where s.cod_salida_almacenes=sd.cod_salida_almacen  and sd.cod_ingreso_almacen=i.cod_ingreso_almacen and s.salida_anulada=0 and i.cod_ingreso_almacen='$codigo'";
     //echo $sql_verifica_movimiento;
-    $resp_verifica_movimiento = mysql_query($sql_verifica_movimiento);
-    $num_filas_movimiento = mysql_num_rows($resp_verifica_movimiento);
+    $resp_verifica_movimiento = mysqli_query($enlaceCon,$sql_verifica_movimiento);
+    $num_filas_movimiento = mysqli_num_rows($resp_verifica_movimiento);
     if ($num_filas_movimiento > 0) {
         $color_fondo = "#ffff99";
         $chkbox = "";

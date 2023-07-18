@@ -80,7 +80,7 @@ echo "<script language='Javascript'>
 	$sql="select s.cod_salida_almacenes, s.cod_almacen, s.despacho_fecha, ts.nombre_tiposalida, c.descripcion, a.nombre_almacen, s.observaciones, s.nro_correlativo 
 	FROM salida_almacenes s, tipos_salida ts, ciudades c, almacenes a 
 	where s.cod_tiposalida=ts.cod_tiposalida and s.almacen_destino='$global_almacen' and s.cod_almacen<>'$global_almacen' and s.grupo_salida='1' and s.estado_salida=1 and c.cod_ciudad=s.territorio_destino and a.cod_almacen=s.cod_almacen order by despacho_fecha";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><th>Ingreso de Muestras en Transito</th></tr></table></center><br>";
 	require('home_almacen.php');
 	echo "<center><table border='0' class='texto'>";
@@ -89,13 +89,13 @@ echo "<script language='Javascript'>
 	}
 	echo "<center><table border='1' class='texto' cellspacing='0' width='100%'>";
 	echo "<tr><th>&nbsp;</th><th>Fecha Despacho</th><th>Tipo de Salida<br>(Origen)</th><th>Territorio<br>Origen</th><th>Nota de Remision<br>(Origen)</th><th>Observaciones</th><th>Funcionario Destino</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$cod_almacen_origen=$dat[1];
-		$sql_almacen_origen=mysql_query("select a.nombre_almacen, c.descripcion from almacenes a, ciudades c 
+		$sql_almacen_origen=mysqli_query($enlaceCon,"select a.nombre_almacen, c.descripcion from almacenes a, ciudades c 
 		where a.cod_almacen=$cod_almacen_origen and a.cod_ciudad=c.cod_ciudad");
-		$dat_almacen_origen=mysql_fetch_array($sql_almacen_origen);
+		$dat_almacen_origen=mysqli_fetch_array($sql_almacen_origen);
 		$nombre_almacen_origen=$dat_almacen_origen[0];
 		$ciudad_almacen_origen=$dat_almacen_origen[1];
 		$fecha_salida=$dat[2];
@@ -107,8 +107,8 @@ echo "<script language='Javascript'>
 		$nro_correlativo=$dat[7];
 		$sql_funcionario="select f.paterno, f.materno, f.nombres from funcionarios f, salida_detalle_visitador sv
 		where sv.cod_salida_almacen='$codigo' and f.codigo_funcionario=sv.codigo_funcionario";
-		$resp_funcionario=mysql_query($sql_funcionario);
-		$dat_funcionario=mysql_fetch_array($resp_funcionario);
+		$resp_funcionario=mysqli_query($enlaceCon,$sql_funcionario);
+		$dat_funcionario=mysqli_fetch_array($resp_funcionario);
 		$nombre_funcionario="$dat_funcionario[0] $dat_funcionario[1] $dat_funcionario[2]";
 		echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td align='center'>$nombre_tiposalida</td><td>$nombre_almacen_origen $ciudad_almacen_origen</td><td align='center'>$nro_correlativo</td><td>&nbsp;$nombre_funcionario</td><td>&nbsp;$obs_salida</td>";
 		echo "<td><a target='_BLANK' href='navegador_detallesalidamuestrastransito.php?codigo_salida=$codigo&almacen_origen=$cod_almacen_origen&grupo_salida=1'><img src='imagenes/detalles.gif' border='0' alt='Ver Detalles'>Detalles Ingreso</a></td>";

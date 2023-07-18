@@ -1,35 +1,61 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Minka Software</title>
-
+	<title>MinkaSoftware</title> 
+	    <link rel="shortcut icon" href="imagenes/icon_farma.ico" type="image/x-icon">
 	<link type="text/css" rel="stylesheet" href="menuLibs/css/demo.css" />
-	<link type="text/css" rel="stylesheet" href="menuLibs/dist/jquery.mmenu.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<style>  
+	.boton-rojo
+{
+    text-decoration: none !important;
+    padding: 10px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    color: #ffffff !important;
+    background-color: #E73024 !important;
+    border-radius: 3px !important;
+    border: 2px solid #E73024 !important;
+}
+.boton-rojo:hover{
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+   .boton-plomo
+{
+    text-decoration: none !important;
+    font-weight: 0 !important;
+    font-size: 12spx !important;
+    color: #ffffFF !important;
+    background-color: #88898A !important;
+    border-radius: 3px !important;
+    border: 2px solid #88898A !important;
+}
+.boton-plomo:hover{
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
 
-	<script type="text/javascript" src="menuLibs/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="menuLibs/dist/jquery.mmenu.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$('nav#menu').mmenu();
-		});
-		
-</script> 
-	</script>
-		
+</style>
+     <link rel="stylesheet" href="dist/css/demo.css" />
+     <link rel="stylesheet" href="dist/mmenu.css" />
+	 <link rel="stylesheet" href="dist/demo.css" />
 </head>
+
 <body>
-<?
-include("datosUsuario.php");
+<?php
+require_once 'datosUsuario.php';
 ?>
 <div id="page">
 	<div class="header">
 		<a href="#menu"><span></span></a>
 		TuAdmin 
 		<div style="position:absolute; width:95%; height:50px; text-align:right; top:0px; font-size: 9px; font-weight: bold; color: #fff;">
-			[<? echo $fechaSistemaSesion?>][<? echo $horaSistemaSesion;?>]			
+			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]			
 		<div>
 		<div style="position:absolute; width:95%; height:50px; text-align:left; top:0px; font-size: 12px; font-weight: bold; color: #ffff00;">
-			[<? echo $nombreUsuarioSesion?>]&nbsp;&nbsp;&nbsp;[<? echo $nombreAlmacenSesion;?>]
+			[<?=$nombreUsuarioSesion; ?>]&nbsp;&nbsp;&nbsp;[<?=$nombreAlmacenSesion;?>]
 		<div>
 	</div>
 	
@@ -40,6 +66,9 @@ include("datosUsuario.php");
 	
 	
 	<nav id="menu">
+
+		<div id="panel-menu">
+		
 		<ul>
 			<li><span>Datos Generales</span>
 				<ul>
@@ -178,8 +207,13 @@ include("datosUsuario.php");
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>
 				</ul>
-			</li>		
+			</li>	
+		</div>	
 	</nav>
 </div>
+<script src="dist/mmenu.polyfills.js"></script>
+<script src="dist/mmenu.js"></script>
+<script src="dist/demo.js"></script>
+
 	</body>
 </html>

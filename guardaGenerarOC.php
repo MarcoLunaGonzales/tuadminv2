@@ -5,9 +5,9 @@ require("estilos.inc");
 require("funciones.php");
 
 $sql = "select cod_orden from orden_compra order by cod_orden desc";
-$resp = mysql_query($sql);
-$dat = mysql_fetch_array($resp);
-$num_filas = mysql_num_rows($resp);
+$resp = mysqli_query($enlaceCon,$sql);
+$dat = mysqli_fetch_array($resp);
+$num_filas = mysqli_num_rows($resp);
 if ($num_filas == 0) {
     $codigo = 1;
 } else {
@@ -16,9 +16,9 @@ if ($num_filas == 0) {
 }
 
 $sql = "select nro_orden from orden_compra order by 1 desc";
-$resp = mysql_query($sql);
-$dat = mysql_fetch_array($resp);
-$num_filas = mysql_num_rows($resp);
+$resp = mysqli_query($enlaceCon,$sql);
+$dat = mysqli_fetch_array($resp);
+$num_filas = mysqli_num_rows($resp);
 if ($num_filas == 0) {
     $nro_correlativo = 1;
 } else {
@@ -49,15 +49,15 @@ $consulta="insert into orden_compra
 
 	echo $consulta;
 
-	$sql_inserta = mysql_query($consulta);
+	$sql_inserta = mysqli_query($enlaceCon,$consulta);
 
 //////////
 if($tipoFactura==1){
 /*	$codAlmacen=1003;
 	$sql = "select cod_ingreso_almacen from ingreso_almacenes order by cod_ingreso_almacen desc";
-	$resp = mysql_query($sql);
-	$dat = mysql_fetch_array($resp);
-	$num_filas = mysql_num_rows($resp);
+	$resp = mysqli_query($enlaceCon,$sql);
+	$dat = mysqli_fetch_array($resp);
+	$num_filas = mysqli_num_rows($resp);
 	if ($num_filas == 0) {
 		$codigoIng = 1;
 	} else {
@@ -65,9 +65,9 @@ if($tipoFactura==1){
 		$codigoIng++;
 	}
 	$sql = "select nro_correlativo from ingreso_almacenes where cod_almacen='$codAlmacen' order by cod_ingreso_almacen desc";
-	$resp = mysql_query($sql);
-	$dat = mysql_fetch_array($resp);
-	$num_filas = mysql_num_rows($resp);
+	$resp = mysqli_query($enlaceCon,$sql);
+	$dat = mysqli_fetch_array($resp);
+	$num_filas = mysqli_num_rows($resp);
 	if ($num_filas == 0) {
 		$nro_correlativo = 1;
 	} else {
@@ -77,7 +77,7 @@ if($tipoFactura==1){
 	$hora_sistema = date("H:i:s");
 	$consultaIng="insert into ingreso_almacenes 
 	values($codigoIng,$codAlmacen,'1','$fechaVencimiento','$hora_sistema','Ingreso Aut.','0','0','$nro_correlativo',0,0,0,0,0,0,'$proveedor')";
-	$respIng=mysql_query($consultaIng);*/
+	$respIng=mysqli_query($enlaceCon,$consultaIng);*/
 }
 ///////
 
@@ -89,11 +89,11 @@ for ($i = 1; $i <= $cantidad_material; $i++) {
 	
     $consulta="insert into orden_compra_detalle values($codigo,'$cod_material',' ', $cantidad,$precioBruto)";
     echo "bbb:$consulta";
-    $sql_inserta2 = mysql_query($consulta);
+    $sql_inserta2 = mysqli_query($enlaceCon,$consulta);
 	
 	/*if($tipoFactura==1){
 		$consultaIng="insert into ingreso_detalle_almacenes values($codigoIng,'$cod_material',$cantidad,$cantidad,0,0,0,0,0,0)";
-		$respIng=mysql_query($consultaIng);
+		$respIng=mysqli_query($enlaceCon,$consultaIng);
 	}*/
 }
 echo "<script language='Javascript'>

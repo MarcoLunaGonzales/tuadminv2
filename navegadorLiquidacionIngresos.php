@@ -153,7 +153,7 @@ if($fecha1!="" && $fecha2!="")
 
    $consulta = $consulta."ORDER BY i.nro_correlativo DESC limit 0, 150 ";
 //echo "MAT:$sql";
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 
 echo "<h1>Liquidacion de Ingresos</h1>";
 echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><th>Ingresos Liquidados</th><td bgcolor='#ffff99' width='10%'></td><th>Ingresos No Liquidados</th><td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
@@ -168,7 +168,7 @@ echo "<div id='divCuerpo'>";
 
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Numero Ingreso</th><th>Nota de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Observaciones</th><th>&nbsp;</th></tr>";
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
     $fecha_ingreso_mostrar = "$fecha_ingreso[8]$fecha_ingreso[9]-$fecha_ingreso[5]$fecha_ingreso[6]-$fecha_ingreso[0]$fecha_ingreso[1]$fecha_ingreso[2]$fecha_ingreso[3]";
@@ -181,8 +181,8 @@ while ($dat = mysql_fetch_array($resp)) {
     echo "<input type='hidden' name='fecha_ingreso$nro_correlativo' value='$fecha_ingreso_mostrar'>";
     $sql_verifica_movimiento = "select s.cod_salida_almacenes from salida_almacenes s, salida_detalle_ingreso sdi
                 where s.cod_salida_almacenes=sdi.cod_salida_almacen and s.salida_anulada=0 and sdi.cod_ingreso_almacen='$codigo'";
-    $resp_verifica_movimiento = mysql_query($sql_verifica_movimiento);
-    $num_filas_movimiento = mysql_num_rows($resp_verifica_movimiento);
+    $resp_verifica_movimiento = mysqli_query($enlaceCon,$sql_verifica_movimiento);
+    $num_filas_movimiento = mysqli_num_rows($resp_verifica_movimiento);
    
     if ($estadoLiquidacion == 1) {
         $color_fondo = "#ffff99";
@@ -240,8 +240,8 @@ echo "</form>";
 						<option value="">-</option>
 					<?php
 						$sqlMat="select m.codigo_material, m.descripcion_material, (select g.nombre_grupo from grupos g where g.cod_grupo=m.cod_grupo)as grupo from material_apoyo m where m.estado=1";
-						$respMat=mysql_query($sqlMat);
-						while($datMat=mysql_fetch_array($respMat)){
+						$respMat=mysqli_query($enlaceCon,$sqlMat);
+						while($datMat=mysqli_fetch_array($respMat)){
 							$codMaterialBusqueda=$datMat[0];
 							$nombreMaterialBusqueda=$datMat[1];
 							$grupo=$datMat[2];

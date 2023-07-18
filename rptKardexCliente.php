@@ -36,9 +36,9 @@ from `salida_almacenes` s, clientes c where s.`monto_final` >
       s.`fecha` < '$fecha_iniconsulta'";	
 
       
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 $totalAntCli=0;
-while($dat=mysql_fetch_array($resp)){
+while($dat=mysqli_fetch_array($resp)){
 	$cuentaxCobrarCli=$dat[4]-$dat[5];
 	$totalAntCli=$totalAntCli+$cuentaxCobrarCli;
 } 
@@ -65,19 +65,19 @@ $sqlFechas="(select (s.`fecha`) as fecha from `salida_almacenes` s
 	(select (c.`fecha_cobro`) as fecha from `cobros_cab` c where c.`cod_cliente`=$rpt_cliente and c.`cod_estado`<>2
 	and c.fecha_cobro BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta')
 	 order by fecha";
-$respFechas=mysql_query($sqlFechas);
+$respFechas=mysqli_query($enlaceCon,$sqlFechas);
 
 $saldoNuevo=$totalAntCli;
 
-while($datFechas=mysql_fetch_array($respFechas)){
+while($datFechas=mysqli_fetch_array($respFechas)){
 	$fechaTr=$datFechas[0];
 	
 	$sqlVenta=" select concat(t.`abreviatura`,' ',s.`nro_correlativo`), s.`monto_final` from `salida_almacenes` s, `tipos_docs` t 
 		 where s.`cod_cliente`=$rpt_cliente and s.`fecha`='$fechaTr' and s.`salida_anulada`=0 
 		and s.`cod_tipo_doc`=t.`codigo`";
 	
-	$respVenta=mysql_query($sqlVenta);
-	while($datVenta=mysql_fetch_array($respVenta)){
+	$respVenta=mysqli_query($enlaceCon,$sqlVenta);
+	while($datVenta=mysqli_fetch_array($respVenta)){
 		$docVenta=$datVenta[0];
 		$montoVenta=$datVenta[1];
 		$saldoNuevo=$saldoNuevo+$montoVenta;
@@ -99,8 +99,8 @@ while($datFechas=mysql_fetch_array($respFechas)){
 			   s.`cod_tipo_doc` = t.`codigo` and c.`cod_cliente` = $rpt_cliente and
 			   c.`cod_estado` <> 2 and
 			   c.`fecha_cobro` = '$fechaTr';";
-	$respCobros=mysql_query($sqlCobros);
-	while($datCobros=mysql_fetch_array($respCobros)){
+	$respCobros=mysqli_query($enlaceCon,$sqlCobros);
+	while($datCobros=mysqli_fetch_array($respCobros)){
 		$nroCobro=$datCobros[0];
 		$montoCobro=$datCobros[1];
 		$ventaAsociada=$datCobros[2];

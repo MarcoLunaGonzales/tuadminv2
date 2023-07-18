@@ -8,9 +8,9 @@
 
 
 	$sql="select a.`cod_almacen`, a.`nombre_almacen` from `almacenes` a";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<tr><th>Almacen</th><th>Gestión</th><th>Mes</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombre_almacen=$dat[1];

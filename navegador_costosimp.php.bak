@@ -91,9 +91,9 @@ $fechaHoy=date("d/m/Y");
 	<?php
 	$consulta = "SELECT cod_costoimp, nombre_costoimp, estado,created_by, modified_by, created_date,modified_date FROM costos_importacion  order by  nombre_costoimp asc ";
 		
-	$resp = mysql_query($consulta);
+	$resp = mysqli_query($enlaceCon,$consulta);
 
-	while ($dat = mysql_fetch_array($resp)) {
+	while ($dat = mysqli_fetch_array($resp)) {
 		$codCostoimp = $dat['cod_costoimp'];
 		$nombreCostoimp= $dat['nombre_costoimp'];
 		$estado=$dat['estado'];
@@ -122,18 +122,18 @@ $fechaHoy=date("d/m/Y");
 	if(!empty($created_by)){
 		$sqlRegUsu=" select nombres,paterno  from funcionarios where codigo_funcionario=".$created_by;
 		
-		$respRegUsu=mysql_query($sqlRegUsu);
+		$respRegUsu=mysqli_query($enlaceCon,$sqlRegUsu);
 		$usuReg =" ";
-		while($datRegUsu=mysql_fetch_array($respRegUsu)){
+		while($datRegUsu=mysqli_fetch_array($respRegUsu)){
 			$usuReg =$datRegUsu['nombres'][0].$datRegUsu['paterno'];		
 		}
 	}
 	//////
 	if(!empty($modified_by)){
 		$sqlModUsu=" select nombres,paterno  from funcionarios where codigo_funcionario=".$modified_by;
-		$respModUsu=mysql_query($sqlModUsu);
+		$respModUsu=mysqli_query($enlaceCon,$sqlModUsu);
 		$usuMod ="";
-		while($datModUsu=mysql_fetch_array($respModUsu)){
+		while($datModUsu=mysqli_fetch_array($respModUsu)){
 			$usuMod =$datModUsu['nombres'][0].$datModUsu['paterno'];		
 		}
 	}

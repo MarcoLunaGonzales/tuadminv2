@@ -24,8 +24,8 @@ echo"<form method='post'>";
 	<select name='rpt_territorio' class='texto'  size='12' multiple>";
 	$sql="select c.cod_ciudad, c.descripcion from ciudades c, `funcionarios_agencias` f where 
 				f.`cod_ciudad`=c.`cod_ciudad` and f.`codigo_funcionario`=$global_usuario order by c.descripcion";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp))
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
 		echo "<option value='$codigo_ciudad'>$nombre_ciudad</option>";

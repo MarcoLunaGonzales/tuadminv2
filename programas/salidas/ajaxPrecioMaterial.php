@@ -10,8 +10,8 @@ require("../../conexion.inc");
 $cadRespuesta="";
 $consulta="select precio from precios where codigo_material=$codMaterial and cod_precio=$codTipoPrecio";
 
-$rs=mysql_query($consulta);
-$registro=mysql_fetch_array($rs);
+$rs=mysqli_query($enlaceCon,$consulta);
+$registro=mysqli_fetch_array($rs);
 $cadRespuesta=$registro[0];
 if($cadRespuesta=="")
 {   $cadRespuesta=0;

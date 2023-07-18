@@ -88,10 +88,10 @@ $consulta="select p.cod_linea_proveedor, p.nombre_linea_proveedor, p.abreviatura
 	margen_precio
 	from proveedores_lineas p where p.cod_proveedor=$codProveedor and estado=1";
 
-$rs=mysql_query($consulta);
+$rs=mysqli_query($enlaceCon,$consulta);
 
 $cont=0;
-while($reg=mysql_fetch_array($rs)){
+while($reg=mysqli_fetch_array($rs)){
 	$cont++;
     $codLinea = $reg["cod_linea_proveedor"];
     $nombreLinea = $reg["nombre_linea_proveedor"];

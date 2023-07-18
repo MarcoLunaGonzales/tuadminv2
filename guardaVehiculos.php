@@ -2,9 +2,9 @@
 require("conexion.inc");
 require("estilos.inc");
 $sql="select codigo from vehiculos order by codigo desc";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {	$codigo=1;
 }
@@ -18,7 +18,7 @@ $nombre=$_POST['nombre'];
 $peso=$_POST['peso'];
 
 $sql_inserta="insert into vehiculos values($codigo,'$placa','$nombre','$peso')";
-$resp_inserta=mysql_query($sql_inserta);
+$resp_inserta=mysqli_query($enlaceCon,$sql_inserta);
 echo "<script language='Javascript'>
 			alert('Los datos fueron insertados correctamente.');
 			location.href='navegador_vehiculos.php';

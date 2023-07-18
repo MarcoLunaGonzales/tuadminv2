@@ -3,8 +3,8 @@
 require("conexion.inc");
 require("estilos.inc");
 
-$sql=mysql_query("select nombre_grupo from grupos where cod_grupo=$codigo_registro");
-$dat=mysql_fetch_array($sql);
+$sql=mysqli_query($enlaceCon,"select nombre_grupo from grupos where cod_grupo=$codigo_registro");
+$dat=mysqli_fetch_array($sql);
 
 $nombreGrupo=$dat[0];
 

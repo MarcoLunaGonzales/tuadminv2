@@ -47,7 +47,7 @@ order by c.nombre_cliente,
 
 //echo $sql;
 
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='100%'>
 <tr>
@@ -60,7 +60,7 @@ echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='10
 </tr>";
 
 $totalxCobrar=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$codSalida=$datos[0];
 	$nroVenta=$datos[1];
 	$fechaVenta=$datos[2];

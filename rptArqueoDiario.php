@@ -29,8 +29,8 @@ echo "<tr><th colspan='2'>Saldo Inicial Caja Chica</th></tr>
 $consulta = "select DATE_FORMAT(c.fecha_cajachica, '%d/%m/%Y'), c.monto, c.fecha_cajachica from cajachica_inicio c where 
 c.fecha_cajachica='$fecha_iniconsulta'";
 //echo $consulta;
-$resp = mysql_query($consulta);
-while ($dat = mysql_fetch_array($resp)) {
+$resp = mysqli_query($enlaceCon,$consulta);
+while ($dat = mysqli_fetch_array($resp)) {
 	$fechaCajaChica = $dat[0];
 	$montoCajaChica = $dat[1];
 	$montoCajaChicaF=number_format($montoCajaChica,2,".",",");
@@ -62,7 +62,7 @@ $sql.=" order by s.fecha, s.hora_salida";
 
 //echo $sql;
 
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table align='center' class='textomediano' width='70%'>
 <tr><th colspan='6'>Detalle de Ingresos</th></tr>
@@ -78,7 +78,7 @@ echo "<br><table align='center' class='textomediano' width='70%'>
 $totalVenta=0;
 $totalEfectivo=0;
 $totalTarjeta=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$fechaVenta=$datos[0];
 	$nombreCliente=$datos[1];
 	$razonSocial=$datos[2];
@@ -150,9 +150,9 @@ $consulta = "select g.cod_gasto, g.descripcion_gasto,
 	and g.estado=1 and g.cod_ciudad='$rpt_territorio' and g.cod_tipogasto in (select tg.cod_tipogasto from tipos_gasto tg where tg.tipo=1) order by g.cod_gasto";
 //echo $consulta;
 
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 $totalGastos=0;
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
 	$codGasto = $dat[0];
 	$descripcionGasto= $dat[1];
 	$tipoGasto=$dat[2];

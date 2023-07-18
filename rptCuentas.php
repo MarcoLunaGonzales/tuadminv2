@@ -29,7 +29,7 @@ $sql="select cb.`cod_cobranza`, cb.`fecha_cobranza`, cb.`nro_doc`, c.`nombre_cli
 	cb.`fecha_cobranza` BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' and
 	cb.`cod_venta`=s.`cod_salida_almacenes` order by 1";
 	
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
 echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='100%'>
 <tr>
@@ -43,7 +43,7 @@ echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='10
 </tr>";
 
 $totalCobro=0;
-while($datos=mysql_fetch_array($resp)){	
+while($datos=mysqli_fetch_array($resp)){	
 	$codCobro=$datos[0];
 	$fecha=$datos[1];
 	$nroCobro=$datos[2];

@@ -14,11 +14,11 @@ echo "<script language='Javascript'>
 	require("estilos.inc");
 	echo "<form method='post' action=''>";
 	$sql="select valor from cotizaciondolar";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Cotizacion $us</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='80%'>";
 	echo "<tr><th>Cotizacion</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$valor=$dat[0];
 		echo "<tr></td><td>$valor</td></tr>";

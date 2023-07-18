@@ -80,8 +80,8 @@ echo "<script language='Javascript'>
 		$cod_ciudad=$_GET['cod_ciudad'];
 		
 		$sql_cab="select descripcion from ciudades where cod_ciudad=$cod_ciudad";
-                $resp_cab=mysql_query($sql_cab);
-                $dat_cab=mysql_fetch_array($resp_cab);
+                $resp_cab=mysqli_query($enlaceCon,$sql_cab);
+                $dat_cab=mysqli_fetch_array($resp_cab);
                 $nombre_ciudad=$dat_cab[0];
         echo "<form method='post' action=''>";
         //esta parte saca el ciclo activo
@@ -90,7 +90,7 @@ echo "<script language='Javascript'>
         from funcionarios f, cargos c, ciudades ci
         where f.cod_cargo=c.cod_cargo and f.cod_ciudad=ci.cod_ciudad and f.cod_ciudad='$cod_ciudad' and f.estado='1' order by c.cargo,f.paterno";
 
-		$resp=mysql_query($sql);
+		$resp=mysqli_query($enlaceCon,$sql);
         echo "<h1>Registro de Funcionarios<br>Territorio $nombre_ciudad</h1>";
         
 		echo "<center><table border='0' class='textomini'><tr><th>Leyenda:</th><th>Funcionarios Retirados</th><td bgcolor='#ff6666' width='30%'></td></tr></table></center><br>";
@@ -101,7 +101,7 @@ echo "<script language='Javascript'>
 				<th>Dar Alta</th><th>Restablecer Clave</th><th>
 				Asignar Sucursales</th></tr>";
         $indice_tabla=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
     {
 		$codigo=$dat[0];
 		$cargo=$dat[1];
@@ -118,8 +118,8 @@ echo "<script language='Javascript'>
 		$estado=$dat[11];
 
 		$sql_alta_sistema="select * from usuarios_sistema where codigo_funcionario='$codigo'";
-		$resp_alta_sistema=mysql_query($sql_alta_sistema);
-		$filas_alta=mysql_num_rows($resp_alta_sistema);
+		$resp_alta_sistema=mysqli_query($enlaceCon,$sql_alta_sistema);
+		$filas_alta=mysqli_num_rows($resp_alta_sistema);
 		if($estado==0)
 		{	$alta_sistema="<img src='imagenes/no2.png' width='40'>";
 				$dar_alta="-";

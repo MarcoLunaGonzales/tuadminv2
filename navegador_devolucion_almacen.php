@@ -13,11 +13,11 @@
 			  where c.`codigo_gestion`=g.`codigo_gestion` and g.`estado`='Activo' order by 1 desc";
 	/*$sql="select distinct(c.`cod_ciclo`), g.`codigo_gestion`, g.`nombre_gestion` from `ciclos` c, gestiones g 	
 			  where c.`codigo_gestion`=g.`codigo_gestion` and g.codigo_gestion=1007 order by 1 desc";		  */
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Ciclos</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='60%'>";
 	echo "<tr><th>Ciclo</th><th>Ver >></th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$codGestion=$dat[1];

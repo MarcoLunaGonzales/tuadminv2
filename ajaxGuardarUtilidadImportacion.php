@@ -15,7 +15,7 @@ $precioMargenMenor=$costobase+($costobase*($margenmenor/100));
 $sqlUpd="update ingreso_detalle_almacenes set margen_xmayor='$margenmayor', margen_xmenor='$margenmenor',
 precio_clientexmayor='$precioMargenMayor', precio_clientexmenor='$precioMargenMenor' where cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$item'";
 //echo $sqlUpd;
-$respUpd=mysql_query($sqlUpd);
+$respUpd=mysqli_query($enlaceCon,$sqlUpd);
 
 $precioMargenMayorF=formatonumeroDec($precioMargenMayor);
 $precioMargenMenorF=formatonumeroDec($precioMargenMenor);

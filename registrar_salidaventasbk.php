@@ -362,18 +362,18 @@ $globalAgencia=$_COOKIE['global_agencia'];
 
 //SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
-$respConf=mysql_query($sqlConf);
-$tipoDocDefault=mysql_result($respConf,0,0);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$tipoDocDefault=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA EL CLIENTE POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=2";
-$respConf=mysql_query($sqlConf);
-$clienteDefault=mysql_result($respConf,0,0);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$clienteDefault=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
-$respConf=mysql_query($sqlConf);
-$facturacionActivada=mysql_result($respConf,0,0);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$facturacionActivada=mysqli_result($respConf,0,0);
 
 ?>
 <form action='guardarSalidaMaterial.php' method='POST' name='form1'>
@@ -387,8 +387,8 @@ $facturacionActivada=mysql_result($respConf,0,0);
 	<select name='tipoSalida' id='tipoSalida'>
 <?php
 	$sqlTipo="select cod_tiposalida, nombre_tiposalida from tipos_salida where cod_tiposalida=1001 order by 2";
-	$respTipo=mysql_query($sqlTipo);
-	while($datTipo=mysql_fetch_array($respTipo)){
+	$respTipo=mysqli_query($enlaceCon,$sqlTipo);
+	while($datTipo=mysqli_fetch_array($respTipo)){
 		$codigo=$datTipo[0];
 		$nombre=$datTipo[1];
 ?>
@@ -406,11 +406,11 @@ $facturacionActivada=mysql_result($respConf,0,0);
 		}else{
 			$sql="select codigo, nombre, abreviatura from tipos_docs where codigo in (2) order by 2 desc";
 		}
-		$resp=mysql_query($sql);
+		$resp=mysqli_query($enlaceCon,$sql);
 
 		echo "<select name='tipoDoc' id='tipoDoc' onChange='ajaxNroDoc(form1)' required>";
 		echo "<option value=''>-</option>";
-		while($dat=mysql_fetch_array($resp)){
+		while($dat=mysqli_fetch_array($resp)){
 			$codigo=$dat[0];
 			$nombre=$dat[1];
 			if($codigo==$tipoDocDefault){
@@ -446,8 +446,8 @@ $facturacionActivada=mysql_result($respConf,0,0);
 		<option value='0'>-----</option>
 <?php
 	$sql3="select cod_almacen, nombre_almacen from almacenes order by nombre_almacen";
-	$resp3=mysql_query($sql3);
-	while($dat3=mysql_fetch_array($resp3)){
+	$resp3=mysqli_query($enlaceCon,$sql3);
+	while($dat3=mysqli_fetch_array($resp3)){
 		$cod_almacen=$dat3[0];
 		$nombre_almacen="$dat3[1] $dat3[2] $dat3[3]";
 ?>
@@ -472,9 +472,9 @@ $facturacionActivada=mysql_result($respConf,0,0);
 			<option value=''>----</option>
 <?php
     $sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
-    $resp2=mysql_query($sql2);
+    $resp2=mysqli_query($enlaceCon,$sql2);
 
-	while($dat2=mysql_fetch_array($resp2)){
+	while($dat2=mysqli_fetch_array($resp2)){
 	   $codCliente=$dat2[0];
 		$nombreCliente=$dat2[1];
 		if($codCliente==$clienteDefault){
@@ -496,9 +496,9 @@ $facturacionActivada=mysql_result($respConf,0,0);
 		<div id='divTipoPrecio'>
 			<?php
 				$sql1="select codigo, nombre from tipos_precio order by 1";
-				$resp1=mysql_query($sql1);
+				$resp1=mysqli_query($enlaceCon,$sql1);
 				echo "<select name='tipoPrecio' class='texto' id='tipoPrecio'>";
-				while($dat=mysql_fetch_array($resp1)){
+				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
 					echo "<option value='$codigo'>$nombre</option>";
@@ -531,8 +531,8 @@ $facturacionActivada=mysql_result($respConf,0,0);
 		?>
 		<select name='chofer' class='texto' id='chofer' required>
 			<?php
-			$resp2=mysql_query($sql2);
-			while($dat2=mysql_fetch_array($resp2)){
+			$resp2=mysqli_query($enlaceCon,$sql2);
+			while($dat2=mysqli_fetch_array($resp2)){
 				$codChofer=$dat2[0];
 				$nombreChofer=$dat2[1];
 			?>		
@@ -615,9 +615,9 @@ if($banderaErrorFacturacion==0){
 			<?php
 			$sqlTipo="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) from proveedores p, proveedores_lineas pl 
 			where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
-			$respTipo=mysql_query($sqlTipo);
+			$respTipo=mysqli_query($enlaceCon,$sqlTipo);
 			echo "<option value='0'>--</option>";
-			while($datTipo=mysql_fetch_array($respTipo)){
+			while($datTipo=mysqli_fetch_array($respTipo)){
 				$codTipoMat=$datTipo[0];
 				$nombreTipoMat=$datTipo[1];
 				echo "<option value=$codTipoMat>$nombreTipoMat</option>";

@@ -5,7 +5,7 @@ require("configModule.php");
 
 $sql="insert into $table (nombre, numero, peso, precio, cod_estado) values('$nombre','$numero','$peso','$precio','1')";
 //echo $sql;
-$sql_inserta=mysql_query($sql);
+$sql_inserta=mysqli_query($enlaceCon,$sql);
 
 echo "<script language='Javascript'>
 			alert('Los datos fueron insertados correctamente.');

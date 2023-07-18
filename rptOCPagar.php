@@ -10,7 +10,7 @@
 		(o.`monto_orden`- o.`monto_cancelado`)>0 order by fecha_orden desc";
 
 	//echo $sql;	
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Reporte de Ordenes de Compra por Pagar</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='80%' id='main'>";
 	echo "<tr><th>Nro. Documento</th>
@@ -23,7 +23,7 @@
 	$indice=1;
 $sumaBs=0;
 $sumaDol=0;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codOrden=$dat[0];
 		$proveedor=$dat[1];

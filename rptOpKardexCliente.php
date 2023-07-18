@@ -20,9 +20,9 @@ echo"<form method='post' action=''>";
 	echo"\n<center><table class='texto' width='50%'>\n";
 	echo "<tr><th align='left'>Cliente</th><td><select name='rpt_cliente' class='texto'>";
 	$sql="select cod_cliente, nombre_cliente from clientes order by 2";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value=''></option>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo=$dat[0];
 		$nombre=$dat[1];
 		echo "<option value='$codigo'>$nombre</option>";

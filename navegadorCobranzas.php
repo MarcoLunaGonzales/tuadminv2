@@ -109,9 +109,9 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 from `cobros_cab` c
 order by c.`cod_cobro` desc limit 0, 100";
 		
-	$resp = mysql_query($consulta);
+	$resp = mysqli_query($enlaceCon,$consulta);
 
-	while ($dat = mysql_fetch_array($resp)) {
+	while ($dat = mysqli_fetch_array($resp)) {
 		$codPago = $dat[0];
 		$fechaPago= $dat[1];
 		$observaciones=$dat[2];

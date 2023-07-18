@@ -32,11 +32,11 @@ $codigo=$_GET['codigo'];
 echo "<input type='hidden' name='codigo' value='$codigo'>";
 
 $sql="select codigo, placa, nombre, peso_maximo from vehiculos where codigo='$codigo'";
-$resp=mysql_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 
-$placa=mysql_result($resp,0,1);
-$nombre=mysql_result($resp,0,2);
-$peso=mysql_result($resp,0,3);
+$placa=mysqli_result($resp,0,1);
+$nombre=mysqli_result($resp,0,2);
+$peso=mysqli_result($resp,0,3);
 
 echo "<tr><th align='left'>Placa</th>
 	<td><input type='text' class='texto' name='placa' value='$placa' onKeyUp='javascript:this.value=this.value.toUpperCase();'></td>";

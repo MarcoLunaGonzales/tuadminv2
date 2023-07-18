@@ -147,7 +147,7 @@ if($fecha1!="" && $fecha2!="")
    }
 $consulta = $consulta."ORDER BY i.nro_correlativo DESC limit 0, 50 ";
 //echo "MUE:$sql";
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 echo "<center><table border='0' class='textotit'><tr><th>Ingreso de Muestras</th></tr></table></center><br>";
 echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><th>Ingresos Anulados</th><td bgcolor='#ff8080' width='10%'></td><th>Ingresos con movimiento</th><td bgcolor='#ffff99' width='10%'></td><th>Ingresos sin movimiento</th><td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
 require('home_almacen.php');
@@ -157,7 +157,7 @@ if ($global_usuario != 1062 and $global_usuario != 1120 and $global_usuario != 1
 }
 echo "<br><center><table border='1' class='texto' cellspacing='0' width='90%'>";
 echo "<tr><th>&nbsp;</th><th>Numero Ingreso</th><th>Nota de Entrega</th><th>Fecha/Hora</th><th>Tipo de Ingreso</th><th>Observaciones</th><th>&nbsp;</th></tr>";
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
     $fecha_ingreso_mostrar = "$fecha_ingreso[8]$fecha_ingreso[9]-$fecha_ingreso[5]$fecha_ingreso[6]-$fecha_ingreso[0]$fecha_ingreso[1]$fecha_ingreso[2]$fecha_ingreso[3]";
@@ -171,8 +171,8 @@ while ($dat = mysql_fetch_array($resp)) {
     $bandera = 0;
     $sql_verifica_movimiento = "SELECT s.cod_salida_almacenes FROM salida_almacenes s, salida_detalle_ingreso sdi
                 WHERE s.cod_salida_almacenes=sdi.cod_salida_almacen AND s.salida_anulada=0 AND sdi.cod_ingreso_almacen='$codigo'";
-    $resp_verifica_movimiento = mysql_query($sql_verifica_movimiento);
-    $num_filas_movimiento = mysql_num_rows($resp_verifica_movimiento);
+    $resp_verifica_movimiento = mysqli_query($enlaceCon,$sql_verifica_movimiento);
+    $num_filas_movimiento = mysqli_num_rows($resp_verifica_movimiento);
     if ($num_filas_movimiento != 0) {
         $color_fondo = "#ffff99";
         $chkbox = "";

@@ -7,12 +7,12 @@ require("funciones.php");
 
 
 $sql = "select IFNULL(MAX(cod_ingreso_almacen)+1,1) from ingreso_almacenes order by cod_ingreso_almacen desc";
-$resp = mysql_query($sql);
-$codigo=mysql_result($resp,0,0);
+$resp = mysqli_query($enlaceCon,$sql);
+$codigo=mysqli_result($resp,0,0);
 
 $sql = "select IFNULL(MAX(nro_correlativo)+1,1) from ingreso_almacenes where cod_almacen='$global_almacen' order by cod_ingreso_almacen desc";
-$resp = mysql_query($sql);
-$nro_correlativo=mysql_result($resp,0,0);
+$resp = mysqli_query($enlaceCon,$sql);
+$nro_correlativo=mysqli_result($resp,0,0);
 
 $hora_sistema = date("H:i:s");
 
@@ -33,12 +33,12 @@ if($tipo_ingreso==1002){
 	$codSalida=$_POST['cod_salida'];
 	$estadoSalida=4;//recepcionado
 	$sqlCambiaEstado="update salida_almacenes set estado_salida='$estadoSalida' where cod_salida_almacenes=$codSalida";
-	$respCambiaEstado=mysql_query($sqlCambiaEstado);
+	$respCambiaEstado=mysqli_query($enlaceCon,$sqlCambiaEstado);
 	
 	//VALIDAMOS QUE LA SALIDA SE HAYA INSERTADO SOLO 1 VEZ
 	$sqlValidaIngresoTraspaso="select count(*)as contador from ingreso_almacenes i where i.ingreso_anulado=0 and i.cod_salida_almacen='$codSalida'";
-	$respValidaIngresoTraspaso=mysql_query($sqlValidaIngresoTraspaso);
-	if($datValidaIngresoTraspaso=mysql_fetch_array($respValidaIngresoTraspaso)){
+	$respValidaIngresoTraspaso=mysqli_query($enlaceCon,$sqlValidaIngresoTraspaso);
+	if($datValidaIngresoTraspaso=mysqli_fetch_array($respValidaIngresoTraspaso)){
 		$banderaIngresoRealizado=$datValidaIngresoTraspaso[0];
 	}
 
@@ -51,7 +51,7 @@ if($banderaIngresoRealizado==0){
 	cod_proveedor,created_by,modified_by,created_date,modified_date) 
 	values($codigo,$global_almacen,$tipo_ingreso,'$fecha_real','$hora_sistema','$observaciones','$codSalida','$nota_entrega','$nro_correlativo',0,0,0,$nro_factura,0,0,'$proveedor','$createdBy','0','$createdDate','')";
 
-	$sql_inserta = mysql_query($consulta);
+	$sql_inserta = mysqli_query($enlaceCon,$consulta);
 
 	//echo "aaaa:$consulta";
 
@@ -78,37 +78,37 @@ if($banderaIngresoRealizado==0){
 				
 				//echo "det:$consulta";
 				
-				$sql_inserta2 = mysql_query($consulta);
+				$sql_inserta2 = mysqli_query($enlaceCon,$consulta);
 				
 				$sqlMargen="select p.margen_precio from material_apoyo m, proveedores_lineas p
 					where m.cod_linea_proveedor=p.cod_linea_proveedor and m.codigo_material='$cod_material'";
-				$respMargen=mysql_query($sqlMargen);
-				$numFilasMargen=mysql_num_rows($respMargen);
+				$respMargen=mysqli_query($enlaceCon,$sqlMargen);
+				$numFilasMargen=mysqli_num_rows($respMargen);
 				$porcentajeMargen=0;
 				if($numFilasMargen>0){
-					$porcentajeMargen=mysql_result($respMargen,0,0);			
+					$porcentajeMargen=mysqli_result($respMargen,0,0);			
 				}		
 				$precioItem=$costo+($costo*($porcentajeMargen/100));
 			
 				/*
 				//SACAMOS EL ULTIMO PRECIO REGISTRADO
 				$sqlPrecioActual="select precio from precios where codigo_material='$cod_material' and cod_precio=1";
-				$respPrecioActual=mysql_query($sqlPrecioActual);
-				$numFilasPrecios=mysql_num_rows($respPrecioActual);
+				$respPrecioActual=mysqli_query($enlaceCon,$sqlPrecioActual);
+				$numFilasPrecios=mysqli_num_rows($respPrecioActual);
 				$precioActual=0;
 				if($numFilasPrecios>0){
-					$precioActual=mysql_result($respPrecioActual,0,0);
+					$precioActual=mysqli_result($respPrecioActual,0,0);
 				}
 				
 				//echo "precio +margen: ".$precioItem." precio actual: ".$precioActual;
 				//SI NO EXISTE EL PRECIO LO INSERTA CASO CONTRARIO VERIFICA QUE EL PRECIO DEL INGRESO SEA MAYOR AL ACTUAL PARA HACER EL UPDATE
 				if($numFilasPrecios==0){
 					$sqlPrecios="insert into precios (codigo_material, cod_precio, precio) values('$cod_material','1','$precioItem')";
-					$respPrecios=mysql_query($sqlPrecios);
+					$respPrecios=mysqli_query($enlaceCon,$sqlPrecios);
 				}else{
 					if($precioItem>$precioActual){
 						$sqlPrecios="update precios set precio='$precioItem' where codigo_material='$cod_material' and cod_precio=1";
-						$respPrecios=mysql_query($sqlPrecios);
+						$respPrecios=mysqli_query($enlaceCon,$sqlPrecios);
 					}
 				}
 				*/

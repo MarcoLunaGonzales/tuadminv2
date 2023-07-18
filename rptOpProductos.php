@@ -31,9 +31,9 @@ echo"<form method='post' action='rptProductos.php'>";
 	else
 	{	$sql="select cod_ciudad, descripcion from ciudades where cod_ciudad='$global_agencia' order by descripcion";
 	}
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value=''></option>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
 		if($rpt_territorio==$codigo_ciudad)
@@ -47,8 +47,8 @@ echo"<form method='post' action='rptProductos.php'>";
 	
 	echo "<tr><th align='left'>Grupo</th><td><select name='rpt_grupo' class='texto' size='10' multiple>";
 	$sql="select cod_grupo, nombre_grupo from grupos where estado=1 order by 2";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp))
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo=$dat[0];
 		$nombre=$dat[1];
 		echo "<option value='$codigo' selected>$nombre</option>";

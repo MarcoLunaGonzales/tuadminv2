@@ -3,9 +3,9 @@ require("conexion.inc");
 require("estilos.inc");
 
 $sql="select cod_grupo, nombre_grupo from grupos order by 1 desc";
-$resp=mysql_query($sql);
-$dat=mysql_fetch_array($resp);
-$num_filas=mysql_num_rows($resp);
+$resp=mysqli_query($enlaceCon,$sql);
+$dat=mysqli_fetch_array($resp);
+$num_filas=mysqli_num_rows($resp);
 if($num_filas==0)
 {	$codigo=1000;
 }
@@ -14,7 +14,7 @@ else
 	$codigo++;
 }
 
-$sql_inserta=mysql_query("insert into grupos (cod_grupo, nombre_grupo, estado) 
+$sql_inserta=mysqli_query($enlaceCon,"insert into grupos (cod_grupo, nombre_grupo, estado) 
 values($codigo,'$nombre_grupo','1')");
 
 echo "<script language='Javascript'>

@@ -8,7 +8,7 @@
 	{
 		$sql="update grupos set estado=2 where cod_grupo=$vector[$i]";
 		//echo $sql;
-		$resp=mysql_query($sql);
+		$resp=mysqli_query($enlaceCon,$sql);
 	}
 	echo "<script language='Javascript'>
 			alert('Los datos fueron eliminados.');

@@ -9,8 +9,8 @@ require("conexion.inc");
 $cadRespuesta="";
 $consulta="select s.`cod_salida_almacenes` from `salida_almacenes` s 
 		where s.`nro_correlativo`=$nroSalida and s.`cod_almacen`=$global_almacen and s.`cod_tiposalida`='1002'";
-$rs=mysql_query($consulta);
-$registro=mysql_fetch_array($rs);
+$rs=mysqli_query($enlaceCon,$consulta);
+$registro=mysqli_fetch_array($rs);
 $cadRespuesta=$registro[0];
 if($cadRespuesta=="")
 {   $cadRespuesta=0;

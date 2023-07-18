@@ -99,13 +99,13 @@ $nombreTerritorio=nombreTerritorio($globalCiudad);
 <tr><th>Tipo</th><th>Fecha</th><th>Descripcion</th><th>Monto</th></tr>
 <?php
 $sql1="select cod_tipogasto, nombre_tipogasto from tipos_gasto where estado=1 order by 2";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 ?>
 <tr>
 <td align='center'>
 <select name='tipo_gasto' id='tipo_gasto' class='texto' required>
 <?php
-while($dat1=mysql_fetch_array($resp1))
+while($dat1=mysqli_fetch_array($resp1))
 {   $codigo=$dat1[0];
     $nombre=$dat1[1];
 ?>

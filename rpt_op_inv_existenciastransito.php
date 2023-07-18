@@ -41,9 +41,9 @@ echo"<form method='post' action=''>";
 	else
 	{	$sql="select cod_ciudad, descripcion from ciudades where cod_ciudad='$global_agencia' order by descripcion";
 	}
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option></option>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
 		if($rpt_territorio==$codigo_ciudad)
@@ -56,8 +56,8 @@ echo"<form method='post' action=''>";
 	echo "</select></td></tr>";
 	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_almacen' class='texto'>";
 	$sql="select cod_almacen, nombre_almacen from almacenes where cod_ciudad='$rpt_territorio'";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp))
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_almacen=$dat[0];
 		$nombre_almacen=$dat[1];
 		if($rpt_almacen==$codigo_almacen)
@@ -77,9 +77,9 @@ echo"<form method='post' action=''>";
 
 	echo "<tr><th align='left'>Línea</th><td><select name='rpt_linea' class='texto'>";
 	$sql="select codigo_linea, nombre_linea from lineas where linea_inventarios=1 order by nombre_linea";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value='0' selected>Todas las líneas</option>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_linea=$dat[0];
 		$nombre_linea=$dat[1];
 		if($rpt_linea==$codigo_linea)

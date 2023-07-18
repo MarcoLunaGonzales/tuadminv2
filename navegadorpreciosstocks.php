@@ -27,7 +27,7 @@
 		from material_apoyo m
 		where m.estado='1' and cod_linea_proveedor=$lineaDistribuidor order by m.descripcion_material";	
 	//echo $sql;
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	
 	echo "</th></tr></table><br>";
 		
@@ -36,7 +36,7 @@
 		<th>Cant.Presentacion</th><th>Linea Distribuidor</th><th>Stock</th><th>Stock Ajustado</th></tr>";
 	
 	$indice_tabla=1;
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombreProd=$dat[1];

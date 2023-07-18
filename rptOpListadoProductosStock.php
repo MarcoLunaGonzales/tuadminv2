@@ -11,8 +11,8 @@ echo"<form method='post' action='listadoProductosStock.php' target='_blank'>";
 
 	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_almacen' class='texto'>";
 	$sql="select cod_almacen, nombre_almacen from almacenes order by 2";
-	$resp=mysql_query($sql);
-	while($dat=mysql_fetch_array($resp))
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_almacen=$dat[0];
 		$nombre_almacen=$dat[1];
 		if($rpt_almacen==$codigo_almacen)

@@ -62,9 +62,9 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 		(select nombre_tipogasto from tipos_gasto where cod_tipogasto=g.cod_tipogasto)tipogasto, 
 		DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g";
 		
-	$resp = mysql_query($consulta);
+	$resp = mysqli_query($enlaceCon,$consulta);
 
-	while ($dat = mysql_fetch_array($resp)) {
+	while ($dat = mysqli_fetch_array($resp)) {
 		$codGasto = $dat[0];
 		$descripcionGasto= $dat[1];
 		$tipoGasto=$dat[2];

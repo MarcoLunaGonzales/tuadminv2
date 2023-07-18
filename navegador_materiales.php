@@ -76,11 +76,11 @@ echo "<script language='Javascript'>
 	from materiales m, tipos_material tm, productos p, formas_farmaceuticas f where 
 	m.cod_tipomaterial=tm.cod_tipomaterial AND p.cod_producto=m.cod_producto and f.cod_forma=m.cod_forma
 	order by tm.nombre_tipomaterial, m.nombre_material";
-	$resp=mysql_query($sql);
+	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Registro de Materiales</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='90%'>";
 	echo "<tr><th>&nbsp;</th><th>Tipo de Material</th><th>Nombre Material</th><th>Producto</th><th>Forma Farmaceutica</th><th>Presentación</th></tr>";
-	while($dat=mysql_fetch_array($resp))
+	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
 		$nombre_tipomaterial=$dat[1];

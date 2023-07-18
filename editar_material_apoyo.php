@@ -16,8 +16,8 @@ $globalAgencia=$_COOKIE['global_agencia'];
 
 $sqlEdit="select m.codigo_material, m.descripcion_material, m.estado, m.cod_linea_proveedor, m.cod_grupo, m.cod_tipomaterial, 
 	m.observaciones, m.cod_unidad from material_apoyo m where m.codigo_material='$codProducto'";
-$respEdit=mysql_query($sqlEdit);
-while($datEdit=mysql_fetch_array($respEdit)){
+$respEdit=mysqli_query($enlaceCon,$sqlEdit);
+while($datEdit=mysqli_fetch_array($respEdit)){
 	$nombreProductoX=$datEdit[1];
 	$codLineaX=$datEdit[3];
 	$codGrupoX=$datEdit[4];
@@ -27,20 +27,20 @@ while($datEdit=mysql_fetch_array($respEdit)){
 }
 
 $sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`='$codProducto' and p.cod_ciudad='$globalAgencia'";
-$respPrecio=mysql_query($sqlPrecio);
-$numFilas=mysql_num_rows($respPrecio);
+$respPrecio=mysqli_query($enlaceCon,$sqlPrecio);
+$numFilas=mysqli_num_rows($respPrecio);
 if($numFilas>=1){
-	$costo=mysql_result($respPrecio,0,0);
+	$costo=mysqli_result($respPrecio,0,0);
 	$costo=redondear2($costo);
 }else{
 	$costo=0;
 	$costo=redondear2($costo);
 }
 $sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=1 and p.`codigo_material`='$codProducto' and p.cod_ciudad='$globalAgencia'";
-$respPrecio=mysql_query($sqlPrecio);
-$numFilas=mysql_num_rows($respPrecio);
+$respPrecio=mysqli_query($enlaceCon,$sqlPrecio);
+$numFilas=mysqli_num_rows($respPrecio);
 if($numFilas>=1){
-	$precio1=mysql_result($respPrecio,0,0);
+	$precio1=mysqli_result($respPrecio,0,0);
 	$precio1=redondear2($precio1);
 }else{
 	$precio1=0;
@@ -63,11 +63,11 @@ echo "<td align='left'>
 echo "<tr><th align='left'>Linea</th>";
 $sql1="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) from proveedores p, proveedores_lineas pl 
 where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 		<select name='codLinea' id='codLinea' required>
 		<option value=''></option>";
-		while($dat1=mysql_fetch_array($resp1))
+		while($dat1=mysqli_fetch_array($resp1))
 		{	$codLinea=$dat1[0];
 			$nombreLinea=$dat1[1];
 			if($codLinea==$codLineaX){
@@ -82,10 +82,10 @@ echo "</tr>";
 
 echo "<tr><th>Tipo</th>";
 $sql1="select e.cod_tipomaterial, e.nombre_tipomaterial from tipos_material e order by 2;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 			<select name='cod_tipo' id='cod_tipo' required>";
-			while($dat1=mysql_fetch_array($resp1))
+			while($dat1=mysqli_fetch_array($resp1))
 			{	$codigo=$dat1[0];
 				$nombre=$dat1[1];
 				if($codigo==$codGrupoX){
@@ -100,11 +100,11 @@ echo "</tr>";
 
 echo "<tr><th>Grupo</th>";
 $sql1="select f.cod_grupo, f.nombre_grupo from grupos f  where f.estado=1 order by 2;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 			<select name='cod_grupo' id='cod_grupo' required>
 			<option value=''></option>";
-			while($dat1=mysql_fetch_array($resp1))
+			while($dat1=mysqli_fetch_array($resp1))
 			{	$codigo=$dat1[0];
 				$nombre=$dat1[1];
 				if($codigo==$codGrupoX){
@@ -127,11 +127,11 @@ echo "<td align='left'>
 
 echo "<tr><th>Unidad de Manejo</th>";
 $sql1="select u.codigo, u.nombre, u.abreviatura from unidades_medida u order by 1;";
-$resp1=mysql_query($sql1);
+$resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 			<select name='cod_unidad' id='cod_unidad' required>
 			<option value=''></option>";
-			while($dat1=mysql_fetch_array($resp1))
+			while($dat1=mysqli_fetch_array($resp1))
 			{	$codigo=$dat1[0];
 				$nombre=$dat1[1];
 				$abreviatura=$dat1[2];
