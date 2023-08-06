@@ -407,6 +407,7 @@ echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th>
 if($global_admin_cargo==1){
     echo "<th>Convertir</th><th>Cambiar <br>Datos Venta</th>";
 }   
+echo "<th class='text-center'>Documento SIAT</th>";
 echo "</tr>";
     
 echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='global_almacen'>";
@@ -420,7 +421,7 @@ $consulta = "
     (select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
     (select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
     (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
-    s.cod_chofer, s.cod_tipopago, s.monto_final
+    s.cod_chofer, s.cod_tipopago, s.monto_final, s.idTransaccion_siat
     FROM salida_almacenes s, tipos_salida ts 
     WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
 
@@ -461,6 +462,9 @@ while ($dat = mysqli_fetch_array($resp)) {
 
     $montoVenta=$dat[18];
     $montoVentaFormat=formatonumeroDec($montoVenta);    
+    
+    $idTransaccion = $dat[19];
+
     
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
     
@@ -518,6 +522,11 @@ while ($dat = mysqli_fetch_array($resp)) {
             <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
             <img src='imagenes/change.png' width='30' border='0' title='Editar'></a>
         </td>";
+        
+	$url_siat   = valorConfig(7);
+    $urlDetalle = $url_siat."dFacturaElectronica.php";
+    echo "<td  bgcolor='#12A4DF' class='text-center'> <a href='$urlDetalle?codigo_salida=$idTransaccion' target='_BLANK' title='DOCUMENTO FACTURA'  class='text-dark'><i class='material-icons'>description</i></a>";
+
     echo "</tr>";
 }
 echo "</table></center><br>";
