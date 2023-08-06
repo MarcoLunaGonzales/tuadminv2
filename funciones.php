@@ -127,6 +127,7 @@ function stockMaterialesEdit($almacen, $item, $cantidad){
 	return($cadRespuesta);
 }
 function restauraCantidades($codigo_registro){
+	require("conexion.inc");
 	$sql_detalle="select cod_ingreso_almacen, material, cantidad_unitaria
 				from salida_detalle_ingreso
 				where cod_salida_almacen='$codigo_registro'";
@@ -204,7 +205,7 @@ function numeroCorrelativo($tipoDoc){
 }
 
 function unidadMedida($codigo){
-	
+	require("conexion.inc");	
 	$consulta="select u.abreviatura from material_apoyo m, unidades_medida u
 		where m.cod_unidad=u.codigo and m.codigo_material='$codigo'";
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -226,7 +227,7 @@ function nombreTipoDoc($codigo){
 }
 
 function precioVenta($codigo,$agencia){
-	
+	require("conexion.inc");
 	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and p.cod_ciudad='$agencia'";
 	//echo $consulta;
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -255,7 +256,7 @@ function precioVentaN($enlaceCon,$codigo,$agencia){
 }
 
 function precioVentaCosto($codigo,$agencia){
-	
+	require("conexion.inc");
 	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='0' and p.cod_ciudad='$agencia'";
 	//echo $consulta;
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -270,6 +271,7 @@ function precioVentaCosto($codigo,$agencia){
 }
 //COSTO 
 function costoVentaFalse($codigo,$agencia){	
+	require("conexion.inc");
 	$consulta="select sd.costo_almacen from salida_almacenes s, salida_detalle_almacenes sd where 
 		s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen in  
 		(select a.cod_almacen from almacenes a where a.cod_ciudad='$agencia') and s.salida_anulada=0 and 
@@ -286,6 +288,8 @@ function costoVentaFalse($codigo,$agencia){
 }
 
 function costoVenta($codigo,$agencia){	
+	require("conexion.inc");
+
 	$consulta="select id.costo_almacen from ingreso_almacenes i, ingreso_detalle_almacenes id where 
 	i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen in  
 			(select a.cod_almacen from almacenes a where a.cod_ciudad='$agencia') and i.ingreso_anulado=0 
@@ -302,6 +306,7 @@ function costoVenta($codigo,$agencia){
 }
 
 function obtenerSaldoKardexAnterior($rpt_almacen, $rpt_item, $fecha){
+	require("conexion.inc");
 	//desde esta parte viene el reporte en si
 	$costoInicialKardex=0;
 	$fecha_iniconsulta=$fecha;
@@ -333,6 +338,7 @@ function obtenerSaldoKardexAnterior($rpt_almacen, $rpt_item, $fecha){
 }
 
 function obtenerCodigoSucursal($cod_almacen){
+	require("conexion.inc");
 	$cod_respuesta=0;
 	$consulta="select cod_ciudad from almacenes where cod_almacen='$cod_almacen'";
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -344,6 +350,7 @@ function obtenerCodigoSucursal($cod_almacen){
 	return $cod_respuesta;
 }
 function montoVentaDocumento($codVenta){
+	require("conexion.inc");
 	$sql="select (sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria), s.descuento, s.monto_total
 	from `salida_almacenes` s, `salida_detalle_almacenes` sd 
 	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.cod_salida_almacenes=$codVenta";
