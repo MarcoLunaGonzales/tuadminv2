@@ -3,19 +3,21 @@ require("conexion.inc");
 require("estilos_almacenes.inc");
 require("funciones.php");
 require("funciones_inventarios.php");
-
+ob_clean();
 
 $usuarioVendedor=$_POST['cod_vendedor'];
 $globalSucursal=$_COOKIE['global_agencia'];
 
 $tipoSalida=$_POST['tipoSalida'];
 $tipoDoc=$_POST['tipoDoc'];
-$almacenDestino=$_POST['almacen'];
+$almacenDestino=empty($_POST['almacen'])?'':$_POST['almacen'];
 $codCliente=$_POST['cliente'];
 
 $tipoPrecio=$_POST['tipoPrecio'];
-$razonSocial=$_POST['razonSocial'];
+$razonSocial=strtoupper($_POST['razonSocial']);
 $nitCliente=$_POST['nitCliente'];
+$complemento=$_POST["complemento"];
+$tipoDocumento=$_POST["tipo_documento"];
 
 $observaciones=$_POST["observaciones"];
 
@@ -31,11 +33,164 @@ $totalFinalRedondeado=round($totalFinal);
 $fecha=$_POST["fecha"];
 $cantidad_material=$_POST["cantidad_material"];
 
+$nroCorrelativo=$_POST["nroCorrelativo"];
+
 if($descuentoVenta=="" || $descuentoVenta==0){
 	$descuentoVenta=0;
 }
 
 $vehiculo="";
+
+/*VALIDACION MANUAL CASOS ESPECIALES*/
+if((int)$nitCliente=='99001' || (int)$nitCliente=='99002' || (int)$nitCliente=='99003'){
+	$tipoDocumento=5;//nit
+}
+// Cliente
+$sqlCliente="SELECT CONCAT(c.nombre_cliente, ' ', c.paterno) as cliente, c.email_cliente, c.cod_cliente
+			FROM clientes c
+			WHERE c.cod_cliente = '$codCliente'
+			LIMIT 1";
+$respCliente = mysqli_query($enlaceCon,$sqlCliente);
+$datCliente	 = mysqli_fetch_array($respCliente);
+$nombreCliente = $datCliente['cliente'];
+$emailCliente  = $datCliente['email_cliente'];
+// Vendedor (Usuario)
+$sqlConf="SELECT CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as usuario
+			FROM funcionarios f
+			WHERE f.codigo_funcionario = '$usuarioVendedor'
+			LIMIT 1";
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$datConf	 = mysqli_fetch_array($respConf);
+$nombreVendedor = $datConf['usuario'];
+
+/**************************
+ * Verificar datos Cliente
+ **************************/
+$cod_cliente = $_POST['cliente'];
+$sql = "SELECT CONCAT(c.nombre_cliente, ' ',c.paterno) as cliente, c.email_cliente
+		FROM clientes c
+		WHERE c.cod_cliente = '$cliente'
+		LIMIT 1";
+$resp 	= mysqli_query($enlaceCon,$sql);
+$data	= mysqli_fetch_array($resp);
+$nombre_cliente = $data['cliente'];
+$email_cliente  = $data['email_cliente'];
+
+
+$idTransaccion_siat = 0;
+$nro_factura_siat   = 0;
+
+$input_nro_tarjeta  = empty($_POST['nroTarjeta_form']) ? '' : $_POST['nroTarjeta_form'];
+$nroTarjeta 		= str_replace('*', '0', $input_nro_tarjeta);
+//====================================================//
+$url_config = valorConfig(7);
+
+
+// Tipo de emisión de factura = 2
+if($tipoDoc == 1){ // Tipo de Emisión Factura
+	/**
+	 * PREPARACIÓN DE DATOS SIAT
+	 */
+	$array_siat = array(
+		"sIdentificador" 	=> "MinkaSw123*",
+		"sKey" 				=> "rrf656nb2396k6g6x44434h56jzx5g6",
+		"accion" 			=> "generarFacturaElectronica",
+		"idEmpresa" 		=> 1,
+		"sucursal" 			=> 0,
+		"idRecibo"			=> $nroCorrelativo,
+		"fecha" 			=> $fecha,
+		"idPersona" 		=> $codCliente,
+		"monto_total" 		=> $totalVenta,
+		"descuento" 		=> $descuentoVenta,
+		"monto_final" 		=> $totalFinalRedondeado,
+		"id_usuario" 		=> $usuarioVendedor,
+		"usuario" 			=> $nombreVendedor,
+		"nitCliente" 		=> $nitCliente,
+		"nombreFactura" 	=> $razonSocial,
+		"tipoPago" 			=> $tipoVenta,
+		"nroTarjeta" 		=> $nroTarjeta,
+		"tipoDocumento" 	   => $tipoDocumento,
+		"complementoDocumento" => $complemento,
+		"correo" 			   => $email_cliente
+	);
+	// Detalle de ITEMS
+	$detalleItems = [];
+	for ($i = 1; $i <= $cantidad_material; $i++) {
+		$codMaterial = $_POST["materiales$i"];
+		if ($codMaterial != 0) {
+			$cantidadUnitaria 	= $_POST["cantidad_unitaria$i"];
+			$precioUnitario 	= $_POST["precio_unitario$i"];
+			$descuentoProducto 	= $_POST["descuentoProducto$i"];
+			$montoMaterial 		= $_POST["montoMaterial$i"];
+			// Buscar Item
+			$sqlConf="SELECT ma.codigo_material, ma.descripcion_material
+					FROM material_apoyo ma
+					WHERE ma.codigo_material = '$codMaterial'
+					LIMIT 1";
+			$respConf 	= mysqli_query($enlaceCon,$sqlConf);
+			$datConf	= mysqli_fetch_array($respConf);
+			$nombreItem = $datConf['descripcion_material'];
+			// Crear objeto de detalle
+			$detalle = array(
+				"codDetalle" 		=> $codMaterial,
+				"cantidad" 			=> $cantidadUnitaria,
+				"precioUnitario" 	=> $precioUnitario,
+				"descuentoProducto" => $descuentoProducto,
+				"detalle" 			=> $nombreItem
+			);
+
+			// Agregar detalle al array de items
+			$detalleItems[] = $detalle;
+		}
+	}
+	// Establecer la cabecera de respuesta para indicar que es JSON
+	// header('Content-Type: application/json');
+	$array_siat['items'] = $detalleItems;
+	//====================================================//
+	// var_dump($array_siat);
+	// exit;
+
+	// URL del servidor MINKA_SIAT
+	$url_siat = $url_config.'wsminka/ws_generarFactura.php';
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url_siat);
+	curl_setopt($ch, CURLOPT_POST, TRUE);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($array_siat));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	$response = curl_exec ($ch);
+	// Verificar si hubo algún error en la solicitud
+	if (curl_errno($ch)) {
+		curl_close($ch);
+		echo "<script type='text/javascript' language='javascript'>
+		alert('Ocurrio un error en la transaccion. Contacte con el administrador del sistema.');
+		location.href='navegador_salidamateriales.php';
+		</script>";
+		exit;
+	}
+	curl_close($ch);
+	// Encontrar el índice de inicio y fin del JSON
+	$inicioJSON = strpos($response, '{');
+	$finJSON = strrpos($response, '}');
+	// Extraer el JSON y decodificarlo
+	$jsonData = substr($response, $inicioJSON, $finJSON - $inicioJSON + 1);
+	$decodedData = json_decode($jsonData, true);
+
+	// Verificamos respuesta
+	if($decodedData['estado'] != 1){
+		echo "<script type='text/javascript' language='javascript'>
+		alert('Ocurrio un error en la transaccion. Error: ".$decodedData['mensaje']."');
+		location.href='navegador_salidamateriales.php';
+		</script>";
+		exit;
+	}
+
+	$idTransaccion_siat = $decodedData['idTransaccion'];
+	$nro_factura_siat   = $decodedData['nroFactura'];
+	print_r($decodedData); // Visualización de datos SIAT
+	exit;
+}
 
 //$fecha=date("Y-m-d");
 $hora=date("H:i:s");
@@ -90,14 +245,13 @@ if($facturacionActivada==1 && $tipoDoc==1){
 	//FIN DATOS FACTURA
 }
 
-
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago)
+		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
 		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial', 
-		'$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta')";
+		'$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta','$idTransaccion_siat','$nroTarjeta')";
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 if($sql_inserta==1){

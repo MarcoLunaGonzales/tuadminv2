@@ -367,4 +367,16 @@ function montoVentaDocumento($codVenta){
 	}
 	return($totalVenta);	
 }
+
+/**
+ * Valor de Configuración
+ */
+function valorConfig($id_configuracion){
+	require("conexion.inc");
+	$sqlConf = "SELECT valor_configuracion FROM configuraciones where id_configuracion='$id_configuracion'";
+	$respConf = mysqli_query($enlaceCon,$sqlConf);
+	$response = mysqli_result($respConf,0,0);
+	return $response;
+}
+
 ?>

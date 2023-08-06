@@ -9,7 +9,6 @@ require("funciones.php");
     <head>
         <title>Registrar Venta</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="lib/externos/jquery/jquery-1.4.4.min.js"></script>
         <script type="text/javascript" src="lib/js/xlibPrototipoSimple-v0.1.js"></script>
 		<script type="text/javascript" src="functionsGeneral.js"></script>
 <script type='text/javascript' language='javascript'>
@@ -135,13 +134,36 @@ function ajaxRazonSocial(f){
 	ajax.open("GET", "ajaxRazonSocial.php?nitCliente="+nitCliente,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
+			console.log(ajax.responseText)
 			contenedor.innerHTML = ajax.responseText;
 			document.getElementById('razonSocial').focus();
+			ajaxClienteBuscar();
 		}
 	}
 	ajax.send(null);
 }
 
+/**
+ * Buscar Cliente con Change
+ */
+ function ajaxClienteBuscar(f){
+	var contenedor;
+	contenedor=document.getElementById("divCliente");
+	var nitCliente=document.getElementById("nitCliente").value;
+	ajax=nuevoAjax();
+	ajax.open("GET", "ajaxClienteLista.php?nitCliente="+nitCliente,true);
+	ajax.onreadystatechange=function() {
+		if (ajax.readyState==4) {
+			var datos_resp=ajax.responseText.split("####");
+			//alert(datos_resp[1])
+			//$("#cliente").val(datos_resp[1]);			
+			$("#cliente").html(datos_resp[1]);				
+			ajaxRazonSocialCliente(document.getElementById('form1'));
+			$("#cliente").selectpicker('refresh');
+		}
+	}
+	ajax.send(null);
+}
 
 function calculaMontoMaterial(indice){
 
@@ -520,6 +542,361 @@ $(document).ready(function() {
       }     
     });
 });
+
+	/**
+	 * Tipo de Documento identidad NIT, CI, PAS, CEX
+	 */
+	function mostrarComplemento(){
+		var tipo=$("#tipo_documento").val();
+		if(tipo==1){
+			$("#complemento").attr("type","text");
+			$("#nitCliente").attr("placeholder","INGRESE EL CARNET");
+		}else{
+			$("#complemento").attr("type","hidden");
+			if(tipo==5){
+				$("#nitCliente").attr("placeholder","INGRESE EL NIT");	
+			}else{
+				$("#nitCliente").attr("placeholder","INGRESE EL DOCUMENTO");
+			}
+			
+		}
+	}
+	/**
+	 * Registro de Cliente
+	 * Formulario
+	 */
+	
+	function registrarNuevoCliente(){
+		$("#nomcli").val("");
+		$("#apcli").val("");
+		$("#ci").val("");
+		$("#nit").val("");
+		$("#dir").val("");
+		$("#tel1").val("");
+		$("#mail").val("");
+		$("#fact").val("");
+		if($("#nitCliente").val()!=""){
+			$("#nit").val($("#nitCliente").val());
+			//$("#nomcli").val($("#razonSocial").val());
+			$("#fact").val($("#razonSocial").val());		
+			$("#boton_guardado_cliente").attr("onclick","adicionarCliente()");		
+			$("#titulo_cliente").html("NUEVO CLIENTE");
+			$("#modalNuevoCliente").modal("show");
+		}else{
+			alert("Ingrese el NIT para registrar el cliente!");
+		}	
+	}
+	/**
+	 * Guardar Cliente
+	 */
+	function adicionarCliente() {	
+		var nomcli = $("#nomcli").val();
+		var apcli = $("#apcli").val();
+		var ci = $("#ci").val();
+		var nit = $("#nit").val();
+		var dir = $("#dir").val();
+		var tel1 = $("#tel1").val();
+		var mail = $("#mail").val();
+		var area = $("#area").val();
+		var fact = $("#fact").val();
+		var edad = '';
+		var genero = '';
+		var tipoPrecio = '';	
+
+		if (nomcli == "" || nit == "" || (mail == "" && tel1 == "")) {
+			Swal.fire("Informativo!", "Debe llenar los campos obligatorios", "warning");
+		} else {
+			if (validarCorreoUnicoCliente(0, nit, mail) == 0) {
+				Swal.fire("Error!", "El cliente con correo: " + mail + ", ya se encuentra registrado!", "error");
+			} else {
+				var parametros = {
+					"nomcli": nomcli,
+					"nit": nit,
+					"ci": ci,
+					"dir": dir,
+					"tel1": tel1,
+					"mail": mail,
+					"area": area,
+					"fact": fact,
+					"edad": edad,
+					"apcli": apcli,
+					"tipoPrecio": tipoPrecio,
+					"genero": genero,
+					"dv": 1
+				};
+				$.ajax({
+					type: "GET",
+					dataType: 'html',
+					url: "programas/clientes/prgClienteAdicionar.php",
+					data: parametros,
+					success: function (resp) {      						
+						var r = resp.split("#####");
+
+						console.log("response:" + r);
+						console.log("response[]:" + r[1]);
+
+						if (parseInt(r[1]) > 0) {           	
+							refrescarComboCliente(r[1]);
+
+							$("#nomcli").val("");
+							$("#apcli").val("");
+							$("#ci").val("");
+							$("#nit").val("");
+							$("#dir").val("");
+							$("#tel1").val("");
+							$("#mail").val("");
+							$("#area").val("");
+							$("#fact").val("");
+							// $("#edad").val(0);
+							// $("#genero").val(0);
+						} else {		           	
+							$("#modalNuevoCliente").modal("hide"); 
+							Swal.fire("Error!", "Error al crear cliente", "error");
+						}            
+					}
+				});	
+			}
+		}
+	}
+	/**
+	 * Validación de Correo Electrónico UNICO
+	 */
+	function validarCorreoUnicoCliente(cliente,nit,correo){
+		var dato=0;
+		var parametros={"cliente":cliente,"nit":nit,"correo":correo};
+		$.ajax({
+			type: "GET",
+			dataType: 'html',
+			url: "validarCorreoUnicoCliente.php",
+			data: parametros,
+			async:false,
+			success:  function (resp) {
+			dato=resp;     
+			}
+		});
+		return dato;
+	}
+	/**
+	 * Refresca combo de cliente Actual
+	 */
+	function refrescarComboCliente(cliente){
+		var parametros={"cliente":cliente,"nit":$("#nitCliente").val()};
+		$.ajax({
+			type: "GET",
+			dataType: 'html',
+			url: "listaClientesActual.php",
+			data: parametros,
+			success:  function (resp) {
+				console.log(resp)
+				Swal.fire("Correcto!", "Se guardó el cliente con éxito", "success");   
+				$("#cliente").html(resp); 		   
+				ajaxRazonSocialCliente(document.getElementById('form1'));
+				$("#cliente").selectpicker("refresh");       
+				$("#modalNuevoCliente").modal("hide");                  	   
+			}
+		});	
+	}
+	/**
+	 * Obtiene razon social
+	 */
+	function ajaxRazonSocialCliente(f){
+		var contenedor;
+		contenedor=document.getElementById("divRazonSocial");
+		var cliente=document.getElementById("cliente").value;
+		ajax=nuevoAjax();
+		ajax.open("GET", "ajaxRazonSocialCliente.php?cliente="+cliente,true);
+		ajax.onreadystatechange=function() {
+			if (ajax.readyState==4) {
+				if(cliente!=146){
+					contenedor.innerHTML = ajax.responseText;
+				}			
+				document.getElementById('razonSocial').focus();
+				if($("#cliente").val()==146){
+					$("#razonSocial").attr("readonly",false);								
+				}else{
+					$("#razonSocial").attr("readonly",true);	
+				}
+				
+			}
+		}
+		ajax.send(null);
+	}
+	/**
+	 * Verificación de Evento
+	 */
+	
+	function check(e) {
+		tecla = (document.all) ? e.keyCode : e.which;
+		//Tecla de retroceso para borrar, siempre la permite
+		if (tecla == 8||tecla==13) {
+			return true;
+		}
+		// Patron de entrada, en este caso solo acepta numeros y letras
+		if($("#tipo_documento").val()!=1){
+			patron = /[A-Za-z0-9-]/;
+		}else{
+			patron = /[0-9]/;
+		}
+		tecla_final = String.fromCharCode(tecla);
+		return patron.test(tecla_final);
+	}
+	/**
+	 * Tipo de Documento identidad NIT, CI, PAS, CEX
+	 */
+	function mostrarComplemento(){
+		var tipo=$("#tipo_documento").val();
+		if(tipo==1){
+			$("#complemento").attr("type","text");
+			$("#nitCliente").attr("placeholder","INGRESE EL CARNET");
+		}else{
+			$("#complemento").attr("type","hidden");
+			if(tipo==5){
+				$("#nitCliente").attr("placeholder","INGRESE EL NIT");	
+			}else{
+				$("#nitCliente").attr("placeholder","INGRESE EL DOCUMENTO");
+			}
+			
+		}
+	}
+	/**
+	 * VERIFICACIÓN DE CUFD - MINKA_SIAT
+	 */
+	$(document).ready(function () {
+		// Verificación - NOTA DE EMISIÓN
+		let tipoDoc = $('#tipoDoc').val();
+		if(tipoDoc == 1){
+			$.ajax({
+				url: "service_minka_siat/servicio_cufd.php",
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json",
+				success: function (data) {
+					if (data.status == true) {
+						$('.divBotones2').show();
+						Swal.fire({
+							text: "¡Exito! " + data.message,
+							type: "success",
+							position: "top",
+							toast:true,
+							showConfirmButton: false,
+							timer: 3000
+						});
+					} else {
+						/**
+						 * Generación de NUEVO CUFD
+						 */
+						Swal.fire({
+							title: '¿Generar un nuevo CUFD?',
+							text: 'Esta acción generará un nuevo CUFD. ¿Estás seguro?',
+							type: 'warning',
+							showCancelButton: true,
+							confirmButtonText: 'Sí',
+							cancelButtonText: 'No'
+						}).then((result) => {
+							if (result.value) {
+								$.ajax({
+									url: "service_minka_siat/servicio_cufd_generar.php",
+									type: 'POST',
+									dataType: "json",
+									contentType: "application/json",
+									success: function(data) {
+										if (data.status == true) {
+											$('.divBotones2').show();
+											Swal.fire({
+												text: 'Éxito ' + data.message,
+												type: 'success',
+												position: "top",
+												toast:true,
+												showConfirmButton: false,
+												timer: 3500
+											});
+										} else {
+											$('.divBotones2').hide();
+											Swal.fire({
+												text: "Error! " + data.message,
+												type: "error",
+												position: "top",
+												toast:true,
+												showConfirmButton: false,
+												timer: 4500
+											});
+										}
+									},
+									error: function() {
+										Swal.fire({
+											text: "Error! Hubo un error al generar el nuevo CUFD.",
+											type: "error",
+											position: "top",
+											toast:true,
+											showConfirmButton: false,
+											timer: 4000
+										});
+									}
+								});
+							}
+						});
+					}
+				},
+				error: function (xhr, status, error) {
+					$('.divBotones2').hide();
+					Swal.fire('Error', 'Ocurrió un error en la llamada al servicio web.', 'error');
+				}
+			});
+		}else if(tipoDoc == 2){
+			$('.divBotones2').show();
+		}
+	});
+	/**
+	 * Selección de tipo de Pago
+	 * tipo_pago = tipoVenta
+	 */
+	$('body').on('change', '#tipoVenta', function(){
+		// Tipo de pago: TARJETA
+		if($(this).val() == 2){
+			$('#nroTarjeta_form').val('').prop("required", true).show();
+		}else{
+			$('#nroTarjeta_form').val('').prop("required", false).hide();
+		}
+	});
+	/******************
+	 * NRO DE TARJETA *
+	 ******************/
+	// Función para enmascarar el número de tarjeta
+	function maskCardNumber(input) {
+		let cardNumber = input.val().replace(/\D/g, ''); // Eliminar caracteres no numéricos
+		const maxLength = 8; // Longitud máxima permitida
+		// Limitar a 16 caracteres (8 asteriscos + 8 dígitos)
+		if (cardNumber.length > maxLength) {
+			cardNumber = cardNumber.slice(0, maxLength);
+		}
+		// Agregar 8 asteriscos después de los primeros 4 dígitos
+		const maskedCardNumber = cardNumber.replace(/^(\d{4})(.*)$/, (_, first4, rest) => first4 + '********' + rest);
+		// Actualizar el valor del input
+		input.val(maskedCardNumber);
+	}
+
+	// Evento para controlar los cambios en el input
+	$('body').on('input', '#nroTarjeta_form', function() {
+		maskCardNumber($(this));
+	});
+
+	// Evento para borrar los asteriscos si se borra el dígito 13
+	$('body').on('keydown', '#nroTarjeta_form', function(event) {
+		const key = event.key;
+		const cardNumber = $(this).val().replace(/\D/g, ''); // Eliminar caracteres no numéricos
+
+		// Permitir borrar caracteres, incluyendo los asteriscos
+		if (key === 'Backspace' || key === 'Delete') {
+			if (cardNumber.length >= 13) {
+				$(this).val(cardNumber.slice(0, 12)); // Borrar el dígito 13 y los asteriscos
+			} else {
+				$(this).val(cardNumber); // Permitir borrar solo los dígitos
+			}
+		} else {
+			maskCardNumber($(this));
+		}
+	});
+	/*******************/
 </script>
 
 
@@ -561,13 +938,38 @@ $respConf=mysqli_query($enlaceCon,$sqlConf);
 $ventaDebajoCosto=mysqli_result($respConf,0,0);
 
 ?>
+
+<!-- Estilo de Input Complemento -->
+<style>
+	.elegant-input {
+		border: 2px solid #aaa; /* Borde del input */
+		border-radius: 5px; 	/* Bordes redondeados */
+		padding: 3px; 			/* Espaciado interno */
+		font-size: 11px; 		/* Tamaño de la fuente */
+		text-transform: uppercase; 		/* Convertir el texto a mayúsculas */
+		background: #D2FFE8; 			/* Color de fondo */
+		outline: none; 					/* Eliminar el resaltado del borde al enfocar */
+		transition: border-color 0.3s; 	/* Transición del color del borde */
+	}
+	.custom-input {
+		border: 2px solid #aaa; /* Borde del input */
+		border-radius: 5px; 	/* Bordes redondeados */
+		padding: 3px; 			/* Espaciado interno */
+		font-size: 11px; 		/* Tamaño de la fuente */
+		text-transform: uppercase; 		/* Convertir el texto a mayúsculas */
+		outline: none; 					/* Eliminar el resaltado del borde al enfocar */
+		transition: border-color 0.3s; 	/* Transición del color del borde */
+	}
+	.text-description {
+		color: gray;
+	}
+</style>
 <form action='guardarSalidaMaterial.php' method='POST' name='form1' id="guardarSalidaVenta" ><!--onsubmit='return checkSubmit();'-->
 
 <!--h1>Registrar Venta</h1-->
 
-<table class='texto' align='center' width='100%' style="width:100px;">
+<table class='texto' align='center' width='100%'>
 <tr>
-<th>TipoDoc</th>
 <th align='center'>
 	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
@@ -579,7 +981,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		}
 		$resp=mysqli_query($enlaceCon,$sql);
 
-		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' onChange='ajaxNroDoc(form1)' disabled>";
+		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' onChange='ajaxNroDoc(form1)' disabled class='selectpicker form-control' data-style='btn btn-info'>";
 		echo "<option value=''>-</option>";
 		while($dat=mysqli_fetch_array($resp)){
 			$codigo=$dat[0];
@@ -594,9 +996,62 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		?>
 </th>
 <input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
-<th>Nro.</th>
+<th>
+	<div class="dropdown bootstrap-select form-control show">
+		<select name="tipo_documento" class="selectpicker form-control" data-live-search="true" id="tipo_documento" required="" data-style="btn btn-rose" onChange='mostrarComplemento(form1);'>
+		<!-- Tipo de Documento por Defecto => NIT -->
+		<?php
+			$sql2="SELECT codigoClasificador,descripcion FROM siat_sincronizarparametricatipodocumentoidentidad;";
+			$resp2=mysqli_query($enlaceCon,$sql2);
+
+			while($dat2=mysqli_fetch_array($resp2)){
+			$codCliente=$dat2[0];
+				$nombreCliente=$dat2[1]." ".$dat2[2];
+		?>
+			<option value='<?php echo $codCliente?>' <?php echo $codCliente==5?'selected':''?>><?php echo $nombreCliente?></option>
+		<?php
+			}
+		?>
+		</select>
+	</div>
+</th>
+<th>
+	<div id='divNIT'>
+		<input type='number' value='<?php echo $nitDefault; ?>' name='nitCliente' id='nitCliente' onchange="ajaxRazonSocial(this.form);" onkeypress="return check(event)" placeholder="INGRESE EL CARNET o NIT" required class="custom-input" style="width: 100%;">
+	</div>
+	<input type="hidden" name="complemento" id="complemento" class="elegant-input" placeholder="COMPLEMENTO" onkeyup="javascript:this.value=this.value.toUpperCase();" style="width: 100%;">
+</th>
+<th align='center' id='divCliente' colspan="2">		
+	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-rose">
+		<option value='146'>NO REGISTRADO</option>
+	</select>
+</th>
+<th>
+	<a href="#" title="Registrar Nuevo Cliente" data-toggle='tooltip' onclick="registrarNuevoCliente(); return false;" class="btn btn-success btn-round btn-sm text-white circle" id="button_nuevo_cliente">+</a>
+</th>
+<th>Vendedor</th>
+<th>
+	<select class='selectpicker form-control' data-style='btn btn-info' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
+		<option value=''>----</option>
+		<?php
+		$sql2="select f.`codigo_funcionario`,
+			concat(f.`paterno`,' ', f.`nombres`) as nombre from `funcionarios` f, funcionarios_agencias fa 
+			where fa.codigo_funcionario=f.codigo_funcionario and fa.`cod_ciudad`='$globalAgencia' and estado=1 order by 2";
+		$resp2=mysqli_query($enlaceCon,$sql2);
+
+		while($dat2=mysqli_fetch_array($resp2)){
+			$codVendedor=$dat2[0];
+			$nombreVendedor=$dat2[1];
+		?>		
+		<option value='<?php echo $codVendedor?>' <?=($codVendedor==$global_usuario)?"selected":"";?> ><?php echo $nombreVendedor?></option>
+		<?php    
+		}
+		?>
+	</select>
+</th>
 <th align='center'>
 	<div id='divNroDoc'>
+		Nro.
 		<?php
 		
 		$vectorNroCorrelativo=numeroCorrelativo($tipoDocDefault);
@@ -606,11 +1061,8 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		echo "<span class='textogranderojo'>$nroCorrelativo</span>";
 	
 		?>
+		<input type="hidden" name="nroCorrelativo" id="nroCorrelativo" value="<?php echo $nroCorrelativo; ?>">
 	</div>
-</th>
-<th>Fecha</th>
-<th align='center'>
-	<input type='date' class='texto' value='<?php echo $fecha?>' id='fecha' size='10' name='fecha' readonly>
 </th>
 <!--
 <th>Cliente</th>
@@ -638,25 +1090,7 @@ while($dat2=mysqli_fetch_array($resp2)){
 ?>
 	<!--/select>
 </td-->
-<th>Tipo Pago</th>
-<th>
-	<div id='divTipoVenta'>
-		<?php
-			$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
-			$resp1=mysqli_query($enlaceCon,$sql1);
-			echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-secondary' data-live-search='true' id='tipoVenta'>";
-			while($dat=mysqli_fetch_array($resp1)){
-				$codigo=$dat[0];
-				$nombre=$dat[1];
-				echo "<option value='$codigo'>$nombre</option>";
-			}
-			echo "</select>";
-			?>
-
-	</div>
-</th>
 </tr>
-
 <?php
 if($tipoDocDefault==2){
 	$razonSocialDefault="-";
@@ -667,39 +1101,39 @@ if($tipoDocDefault==2){
 }
 ?>
 <tr>
-	<th>NIT</th>
 	<th>
-		<div id='divNIT'>
-			<input type='number' value='<?php echo $nitDefault; ?>' name='nitCliente' id='nitCliente'  onChange='ajaxRazonSocial(this.form);' required>
-		</div>
+		<img id="imagenFecha" src="imagenes/fecha.bmp"> Fecha: 
+		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" readonly>
 	</th>
 	<th>Nombre/RazonSocial</th>
 	<th>
 		<div id='divRazonSocial'>
-			<input type='text' name='razonSocial' id='razonSocial' value='<?php echo $razonSocialDefault;?>' onKeyUp='javascript:this.value=this.value.toUpperCase();' required>
+			<input type='text' name='razonSocial' id='razonSocial' value='<?php echo $razonSocialDefault;?>'style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' required class="custom-input">
 		</div>
 	</th>
-	<th>Vendedor</th>
-		<th>
-		<select class='selectpicker form-control' data-style='btn btn-secondary' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
-			<option value=''>----</option>
+	<th>Tipo Pago</th>
+	<th colspan="2">
+		<div id='divTipoVenta'>
 			<?php
-			$sql2="select f.`codigo_funcionario`,
-				concat(f.`paterno`,' ', f.`nombres`) as nombre from `funcionarios` f, funcionarios_agencias fa 
-				where fa.codigo_funcionario=f.codigo_funcionario and fa.`cod_ciudad`='$globalAgencia' and estado=1 order by 2";
-			$resp2=mysqli_query($enlaceCon,$sql2);
+				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
+				$resp1=mysqli_query($enlaceCon,$sql1);
+				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-primary' data-live-search='true' id='tipoVenta'>";
+				while($dat=mysqli_fetch_array($resp1)){
+					$codigo=$dat[0];
+					$nombre=$dat[1];
+					echo "<option value='$codigo'>$nombre</option>";
+				}
+				echo "</select>";
+				?>
 
-			while($dat2=mysqli_fetch_array($resp2)){
-				$codVendedor=$dat2[0];
-				$nombreVendedor=$dat2[1];
-			?>		
-			<option value='<?php echo $codVendedor?>' <?=($codVendedor==$global_usuario)?"selected":"";?> ><?php echo $nombreVendedor?></option>
-			<?php    
-			}
-			?>
-		</select>
+		</div>
 	</th>
-	<th colspan="3">Observaciones: 		<input type='text' class='texto' name='observaciones' value='' size='40' rows="3">
+	<th>
+		<!-- Numero de Tarjeta -->
+		<input type='text' style='display:none;' name='nroTarjeta_form' id='nroTarjeta_form' class="custom-input" placeholder="Ingresar nro. tarjeta" style="width: 100%;">
+	</th>
+	<th colspan="1">Observaciones:</th>
+	<th colspan="1"><input type='text' class='custom-input' name='observaciones' size='40' rows="3">
 	</th>
 </tr>
 </table>
@@ -841,7 +1275,7 @@ if($tipoDocDefault==2){
 <?php
 
 if($banderaErrorFacturacion==0){
-	echo "<div class='divBotones2'>
+	echo "<div class='divBotones2' style='display:none;'>
 	        <input type='submit' class='boton-verde' value='Guardar Venta' id='btsubmit' name='btsubmit' onclick='return validar(this.form, $ventaDebajoCosto)' style='z-index:0;'>
 			
 		
@@ -871,5 +1305,88 @@ if($banderaErrorFacturacion==0){
 <input type='hidden' name='cantidad_material' value="0">
 
 </form>
+<div class="modal fade modal-primary" id="modalNuevoCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card" style="background:#1F2E84 !important;color:#fff;">
+            <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">add</i>
+                </div>
+                <h4 class="card-title text-white font-weight-bold" id="titulo_cliente">Nuevo Cliente</h4>
+                <button type="button" class="btn btn-danger btn-sm btn-fab float-right" data-dismiss="modal" aria-hidden="true" style="position:absolute;top:0px;right:0;">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <label class="col-sm-2 col-form-label text-white">Nombre (*)</label>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;text-transform:uppercase;" type="text" id="nomcli" required value="<?php echo "$nomCliente"; ?>" placeholder="Nombre del Cliente" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label text-white">Apellidos</label>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;text-transform:uppercase;" type="text" id="apcli" value="<?php echo "$apCliente"; ?>" required placeholder="Apellido(s) del Cliente" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label text-white">Teléfono (*)</label>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="tel1" value="<?php echo "$telefono1"; ?>" required placeholder="Telefono/Celular"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label text-white">Email (*)</label>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="email" id="mail" value="<?php echo "$email"; ?>" required placeholder="cliente@correo.com"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label text-white">CI</label>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="ci" value="<?php echo "$ciCliente"; ?>" required/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label text-white">NIT(*)</label>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="nit" value="<?php echo "$nitCliente"; ?>" readonly/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label text-white">Razon Social ó Nombre Factura</label>
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="fact" value="<?php echo "$nomFactura"; ?>" required/>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background: #FFD116;color:#FFD116;">
+                <div class="row">
+                    <label class="col-sm-2 col-form-label text-white">Dirección</label>
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="dir" value="<?php echo "$dirCliente"; ?>" required placeholder="Zona / Avenida-Calle / Puerta"/>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="area" id="area" value="1">
+            </div>
+            <div class="card-footer">
+                <div class="">
+                    <input class="btn btn-warning" id="boton_guardado_cliente" type="button" value="Guardar" onclick="javascript:adicionarCliente();" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
