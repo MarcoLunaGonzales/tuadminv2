@@ -970,7 +970,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 
 <table class='texto' align='center' width='100%'>
 <tr>
-<th align='center'>
+<th align='center' width="10%">
 	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
 
@@ -996,9 +996,9 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		?>
 </th>
 <input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
-<th>
+<th width="20%">
 	<div class="dropdown bootstrap-select form-control show">
-		<select name="tipo_documento" class="selectpicker form-control" data-live-search="true" id="tipo_documento" required="" data-style="btn btn-rose" onChange='mostrarComplemento(form1);'>
+		<select name="tipo_documento" class="selectpicker form-control" data-live-search="true" id="tipo_documento" required="" data-style="btn btn-info" onChange='mostrarComplemento(form1);'>
 		<!-- Tipo de Documento por Defecto => NIT -->
 		<?php
 			$sql2="SELECT codigoClasificador,descripcion FROM siat_sincronizarparametricatipodocumentoidentidad;";
@@ -1015,81 +1015,29 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		</select>
 	</div>
 </th>
-<th>
+<th width="20%">
 	<div id='divNIT'>
 		<input type='number' value='<?php echo $nitDefault; ?>' name='nitCliente' id='nitCliente' onchange="ajaxRazonSocial(this.form);" onkeypress="return check(event)" placeholder="INGRESE EL CARNET o NIT" required class="custom-input" style="width: 100%;">
 	</div>
 	<input type="hidden" name="complemento" id="complemento" class="elegant-input" placeholder="COMPLEMENTO" onkeyup="javascript:this.value=this.value.toUpperCase();" style="width: 100%;">
 </th>
-<th align='center' id='divCliente' colspan="2">		
-	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-rose">
+
+<th width="20%">
+	<div id='divRazonSocial'>
+		<input type='text' name='razonSocial' id='razonSocial' value='<?php echo $razonSocialDefault;?>'style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' placeholder="NOMBRE / RAZON SOCIAL" required class="custom-input">
+	</div>
+</th>
+
+<th align='center' id='divCliente' width="25%">		
+	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn">
 		<option value='146'>NO REGISTRADO</option>
 	</select>
 </th>
-<th>
+<th width="5%">
 	<a href="#" title="Registrar Nuevo Cliente" data-toggle='tooltip' onclick="registrarNuevoCliente(); return false;" class="btn btn-success btn-round btn-sm text-white circle" id="button_nuevo_cliente">+</a>
+	<input type="hidden" name="nroCorrelativo" id="nroCorrelativo" value="0">
 </th>
-<th>Vendedor</th>
-<th>
-	<select class='selectpicker form-control' data-style='btn btn-info' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
-		<option value=''>----</option>
-		<?php
-		$sql2="select f.`codigo_funcionario`,
-			concat(f.`paterno`,' ', f.`nombres`) as nombre from `funcionarios` f, funcionarios_agencias fa 
-			where fa.codigo_funcionario=f.codigo_funcionario and fa.`cod_ciudad`='$globalAgencia' and estado=1 order by 2";
-		$resp2=mysqli_query($enlaceCon,$sql2);
 
-		while($dat2=mysqli_fetch_array($resp2)){
-			$codVendedor=$dat2[0];
-			$nombreVendedor=$dat2[1];
-		?>		
-		<option value='<?php echo $codVendedor?>' <?=($codVendedor==$global_usuario)?"selected":"";?> ><?php echo $nombreVendedor?></option>
-		<?php    
-		}
-		?>
-	</select>
-</th>
-<th align='center'>
-	<div id='divNroDoc'>
-		Nro.
-		<?php
-		
-		$vectorNroCorrelativo=numeroCorrelativo($tipoDocDefault);
-		$nroCorrelativo=$vectorNroCorrelativo[0];
-		$banderaErrorFacturacion=$vectorNroCorrelativo[1];
-	
-		echo "<span class='textogranderojo'>$nroCorrelativo</span>";
-	
-		?>
-		<input type="hidden" name="nroCorrelativo" id="nroCorrelativo" value="<?php echo $nroCorrelativo; ?>">
-	</div>
-</th>
-<!--
-<th>Cliente</th>
-<td align='center'>
-	<select name='cliente' class='texto' id='cliente' onChange='ajaxTipoPrecio(form1);' required>
-		<option value=''>----</option>
-<?php
-/*$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.cod_area_empresa='$globalAgencia' order by 2";
-$resp2=mysqli_query($enlaceCon,$sql2);
-while($dat2=mysqli_fetch_array($resp2)){
-   $codCliente=$dat2[0];
-	$nombreCliente=$dat2[1];
-	if($codCliente==$clienteDefault){
-*/
-?>		
-	<!-option value='<?php echo $codCliente?>' selected><?php echo $nombreCliente?></option-->
-<?php			
-	//}else{
-?>		
-	<!--option value='<?php echo $codCliente?>'><?php echo $nombreCliente?></option-->
-<?php			
-/*	}
-
-}*/
-?>
-	<!--/select>
-</td-->
 </tr>
 <?php
 if($tipoDocDefault==2){
@@ -1102,22 +1050,15 @@ if($tipoDocDefault==2){
 ?>
 <tr>
 	<th>
-		<img id="imagenFecha" src="imagenes/fecha.bmp"> Fecha: 
-		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" readonly>
-	</th>
-	<th>Nombre/RazonSocial</th>
-	<th>
-		<div id='divRazonSocial'>
-			<input type='text' name='razonSocial' id='razonSocial' value='<?php echo $razonSocialDefault;?>'style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' required class="custom-input">
-		</div>
+		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" size="10" readonly><img id="imagenFecha" src="imagenes/fecha.bmp"> 
 	</th>
 	<th>Tipo Pago</th>
-	<th colspan="2">
+	<th>
 		<div id='divTipoVenta'>
 			<?php
 				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
 				$resp1=mysqli_query($enlaceCon,$sql1);
-				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-primary' data-live-search='true' id='tipoVenta'>";
+				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-success' data-live-search='true' id='tipoVenta'>";
 				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
@@ -1127,20 +1068,38 @@ if($tipoDocDefault==2){
 				?>
 
 		</div>
-	</th>
-	<th>
 		<!-- Numero de Tarjeta -->
 		<input type='text' style='display:none;' name='nroTarjeta_form' id='nroTarjeta_form' class="custom-input" placeholder="Ingresar nro. tarjeta" style="width: 100%;">
 	</th>
-	<th colspan="1">Observaciones:</th>
-	<th colspan="1"><input type='text' class='custom-input' name='observaciones' size='40' rows="3">
+	<th>
+		Vendedor
+		<select class='selectpicker form-control' data-style='btn btn' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
+			<option value=''>----</option>
+			<?php
+			$sql2="select f.`codigo_funcionario`,
+				concat(f.`paterno`,' ', f.`nombres`) as nombre from `funcionarios` f, funcionarios_agencias fa 
+				where fa.codigo_funcionario=f.codigo_funcionario and fa.`cod_ciudad`='$globalAgencia' and estado=1 order by 2";
+			$resp2=mysqli_query($enlaceCon,$sql2);
+
+			while($dat2=mysqli_fetch_array($resp2)){
+				$codVendedor=$dat2[0];
+				$nombreVendedor=$dat2[1];
+			?>		
+			<option value='<?php echo $codVendedor?>' <?=($codVendedor==$global_usuario)?"selected":"";?> ><?php echo $nombreVendedor?></option>
+			<?php    
+			}
+			?>
+		</select>
 	</th>
+	<th colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='50' rows="3">
+	</th>
+
 </tr>
 </table>
 <input type="hidden" id="ventas_codigo"><!--para validar la funcion mas desde ventas-->
 
 <div class="codigo-barras div-center">
-		<input class="boton" type="button" value="Add Item(+)" onclick="mas(this)" accesskey="a"/>
+		<input class="btn btn-rose" type="button" value="Nuevo Producto(+)" onclick="mas(this)" accesskey="a"/>
         <input type="text" class="form-codigo-barras" id="input_codigo_barras" placeholder="Ingrese el código de barras." autofocus autocomplete="off">
 
 </div>

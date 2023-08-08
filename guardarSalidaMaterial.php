@@ -5,8 +5,12 @@ require("funciones.php");
 require("funciones_inventarios.php");
 ob_clean();
 
+ error_reporting(E_ALL);
+ ini_set('display_errors', '1');
+
 $usuarioVendedor=$_POST['cod_vendedor'];
 $globalSucursal=$_COOKIE['global_agencia'];
+$globalEmpresa=$_COOKIE['global_cod_empresa'];
 
 $tipoSalida=$_POST['tipoSalida'];
 $tipoDoc=$_POST['tipoDoc'];
@@ -40,6 +44,32 @@ if($descuentoVenta=="" || $descuentoVenta==0){
 }
 
 $vehiculo="";
+
+//SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
+$sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$tipoDocDefault=mysqli_result($respConf,0,0);
+
+//SACAMOS LA CONFIGURACION PARA EL CLIENTE POR DEFECTO
+$sqlConf="select valor_configuracion from configuraciones where id_configuracion=2";
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$clienteDefault=mysqli_result($respConf,0,0);
+
+//SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
+$sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$facturacionActivada=mysqli_result($respConf,0,0);
+
+//SACAMOS LA CONFIGURACION PARA LA VALIDACION DE STOCKS
+$sqlConf="select valor_configuracion from configuraciones where id_configuracion=4";
+$respConf=mysqli_query($enlaceCon,$sqlConf);
+$datConf=mysqli_fetch_array($respConf);
+$banderaValidacionStock=$datConf[0];
+
+$sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
+$resp=mysqli_query($enlaceCon,$sql);
+$codigo=mysqli_result($resp,0,0);
+
 
 /*VALIDACION MANUAL CASOS ESPECIALES*/
 if((int)$nitCliente=='99001' || (int)$nitCliente=='99002' || (int)$nitCliente=='99003'){
@@ -95,8 +125,8 @@ if($tipoDoc == 1){ // Tipo de Emisión Factura
 		"sIdentificador" 	=> "MinkaSw123*",
 		"sKey" 				=> "rrf656nb2396k6g6x44434h56jzx5g6",
 		"accion" 			=> "generarFacturaElectronica",
-		"idEmpresa" 		=> 1,
-		"sucursal" 			=> 0,
+		"idEmpresa" 		=> $globalEmpresa,
+		"sucursal" 			=> $globalSucursal,
 		"idRecibo"			=> $nroCorrelativo,
 		"fecha" 			=> $fecha,
 		"idPersona" 		=> $codCliente,
@@ -188,45 +218,24 @@ if($tipoDoc == 1){ // Tipo de Emisión Factura
 
 	$idTransaccion_siat = $decodedData['idTransaccion'];
 	$nro_factura_siat   = $decodedData['nroFactura'];
-	print_r($decodedData); // Visualización de datos SIAT
-	exit;
+
+	/* actualizamos el campo que sirve para la facturacion */
+	$nro_correlativo=$nro_factura_siat;
+	
+	//print_r($decodedData); // Visualización de datos SIAT
+	//exit;
 }
 
 //$fecha=date("Y-m-d");
 $hora=date("H:i:s");
 
-//SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$tipoDocDefault=mysqli_result($respConf,0,0);
+if($tipoDoc <> 1){
+	$vectorNroCorrelativo=numeroCorrelativo($tipoDoc);
+	$nro_correlativo=$vectorNroCorrelativo[0];
+	$cod_dosificacion=$vectorNroCorrelativo[2];
+}
 
-//SACAMOS LA CONFIGURACION PARA EL CLIENTE POR DEFECTO
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=2";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$clienteDefault=mysqli_result($respConf,0,0);
-
-//SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$facturacionActivada=mysqli_result($respConf,0,0);
-
-//SACAMOS LA CONFIGURACION PARA LA VALIDACION DE STOCKS
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=4";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$datConf=mysqli_fetch_array($respConf);
-$banderaValidacionStock=$datConf[0];
-
-
-$sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
-$resp=mysqli_query($enlaceCon,$sql);
-$codigo=mysqli_result($resp,0,0);
-
-
-$vectorNroCorrelativo=numeroCorrelativo($tipoDoc);
-$nro_correlativo=$vectorNroCorrelativo[0];
-$cod_dosificacion=$vectorNroCorrelativo[2];
-
-if($facturacionActivada==1 && $tipoDoc==1){
+/*if($facturacionActivada==1 && $tipoDoc==1){
 		//SACAMOS DATOS DE LA DOSIFICACION PARA INSERTAR EN LAS FACTURAS EMITIDAS
 	$sqlDatosDosif="select d.nro_autorizacion, d.llave_dosificacion 
 		from dosificaciones d where d.cod_dosificacion='$cod_dosificacion'";
@@ -243,7 +252,7 @@ if($facturacionActivada==1 && $tipoDoc==1){
 								   $llaveDosificacion//Llave de dosificación
 								   );
 	//FIN DATOS FACTURA
-}
+}*/
 
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
@@ -252,17 +261,20 @@ $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almace
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
 		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial', 
 		'$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta','$idTransaccion_siat','$nroTarjeta')";
+
+//echo $sql_inserta;
+
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 if($sql_inserta==1){
 	
-	if($facturacionActivada==1){
+	/*if($facturacionActivada==1){
 		//insertamos la factura
 		$sqlInsertFactura="insert into facturas_venta (cod_dosificacion, cod_sucursal, nro_factura, cod_estado, razon_social, nit, fecha, importe, 
 		codigo_control, cod_venta) values ('$cod_dosificacion','$globalSucursal','$nro_correlativo','1','$razonSocial','$nitCliente','$fecha','$totalFinal',
 		'$code','$codigo')";
 		$respInsertFactura=mysqli_query($enlaceCon,$sqlInsertFactura);	
-	}
+	}*/
 
 	$montoTotalVentaDetalle=0;
 	for($i=1;$i<=$cantidad_material;$i++)
@@ -278,7 +290,6 @@ if($sql_inserta==1){
 			$montoMaterial=$precioUnitario*$cantidadUnitaria;
 			$montoMaterialConDescuento=($precioUnitario*$cantidadUnitaria)-$descuentoProducto;
 
-			
 			$montoTotalVentaDetalle=$montoTotalVentaDetalle+$montoMaterialConDescuento;
 			if($banderaValidacionStock==1){
 				$respuesta=descontar_inventarios($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i);

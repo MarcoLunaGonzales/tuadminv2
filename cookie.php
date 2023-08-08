@@ -24,24 +24,23 @@ if ($num_filas != 0) {
     $cod_cargo = $dat[0];
     $cod_ciudad = $dat[1];
     // $cod_empresa = $dat[2];
-    $cod_empresa = 1; // Valor por defecto
-
     setcookie("global_usuario", $usuario);
     setcookie("global_agencia", $cod_ciudad);
-    setcookie("global_cod_empresa", $cod_empresa);
 	/**
 	 * Datos generales de la Empresa
 	 */
 	$sql_emp = "SELECT e.cod_empresa, e.nombre, e.nit
-				FROM datos_empresa e
-				WHERE e.cod_empresa='$cod_empresa';";
-				echo $sql_emp;
+				FROM datos_empresa e limit 0,1";
+	//			echo $sql_emp;
 	$resp_emp 	   = mysqli_query($enlaceCon,$sql_emp);
 	$num_filas_emp = mysqli_num_rows($resp_emp);
 	if ($num_filas_emp != 0) {
 		$data = mysqli_fetch_array($resp_emp);
+		$cod_empresa = $data[0]; // Valor por defecto
 		$empresa_nombre = $data[1];
 		$empresa_nit    = $data[2];
+		
+	    setcookie("global_cod_empresa", $cod_empresa);
 		setcookie("global_empresa_nombre", $empresa_nombre);
 		setcookie("global_empresa_nit", $empresa_nit);
 	}
