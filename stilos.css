@@ -200,7 +200,6 @@ font-family: sans-serif, Arial;
 }
 
 .texto th {
-    text-align: left;
     text-shadow: 0 1px 0 rgba(255,255,255,.5); 
     border-bottom: 1px solid #ccc;
     background-color: #eee;
@@ -213,6 +212,7 @@ font-family: sans-serif, Arial;
 }
 
 .texto th:first-child {
+	text-align: center;
     -moz-border-radius: 6px 0 0 0;
     -webkit-border-radius: 6px 0 0 0;
     border-radius: 6px 0 0 0;  

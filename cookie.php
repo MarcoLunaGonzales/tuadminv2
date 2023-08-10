@@ -46,6 +46,8 @@ if ($num_filas != 0) {
 		header("location:indexAlmacenCaja.php");
 	}elseif ($cod_cargo==1020){
 		header("location:indexServiteca.php");
+	}elseif ($cod_cargo==1030){
+		header("location:indexExterno.php");
 	}
 
 
