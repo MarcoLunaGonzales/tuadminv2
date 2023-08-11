@@ -2,7 +2,7 @@
 <body>
 <table align='center' class="texto">
 <tr>
-<th>Grupo</th><th>CodInterno</th><th>Producto</th><th>Stock</th><th>Precio</th>
+<th><input type='checkbox' id='selecTodo'  onchange="marcarDesmarcar(form1,this)"></th><th>Grupo</th><th>CodInterno</th><th>Producto</th><th>Stock</th><th>Precio</th>
 </tr>
 <?php
 require("conexion.inc");
@@ -15,6 +15,10 @@ $globalAlmacen=$_COOKIE['global_almacen'];
 $itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $globalAgencia=$_COOKIE["global_agencia"];
 
+$soloStock=0;
+if(isset($_GET['soloStock'])){
+	$soloStock=$_GET['soloStock'];
+}
 
 
 	// $sql="select m.codigo_material, m.descripcion_material,
@@ -50,6 +54,8 @@ $globalAgencia=$_COOKIE["global_agencia"];
 			$nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
 
 			$stockProducto=stockProducto($globalAlmacen, $codigo);
+
+			$datosProd=$codigo."|".$nombre."|".$linea."|".$stockProducto;
 			
 			$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and cod_ciudad='$globalAgencia'";
 			$rs=mysql_query($consulta);
@@ -60,13 +66,16 @@ $globalAgencia=$_COOKIE["global_agencia"];
 			}
 			$precioProducto=redondear2($precioProducto);
 			
-			echo "<tr>
-			<td>$linea</td>
-			<td>$codigoInterno</td>
-			<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\")'>$nombre</a></div></td>
-			<td>$stockProducto</td>
-			<td>$precioProducto</td>
-			</tr>";
+			if( $soloStock==0 || ($soloStock==1 && $stockProducto>0) ){
+				echo "<tr>
+				<td><input type='checkbox' id='idchk$cont' name='idchk$cont' value='$datosProd' onchange='ver(this)' ></td>
+				<td>$linea</td>
+				<td>$codigoInterno</td>
+				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\")'>$nombre</a></div></td>
+				<td>$stockProducto</td>
+				<td>$precioProducto</td>
+				</tr>";
+			}
 		}
 	}else{
 		echo "<tr><td colspan='3'>Sin Resultados en la busqueda.</td></tr>";

@@ -3,10 +3,9 @@
         <title>Busqueda</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="lib/js/xlibPrototipoSimple-v0.1.js"></script>
+        <script type="text/javascript" src="lib/js/jquery-3.2.1.min.js"></script>
 
-		
-		
-		        <script type='text/javascript' language='javascript'>
+<script type='text/javascript' language='javascript'>
 function nuevoAjax()
 {	var xmlhttp=false;
 	try {
@@ -28,6 +27,11 @@ function listaMateriales(f){
 	var contenedor;
 	var codTipo=f.itemTipoMaterial.value;
 	var nombreItem=f.itemNombreMaterial.value;
+
+	var soloStock=0;
+	if($("#solo_stock").is(":checked")){
+		soloStock=1;
+	}
 	
 	var codInterno=f.codigoInterno.value;
 	contenedor = document.getElementById('divListaMateriales');
@@ -44,7 +48,7 @@ function listaMateriales(f){
 	}
 	
 	ajax=nuevoAjax();
-	ajax.open("GET", "ajaxListaMateriales.php?codTipo="+codTipo+"&nombreItem="+nombreItem+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
+	ajax.open("GET", "ajaxListaMateriales.php?codTipo="+codTipo+"&nombreItem="+nombreItem+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados+"&soloStock="+soloStock,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText
@@ -194,6 +198,45 @@ function mas(obj) {
 	}
 	
 }
+function masMultiple(form) {
+	var banderaItems0=0;
+	console.log("bandera: "+banderaItems0);
+	var numFilas=num;
+	console.log("numFilas: "+numFilas);
+
+	menos(numFilas);
+	console.log("numFilasActualizado: "+numFilas);
+	var productosMultiples=new Array();		
+	for(i=0;i<=form.length-1;i++){
+		if(form.elements[i].type=='checkbox'){  	   
+			if(form.elements[i].checked==true && form.elements[i].name.indexOf("idchk")!==-1 ){ 
+				cadena=form.elements[i].value;
+				console.log("i: "+i+" cadena: "+cadena+" name: "+form.elements[i].name);
+				productosMultiples.push(cadena);
+				banderaItems0=1;
+				num++;
+			}
+		}
+	}
+	num--;
+
+	console.log("bandera: "+banderaItems0);
+	if(banderaItems0==1){
+		num++;
+		div_material_linea=document.getElementById("fiel");			
+		ajax=nuevoAjax();
+		ajax.open("GET","ajaxMaterialSalidaMultiple.php?codigo="+numFilas+"&productos_multiple="+productosMultiples,true);
+		ajax.onreadystatechange=function(){
+			if (ajax.readyState==4) {
+				div_material_linea.innerHTML=div_material_linea.innerHTML+ajax.responseText;
+			}
+		}		
+		ajax.send(null);
+	}
+	console.log("CONTROL NUM: "+num);
+	Hidden();
+}	
+
 		
 function menos(numero) {
 	cantidad_items--;
@@ -215,12 +258,10 @@ function pressEnter(e, f){
 	}
 }
 function validar(f){
-	
 	f.cantidad_material.value=num;
 	var cantidadItems=num;
 	console.log("numero de items: "+cantidadItems);
 	if(cantidadItems>0){
-		
 		var item="";
 		var cantidad="";
 		var stock="";
@@ -251,8 +292,28 @@ function validar(f){
 		alert("El ingreso debe tener al menos 1 item.");
 		return(false);
 	}
+	document.getElementById("btsubmit").value = "Enviando...";
+	document.getElementById("btsubmit").disabled = true;   
+	document.forms[0].submit();	
 }
-	
+
+function marcarDesmarcar(f,elem){
+	 var i;
+      var j=0;
+	 if(elem.checked==true){      	       
+      for(i=0;i<=f.length-1;i++){
+       if(f.elements[i].type=='checkbox'){       
+		f.elements[i].checked=true;
+        }
+      }	
+    }else{
+		for(i=0;i<=f.length-1;i++){
+       if(f.elements[i].type=='checkbox'){       
+		f.elements[i].checked=false;
+        }
+      }	
+	}
+}	
 	
 </script>
 
@@ -365,7 +426,7 @@ else
 <?php
 
 echo "<div class='divBotones'>
-	<input type='submit' class='boton' value='Guardar' onClick='return validar(this.form);'>
+	<input type='submit' class='boton' id='btsubmit' value='Guardar' onClick='return validar(this.form);'>
 	<input type='button' class='boton2' value='Cancelar' onClick='location.href=\"navegador_salidamateriales.php\"'>
 </div>";
 
@@ -376,14 +437,14 @@ echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'>
 
 
 
-<div id="divRecuadroExt" style="background-color:#666; position:absolute; width:1000px; height: 400px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2; overflow: auto;">
+<div id="divRecuadroExt" style="background-color:#666; position:absolute; width:1200px; height: 600px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2; overflow: auto;">
 </div>
 
-<div id="divboton" style="position: absolute; top:20px; left:1120px;visibility:hidden; text-align:center; z-index:3">
+<div id="divboton" style="position: absolute; top:20px; left:1320px;visibility:hidden; text-align:center; z-index:3">
 	<a href="javascript:Hidden();"><img src="imagenes/cerrar4.png" height="45px" width="45px"></a>
 </div>
 
-<div id="divProfileData" style="background-color:#FFF; width:950px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
+<div id="divProfileData" style="background-color:#FFF; width:1150px; height:550px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
   	<div id="divProfileDetail" style="visibility:hidden; text-align:center">
 		<table align='center'>
 			<tr><th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
@@ -414,6 +475,15 @@ echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'>
 			<td>
 				<input type='button' class='boton' value='Buscar' onClick="listaMateriales(this.form)">
 			</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<div class="custom-control custom-checkbox small float-left">
+                    	<input type="checkbox" class="" id="solo_stock" checked="">
+                    	<label class="text-dark font-weight-bold" for="solo_stock">&nbsp;&nbsp;&nbsp;Solo Productos con Stock</label>
+                    	<input type="button" class="boton2peque" onclick="javascript:masMultiple(this.form);" value="Incluir Productos Seleccionados">
+         			</div>
+				</td>
 			</tr>
 			
 		</table>
