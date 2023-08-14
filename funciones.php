@@ -27,6 +27,11 @@ function formatonumeroDec($valor) {
    return $float_redondeado; 
 }
 
+function formatNumberInt($valor) { 
+   $float_redondeado=number_format($valor, 0); 
+   return $float_redondeado; 
+}
+
 function formateaFechaVista($cadena_fecha)
 {	$cadena_formatonuevo=$cadena_fecha[6].$cadena_fecha[7].$cadena_fecha[8].$cadena_fecha[9]."-".$cadena_fecha[3].$cadena_fecha[4]."-".$cadena_fecha[0].$cadena_fecha[1];
 	return($cadena_formatonuevo);
