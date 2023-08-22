@@ -35,7 +35,7 @@ $resp_almacen=mysql_query($sql_almacen);
 $dat_almacen=mysql_fetch_array($resp_almacen);
 $global_almacen=$dat_almacen[0];
 
-$sqlCosto="select id.costo_promedio from ingreso_almacenes i, ingreso_detalle_almacenes id
+$sqlCosto="select id.costo_almacen from ingreso_almacenes i, ingreso_detalle_almacenes id
 where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.ingreso_anulado=0 and 
 id.cod_material='$codMaterial' and i.cod_almacen='$global_almacen' ORDER BY i.cod_ingreso_almacen desc limit 0,1";
 $respCosto=mysql_query($sqlCosto);
