@@ -4,18 +4,11 @@ require("funciones.php");
 require("conexionmysqli.inc");
 
 $cod_ciudad=$_POST['cod_ciudad'];
+$codAlmacen=$_POST['rpt_almacen'];
 
-   $sql="SELECT cod_almacen FROM almacenes where cod_ciudad='$cod_ciudad'";
-   $resp=mysqli_query($enlaceCon,$sql);
-   //echo $sql;
-   $codigo_funcionario=$_COOKIE["global_usuario"];
-   //$sqlFun="UPDATE funcionarios SET cod_ciudad='$cod_ciudad' where codigo_funcionario='$codigo_funcionario'";
-   //mysqli_query($enlaceCon,$sqlFun);
-   while($dat=mysqli_fetch_array($resp)){
-      $codigo=$dat[0];
-   }
    setcookie("global_agencia",$cod_ciudad);
-   setcookie("global_almacen",$codigo);
+   setcookie("global_almacen",$codAlmacen);
+   
    if(isset($_POST["url"])){
    	$url=$_POST["url"];
     ?>

@@ -1,6 +1,9 @@
 <?php
 	require("conexion.inc");
 	
+	$globalAgencia=$_COOKIE["global_agencia"];
+	$globalAlmacen=$_COOKIE["global_almacen"];
+	
 	$sql = "select paterno, materno, nombres, cod_ciudad from funcionarios where codigo_funcionario=$global_usuario";
 	$resp = mysql_query( $sql );
 	$dat = mysql_fetch_array( $resp );
@@ -9,12 +12,12 @@
 	$nombre = $dat[ 2 ];	
 	$nombreUsuarioSesion = "$paterno $nombre";
 
-	$sql = "select descripcion from ciudades where cod_ciudad=$global_agencia";
+	$sql = "select descripcion from ciudades where cod_ciudad=$globalAgencia";
 	$resp = mysql_query( $sql );
 	$dat = mysql_fetch_array( $resp );
 	$nombreAgenciaSesion = $dat[ 0 ];
 	
-	$sql_almacen="select cod_almacen, nombre_almacen from almacenes where cod_ciudad='$global_agencia'";
+	$sql_almacen="select cod_almacen, nombre_almacen from almacenes where cod_almacen='$globalAlmacen'";
 	$resp_almacen=mysql_query($sql_almacen);
 	$dat_almacen=mysql_fetch_array($resp_almacen);
 	$nombreAlmacenSesion=$dat_almacen[1];
