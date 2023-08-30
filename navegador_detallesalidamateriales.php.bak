@@ -23,7 +23,7 @@
 	(select c.dir_cliente from clientes c where c.cod_cliente=s.cod_cliente),
 	s.monto_total, s.descuento, s.monto_final, s.cod_almacen
 	FROM salida_almacenes s, tipos_salida ts
-	where s.cod_tiposalida=ts.cod_tiposalida and s.cod_salida_almacenes='$codigo_salida'";
+	where s.cod_tiposalida=ts.cod_tiposalida and s.cod_almacen='$global_almacen' and s.cod_salida_almacenes='$codigo_salida'";
 	//echo $sql;
 	$resp=mysqli_query($enlaceCon,$sql);
 	$dat=mysqli_fetch_array($resp);

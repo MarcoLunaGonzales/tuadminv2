@@ -92,6 +92,7 @@ include("datosUsuario.php");
 						<!--li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li-->
 						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
 						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
+						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
 
 			<li><span>Reportes</span>
 				<ul>

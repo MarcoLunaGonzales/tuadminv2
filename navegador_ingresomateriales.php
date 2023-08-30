@@ -1,5 +1,5 @@
 <?php
-require("conexion.inc");
+require("conexionmysqli.inc");
 require('function_formatofecha.php');
 require("estilos_almacenes.inc");
 ?>
@@ -196,13 +196,13 @@ $consulta = "
     SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
 	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor, i.nro_factura_proveedor, 
 	(select s.nro_correlativo from salida_almacenes s where s.cod_salida_almacenes=i.cod_salida_almacen), 
-	(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen) 
+	(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen), i.cod_salida_almacen
     FROM ingreso_almacenes i, tipos_ingreso ti
     WHERE i.cod_tipoingreso=ti.cod_tipoingreso
     AND i.cod_almacen='$global_almacen'";
    $consulta = $consulta."ORDER BY i.nro_correlativo DESC limit 0, 50 ";
 //echo "MAT:$sql";
-$resp = mysql_query($consulta);
+$resp = mysqli_query($enlaceCon,$consulta);
 echo "<h1>Ingreso de Materiales</h1>";
 
 echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><th>Ingresos Anulados</th><td bgcolor='#ff8080' width='10%'></td><th>Ingresos con movimiento</th><td bgcolor='#ffff99' width='10%'></td><th>Ingresos sin movimiento</th><td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
@@ -217,7 +217,7 @@ echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nro.Factura</th><th>Fecha</th><th>Tipo de Ingreso</th>
 <th>Proveedor</th>
 <th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
-while ($dat = mysql_fetch_array($resp)) {
+while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
     $fecha_ingreso_mostrar = "$fecha_ingreso[8]$fecha_ingreso[9]-$fecha_ingreso[5]$fecha_ingreso[6]-$fecha_ingreso[0]$fecha_ingreso[1]$fecha_ingreso[2]$fecha_ingreso[3]";
@@ -233,9 +233,12 @@ while ($dat = mysql_fetch_array($resp)) {
 	$nroSalidaOrigen=$dat[10];
 	$almacenOrigen=$dat[11];
 
+	$codSalidaOrigen=$dat[12];
+
 	$txtTraspasoOrigen="";
 	if($nroSalidaOrigen!="" || $nroSalidaOrigen!=0){
-		$txtTraspasoOrigen="<span class='textomedianoazul'>A. Origen: $almacenOrigen Nro. Doc: $nroSalidaOrigen</span>";
+		$txtTraspasoOrigen="<span class='textomedianoazul'>
+		<a href='navegador_detallesalidamateriales.php?codigo_salida=$codSalidaOrigen'  target='_blank'>A. Origen: $almacenOrigen Nro. Doc: $nroSalidaOrigen</a></span>";
 	}
 
 	if($nroFacturaProveedor==0){
@@ -246,8 +249,8 @@ while ($dat = mysql_fetch_array($resp)) {
     $sql_verifica_movimiento = "select * from salida_almacenes s, salida_detalle_almacenes sd, ingreso_almacenes i
 		where s.cod_salida_almacenes=sd.cod_salida_almacen  and sd.cod_ingreso_almacen=i.cod_ingreso_almacen and s.salida_anulada=0 and i.cod_ingreso_almacen='$codigo'";
 	//echo $sql_verifica_movimiento;
-    $resp_verifica_movimiento = mysql_query($sql_verifica_movimiento);
-    $num_filas_movimiento = mysql_num_rows($resp_verifica_movimiento);
+    $resp_verifica_movimiento = mysqli_query($enlaceCon,$sql_verifica_movimiento);
+    $num_filas_movimiento = mysqli_num_rows($resp_verifica_movimiento);
     if ($num_filas_movimiento > 0) {
         $color_fondo = "#ffff99";
         $chkbox = "";
@@ -331,8 +334,8 @@ echo "</form>";
 						<option value="0">Todos</option>
 					<?php
 						$sqlProv="select cod_proveedor, nombre_proveedor from proveedores order by 2";
-						$respProv=mysql_query($sqlProv);
-						while($datProv=mysql_fetch_array($respProv)){
+						$respProv=mysqli_query($enlaceCon,$sqlProv);
+						while($datProv=mysqli_fetch_array($respProv)){
 							$codProvBus=$datProv[0];
 							$nombreProvBus=$datProv[1];
 					?>

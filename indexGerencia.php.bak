@@ -74,7 +74,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 		<div id="panel-menu">
 		
 		<ul>
-			<!--li><span>Datos Generales</span>
+			<li><span>Datos Generales</span>
 				<ul>
 					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Proveedores</a></li>
 
@@ -101,7 +101,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						</ul>	
 					</li>					
 				</ul>	
-			</li-->
+			</li->
 
 			<!--li><span>Ordenes de Compra</span>
 				<ul>
