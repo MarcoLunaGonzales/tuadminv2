@@ -125,6 +125,7 @@ include("datosUsuario.php");
 							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias con Precio de Venta</a></li>
 							<li><a href="rpt_op_inv_ingresos.php" target="contenedorPrincipal">Ingresos</a></li>
 							<li><a href="rpt_op_inv_salidas.php" target="contenedorPrincipal">Salidas</a></li>
+							<li><a href="rpt_op_inv_traspasos.php" target="contenedorPrincipal">Seguimiento de Traspasos</a></li>
 							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
 					</li>	
