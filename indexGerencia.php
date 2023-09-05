@@ -1,35 +1,65 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Minka Software</title>
-
+	<title>MinkaSoftware</title> 
+	    <link rel="shortcut icon" href="imagenes/icon_farma.ico" type="image/x-icon">
 	<link type="text/css" rel="stylesheet" href="menuLibs/css/demo.css" />
-	<link type="text/css" rel="stylesheet" href="menuLibs/dist/jquery.mmenu.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<style>  
+	.boton-rojo
+{
+    text-decoration: none !important;
+    padding: 10px !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    color: #ffffff !important;
+    background-color: #E73024 !important;
+    border-radius: 3px !important;
+    border: 2px solid #E73024 !important;
+}
+.boton-rojo:hover{
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+   .boton-plomo
+{
+    text-decoration: none !important;
+    font-weight: 0 !important;
+    font-size: 12spx !important;
+    color: #ffffFF !important;
+    background-color: #88898A !important;
+    border-radius: 3px !important;
+    border: 2px solid #88898A !important;
+}
+.boton-plomo:hover{
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
 
-	<script type="text/javascript" src="menuLibs/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="menuLibs/dist/jquery.mmenu.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$('nav#menu').mmenu();
-		});
-		
-</script> 
-	</script>
-		
+</style>
+     <link rel="stylesheet" href="dist/css/demo.css" />
+     <link rel="stylesheet" href="dist/mmenu.css" />
+	 <link rel="stylesheet" href="dist/demo.css" />
 </head>
+
 <body>
-<?
-include("datosUsuario.php");
+<?php
+require_once 'datosUsuario.php';
+require_once 'funciones.php';
+
+$serverSIAT=obtenerValorConfiguracion(7);
+
 ?>
 <div id="page">
 	<div class="header">
 		<a href="#menu"><span></span></a>
-		TuAdmin 
+		<?=$_COOKIE["global_empresa_nombre"];?>
 		<div style="position:absolute; width:95%; height:50px; text-align:right; top:0px; font-size: 9px; font-weight: bold; color: #fff;">
-			[<? echo $fechaSistemaSesion?>][<? echo $horaSistemaSesion;?>]			
+			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]			
 		<div>
 		<div style="position:absolute; width:95%; height:50px; text-align:left; top:0px; font-size: 12px; font-weight: bold; color: #ffff00;">
-			[<? echo $nombreUsuarioSesion?>]&nbsp;&nbsp;&nbsp;[<? echo $nombreAlmacenSesion;?>]
+			[<?=$nombreUsuarioSesion; ?>]&nbsp;&nbsp;&nbsp;[<?=$nombreAlmacenSesion;?>]
 		<div>
 	</div>
 	
@@ -40,6 +70,9 @@ include("datosUsuario.php");
 	
 	
 	<nav id="menu">
+
+		<div id="panel-menu">
+		
 		<ul>
 			<li><span>Datos Generales</span>
 				<ul>
@@ -90,6 +123,13 @@ include("datosUsuario.php");
 					<li><a href="navegador_salidamateriales.php" target="contenedorPrincipal">Listado de Traspasos</a></li>
 					<li><a href="navegadorVentas.php" target="contenedorPrincipal">Listado de Ventas</a></li>
 					<li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li>
+				</ul>	
+			</li>
+			<li><span>SIAT</span>
+				<ul>
+					<li><a href="<?=$serverSIAT;?>siat_folder/siat_facturacion_offline/facturas_sincafc_list.php" target="contenedorPrincipal">Facturas Off-line</a></li>
+					<li><a href="<?=$serverSIAT;?>siat_folder/siat_sincronizacion/index.php" target="contenedorPrincipal">Sincronización</a></li>
+					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
 				</ul>	
 			</li>
 			<!--li><span>Listado de Cobranzas</span>
@@ -147,7 +187,6 @@ include("datosUsuario.php");
 							<li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Item</a></li>
 							<li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento e Item</a></li>
 							<li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor</a></li>
-							<li><a href="rptOpVentasSucursalTipoPago.php" target="contenedorPrincipal">Ventas x Sucursal y Tipo de Pago</a></li>
 							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li>
 						</ul>	
 					</li>
@@ -178,10 +217,14 @@ include("datosUsuario.php");
 			<li><span>Utilitarios</span>
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>
-					<li><a href="reprocesarcostos.php" target="_blank">Reprocesar Costos</a></li>
 				</ul>
-			</li>		
+			</li>	
+		</div>	
 	</nav>
 </div>
+<script src="dist/mmenu.polyfills.js"></script>
+<script src="dist/mmenu.js"></script>
+<script src="dist/demo.js"></script>
+
 	</body>
 </html>
