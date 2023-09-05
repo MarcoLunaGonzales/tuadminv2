@@ -6,6 +6,8 @@
                 --mm-listitem-size: 50px;
                 --mm-navbar-size: 50px;
                 --mm-color-background:#00bfa5 ; /* verde#019180    #005b4f;#20549D;*/
+                /*--mm-color-background:#880E4F ;*/
+                   
             }
 
             @media (min-width: 992px) {
@@ -24,7 +26,7 @@
                 }
             }
             .header{
-               /*background: #16B490;  verde*/
+               /*background: #D81B60;*/
                background: #00bfa5 ;
 
 /*background: linear-gradient(90deg, rgba(63,20,150,1) 0%, rgba(114,9,194,0.865983893557423) 19%, rgba(242,236,240,0.03405112044817926) 36%, rgba(244,237,241,0.053658963585434205) 50%, rgba(241,233,238,0.19371498599439774) 62%, rgba(90,34,186,0.865983893557423) 78%, rgba(73,24,163,1) 100%);*/

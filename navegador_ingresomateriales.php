@@ -196,7 +196,7 @@ $consulta = "
     SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
 	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor, i.nro_factura_proveedor, 
 	(select s.nro_correlativo from salida_almacenes s where s.cod_salida_almacenes=i.cod_salida_almacen), 
-	(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen) 
+	(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen), i.cod_salida_almacen
     FROM ingreso_almacenes i, tipos_ingreso ti
     WHERE i.cod_tipoingreso=ti.cod_tipoingreso
     AND i.cod_almacen='$global_almacen'";
@@ -233,9 +233,12 @@ while ($dat = mysqli_fetch_array($resp)) {
 	$nroSalidaOrigen=$dat[10];
 	$almacenOrigen=$dat[11];
 
+	$codSalidaOrigen=$dat[12];
+
 	$txtTraspasoOrigen="";
 	if($nroSalidaOrigen!="" || $nroSalidaOrigen!=0){
-		$txtTraspasoOrigen="<span class='textomedianoazul'>A. Origen: $almacenOrigen Nro. Doc: $nroSalidaOrigen</span>";
+		$txtTraspasoOrigen="<span class='textomedianoazul'>
+		<a href='navegador_detallesalidamateriales.php?codigo_salida=$codSalidaOrigen' target='_blank'>A. Origen: $almacenOrigen Nro. Doc: $nroSalidaOrigen</a></span>";
 	}
 
 	if($nroFacturaProveedor==0){

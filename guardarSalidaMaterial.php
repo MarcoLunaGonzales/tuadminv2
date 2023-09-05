@@ -229,38 +229,19 @@ if($tipoDoc == 1){ // Tipo de Emisión Factura
 //$fecha=date("Y-m-d");
 $hora=date("H:i:s");
 
+$cod_dosificacion=0;
 if($tipoDoc <> 1){
 	$vectorNroCorrelativo=numeroCorrelativo($tipoDoc);
 	$nro_correlativo=$vectorNroCorrelativo[0];
 	$cod_dosificacion=$vectorNroCorrelativo[2];
 }
 
-/*if($facturacionActivada==1 && $tipoDoc==1){
-		//SACAMOS DATOS DE LA DOSIFICACION PARA INSERTAR EN LAS FACTURAS EMITIDAS
-	$sqlDatosDosif="select d.nro_autorizacion, d.llave_dosificacion 
-		from dosificaciones d where d.cod_dosificacion='$cod_dosificacion'";
-	$respDatosDosif=mysqli_query($enlaceCon,$sqlDatosDosif);
-	$nroAutorizacion=mysqli_result($respDatosDosif,0,0);
-	$llaveDosificacion=mysqli_result($respDatosDosif,0,1);
-	include 'controlcode/sin/ControlCode.php';
-	$controlCode = new ControlCode();
-	$code = $controlCode->generate($nroAutorizacion,//Numero de autorizacion
-								   $nro_correlativo,//Numero de factura
-								   $nitCliente,//Número de Identificación Tributaria o Carnet de Identidad
-								   str_replace('-','',$fecha),//fecha de transaccion de la forma AAAAMMDD
-								   $totalFinalRedondeado,//Monto de la transacción
-								   $llaveDosificacion//Llave de dosificación
-								   );
-	//FIN DATOS FACTURA
-}*/
-
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
 		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial', 
-		'$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta','$idTransaccion_siat','$nroTarjeta')";
+		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta','$idTransaccion_siat','$nroTarjeta')";
 
 //echo $sql_inserta;
 
@@ -268,14 +249,6 @@ $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 if($sql_inserta==1){
 	
-	/*if($facturacionActivada==1){
-		//insertamos la factura
-		$sqlInsertFactura="insert into facturas_venta (cod_dosificacion, cod_sucursal, nro_factura, cod_estado, razon_social, nit, fecha, importe, 
-		codigo_control, cod_venta) values ('$cod_dosificacion','$globalSucursal','$nro_correlativo','1','$razonSocial','$nitCliente','$fecha','$totalFinal',
-		'$code','$codigo')";
-		$respInsertFactura=mysqli_query($enlaceCon,$sqlInsertFactura);	
-	}*/
-
 	$montoTotalVentaDetalle=0;
 	for($i=1;$i<=$cantidad_material;$i++)
 	{   	

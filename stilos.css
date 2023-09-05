@@ -204,6 +204,7 @@ table {
     box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;        
 }
 .texto th {
+    text-align: center;
     text-shadow: 0 1px 0 rgba(255,255,255,.5); 
     border-bottom: 1px solid #ccc;
     background-color: #eee;
@@ -312,6 +313,11 @@ a:active {
     font-family: Verdana;
     font-size: 12pt;
     color: #585858;
+}
+.textomedianoazul {
+    font-family: Verdana;
+    font-size: 8pt;
+    color: mediumblue;
 }
 .textomedianonegro {
     font-family: Verdana;

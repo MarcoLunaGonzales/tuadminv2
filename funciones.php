@@ -18,6 +18,11 @@ function redondear2($valor) {
    return $float_redondeado; 
 }
 
+function formatNumberInt($valor) { 
+   $float_redondeado=number_format($valor, 0); 
+   return $float_redondeado; 
+}
+
 function formatonumero($valor) { 
    $float_redondeado=number_format($valor, 0); 
    return $float_redondeado; 
