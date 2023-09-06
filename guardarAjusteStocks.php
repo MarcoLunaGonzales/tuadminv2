@@ -7,7 +7,8 @@ require("estilos_almacenes.inc");
 require("funciones.php");
 require("funcion_nombres.php");
 require("funciones_inventarios.php");
-
+// var_dump($_POST);
+// exit;
 $usuarioVendedor=$_COOKIE['global_usuario'];
 $globalSucursal=$_COOKIE['global_agencia'];
 
@@ -67,13 +68,18 @@ do {
     cod_cliente, monto_total, descuento, monto_final, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion,cod_tipopago)
     values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
     '$observaciones', '1', '$nro_correlativo', 0, '0', '$totalVenta', '$descuentoVenta', '$totalFinal', '', '', '$usuarioVendedor', '',0,'$cod_dosificacion','$tipoVenta')";
+    // echo $sql_inserta;
+    // echo "=============";
     $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
     $contador++;
 } while ($sql_inserta<>1 && $contador <= 100);
+// echo "holaaaaaaaaa";
+// exit;
 
 if($sql_inserta==1){
     $montoTotalVentaDetalle=0;
     $i=1;
+    $cantidad_salida = 0; // Control de cantidad de registros exitosos
     foreach($_POST as $nombre_campo => $valor){ 
         $asignacion = "\$" . $nombre_campo . "='" . $valor . "';"; 
         $cadenaBuscar='producto';
@@ -98,6 +104,7 @@ if($sql_inserta==1){
                     }else{
                         $respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codigoProductoX,$cantidadInsertX,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $i);
                     }
+                    $cantidad_salida++;
                     if($respuesta!=1){
                         echo "<script>
                             alert('Existio un error en el detalle. Contacte con el administrador del sistema.');
@@ -107,6 +114,14 @@ if($sql_inserta==1){
                 }
             }
         }
+    }
+    /**
+     * Se elimina la cabecera de INGRESO ALMACENES 
+     * en caso de no contar con ningun detalle
+     */
+    if($cantidad_salida == 0){
+        $consulta_delete = "DELETE FROM salida_almacenes WHERE cod_salida_almacenes = $codigo";
+        $sql_delete = mysqli_query($enlaceCon, $consulta_delete);
     }
     echo "<h2>Se ajustaron correctamente las Salidas!</h2>";  
 }else{
@@ -130,7 +145,8 @@ $dat = mysqli_fetch_array($resp);
 $nro_correlativo=$dat[0];
 
 $hora_sistema = date("H:i:s");
-$tipo_ingreso=1002;
+// $tipo_ingreso=1002;
+$tipo_ingreso=1003;
 $nota_entrega=0;
 $nro_factura=0;
 $observaciones="Ingreso por ajuste de Linea. Linea $nombreLineaProveedorX";
@@ -148,6 +164,7 @@ $sql_inserta = mysqli_query($enlaceCon,$consulta);
 
 if($sql_inserta==1){
     $i=1;
+    $cantidad_ingreso = 0; // Control de cantidad de registros exitosos
     foreach($_POST as $nombre_campo => $valor){ 
         $asignacion = "\$" . $nombre_campo . "='" . $valor . "';"; 
         $cadenaBuscar='producto';
@@ -176,6 +193,7 @@ if($sql_inserta==1){
                     precio_bruto, costo_almacen, costo_actualizado, costo_actualizado_final, costo_promedio, precio_neto) 
                     values($codigo,'$codigoProductoX',$cantidadInsertX,$cantidadInsertX,'$lote','$fechaVencimiento',$precioUnitario,$precioUnitario,$costo,$costo,$costo,$costo)";
                     $respuesta = mysqli_query($enlaceCon,$consulta);
+                    $cantidad_ingreso++;
                 
                     if($respuesta!=1){
                         echo "<h2>Ocurrio un error en la transaccion. Contacte con el administrador del sistema.</h2>";
@@ -185,6 +203,15 @@ if($sql_inserta==1){
             }
         }
     }    
+    /**
+     * Se elimina la cabecera de INGRESO ALMACENES 
+     * en caso de no contar con ningun detalle
+     */
+    if($cantidad_ingreso == 0){
+        $consulta_delete = "DELETE FROM ingreso_almacenes WHERE cod_ingreso_almacen = $codigo";
+        $sql_delete = mysqli_query($enlaceCon, $consulta_delete);
+    }
+
     echo "<h2>Se ajustaron correctamente los Ingresos!</h2>";  
 }
 
