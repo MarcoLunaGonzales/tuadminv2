@@ -1,65 +1,35 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>MinkaSoftware</title> 
-	    <link rel="shortcut icon" href="imagenes/icon_farma.ico" type="image/x-icon">
+	<title>Minka Software</title>
+
 	<link type="text/css" rel="stylesheet" href="menuLibs/css/demo.css" />
-	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-	<style>  
-	.boton-rojo
-{
-    text-decoration: none !important;
-    padding: 10px !important;
-    font-weight: 600 !important;
-    font-size: 12px !important;
-    color: #ffffff !important;
-    background-color: #E73024 !important;
-    border-radius: 3px !important;
-    border: 2px solid #E73024 !important;
-}
-.boton-rojo:hover{
-    color: #000000 !important;
-    background-color: #ffffff !important;
-  }
-   .boton-plomo
-{
-    text-decoration: none !important;
-    font-weight: 0 !important;
-    font-size: 12spx !important;
-    color: #ffffFF !important;
-    background-color: #88898A !important;
-    border-radius: 3px !important;
-    border: 2px solid #88898A !important;
-}
-.boton-plomo:hover{
-    color: #000000 !important;
-    background-color: #ffffff !important;
-  }
+	<link type="text/css" rel="stylesheet" href="menuLibs/dist/jquery.mmenu.css" />
 
-</style>
-     <link rel="stylesheet" href="dist/css/demo.css" />
-     <link rel="stylesheet" href="dist/mmenu.css" />
-	 <link rel="stylesheet" href="dist/demo.css" />
+	<script type="text/javascript" src="menuLibs/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="menuLibs/dist/jquery.mmenu.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('nav#menu').mmenu();
+		});
+		
+</script> 
+	</script>
+		
 </head>
-
 <body>
-<?php
-require_once 'datosUsuario.php';
-require_once 'funciones.php';
-
-$serverSIAT=obtenerValorConfiguracion(7);
-
+<?
+include("datosUsuario.php");
 ?>
 <div id="page">
 	<div class="header">
 		<a href="#menu"><span></span></a>
-		<?=$_COOKIE["global_empresa_nombre"];?>
+		TuAdmin 
 		<div style="position:absolute; width:95%; height:50px; text-align:right; top:0px; font-size: 9px; font-weight: bold; color: #fff;">
-			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]			
+			[<? echo $fechaSistemaSesion?>][<? echo $horaSistemaSesion;?>]			
 		<div>
 		<div style="position:absolute; width:95%; height:50px; text-align:left; top:0px; font-size: 12px; font-weight: bold; color: #ffff00;">
-			[<?=$nombreUsuarioSesion; ?>]&nbsp;&nbsp;&nbsp;[<?=$nombreAlmacenSesion;?>]
+			[<? echo $nombreUsuarioSesion?>]&nbsp;&nbsp;&nbsp;[<? echo $nombreAlmacenSesion;?>]
 		<div>
 	</div>
 	
@@ -70,9 +40,6 @@ $serverSIAT=obtenerValorConfiguracion(7);
 	
 	
 	<nav id="menu">
-
-		<div id="panel-menu">
-		
 		<ul>
 			<!--li><span>Datos Generales</span>
 				<ul>
@@ -125,13 +92,6 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li>
 				</ul>	
 			</li>
-			<li><span>SIAT</span>
-				<ul>
-					<li><a href="<?=$serverSIAT;?>siat_folder/siat_facturacion_offline/facturas_sincafc_list.php" target="contenedorPrincipal">Facturas Off-line</a></li>
-					<li><a href="<?=$serverSIAT;?>siat_folder/siat_sincronizacion/index.php" target="contenedorPrincipal">Sincronización</a></li>
-					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
-				</ul>	
-			</li>
 			<!--li><span>Listado de Cobranzas</span>
 				<ul>
 					<li><a href="navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
@@ -168,8 +128,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="rpt_op_inv_ingresos.php" target="contenedorPrincipal">Ingresos</a></li>
 							<li><a href="rpt_op_inv_salidas.php" target="contenedorPrincipal">Salidas</a></li>
 							<li><a href="rpt_op_inv_traspasos.php" target="contenedorPrincipal">Seguimiento Traspasos</a></li>
-							<li><a href="rpt_op_inv_ingresossalidas.php" target="contenedorPrincipal">Ingresos Vs. Salidas</a></li>
-							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
+							<li><a href="rpt_op_inv_ingresossalidas.php" target="contenedorPrincipal">Ingresos Vs. Salidas</a></li>											<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
 					</li>	
 					<li><span>Costos</span>
@@ -197,7 +156,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<!--li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li-->
 						</ul>	
 					</li>
-					<li><span>Utilidades</span>
+					<!--li><span>Utilidades</span>
 						<ul>
 							<li><a href="rptOpUtilidadesDocumento.php" target="contenedorPrincipal">Utilidades x Documento</a></li>
 							<li><a href="rptOpUtilidadesDocumentoServiteca.php" target="contenedorPrincipal">Utilidades x Documento Serviteca</a></li>
@@ -205,7 +164,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="rptOpUtilidadesDocItem.php" target="contenedorPrincipal">Utilidades x Documento e Item</a></li>
 							<li><a href="rptOpUtilidadesNetas.php" target="contenedorPrincipal">Utilidad Neta x Periodo</a></li>
 						</ul>	
-					</li>
+					</li-->
 					<!--li><span>Cobranzas</span>
 						<ul>
 							<li><a href="rptOpCobranzas.php" target="contenedorPrincipal">Cobranzas</a></li>
@@ -217,14 +176,10 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			<li><span>Utilitarios</span>
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>
+					<li><a href="reprocesarcostos.php" target="_blank">Reprocesar Costos</a></li>
 				</ul>
-			</li>	
-		</div>	
+			</li>		
 	</nav>
 </div>
-<script src="dist/mmenu.polyfills.js"></script>
-<script src="dist/mmenu.js"></script>
-<script src="dist/demo.js"></script>
-
 	</body>
 </html>
