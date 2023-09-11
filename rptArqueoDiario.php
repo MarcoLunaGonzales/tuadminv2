@@ -18,8 +18,13 @@ $fecha_iniconsulta=$fecha_ini;
 
 $fecha_reporte=date("d/m/Y");
 
+$nombreTerritorio=nombreTerritorio($rpt_territorio);
+
 echo "<h1>Reporte Arqueo Diario de Caja</h1>
-	<h2>Fecha: $fecha_ini &nbsp;&nbsp;&nbsp; Fecha Reporte: $fecha_reporte</h2>";
+	<h2>Fecha: $fecha_ini &nbsp;&nbsp;&nbsp; Fecha Reporte: $fecha_reporte 
+	<br>
+	$nombreTerritorio
+	</h2>";
 
 	
 

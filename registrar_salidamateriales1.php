@@ -153,8 +153,8 @@ num=0;
 cantidad_items=0;
 
 function mas(obj) {
-	if(num>=15){
-		alert("No puede registrar mas de 15 items en una nota.");
+	if(num>=100){
+		alert("No puede registrar mas de 100 items en una nota.");
 	}else{
 		//aca validamos que el item este seleccionado antes de adicionar nueva fila de datos
 		var banderaItems0=0;
@@ -267,7 +267,8 @@ $global_almacen=$_COOKIE['global_almacen'];
 if($fecha=="")
 {   $fecha=date("Y-m-d");
 }
-$fechaIni=date('Y-m-d',strtotime($fecha.'-90 days'));
+//$fechaIni=date('Y-m-d',strtotime($fecha.'-90 days'));
+$fechaIni=date("Y-m-d");
 
 $sql="select nro_correlativo from salida_almacenes where cod_almacen='$global_almacen' order by cod_salida_almacenes desc";
 $resp=mysql_query($sql);

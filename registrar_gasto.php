@@ -117,7 +117,7 @@ $fecha=date("Y-m-d");
 </select>
 </td>
 <td>
-<input type='date' class='texto' max='<?php echo $fecha; ?>' value='<?php echo $fecha; ?>' id='fecha' name='fecha' required>
+<input type='date' class='texto' min='<?=$fecha;?>' max='<?=$fecha;?>' value='<?php echo $fecha; ?>' id='fecha' name='fecha' required>
 </td>
 <td>
 <input type='text' class='texto' value="" id='nombre_gasto' size='60' name='nombre_gasto' required>

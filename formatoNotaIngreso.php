@@ -12,7 +12,7 @@ $sqlNro="select count(*) from `ingreso_detalle_almacenes` s where s.`cod_ingreso
 $respNro=mysql_query($sqlNro);
 $nroItems=mysql_result($respNro,0,0);
 
-$tamanoLargo=180+($nroItems*3)-3;
+$tamanoLargo=250+($nroItems*10)-3;
 
 $pdf=new FPDF('P','mm',array(76,$tamanoLargo));
 //$pdf=new FPDF('P','mm',array(100,$tamanoLargo));
