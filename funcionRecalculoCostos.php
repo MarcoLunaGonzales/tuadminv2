@@ -6,6 +6,8 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 	$fecha_iniconsulta="2000-01-01";
 	$fecha_finconsulta="2050-12-31";
 
+	/*
+
 	if($codigoItem!=0 && $codigoItem!=""){
 		
 		$sqlMateriales="select m.`codigo_material`, m.`descripcion_material` from `material_apoyo` m where m.`codigo_material` in ($codigoItem)";
@@ -212,17 +214,19 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 			}
 			$suma_saldo_final=$suma_ingresos-$suma_salidas+$cantidad_inicial_kardex;	
 			
-			/*$sqlDel="delete from costo_promedio_mes where cod_material='$codigoItem' and mes='$mes' and anio='$anio'";
+			
+			$sqlDel="delete from costo_promedio_mes where cod_material='$codigoItem' and mes='$mes' and anio='$anio'";
 			$respDel=mysql_query($sqlDel);
 			
 			$valorInventario=$suma_saldo_final+$nuevoCostoPromedio;
 			
 			$sqlInsert="insert into costo_promedio_mes values('$rpt_almacen', '$anio', '$mes', '$codigoItem', '$suma_saldo_final', '$nuevoCostoPromedio', '$valorInventario')";
-			$respInsert=mysql_query($sqlInsert);*/
+			$respInsert=mysql_query($sqlInsert);
 			
 		}
-	}//FIN CODIGO 0 O VACIO
-
+	}
+	*/
+	//FIN CODIGO 0 O VACIO
 	return(1);
 }
 

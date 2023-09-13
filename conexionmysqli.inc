@@ -8,7 +8,7 @@ if(!function_exists('register_globals')){
 }else{
 }
 
-$enlaceCon=mysqli_connect("localhost","root","4868422Marco","tecniplast_03_2023");
+$enlaceCon=mysqli_connect("localhost","root","4868422Marco","tecniplast");
 
 if (mysqli_connect_errno())
 {

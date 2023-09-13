@@ -54,8 +54,8 @@ include("datosUsuario.php");
 							<li><a href="navegador_precios.php?orden=3" target="contenedorPrincipal">Precios (Por Grupo)</a></li>			
 						</ul>
 					</li>
-					<!--li><a href="navegador_ajustarpreciostock.php" target="contenedorPrincipal">Ajustar Precio/Stock **</a></li-->
-					<!--li><a href="navegador_funcionarios1.php" target="contenedorPrincipal">Funcionarios</a></li-->
+					<li><a href="navegador_ajustarpreciostock.php" target="contenedorPrincipal">Ajustar Precio/Stock **</a></li>
+					<li><a href="navegador_funcionarios1.php" target="contenedorPrincipal">Funcionarios</a></li>
 					<li><a href="programas/clientes/inicioClientes.php" target="contenedorPrincipal">Clientes</a></li>
 					<li><a href="navegador_dosificaciones.php" target="contenedorPrincipal">Dosificaciones de Facturas</a></li>
 					<!--li><a href="navegador_vehiculos.php" target="contenedorPrincipal">Vehiculos</a></li-->
@@ -69,6 +69,7 @@ include("datosUsuario.php");
 					</li>					
 				</ul>	
 			</li>
+
 			<!--li><span>Ordenes de Compra</span>
 				<ul>
 					<li><a href="navegador_ordenCompra.php" target="contenedorPrincipal">Registro de O.C.</a></li>
@@ -97,17 +98,27 @@ include("datosUsuario.php");
 					<li><a href="cobranzas/rptOpCuentasCobrar.php" target="contenedorPrincipal">Reporte Cuentas x Cobrar</a></li>
 				</ul>	
 			</li>
+			<!--li><span>Listado de Cobranzas</span>
+				<ul>
+					<li><a href="navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
+				</ul>	
+			</li-->
 			<!--li><span>Configuracion</span>
 				<ul>
 					<li><a href="navegadorDolar.php" target="contenedorPrincipal">Cambiar Cotizacion de Dolar</a></li>
 				</ul>	
 			</li-->
 						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
-						<!--li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li-->
-						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
-						<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
+						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
+						<li><span>Gastos</span>
+							<ul>
+								<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
+								<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte Detallado de Gastos</a></li>			
+							</ul>
+						</li>
+
+						<!--li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li-->
 						<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li>
-						<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
 						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 						
 

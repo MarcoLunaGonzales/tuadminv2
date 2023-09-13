@@ -398,7 +398,7 @@ echo "<div class='divBotones'>
 		
 echo "<center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
-	<th>Razon Social</th><th>NIT</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th><th>Duplicar</th>";
+	<th>Razon Social</th><th>NIT</th><th>Monto</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th><th>Duplicar</th>";
 
 if($global_admin_cargo==1){
     echo "<!--th>Convertir</th--><th>Cambiar <br>Datos Venta</th>";
@@ -416,8 +416,7 @@ $consulta = "
 	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
 	(select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
 	(select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
-    s.cod_chofer,
-    s.cod_tipopago
+    s.cod_chofer, s.cod_tipopago, s.monto_final
 	FROM salida_almacenes s, tipos_salida ts 
 	WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
 
@@ -462,10 +461,16 @@ while ($dat = mysql_fetch_array($resp)) {
 
     $codVendedor = $dat[16];
     $codTipoPago = $dat[17];
+
+    $montoVenta=$dat[18];
 	
+    $montoVentaFormat=formatonumeroDec($montoVenta);
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
 	
-	$sqlEstadoColor="select color from estados_salida where cod_estado='$estado_almacen'";
+    $estilo_texto = "";
+    $color_fondo = "";
+
+    $sqlEstadoColor="select color from estados_salida where cod_estado='$estado_almacen'";
 	$respEstadoColor=mysql_query($sqlEstadoColor);
 	$numFilasEstado=mysql_num_rows($respEstadoColor);
 	if($numFilasEstado>0){
@@ -473,18 +478,26 @@ while ($dat = mysql_fetch_array($resp)) {
 	}else{
 		$color_fondo="#ffffff";
 	}
+
+    if($estado_almacen==3){
+        $estilo_texto = "text-decoration:line-through; color:red";
+    }
+
 	$chk = "<input type='checkbox' name='codigo' value='$codigo'>";
 
 	
     echo "<input type='hidden' name='estado_preparado' value='$estado_preparado'>";
     //echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>$nombre_almacen</td><td>$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>$txt_detalle</td></tr>";
-    echo "<tr>";
+    echo "<tr style='$estilo_texto'>";
     echo "<td align='center'>&nbsp;$chk</td>";
     echo "<td align='center'>$nombreTipoDoc-$nro_correlativo</td>";
     echo "<td align='center'>$fecha_salida_mostrar $hora_salida</td>";
     echo "<td>$vendedor</td>";
     echo "<td>$tipoPago</td>";
-    echo "<td>&nbsp;$razonSocial</td><td>&nbsp;$nitCli</td><td>&nbsp;$obs_salida</td>";
+    echo "<td>&nbsp;$razonSocial</td>
+    <td>&nbsp;$nitCli</td>
+    <td>&nbsp;$montoVentaFormat</td>
+    <td>&nbsp;$obs_salida</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
    
     // Editar Datos
@@ -536,13 +549,13 @@ echo "</form>";
 			<tr>
 				<td>Fecha Ini(aaaa-mm-dd)</td>
 				<td>
-				<input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
+				<input type='date' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
 				</td>
 			</tr>
 			<tr>
 				<td>Fecha Fin(aaaa-mm-dd)</td>
 				<td>
-				<input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
+				<input type='date' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
 				</td>
 			</tr>
 			<tr>

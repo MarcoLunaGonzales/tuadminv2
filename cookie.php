@@ -47,9 +47,12 @@ if ($num_filas != 0) {
 		setcookie("global_admin_cargo", 0);		
 	}
 
-	if($cod_cargo==1000 || $cod_cargo==1001 || $cod_cargo==1002){//ADMINISTRADORES
+	if($cod_cargo==1000 || $cod_cargo==1002){//ADMINISTRADORES
 		header("location:indexAlmacenSup.php");
-	}elseif($cod_cargo==1019){//CAJA
+	}elseif($cod_cargo=1001){
+		header("location:indexAdministracion.php");
+	}
+	elseif($cod_cargo==1019){//CAJA
 		header("location:indexAlmacenReg.php");
 		setcookie("global_admin_cargo", 0);		
 	}elseif($cod_cargo==1016){//VENDEDOR

@@ -57,7 +57,7 @@ if(isset($_GET['soloStock'])){
 
 			$datosProd=$codigo."|".$nombre."|".$linea."|".$stockProducto;
 			
-			$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and cod_ciudad='$globalAgencia'";
+			$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and cod_ciudad='1'";
 			$rs=mysql_query($consulta);
 			$registro=mysql_fetch_array($rs);
 			$precioProducto=$registro[0];
