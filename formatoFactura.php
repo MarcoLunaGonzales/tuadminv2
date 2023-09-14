@@ -15,7 +15,7 @@ $sqlNro="select count(*) from `salida_detalle_almacenes` s where s.`cod_salida_a
 $respNro=mysql_query($sqlNro);
 $nroItems=mysql_result($respNro,0,0);
 
-$tamanoLargo=200+($nroItems*3)-3;
+$tamanoLargo=230+($nroItems*3)-3;
 
 $pdf=new FPDF('P','mm',array(76,$tamanoLargo));
 $pdf->SetMargins(0,0,0);
@@ -84,6 +84,9 @@ while($datDatosVenta=mysql_fetch_array($respDatosVenta)){
 
 $y=5;
 $incremento=3;
+
+$razonSocialCliente=utf8_decode($razonSocialCliente);
+
 
 $pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,$nombreTxt,0,0,"C");
 $pdf->SetXY(0,$y+6);		$pdf->Cell(0,0,$sucursalTxt,0,0,"C");
