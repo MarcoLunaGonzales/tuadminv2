@@ -49,7 +49,7 @@ if ($num_filas != 0) {
 
 	if($cod_cargo==1000 || $cod_cargo==1002){//ADMINISTRADORES
 		header("location:indexAlmacenSup.php");
-	}elseif($cod_cargo=1001){
+	}elseif($cod_cargo==1001){
 		header("location:indexAdministracion.php");
 	}
 	elseif($cod_cargo==1019){//CAJA
