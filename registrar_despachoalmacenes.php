@@ -35,7 +35,7 @@
 
 					// Detalle
 					var items = [];
-					$("#items_detalle tbody tr:not(:last)").each(function () {
+					$("#items_detalle #items tr").each(function () {
 						var codigo_material 	= $(this).find("input[name='codigo_material']").val();
 						var cantidad_entrega 	= $(this).find("input[name='cantidad_entrega']").val();
 						var cantidad_venta 		= $(this).find("input[name='cantidad_venta']").val();
@@ -314,7 +314,7 @@ if($edit_tipo == 0){
 					<?php } ?>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="items">
 				<?php
 				/*Esta Bandera es para la validacion de stocks*/
 				$busca_items = obtenerValorConfiguracion(15);

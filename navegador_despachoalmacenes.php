@@ -36,7 +36,7 @@ $global_agencia = $_COOKIE["global_agencia"];
 
 ?>
 <style>
-    .fila-verde {
+    .texto tbody tr.fila-verde {
         background-color: #e0ffe0;
     }
 </style>
