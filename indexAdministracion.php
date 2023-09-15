@@ -194,7 +194,9 @@ include("datosUsuario.php");
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>
 				</ul>
-			</li>		
+			</li>
+			<!-- Nueva opción Despacho a Vendedores -->
+			<li><a href="navegador_despachoalmacenes.php" target="contenedorPrincipal" >Despacho de Productos</a></li>		
 	</nav>
 </div>
 	</body>
