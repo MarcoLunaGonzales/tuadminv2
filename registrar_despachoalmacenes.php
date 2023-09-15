@@ -155,6 +155,7 @@ require("estilos_almacenes.inc");
 require_once("funciones.php");
 // codigo ciudad
 $global_agencia = $_COOKIE["global_agencia"];
+$globalAlmacen = $_COOKIE['global_almacen'];
 
 /***************************
  * En caso de actualización
@@ -300,7 +301,8 @@ if($edit_tipo == 0){
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>Material Nombre</th>
+					<th>Producto</th>
+					<th>Stock</th>
 					<th>Entregado</th>
 					
 					<?php if($edit_tipo != 0){ ?>
@@ -341,10 +343,15 @@ if($edit_tipo == 0){
 					$item_cantidad_devolucion = $row[4];
 					$item_monto_venta 		  = $row[5];
 					$item_precio_producto 	  = $row[6];
+
+					$fechaActual=date("Y-m-d");
+					$stockProducto=stockProductoAFecha($globalAlmacen,$item_codigo_material,$fechaActual);
+
 				?>
 					<tr class="item-row">
 						<td><input type="hidden" name="codigo_material" value="<?= $item_codigo_material ?>"><?= $index++ ?></td>
-						<td><?= $item_descripcion_material ?></td>
+						<td><?= $item_descripcion_material; ?></td>
+						<td><?= $stockProducto; ?></td>
 						<td><input type="number" class="cantidad-entrega" name="cantidad_entrega" value="<?= $item_cantidad_entrega ?>" <?=($edit_tipo == 0?'':'readonly')?>></td>
 						<!-- Editar -->
 						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="cantidad-venta" name="cantidad_venta" value="<?= $item_cantidad_venta ?>" <?=($edit_tipo == 2?'readonly':'')?>></td>
@@ -360,7 +367,7 @@ if($edit_tipo == 0){
 				<!-- Editar (Solo aparece el total en la edición) -->
 				<?php if($edit_tipo != 0){ ?>
 					<tr class="item-row">
-						<th colspan="5" style="text-align: right;"><b>Total:</b></th>
+						<th colspan="6" style="text-align: right;"><b>Total:</b></th>
 						<th><input type="number" class="total-monto-venta" name="total_monto_venta" value="0" readonly></th>
 						<th><input type="number" class="total-precio-producto" name="total_precio_producto" value="0" readonly></th>
 					</tr>
