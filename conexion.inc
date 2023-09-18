@@ -1,6 +1,7 @@
 <?php
 
 //header('Content-Type: text/html; charset=UTF-8'); 
+require_once 'config.php';
 
 if(!function_exists('register_globals')){
 	include('register_globals.php');
@@ -10,14 +11,7 @@ if(!function_exists('register_globals')){
 
 //$conexion=mysql_connect("www.minkasoftware.com","minkauserbd","4868422Marco$");
 //$bd=mysql_select_db("tuadmintecniplast");
-$conexion=mysql_connect("localhost","root","123456789");
-$bd=mysql_select_db("tecniplast");
-
-//$conexion=mysql_connect("localhost","root","123456789");
-//$bd=mysql_select_db("tecniplast");
-
-//$conexion=mysql_connect("localhost","root","123456789");
-//$bd=mysql_select_db("tecniplast");
-//$bd=mysql_select_db("tiendatest");
+$conexion=mysql_connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD);
+$bd=mysql_select_db(DATABASE_NAME);
 
 ?>
