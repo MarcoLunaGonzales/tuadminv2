@@ -202,16 +202,21 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$cantidad_kardex=$cantidad_kardex+$cantidad_ingreso;            
 			$sqlResponsable="select CONCAT(SUBSTRING_INDEX(nombres,' ', 1),' ',SUBSTR(paterno, 1,1),'.') from funcionarios where codigo_funcionario='".$dat_ingresos['created_by']."'";
 	        $respResponsable=mysqli_query($enlaceCon,$sqlResponsable);
-	        $nombre_responsable=mysqli_result($respResponsable,0,0);
+
+      $nombre_responsable="";
+	    if($datResponsable=mysqli_fetch_array($respResponsable)){
+	    	$nombre_responsable=$datResponsable[0];
+	    }
+
 
 			$cantidad_ingresoCaja=$dat_ingresos[4];
 			$suma_ingresosCaja=$suma_ingresosCaja+$cantidad_ingresoCaja;
 			$cantidad_kardexCaja=$cantidad_kardexCaja+$cantidad_ingresoCaja;
 
-			$cantidad_ingresoCajaF=formatNumberInt($cantidad_ingresoCaja);
-			$cantidad_kardexCajaF=formatNumberInt($cantidad_kardexCaja);
-			$cantidad_ingresoF=formatNumberInt($cantidad_ingreso);
-			$cantidad_kardexF=formatNumberInt($cantidad_kardex);
+			$cantidad_ingresoCajaF=formatonumero($cantidad_ingresoCaja);
+			$cantidad_kardexCajaF=formatonumero($cantidad_kardexCaja);
+			$cantidad_ingresoF=formatonumero($cantidad_ingreso);
+			$cantidad_kardexF=formatonumero($cantidad_kardex);
 
 			$territorio_origen=$dat_ingresos['almacen_origen'];
 			$sql_nombre_territorio_origen="select nombre_almacen from almacenes where cod_almacen='$territorio_origen'";
@@ -258,10 +263,12 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			<td align='left' class='bg-plomoclaro'>$nombre_responsable</td></tr>";
 		}
 		//hacemos la consulta para salidas
-		$sql_salidas="select s.nro_correlativo, sd.cantidad_unitaria, ts.nombre_tiposalida, s.observaciones, s.territorio_destino, s.cod_salida_almacenes,sd.cantidad_unitaria,s.created_by,s.cod_tipo_doc,s.razon_social,s.almacen_destino, s.cod_chofer, s.hora_salida
+		$sql_salidas="select s.nro_correlativo, sd.cantidad_unitaria, ts.nombre_tiposalida, s.observaciones, s.territorio_destino, s.cod_salida_almacenes,sd.cantidad_unitaria,s.cod_chofer,s.cod_tipo_doc,s.razon_social,s.almacen_destino, s.cod_chofer, s.hora_salida
 		from salida_almacenes s, salida_detalle_almacenes sd, tipos_salida ts
 		where s.cod_tiposalida=ts.cod_tiposalida and s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
 		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta'";
+		//echo $sql_salidas;
+
 		$resp_salidas=mysqli_query($enlaceCon,$sql_salidas);
 		while($dat_salidas=mysqli_fetch_array($resp_salidas))
 		{	$nro_salida=$dat_salidas[0];
@@ -278,7 +285,10 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
           $sqlResponsable="select CONCAT(SUBSTRING_INDEX(nombres,' ', 1),' ',SUBSTR(paterno, 1, 1),'.') from funcionarios where codigo_funcionario='".$codPersonalSalida."'";
 	        $respResponsable=mysqli_query($enlaceCon,$sqlResponsable);
-	        $nombre_responsable=mysqli_result($respResponsable,0,0);
+	        $nombre_responsable="";
+	        if($datResponsable=mysqli_fetch_array($respResponsable)){
+		        $nombre_responsable=$datResponsable[0];
+	        }
 
 			$cantidad_salidaCaja=$dat_salidas[6];
 			$suma_salidasCaja=$suma_salidasCaja+$cantidad_salidaCaja;
@@ -318,10 +328,10 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			    }
 			}
 
-			$cantidad_salidaCajaF=formatNumberInt($cantidad_salidaCaja);
-			$cantidad_kardexCajaF=formatNumberInt($cantidad_kardexCaja);
-			$cantidad_salidaF=formatNumberInt($cantidad_salida);
-			$cantidad_kardexF=formatNumberInt($cantidad_kardex);
+			$cantidad_salidaCajaF=formatonumero($cantidad_salidaCaja);
+			$cantidad_kardexCajaF=formatonumero($cantidad_kardexCaja);
+			$cantidad_salidaF=formatonumero($cantidad_salida);
+			$cantidad_kardexF=formatonumero($cantidad_kardex);
 			
 			if(!($nro_ingreso_destino==0||$nro_ingreso_destino=="")){
 		  	$nro_ingreso_destino="I-".$nro_ingreso_destino;	
