@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="../assets/libs_inter/font_awesome.css">
  <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
-  <!--link rel="stylesheet" type="text/css" href="../dist/css/micss.css"/-->
+  <link rel="stylesheet" type="text/css" href="../dist/css/micss.css"/>
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/jquery-ui.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>

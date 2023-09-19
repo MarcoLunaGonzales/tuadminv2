@@ -15,7 +15,7 @@ if($descripcion!=""){
   $sql_item.=" and m.descripcion_material like '%$descripcion%' ";		
 }
 if($rptGrupo>0){
-  $sql_item.=" and m.cod_grupo='$rptGrupo'";			//para que no liste nada
+  $sql_item.=" and m.cod_linea_proveedor='$rptGrupo'";			//para que no liste nada
 }   
 
 $sqlTipoSum=" and m.codigo_material>0 ";
