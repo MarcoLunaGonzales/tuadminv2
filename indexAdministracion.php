@@ -108,6 +108,15 @@ include("datosUsuario.php");
 					<li><a href="navegadorDolar.php" target="contenedorPrincipal">Cambiar Cotizacion de Dolar</a></li>
 				</ul>	
 			</li-->
+			
+			<li>
+				<span>Obligaciones</span>
+				<ul>
+					<li><a href="obligaciones/navegadorObligaciones.php" target="contenedorPrincipal">Listado de Obligaciones</a></li>
+					<li><a href="obligaciones/rptOpObligaciones.php" target="contenedorPrincipal">Reporte de Pagos</a></li>
+					<li><a href="obligaciones/rptOpObligacionesPagar.php" target="contenedorPrincipal">Reporte Obligaciones x Pagar</a></li>
+				</ul>	
+			</li>
 						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
 						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
 						<li><span>Gastos</span>
