@@ -19,19 +19,90 @@ function envia_formulario(f)
 
 $fecha_rptdefault=date("d/m/Y");
 ?>
+    <style>
+        /* Estilo del título principal */
+        .titulo-principal {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-<table align='center' class='textotit'>
-    <tr>
-        <th>Reporte de Obligaciones</th>
-    </tr>
-</table><br>
-<form method='post' action=''>
-    <table class='texto' border='1' align='center' cellSpacing='0' width='50%'>
+        /* Estilo general del formulario */
+        form {
+            text-align: center;
+        }
+
+        /* Estilo de la tabla */
+        .tabla-reportes {
+            width: 50%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
+        }
+
+        /* Estilo de las celdas de encabezado */
+        .tabla-reportes th {
+            text-align: left;
+            padding: 12px 15px;
+            background-color: #f8f9fa; /* Cambia el color de fondo del encabezado */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
+            border: 1px solid #ccc; /* Agrega un borde suave */
+        }
+
+        /* Estilo de las filas impares */
+        .tabla-reportes tr:nth-child(odd) {
+            background-color: #f2f2f2; /* Color de fondo para filas impares */
+        }
+
+        /* Estilo de las celdas de datos */
+        .tabla-reportes td {
+            padding: 10px;
+            border: 1px solid #ccc; /* Agrega un borde suave a las celdas de datos */
+        }
+
+        /* Estilo de los select */
+        .selectpicker {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        /* Estilo de los inputs de fecha */
+        .texto[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        /* Estilo del botón */
+        .boton {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Cambia el color del botón al pasar el cursor sobre él */
+        .boton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+<div class="titulo-principal">Reporte de Obligaciones</div>
+<form method="post" action="">
+    <table class="tabla-reportes" cellspacing="0" border="1">
         <tr>
-            <th align='left'>Territorio</th>
+            <th align="left">Territorio</th>
             <td>
-                <select name='rpt_territorio' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
-                    <option value=''></option>
+                <select name="rpt_territorio" class="selectpicker" data-style="btn btn-info" data-show-subtext="true" data-live-search="true">
+                    <option value=""></option>
                     <?php
                     $sql = "select cod_ciudad, descripcion from ciudades order by descripcion";
                     $resp = mysqli_query($enlaceCon, $sql);
@@ -45,10 +116,10 @@ $fecha_rptdefault=date("d/m/Y");
             </td>
         </tr>
         <tr>
-            <th align='left'>Proveedor</th>
+            <th align="left">Proveedor</th>
             <td>
-                <select name='rpt_proveedor' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
-                    <option value='0'>Todos</option>
+                <select name="rpt_proveedor" class="selectpicker" data-style="btn btn-info" data-show-subtext="true" data-live-search="true">
+                    <option value="0">Todos</option>
                     <?php
                     $sql = "select cod_cliente, concat(nombre_cliente,' ',paterno) from clientes order by 2";
                     $resp = mysqli_query($enlaceCon, $sql);
@@ -62,20 +133,21 @@ $fecha_rptdefault=date("d/m/Y");
             </td>
         </tr>
         <tr>
-            <th align='left'>Fecha inicio:</th>
-            <td bgcolor='#ffffff'>
-                <input type='date' class='texto' value='<?php echo $fecha_rptdefault; ?>' id='exafinicial' size='10' name='exafinicial'>
+            <th align="left">Fecha inicio:</th>
+            <td bgcolor="#ffffff">
+                <input type="date" class="texto" value="<?php echo $fecha_rptdefault; ?>" id="exafinicial" size="10" name="exafinicial">
             </td>
         </tr>
         <tr>
-            <th align='left'>Fecha final:</th>
-            <td bgcolor='#ffffff'>
-                <input type='date' class='texto' value='<?php echo $fecha_rptdefault; ?>' id='exaffinal' size='10' name='exaffinal'>
+            <th align="left">Fecha final:</th>
+            <td bgcolor="#ffffff">
+                <input type="date" class="texto" value="<?php echo $fecha_rptdefault; ?>" id="exaffinal" size="10" name="exaffinal">
             </td>
         </tr>
-    </table><br>
+    </table>
+    <br>
     <center>
-        <input type='button' name='reporte' value='Ver Reporte' onClick='envia_formulario(this.form)' class='boton'>
-    </center><br>
+        <input type="button" name="reporte" value="Ver Reporte" onClick="envia_formulario(this.form)" class="boton">
+    </center>
+    <br>
 </form>
-</div>

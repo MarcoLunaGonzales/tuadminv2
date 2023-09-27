@@ -19,7 +19,6 @@ $fecha_finconsulta=$fecha_fin;
 
 
 $rpt_territorio=$_GET['rpt_territorio'];
-
 $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($enlaceCon, $rpt_territorio);
