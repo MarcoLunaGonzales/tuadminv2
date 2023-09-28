@@ -71,7 +71,10 @@ function nombreCliente($codigo)
 {	require 'conexionmysqli.inc';
 	$sql="select nombre_cliente from clientes where cod_cliente='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);
-	$nombre=mysqli_result($resp,0,0);
+	$nombre="";
+	if($dat=mysqli_fetch_array($resp)){
+		$nombre=$dat[0];
+	}
 	return($nombre);
 }
 
