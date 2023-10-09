@@ -52,9 +52,7 @@ include("datosUsuario.php");
 						<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
 						<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li>
 						<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte Detallado de Gastos</a></li>
-						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>
-						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Hogar</a></li>
-						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>					
+						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>					
 			<li><span>Reportes</span>
 				<ul>	
 					<li><span>Ventas</span>
