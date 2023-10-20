@@ -132,6 +132,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
 				</ul>	
 			</li>
+			<li><a href="rpt_op_gestion_serv.php" target="contenedorPrincipal">Gestión de Servicios</a></li>
 			<!--li><span>Listado de Cobranzas</span>
 				<ul>
 					<li><a href="navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
@@ -151,6 +152,14 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>
 						
+  			<!-- Nueva Sección de Pagos de Servicio por Pagar -->
+			<li><span>Obligaciones</span>
+				<ul>
+					<li><a href="obligaciones/navegadorObligaciones.php" target="contenedorPrincipal">Listado de Obligaciones</a></li>
+					<li><a href="obligaciones/rptOpObligaciones.php" target="contenedorPrincipal">Reporte de Pagos</a></li>
+					<li><a href="obligaciones/rptOpObligacionesPagar.php" target="contenedorPrincipal">Reporte Obligaciones x Pagar</a></li>
+				</ul>	
+			</li>
 
 			<li><span>Reportes</span>
 				<ul>
