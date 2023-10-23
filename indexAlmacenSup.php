@@ -142,7 +142,10 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="navegadorDolar.php" target="contenedorPrincipal">Cambiar Cotizacion de Dolar</a></li>
 				</ul>	
 			</li-->
-						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
+  						<!-- Versión Nueva -->
+						<!-- <li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li> -->
+						<!-- Versión Antigua -->
+						<li><a href="registrar_salidaventas_first.php" target='_blank'>Vender / Facturar</a></li>
 						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
 						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
 						<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
