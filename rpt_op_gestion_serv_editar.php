@@ -85,11 +85,46 @@ require("estilos_almacenes.inc");
     }
 
 </style>
+<?php 
+    $codigo   = $_GET['codigo']; 
+    $consulta = "SELECT oc.codigo,
+                        oc.cod_proveedor,
+                        oc.observaciones, 
+                        oc.fecha_factura_proveedor,
+                        oc.nro_documento,
+                        oc.monto_orden,
+                        oc.dias_credito
+                FROM ordenes_compra oc
+                WHERE oc.codigo = '$codigo'";
+    $rs = mysqli_query($enlaceCon,$consulta);
+    
+    $form_codigo        = "";
+    $form_cod_proveedor = "";
+    $form_observaciones = "";
+    $form_fecha_factura_proveedor         = "";
+    $form_nro_documento = "";
+    $form_monto_orden   = "";
+    $form_dias_credito  = "";
+    if ($rs) {
+        $datos = mysqli_fetch_assoc($rs);
+        // Verifica si se obtuvieron resultados
+        if ($datos) {
+            $form_codigo        = $datos['codigo'];
+            $form_cod_proveedor = $datos['cod_proveedor'];
+            $form_observaciones = $datos['observaciones'];
+            $form_fecha_factura_proveedor         = $datos['fecha_factura_proveedor'];
+            $form_nro_documento = $datos['nro_documento'];
+            $form_monto_orden   = $datos['monto_orden'];
+            $form_dias_credito  = $datos['dias_credito'];
+        }
+    }
+?>
 <div class="formulario">
     <center>
         <br/>
-        <h1>Registrar - Servicios por Pagar</h1>
+        <h1>Editar - Servicios por Pagar</h1>
         <table class="texto">
+            <input type="hidden" id="codigo" value="<?=$form_codigo?>">
             <tr>
                 <th>Proveedor</th>
                 <th>Observaciones</th>
@@ -108,14 +143,14 @@ require("estilos_almacenes.inc");
                             $nombre = $reg["nombre_proveedor"];
                         
                         ?>
-                            <option value="<?=$codigo?>"><?=$nombre?></option>
+                            <option value="<?=$codigo?>" <?= $form_codigo == $codigo ? 'selected' : ''?>><?=$nombre?></option>
                         <?php 
                         }
                         ?>
                     </select>
                 </td>
-                <td><input type="text" id="observaciones" value="" /></td>
-                <td><input type="date" id="fecha_factura_proveedor" value="" /></td>
+                <td><input type="text" id="observaciones" value="<?=$form_observaciones?>" /></td>
+                <td><input type="date" id="fecha_factura_proveedor" value="<?=$form_fecha_factura_proveedor?>" /></td>
             </tr>
             <tr>
                 <th>Nro. Documento</th>
@@ -123,14 +158,14 @@ require("estilos_almacenes.inc");
                 <th>Días Crédito</th>
             </tr>
             <tr>
-                <td><input type="number" id="nro_documento" value="" /></td>
-                <td><input type="number" id="monto_orden" value="" step="0.02"/></td>
-                <td><input type="number" id="dias_credito" value="0" /></td>
+                <td><input type="number" id="nro_documento" value="<?=$form_nro_documento?>" /></td>
+                <td><input type="number" id="monto_orden" value="<?=$form_monto_orden?>" step="0.02"/></td>
+                <td><input type="number" id="dias_credito" value="<?=$form_dias_credito?>" /></td>
             </tr>
         </table>
     </center>
     <div class="divBotones">
-        <input class="btn-primario" type="button" value="Guardar" id="guardar_form"/>
+        <input class="btn-primario" type="button" value="Actualizar" id="actualizar_form"/>
         <input class="btn-danger" type="button" value="Cancelar" id="lista"/>
     </div>
 </div>
@@ -140,29 +175,28 @@ require("estilos_almacenes.inc");
         window.location.href = "rpt_op_gestion_serv.php";
     });
     // Registro de datos
-    $("#guardar_form").click(function () {
+    $("#actualizar_form").click(function () {
         var formData = new FormData();
+        formData.append("codigo", $("#codigo").val());
         formData.append("cod_proveedor", $("#cod_proveedor").val());
         formData.append("observaciones", $("#observaciones").val());
         formData.append("fecha_factura_proveedor", $("#fecha_factura_proveedor").val());
         formData.append("nro_documento", $("#nro_documento").val());
         formData.append("monto_orden", $("#monto_orden").val());
         formData.append("dias_credito", $("#dias_credito").val());
-
+        
         $.ajax({
             type: "POST",
-            url: "rpt_op_gestion_serv_guardar.php",
+            url: "rpt_op_gestion_serv_actualizar.php",
             data: formData,
             contentType: false,
             processData: false,
             dataType: 'json',
             success: function (response) {
                 if (response.status) {
-                    if (confirm(response.message)) {
-                        window.location.href = "rpt_op_gestion_serv.php";
-                    }
+                    window.location.href = "rpt_op_gestion_serv.php";
                 } else {
-                    alert("Ocurrió un error en el registro");
+                    alert(response.message);
                 }
             },
             error: function () {
