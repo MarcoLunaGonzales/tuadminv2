@@ -37,7 +37,10 @@ $global_almacen=$dat_almacen[0];
 
 $sqlCosto="select id.costo_almacen from ingreso_almacenes i, ingreso_detalle_almacenes id
 where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.ingreso_anulado=0 and 
-id.cod_material='$codMaterial' and i.cod_almacen='$global_almacen' ORDER BY i.cod_ingreso_almacen desc limit 0,1";
+id.cod_material='$codMaterial' and i.cod_almacen='$global_almacen' and id.costo_almacen>0 
+ ORDER BY i.cod_ingreso_almacen desc limit 0,1";
+
+//echo $sqlCosto;
 $respCosto=mysql_query($sqlCosto);
 $costoMaterialii=0;
 while($datCosto=mysql_fetch_array($respCosto)){
