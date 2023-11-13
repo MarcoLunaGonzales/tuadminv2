@@ -292,7 +292,7 @@ $consulta = "
 	SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
 	(select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
 	s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
-	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc 
+	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, s.fecha_anulacion
 	FROM salida_almacenes s, tipos_salida ts 
 	WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida<>1001 ";
 
@@ -321,6 +321,14 @@ while ($dat = mysql_fetch_array($resp)) {
     $cod_almacen_destino = $dat[9];
 	$nombreCliente=$dat[10];
 	$codTipoDoc=$dat[11];
+
+    $fechaAnulacion=$dat[12];
+    $txtFechaAnulacion="";
+    if($fechaAnulacion!=""){
+        $txtFechaAnulacion="<br><span style='text-decoration:none; color:blue;'>Fecha Anulación: $fechaAnulacion</span>";
+    }
+
+    $estilo_texto = "";
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
     $estado_preparado = 0;
     if ($estado_almacen == 0) {
@@ -341,6 +349,7 @@ while ($dat = mysql_fetch_array($resp)) {
     if ($estado_almacen == 3) {
         $color_fondo = "#ffff99";
         $estado_preparado = 1;
+        $estilo_texto = "text-decoration:line-through; color:red";
     }
     if ($cod_almacen_destino == $global_almacen) {
         $color_fondo = "#66ff99";
@@ -357,12 +366,12 @@ while ($dat = mysql_fetch_array($resp)) {
     }
     echo "<input type='hidden' name='estado_preparado' value='$estado_preparado'>";
     //echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>$nombre_almacen</td><td>$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>$txt_detalle</td></tr>";
-    echo "<tr>";
+    echo "<tr style='$estilo_texto'>";
     echo "<td align='center'>&nbsp;$chk</td>";
     echo "<td align='center'>$nro_correlativo</td>";
     echo "<td align='center'>$fecha_salida_mostrar $hora_salida</td>";
     echo "<td>$nombre_tiposalida</td><td>&nbsp;$nombre_almacen</td>";
-    echo "<td>&nbsp;$nombreCliente</td><td>&nbsp;$obs_salida</td>";
+    echo "<td>&nbsp;$nombreCliente</td><td>&nbsp;$obs_salida $txtFechaAnulacion</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
     echo "<td bgcolor='$color_fondo'><a href='javascript:llamar_preparado(this.form, $estado_preparado, $codigo)'>
 		<img src='imagenes/detalles.png' border='0' title='Detalle' width='40'></a></td>";

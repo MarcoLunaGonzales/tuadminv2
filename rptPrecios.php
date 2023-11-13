@@ -88,7 +88,7 @@ function ajaxBuscarItems(f){
 	$global_agencia=$_GET['rpt_territorio'];
 	$rpt_grupo=$_GET['rpt_grupo'];
 	
-	$nombreAgencia=nombreTerritorio($global_agencia);
+	$nombreAgencia=nombreTerritorio($enlaceCon, $global_agencia);
 
 	echo "<h1>Reporte de Precios</h1>";
 	echo "<h2>Agencia: $nombreAgencia</h2>";
@@ -136,16 +136,8 @@ function ajaxBuscarItems(f){
 		echo "<tr><td>$nombreMaterial </td><td>$nombreGrupo</td>";
 		echo "<td align='center'>$stock2</td>";
 
-		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`=$codigo and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
-		if($numFilas==1){
-			$precio0=mysql_result($respPrecio,0,0);
-			$precio0=redondear2($precio0);
-		}else{
-			$precio0=0;
-			$precio0=redondear2($precio0);
-		}
+		//COSTO DEL ITEM
+		$precio0=costoVenta($codigo,$global_agencia);	
 		
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=1 and p.`codigo_material`=$codigo and p.cod_ciudad='$global_agencia'";
 		$respPrecio=mysql_query($sqlPrecio);

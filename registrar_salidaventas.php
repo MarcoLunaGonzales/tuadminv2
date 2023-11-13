@@ -4,6 +4,8 @@ echo "</head><body onLoad='funcionInicio();'>";
 require("conexion.inc");
 require("estilos_almacenes.inc");
 require("funciones.php");
+
+
 ?>
 <html>
     <head>

@@ -90,11 +90,10 @@ function nombreAlmacen($codigo){
 	require 'conexionmysqli.inc';
 	$sql="select nombre_almacen from almacenes where cod_almacen='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);
+	$nombre="";
 	$numFilas=mysqli_num_rows($resp);
-	if($numFilas>0){
-		$nombre=mysqli_result($resp,0,0);		
-	}else{
-		$nombre="-";
+	if($dat=mysqli_fetch_array($resp)){
+		$nombre=$dat[0];
 	}
 	return($nombre);
 }

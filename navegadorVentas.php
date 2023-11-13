@@ -416,7 +416,7 @@ $consulta = "
 	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
 	(select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
 	(select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
-    s.cod_chofer, s.cod_tipopago, s.monto_final
+    s.cod_chofer, s.cod_tipopago, s.monto_final, s.fecha_anulacion
 	FROM salida_almacenes s, tipos_salida ts 
 	WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
 
@@ -463,6 +463,13 @@ while ($dat = mysql_fetch_array($resp)) {
     $codTipoPago = $dat[17];
 
     $montoVenta=$dat[18];
+
+    $fechaAnulacion=$dat[19];
+
+    $txtFechaAnulacion="";
+    if($fechaAnulacion!=""){
+        $txtFechaAnulacion="<br><span style='text-decoration:none; color:blue;'>Fecha Anulación: $fechaAnulacion</span>";
+    }
 	
     $montoVentaFormat=formatonumeroDec($montoVenta);
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
@@ -497,7 +504,7 @@ while ($dat = mysql_fetch_array($resp)) {
     echo "<td>&nbsp;$razonSocial</td>
     <td>&nbsp;$nitCli</td>
     <td>&nbsp;$montoVentaFormat</td>
-    <td>&nbsp;$obs_salida</td>";
+    <td>&nbsp;$obs_salida $txtFechaAnulacion</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
    
     // Editar Datos
