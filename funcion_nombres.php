@@ -82,7 +82,10 @@ function nombreProveedor($codigo){
 	require 'conexionmysqli.inc';
 	$sql="select nombre_proveedor from proveedores where cod_proveedor='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);
-	$nombre=mysqli_result($resp,0,0);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+		$nombre=$dat[0];
+	}
 	return($nombre);
 }
 

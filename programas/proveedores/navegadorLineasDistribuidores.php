@@ -71,6 +71,9 @@ require("../../estilos_almacenes.inc");
 require("../../funcion_nombres.php");
 echo "<link rel='stylesheet' type='text/css' href='../../stilos.css'/>";
 
+ // error_reporting(E_ALL);
+ // ini_set('display_errors', '1');
+
 $codProveedor=$_GET['codProveedor'];
 $nombreProveedor=nombreProveedor($codProveedor);
 
