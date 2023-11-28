@@ -4,6 +4,9 @@ require('function_formatofecha.php');
 require('conexion.inc');
 require('funcion_nombres.php');
 
+ error_reporting(E_ALL);
+ ini_set('display_errors', '1');
+
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
 $rpt_ver=$_GET['rpt_ver'];
