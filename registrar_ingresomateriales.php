@@ -285,8 +285,9 @@ if($fecha=="")
 
 echo "<form action='guarda_ingresomateriales.php' method='post' name='form1'>";
 echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Ingreso de Materiales</th></tr></table><br>";
-echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
 
+
+echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
 
 $sql="select nro_correlativo from ingreso_almacenes where cod_almacen='$global_almacen' order by cod_ingreso_almacen desc";
 $resp=mysql_query($sql);
@@ -299,30 +300,30 @@ else
 {   $nro_correlativo=$dat[0];
     $nro_correlativo++;
 }
-echo "<tr><th>Nro. de Ingreso: <b style='color:blue;'>$nro_correlativo</b></th>";
+echo "<tr><td align='center'>Nro.<br><b style='color:blue;'>$nro_correlativo</b></th>";
 
-echo "<th align='center'>Fecha: ";
+echo "<td align='center'><b>Fecha:</b><br>";
 echo "<input type='text' disabled='true' class='texto' value='$fecha' id='fecha' size='10' name='fecha'>";
 echo "<img id='imagenFecha' src='imagenes/fecha.bmp'>";
-echo "</th>";
+echo "</td>";
 
-echo "<th>Tipo de Ingreso:</th>";
+echo "<td align='center'><b>Tipo de Ingreso:</b><br>";
 $sql1="SELECT cod_tipoingreso, nombre_tipoingreso from tipos_ingreso order by nombre_tipoingreso";
 $resp1=mysql_query($sql1);
-echo "<th align='center'><select name='tipo_ingreso' id='tipo_ingreso' class='texto'>";
+echo "<select name='tipo_ingreso' id='tipo_ingreso' class='texto'>";
 while($dat1=mysql_fetch_array($resp1))
 {   $cod_tipoingreso=$dat1[0];
     $nombre_tipoingreso=$dat1[1];
     echo "<option value='$cod_tipoingreso'>$nombre_tipoingreso</option>";
 }
-echo "</select></th>";
+echo "</select></td>";
 
-echo "<th>Tipo de Documento:</th>";
+echo "<td align='center'><b>Tipo Documento:</b>";
 $sql1="SELECT td.codigo, td.nombre, td.abreviatura
 		FROM tipos_docs td
 		WHERE td.codigo IN (1,2)";
 $resp1=mysql_query($sql1);
-echo "<th><select name='tipo_documento' id='tipo_documento' class='texto'>";
+echo "<select name='tipo_documento' id='tipo_documento' class='texto'>";
 while($dat1=mysql_fetch_array($resp1))
 {   $cod_tipoingreso=$dat1[0];
     $nombre_tipo_documento=$dat1[1];
@@ -330,12 +331,12 @@ while($dat1=mysql_fetch_array($resp1))
 }
 echo "</select></td>";
 
-echo "<th>Nro. Documento:</th>";
-echo "<th align='center'><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required></th>";
+echo "<td align='center'<b>Nro. Documento:</b>";
+echo "<input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required></td>";
 echo "</tr>";
 
-echo "<tr><th>Proveedor</th>";
-echo "<th align='center'><select name='proveedor' id='proveedor' class='texto'>";
+echo "<tr><td align='center'><b>Proveedor:</b>";
+echo "<select name='proveedor' id='proveedor' class='texto'>";
 $sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
 $resp1=mysql_query($sql1);
 while($dat1=mysql_fetch_array($resp1))
@@ -343,31 +344,33 @@ while($dat1=mysql_fetch_array($resp1))
     $nombre=$dat1[1];
     echo "<option value='$codigo'>$nombre</option>";
 }
-echo "</select></th>";
+echo "</select></td>";
 
-echo "<th colspan='1'>Observaciones</th>";
-echo "<th colspan='1' align='center'><input type='text' class='texto' name='observaciones' value='$observaciones' size='50'></th>";
+echo "<td align='center'><b>Observaciones:</b>";
+echo "<input type='text' class='texto' name='observaciones' value='$observaciones' size='30' rows='3'>
+		</td>";
 
-echo "<th>Tipo de Pago:</th>";
+echo "<td align='center'><b>Tipo de Pago:</b>";
 $sql1="SELECT tp.cod_tipopago, tp.nombre_tipopago
 		FROM tipos_pago tp
 		WHERE tp.cod_tipopago = 1
 		OR tp.cod_tipopago = 4
 		ORDER BY tp.cod_tipopago ASC";
 $resp1=mysql_query($sql1);
-echo "<th align='center'><select name='cod_tipopago' id='cod_tipopago' class='texto' style='width:200px' required>";
+echo "<select name='cod_tipopago' id='cod_tipopago' class='texto' style='width:200px' required>";
 while($dat1=mysql_fetch_array($resp1))
 {   $codigo=$dat1[0];
     $nombre=$dat1[1];
 	$margenPrecio=$dat1[2];
-	
     echo "<option value='$codigo'>$nombre</option>";
 }
-echo "</select></th>";
+echo "</select></td>";
 
-echo "<th colspan='1'>Días de Credito: <input type='number' class='texto' name='dias_credito' id='dias_credito' min='0' max='180' readonly></th>
-<th colspan='1'>Fecha Documento Proveedor: <input type='date' class='texto' name='fecha_factura_proveedor' id='fecha_factura_proveedor'></th></tr>";
-
+echo "<td align='center'><b>Días de Credito:</b>
+		<input type='number' class='texto' name='dias_credito' id='dias_credito' min='0' max='180' readonly></td>
+	<td align='center'><b>Fecha Factura Proveedor</b>
+		<input type='date' class='texto' name='fecha_factura_proveedor' id='fecha_factura_proveedor'></td>
+	</tr>";
 echo "</table><br>";
 ?>
 		<fieldset id="fiel" style="width:98%;border:0;" >

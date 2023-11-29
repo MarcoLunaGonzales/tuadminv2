@@ -40,7 +40,7 @@ function nombreVisitador($codigo)
 	return($nombre);
 }
 
-function nombreTerritorio($enlaceCon, $codigo)
+function nombreTerritorio($codigo)
 {	require 'conexionmysqli.inc';
 	$sql="SELECT descripcion from ciudades where cod_ciudad='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);

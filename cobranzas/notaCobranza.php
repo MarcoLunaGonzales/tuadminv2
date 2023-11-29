@@ -20,29 +20,21 @@ $incremento=3;
 
 /*error_reporting(E_ALL);
 ini_set('display_errors', '1');*/
+
 //desde aca
-$sqlConf="select id, valor from configuracion_facturas where id=1";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$nombreEmpresa=mysqli_result($respConf,0,1);
-
-$sqlConf="select id, valor from configuracion_facturas where id=2";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$ciudadEmpresa=mysqli_result($respConf,0,1);
-
-$sqlConf="select id, valor from configuracion_facturas where id=3";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$direccionEmpresa=mysqli_result($respConf,0,1);
-
-$sqlConf="select id, valor from configuracion_facturas where id=9";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$nitEmpresa=mysqli_result($respConf,0,1);
-
+$nombreEmpresa=obtenerValorConfiguracion(1);
+$ciudadEmpresa=obtenerValorConfiguracion(2);
+$direccionEmpresa=obtenerValorConfiguracion(3);
+$nitEmpresa=obtenerValorConfiguracion(4);
 
 //datos documento				
 $sqlDatos="select c.`cod_cobro`, c.`fecha_cobro`,c.`observaciones`,c.`monto_cobro`,
 (select concat(cl.`nombre_cliente`,' ',cl.paterno) from clientes cl where c.`cod_cliente` = cl.`cod_cliente`), 
 c.nro_cobro, (select g.nombre_gestion from gestiones g where g.cod_gestion=c.cod_gestion) 
 from `cobros_cab` c where c.cod_cobro='$codCobro' order by c.`cod_cobro` desc";
+
+//echo $sqlDatos;
+
 $respDatos=mysqli_query($enlaceCon, $sqlDatos);
 while($datDatos=mysqli_fetch_array($respDatos)){
 	$fechaCobro=$datDatos[1];
