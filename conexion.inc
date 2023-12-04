@@ -1,7 +1,17 @@
 <?php
 
-//header('Content-Type: text/html; charset=UTF-8'); 
 require_once 'config.php';
+
+if(!isset($_COOKIE["global_usuario"])){
+?>
+
+	<script type="text/javascript">
+    	alert("Debe iniciar Sesion!!!")
+      		location.href="index.html";
+    </script>
+<?php
+
+}
 
 if(!function_exists('register_globals')){
 	include('register_globals.php');
