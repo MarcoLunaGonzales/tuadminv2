@@ -187,6 +187,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Item</a></li>
 							<li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento e Item</a></li>
 							<li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor</a></li>
+							<li><a href="rptOpVentasSucursalTipoPago.php" target="contenedorPrincipal">Ventas x Sucursal y Tipo de Pago</a></li>
 							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li>
 						</ul>	
 					</li>
@@ -217,6 +218,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			<li><span>Utilitarios</span>
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>
+					<li><a href="reprocesarcostos.php" target="_blank">Reprocesar Costos</a></li>
 				</ul>
 			</li>	
 		</div>	

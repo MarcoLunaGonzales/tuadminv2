@@ -267,7 +267,9 @@ $global_almacen=$_COOKIE['global_almacen'];
 if($fecha=="")
 {   $fecha=date("Y-m-d");
 }
-$fechaIni=date('Y-m-d',strtotime($fecha.'-90 days'));
+
+//$fechaIni=date('Y-m-d',strtotime($fecha.'-90 days'));
+$fechaIni=date("Y-m-d");
 
 $sql="select nro_correlativo from salida_almacenes where cod_almacen='$global_almacen' order by cod_salida_almacenes desc";
 $resp=mysqli_query($enlaceCon,$sql);

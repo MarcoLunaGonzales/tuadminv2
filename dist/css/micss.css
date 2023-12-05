@@ -22,7 +22,7 @@ body{background: #fff;} .filter-option{padding-top: 5px !important;padding-left:
   width: 200px;
   height: 40px;
   z-index: 9999;
-  background: url('../../imagenes/farmacias_bolivia_loop.gif') 50% 50% no-repeat;
+  background: url('../../imagenes/loading_color.gif') 50% 50% no-repeat;
   background-size: 50% 100%;
   opacity: .95;
 }
