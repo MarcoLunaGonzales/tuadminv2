@@ -50,9 +50,16 @@ echo"<form method='post' action='rpt_inv_traspasos.php' target='_blank'>";
 	}
 	echo "</select></td>";
 
+	echo "<tr><th align='left'>Tipo de Reporte</th>";
+	echo "<td><select name='tipo_reporte' class='texto'>";
+		echo "<option value='0' selected>Detallado</option>";
+		echo "<option value='1' selected>Resumido</option>";
+	echo "</select></td>";
+			
 	echo "<tr><th align='left'>Fecha inicio:</th>";
-			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='fecha_inicio' size='10' name='fecha_inicio' required>";
-    		echo"  </TD>";
+	echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='fecha_inicio' size='10' name='fecha_inicio' required>";
+	echo"  </TD>";
+
 	echo "</tr>";
 	echo "<tr><th align='left'>Fecha final:</th>";
 			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='fecha_final' size='10' name='fecha_final' required>";

@@ -50,7 +50,7 @@ $globalAgencia=$_COOKIE["global_agencia"];
 			$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and cod_ciudad='$globalAgencia'";
 			$rs=mysqli_query($enlaceCon,$consulta);
 			$registro=mysqli_fetch_array($rs);
-			$precioProducto=$registro[0];
+			$precioProducto=empty($registro[0]) ? '' : $registro[0];
 			if($precioProducto=="")
 			{   $precioProducto=0;
 			}

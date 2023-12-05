@@ -22,22 +22,35 @@ function frmAdicionar() {
     cargarPnl("#pnl00","frmProveedorAdicionar.php","");
 }
 function frmModificar() {
-    var total=$("#idtotal").val();
-    var tag,sel,cod,c=0;
-    for(var i=1;i<=total;i++) {
-        tag=$("#idchk"+i);
-        sel=tag.attr("checked");
-        if(sel==true) {
-            cod=tag.val(); c++;
-        }
-    }
-    if(c==1) {
-        cargarPnl("#pnl00","frmProveedorEditar.php","codprov="+cod);
-    } else if(c>1) {
-        alert("Seleccione solo un elememnto para editar.");
+    // var total=$("#idtotal").val();
+    // var tag,sel,cod,c=0;
+    // for(var i=1;i<=total;i++) {
+    //     tag=$("#idchk"+i);
+    //     sel=tag.attr("checked");
+    //     if(sel==true) {
+    //         cod=tag.val(); c++;
+    //     }
+    // }
+    // console.log(c)
+    // if(c==1) {
+    //     cargarPnl("#pnl00","frmProveedorEditar.php","codprov="+cod);
+    // } else if(c>1) {
+    //     alert("Seleccione solo un elememnto para editar.");
+    // } else {
+    //     alert("Seleccione un elememnto para editar.");
+    // }
+
+    // Obtener la cantidad de checkboxes marcados
+    var checkboxes = $("input[type='checkbox']:checked");
+    if (checkboxes.length === 1) {
+        var valorCheckbox = checkboxes.val();
+        cargarPnl("#pnl00", "frmProveedorEditar.php", "codprov=" + valorCheckbox);
+    } else if (checkboxes.length > 1) {
+        alert("Seleccione solo un elemento para editar.");
     } else {
-        alert("Seleccione un elememnto para editar.");
+        alert("Seleccione un elemento para editar.");
     }
+
 }
 function frmEliminar() {
     var total=$("#idtotal").val();
@@ -63,7 +76,8 @@ function adicionarProveedor() {
     var tel1 = $("#tel1").val();
     var tel2 = $("#tel2").val();
     var contacto = $("#contacto").val();
-    var parms="nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"";
+    var tipoProveedor = $('#tipo_proveedor').val();
+    var parms="nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"&tipo_proveedor="+tipoProveedor;
     cargarPnl("#pnl00","prgProveedorAdicionar.php",parms);
 }
 function modificarProveedor() {
@@ -73,7 +87,8 @@ function modificarProveedor() {
     var tel1 = $("#tel1").val();
     var tel2 = $("#tel2").val();
     var contacto = $("#contacto").val();
-    var parms="codpro="+codpro+"&nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"";
+    var tipoProveedor = $('#tipo_proveedor').val();
+    var parms="codpro="+codpro+"&nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"&tipo_proveedor="+tipoProveedor+"";
     cargarPnl("#pnl00","prgProveedorModificar.php",parms);
 }
 function eliminarProveedor(cods) {

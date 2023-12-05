@@ -61,7 +61,8 @@ function ajaxTipoDoc(f){
 	ajax.open("GET", "ajaxTipoDoc.php?codTipoSalida="+codTipoSalida,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
-			contenedor.innerHTML = ajax.responseText
+			contenedor.innerHTML = ajax.responseText;
+			$('#divTipoDoc select').selectpicker({style: 'btn btn-rose'});
 		}
 	}
 	ajax.send(null);
@@ -290,7 +291,7 @@ else
 <tr><th>Tipo de Salida</th><th>Tipo de Documento</th><th>Nro. Salida</th><th>Fecha</th><th>Almacen Destino</th></tr>
 <tr>
 <td align='center'>
-	<select name='tipoSalida' id='tipoSalida' onChange='ajaxTipoDoc(form1)' required>
+	<select name='tipoSalida' id='tipoSalida' onChange='ajaxTipoDoc(form1)' required class='selectpicker form-control' data-style='btn btn-rose'>
 		<option value="">--------</option>
 <?php
 	$sqlTipo="select cod_tiposalida, nombre_tiposalida from tipos_salida where cod_tiposalida<>1001 order by 2";
@@ -307,7 +308,7 @@ else
 </td>
 <td align='center'>
 	<div id='divTipoDoc'>
-		<select name='tipoDoc' id='tipoDoc'><option value="0"></select>
+		<select name='tipoDoc' id='tipoDoc' class='selectpicker form-control' data-style='btn btn-rose'><option value="0"></select>
 	</div>
 </td>
 <td align='center'>
@@ -320,7 +321,7 @@ else
 </td>
 
 <td align='center'>
-	<select name='almacen' id='almacen' class='texto' required>
+	<select name='almacen' id='almacen' required class='selectpicker form-control' data-style='btn btn-rose'>
 		<option value=''>-----</option>
 <?php
 	$sql3="select cod_almacen, nombre_almacen from almacenes where cod_almacen not in ($global_almacen) order by nombre_almacen";

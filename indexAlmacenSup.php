@@ -132,6 +132,12 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
 				</ul>	
 			</li>
+			<!-- Versión Antigua -->
+			<li><span>Registrar</span>
+				<ul>
+					<li><a href="registrar_salidaventas_first.php" target='_blank'>Venta SFV</a></li>
+				</ul>	
+			</li>
 			<!--li><span>Listado de Cobranzas</span>
 				<ul>
 					<li><a href="navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
@@ -142,6 +148,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="navegadorDolar.php" target="contenedorPrincipal">Cambiar Cotizacion de Dolar</a></li>
 				</ul>	
 			</li-->
+  						<!-- Versión Nueva -->
 						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
 						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
 						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
