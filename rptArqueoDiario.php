@@ -8,6 +8,8 @@ require('funciones.php');
 $fecha_ini=$_GET['fecha_ini'];
 $rpt_territorio=$_GET['rpt_territorio'];
 
+$nombreTerritorio=nombreTerritorio($rpt_territorio);
+
 $variableAdmin=$_GET["variableAdmin"];
 if($variableAdmin!=1){
 	$variableAdmin=0;
@@ -19,7 +21,10 @@ $fecha_iniconsulta=$fecha_ini;
 $fecha_reporte=date("d/m/Y");
 
 echo "<h1>Reporte Arqueo Diario de Caja</h1>
-	<h2>Fecha: $fecha_ini &nbsp;&nbsp;&nbsp; Fecha Reporte: $fecha_reporte</h2>";
+	<h2>Fecha: $fecha_ini &nbsp;&nbsp;&nbsp; Fecha Reporte: $fecha_reporte 
+	<br> 
+	$nombreTerritorio
+	</h2>";
 
 	
 

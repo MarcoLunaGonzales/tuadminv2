@@ -43,7 +43,7 @@ require_once('register_globals.php');
         if(!isset($indexGerencia)){
             ?>
           <div class="cargar">
-            <p style='padding-top: 35px; font-size: 14px;text-align: center;' class="text-warning font-weight-bold">Procesando Datos XXX</p>
+            <p style='padding-top: 35px; font-size: 14px;text-align: center;' class="text-warning font-weight-bold">Procesando Datos</p>
          </div>
             <?php
 

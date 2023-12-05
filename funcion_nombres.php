@@ -42,9 +42,12 @@ function nombreVisitador($codigo){
 
 function nombreTerritorio($codigo){	
 	require("conexion.inc");
-	$sql="select descripcion from ciudades where cod_ciudad='$codigo'";
+	$sql="select descripcion from ciudades where cod_ciudad in ($codigo) ";
 	$resp=mysqli_query($enlaceCon,$sql);
-	$nombre=mysqli_result($resp,0,0);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+		$nombre.=$dat[0]."-";
+	}
 	return($nombre);
 }
 
