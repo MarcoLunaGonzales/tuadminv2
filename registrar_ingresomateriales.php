@@ -157,6 +157,16 @@ function pressEnter(e, f){
 function validar(f){   
 	f.cantidad_material.value=num;
 	var cantidadItems=num;
+
+	// Obtiene total
+	let totalSum = 0;
+	$('[id^="divPrecioTotal"]').each(function() {
+		let valor = parseFloat($(this).text()) || 0;
+		totalSum += valor;
+	});
+	totalSum = totalSum.toFixed(2);
+	$('#totalCompraSD').val(totalSum);
+	// Fin Total
 	
 	if(cantidadItems>0){
 		var item="";
@@ -190,50 +200,135 @@ if($fecha=="")
 
 echo "<form action='guarda_ingresomateriales.php' method='post' name='form1'>";
 echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Ingreso de Materiales</th></tr></table><br>";
+
+
+// echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
+// echo "<tr><th>Numero de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Factura</th></tr>";
+// echo "<tr>";
+// $sql="select nro_correlativo from ingreso_almacenes where cod_almacen='$global_almacen' order by cod_ingreso_almacen desc";
+// $resp=mysqli_query($enlaceCon,$sql);
+// $dat=mysqli_fetch_array($resp);
+// $num_filas=mysqli_num_rows($resp);
+// if($num_filas==0)
+// {   $nro_correlativo=1;
+// }
+// else
+// {   $nro_correlativo=$dat[0];
+//     $nro_correlativo++;
+// }
+// echo "<td align='center'>$nro_correlativo</td>";
+// echo "<td align='center'>";
+
+// echo "<input type='text' disabled='true' class='texto' value='$fecha' id='fecha' size='10' name='fecha'>";
+// echo "<img id='imagenFecha' src='imagenes/fecha.bmp'>";
+// echo "</td>";
+
+// $sql1="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso order by nombre_tipoingreso";
+// $resp1=mysqli_query($enlaceCon,$sql1);
+// echo "<td align='center'><select name='tipo_ingreso' id='tipo_ingreso' class='texto'>";
+// while($dat1=mysqli_fetch_array($resp1))
+// {   $cod_tipoingreso=$dat1[0];
+//     $nombre_tipoingreso=$dat1[1];
+//     echo "<option value='$cod_tipoingreso'>$nombre_tipoingreso</option>";
+// }
+// echo "</select></td>";
+// echo "<td align='center'><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required></td></tr>";
+
+// echo "<tr><th>Proveedor</th>";
+// echo "<th colspan='3'>Observaciones</th></tr>";
+// $sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
+// $resp1=mysqli_query($enlaceCon,$sql1);
+// echo "<tr><td align='center'><select name='proveedor' id='proveedor' class='texto'>";
+// while($dat1=mysqli_fetch_array($resp1))
+// {   $codigo=$dat1[0];
+//     $nombre=$dat1[1];
+//     echo "<option value='$codigo'>$nombre</option>";
+// }
+// echo "</select></td>";
+// echo "<td colspan='4' align='center'><input type='text' class='texto' name='observaciones' value='$observaciones' size='100'></td></tr>";
+// echo "</table><br>";
+
+
+
+
 echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
-echo "<tr><th>Numero de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Factura</th></tr>";
-echo "<tr>";
-$sql="select nro_correlativo from ingreso_almacenes where cod_almacen='$global_almacen' order by cod_ingreso_almacen desc";
-$resp=mysqli_query($enlaceCon,$sql);
-$dat=mysqli_fetch_array($resp);
-$num_filas=mysqli_num_rows($resp);
-if($num_filas==0)
-{   $nro_correlativo=1;
-}
-else
-{   $nro_correlativo=$dat[0];
-    $nro_correlativo++;
-}
-echo "<td align='center'>$nro_correlativo</td>";
-echo "<td align='center'>";
-
-echo "<input type='text' disabled='true' class='texto' value='$fecha' id='fecha' size='10' name='fecha'>";
-echo "<img id='imagenFecha' src='imagenes/fecha.bmp'>";
-echo "</td>";
-
-$sql1="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso order by nombre_tipoingreso";
+echo "<tr>
+	<th>Nro. Ingreso: <b>$nro_correlativo<b></th>";
+echo"<th><input type='text' disabled='true' class='texto' value='$fecha' id='fecha' size='10' name='fecha'></th>
+	<th>Tipo de Ingreso: </td><th>";
+$sql1="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso where cod_tipoingreso='1000' order by nombre_tipoingreso";
 $resp1=mysqli_query($enlaceCon,$sql1);
-echo "<td align='center'><select name='tipo_ingreso' id='tipo_ingreso' class='texto'>";
+echo "<select name='tipo_ingreso' id='tipo_ingreso' class='texto'>";
 while($dat1=mysqli_fetch_array($resp1))
 {   $cod_tipoingreso=$dat1[0];
     $nombre_tipoingreso=$dat1[1];
     echo "<option value='$cod_tipoingreso'>$nombre_tipoingreso</option>";
 }
 echo "</select></td>";
-echo "<td align='center'><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required></td></tr>";
 
-echo "<tr><th>Proveedor</th>";
-echo "<th colspan='3'>Observaciones</th></tr>";
-$sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
+echo"<th colspan='1'>Tipo de Documento: </th><th>";
+$sql1="SELECT td.codigo, td.nombre, td.abreviatura
+		FROM tipos_docs td
+		WHERE td.codigo IN (1,2)
+		LIMIT 1";
 $resp1=mysqli_query($enlaceCon,$sql1);
-echo "<tr><td align='center'><select name='proveedor' id='proveedor' class='texto'>";
+echo "<select name='tipo_documento' id='tipo_documento' class='selectpicker' data-style='btn btn-info'>";
+while($dat1=mysqli_fetch_array($resp1))
+{   $cod_tipoingreso=$dat1[0];
+    $nombre_tipo_documento=$dat1[1];
+    echo "<option value='$cod_tipoingreso'>$nombre_tipo_documento</option>";
+}
+echo "</select></td>";
+
+echo "<th>Nro. Documento: </th>
+	<th><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required>
+	</th></tr>";
+
+echo "<tr><th>Proveedor/Distribuidor:</th>";
+$sql1="SELECT p.cod_proveedor, p.nombre_proveedor
+		FROM proveedores p 
+		ORDER BY 2";
+$resp1=mysqli_query($enlaceCon,$sql1);
+echo "<th align='center'>
+<select name='proveedor' id='proveedor' class='selectpicker' data-style='btn btn-info' data-live-search='true' required>";
+echo "<option value=''>-</option>";
 while($dat1=mysqli_fetch_array($resp1))
 {   $codigo=$dat1[0];
     $nombre=$dat1[1];
+	$margenPrecio=$dat1[2];
+	
     echo "<option value='$codigo'>$nombre</option>";
 }
-echo "</select></td>";
-echo "<td colspan='4' align='center'><input type='text' class='texto' name='observaciones' value='$observaciones' size='100'></td></tr>";
+echo "</select></th>";
+
+echo "<th>Tipo de Pago:</th>";
+$sql1="SELECT tp.cod_tipopago, tp.nombre_tipopago
+		FROM tipos_pago tp
+		WHERE tp.cod_tipopago = 1
+		OR tp.cod_tipopago = 4
+		ORDER BY tp.cod_tipopago ASC ".(($banderaCamposEscondidos == 1) ? 'LIMIT 1' : '');
+$resp1=mysqli_query($enlaceCon,$sql1);
+echo "<th align='center'>
+<select name='cod_tipopago' id='cod_tipopago' class='selectpicker' data-style='btn btn-info' required >";
+while($dat1=mysqli_fetch_array($resp1))
+{   $codigo=$dat1[0];
+    $nombre=$dat1[1];
+	$margenPrecio=$dat1[2];
+	
+    echo "<option value='$codigo'>$nombre</option>";
+}
+echo "</select></th>";
+
+echo "<th colspan='1'>Días de Credito: <input type='number' class='texto' name='dias_credito' id='dias_credito' min='0' max='180' readonly></th>
+<th colspan='1'>Fecha Documento Proveedor: <input type='date' class='texto' name='fecha_factura_proveedor' id='fecha_factura_proveedor' ".(($banderaCamposEscondidos == 1) ? 'readonly' : '')."></th>";
+
+echo "<th colspan='1'>Observaciones:</th>
+	<th colspan='1'><textarea class='texto' name='observaciones' value='$observaciones' size='20'></textarea></th>";
+
+
+echo "</tr>";
+
+
 echo "</table><br>";
 ?>
 		<fieldset id="fiel" style="width:98%;border:0;" >
@@ -321,6 +416,25 @@ echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'>
 </div>
 <input type='hidden' name='materialActivo' value="0">
 <input type='hidden' name='cantidad_material' value="0">
+<input type='hidden' name='totalCompraSD' id="totalCompraSD" value="0">
+
 
 </form>
+<script src="assets/js/core/jquery.min.js"></script>
+<script>
+	// Verificación de Tipo de Pago
+	$('#cod_tipopago').on('change', function () {
+        var selectedValue = $(this).val();
+		$('#dias_credito').val(0);
+        if (selectedValue === '4') {
+            $('#dias_credito').prop('readonly', false);
+			$('#fecha_factura_proveedor').val('<?=date('Y-m-d')?>');
+            $('#fecha_factura_proveedor').prop('readonly', false);
+        } else if (selectedValue === '1') {
+            $('#dias_credito').prop('readonly', true);
+			$('#fecha_factura_proveedor').val('');
+            $('#fecha_factura_proveedor').prop('readonly', true);
+        }
+    });
+</script>
 </body>

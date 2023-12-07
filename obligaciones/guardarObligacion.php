@@ -5,8 +5,8 @@
 require("../conexion.inc");
 require("../funciones.php");
 
-// error_reporting(E_ALL);
-// ini_set('display_errors', '1');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 $fecha	= $_POST["fecha"];
 $fecha	= formateaFechaVista($fecha);
@@ -40,32 +40,36 @@ if (mysqli_num_rows($resp) > 0) {
 }
 
 // Obtiene el Numero de Pago
-$sqlNro = "SELECT IFNULL(MAX(nro_pago) + 1, 1) as nro_pago
-    FROM pagos_proveedor_cab 
-    WHERE cod_gestion in (SELECT cod_gestion from gestiones where estado = 1)";
+$sqlNro="SELECT max(nro_pago)+1 as nro_pago
+		FROM pagos_proveedor_cab 
+		WHERE cod_gestion in (SELECT cod_gestion from gestiones where estado = 1)";
 $resp = mysqli_query($enlaceCon, $sqlNro);
 $data = mysqli_fetch_array($resp);
-$nroPago = $data['nro_pago'];
+if (mysqli_num_rows($resp) > 0) {
+    $nroPago = $data['nro_pago'];
+}
+$nroPago = empty($nroPago) ? 1 : $nroPago;
+
 
 $montoTotal=0;
 
 for($i=1;$i<=$nroFilas;$i++)
 {   		
 	// echo $i." iii";
-	$codOrdenCompra=$_POST["codOrdenCompra$i"];	
+	$codIngresoAlmacen=$_POST["codIngresoAlmacen$i"];	
 	$montoPago=$_POST["montoPago$i"];
 	$nroDoc=empty($_POST["nroDoc$i"]) ? '' : $_POST["nroDoc$i"];
 	
 	$montoTotal=$montoTotal+$montoPago;
 	if($montoPago>0){
-		$sql_inserta="INSERT INTO `pagos_proveedor_detalle` (`cod_pago`,`cod_ordencompra`,`monto_detalle`,`nro_doc`) 
-			VALUE ('$codigo','$codOrdenCompra','$montoPago','$nroDoc')";
+		$sql_inserta="INSERT INTO `pagos_proveedor_detalle` (`cod_pago`,`cod_ingreso_almacen`,`monto_detalle`,`nro_doc`) 
+			VALUE ('$codigo','$codIngresoAlmacen','$montoPago','$nroDoc')";
 		// echo $sql_inserta;
 		$sql_inserta=mysqli_query($enlaceCon, $sql_inserta);
 	}
 	
 	//actualizamos la tabla Ingreso
-	$sqlUpd="UPDATE ordenes_compra set monto_cancelado = monto_cancelado+$montoPago where codigo='$codOrdenCompra'";
+	$sqlUpd="UPDATE ingreso_almacenes set monto_cancelado = monto_cancelado+$montoPago where cod_ingreso_almacen='$codIngresoAlmacen'";
 	$respUpd=mysqli_query($enlaceCon, $sqlUpd);
 	//echo $i;
 }

@@ -27,11 +27,11 @@ echo "<table align='center' class='textotit' width='100%'><tr><td align='center'
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
-$sql="SELECT p.cod_pago, p.fecha, pd.nro_doc, pro.nombre_proveedor, oc.nro_correlativo, pd.monto_detalle, p.observaciones, oc.nro_documento
+$sql="SELECT p.cod_pago, p.fecha, pd.nro_doc, pro.nombre_proveedor, ia.nro_correlativo, pd.monto_detalle, p.observaciones, ia.nro_factura_proveedor
 		FROM pagos_proveedor_cab p
 		LEFT JOIN pagos_proveedor_detalle pd ON p.cod_pago = pd.cod_pago
 		LEFT JOIN proveedores pro ON p.cod_proveedor = pro.cod_proveedor
-		LEFT JOIN ordenes_compra oc ON pd.cod_ordencompra = oc.codigo
+		LEFT JOIN ingreso_almacenes ia ON pd.cod_ingreso_almacen = ia.cod_ingreso_almacen
 		WHERE p.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
 		AND p.cod_estado <> 2";
 // echo $sql;

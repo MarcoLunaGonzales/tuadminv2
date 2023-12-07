@@ -40,6 +40,7 @@ function listaMateriales(f){
 	var nombreItem=f.itemNombreMaterial.value;
 	var codInterno=f.codigoInterno.value;
 	contenedor = document.getElementById('divListaMateriales');
+	let stock = $('#solo_stock').is(':checked') ? 1 : 0;
 
 	var arrayItemsUtilizados=new Array();	
 	var i=0;
@@ -52,7 +53,7 @@ function listaMateriales(f){
 	}
 	
 	ajax=nuevoAjax();
-	ajax.open("GET", "ajaxListaMateriales.php?codTipo="+codTipo+"&nombreItem="+nombreItem+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
+	ajax.open("GET", "ajaxListaMateriales.php?codTipo="+codTipo+"&nombreItem="+nombreItem+"&stock="+stock+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText
@@ -160,6 +161,11 @@ function ajaxRazonSocial(f){
 			$("#cliente").html(datos_resp[1]);				
 			ajaxRazonSocialCliente(document.getElementById('form1'));
 			$("#cliente").selectpicker('refresh');
+
+			// Verificación de Deudas del Cliente
+			if($('#tipoVenta').val() == 4){
+				verificarDeudaCliente($('#cliente').val());
+			}
 		}
 	}
 	ajax.send(null);
@@ -463,8 +469,38 @@ function pressEnter(e, f){
 	}
 }
 
-function validar(f, ventaDebajoCosto){
-	
+// Función para verificar deuda de cliente
+function verificarDeudaCliente(cod_cliente) {
+    $.ajax({
+		type: "POST",
+		url: "ajaxVerificarDeudaCliente.php",
+		data: {
+			cod_cliente: cod_cliente
+		},
+		dataType: "json",
+		success: function (response) {
+			// Manejar la respuesta del backend
+			if (response.status) {
+				alert(response.message);
+				$('#tipoVenta').trigger('change').val(1);
+				// console.log(response)
+			}
+		},
+		error: function (xhr, status, error) {
+			// Manejar errores de la solicitud AJAX
+			alert("Error en la solicitud AJAX: " + error);
+		}
+	});
+}
+
+async function validar(f, ventaDebajoCosto){
+	// Si el tipo pago es CREDITO y no se seleccionó clietne no se termina el proceso
+	let tipo_pago = $('#tipoVenta').val();
+	if(tipo_pago == 4 && ($('#cliente').val() == 146 || $('#cliente').val() == '')){
+		alert("Debe seleccionar un cliente");
+		return false;
+	} 
+
 	//alert(ventaDebajoCosto);
 	f.cantidad_material.value=num;
 	var cantidadItems=num;
@@ -857,6 +893,12 @@ $(document).ready(function() {
 		}else{
 			$('#nroTarjeta_form').val('').prop("required", false).hide();
 		}
+
+		// Cuando el tipo de venta es CREDITO se verifica Deuda
+		if($(this).val() == 4){
+			// Verificación de Deudas del Cliente
+			verificarDeudaCliente($('#cliente').val());
+		}
 	});
 	/******************
 	 * NRO DE TARJETA *
@@ -1137,9 +1179,18 @@ if($tipoDocDefault==2){
 <div id="divProfileData" style="background-color:#FFF; width:950px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
   	<div id="divProfileDetail" style="visibility:hidden; text-align:center">
 		<table align='center'>
-			<tr><th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
 			<tr>
-			<td><select class="textomedianorojo" name='itemTipoMaterial' style="width:300px">
+				<th>
+				</th>
+				<th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
+			<tr>
+			<td>
+				<div class="custom-control" style="padding-left: 0px;">
+					<input type="checkbox" class="" id="solo_stock" value="1">
+					<label class="text-dark font-weight-bold" for="solo_stock">Solo Productos con Stock</label>
+				</div>
+			</td>
+			<td><select class="textomedianorojo" name='itemTipoMaterial' style="width:200px">
 			<?php
 			$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g where g.estado=1 order by 2;";
 			$respTipo=mysqli_query($enlaceCon,$sqlTipo);

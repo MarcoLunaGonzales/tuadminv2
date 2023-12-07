@@ -188,7 +188,7 @@ function anular_ingreso(f)
     <body>
 
 <?php
- 
+$fecha_sistema = date('Y-m-d');
 echo "<form method='post' action='navegador_ingresomateriales.php'>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
