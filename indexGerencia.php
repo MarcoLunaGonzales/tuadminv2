@@ -84,6 +84,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						<ul>
 							<li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li>
 							<li><a href="navegador_grupos.php" target="contenedorPrincipal">Grupos</a></li>
+							<li><a href="pais_procedencia/list.php" target="contenedorPrincipal">Paises de Procedencia</a></li>
 							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos</a></li>
 							<li><a href="navegador_precios.php?orden=1" target="contenedorPrincipal">Precios (Orden Alfabetico)</a></li>
 							<li><a href="navegador_precios.php?orden=2" target="contenedorPrincipal">Precios (Por Linea Proveedor)</a></li>			
