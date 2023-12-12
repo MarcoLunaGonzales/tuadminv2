@@ -43,7 +43,7 @@ require("conexion.inc");
 	</div>
 </td>
 
-<td align="center" width="15%">
+<!-- <td align="center" width="15%">
 	<?php
 			$sql1="select codigo, nombre, abreviatura from tipos_precio where estado=1 order by 3";
 			$resp1=mysqli_query($enlaceCon,$sql1);
@@ -61,7 +61,7 @@ require("conexion.inc");
 			echo "</select>";
 			?>
 	<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01" readonly>
-</td>
+</td> -->
 
 <td align="center" width="10%">
 	<input class="inputnumber" type="number" value="0" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01"  required readonly> 

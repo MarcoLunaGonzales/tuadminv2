@@ -14,10 +14,10 @@ echo "<center><table class='texto'>";
 
 echo "<tr><th align='left'>Nombre</th>";
 echo "<td align='left'>
-	<input type='text' class='texto' name='material' size='40' style='text-transform:uppercase;' required>
+	<input type='text' class='texto' name='material' size='40' style='text-transform:uppercase;' required readonly>
 	</td></tr>";
 	
-echo "<tr><th align='left'>Proveedor</th>";
+echo "<tr><th align='left'>Marca</th>";
 $sql1="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) from proveedores p, proveedores_lineas pl 
 where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
@@ -63,26 +63,60 @@ echo "<td>
 </td>";
 echo "</tr>";
 
-echo "<tr><th align='left'>Descripcion</th>";
-echo "<td align='left'>
-	<input type='text' class='texto' name='observaciones' id='observaciones' size='80' style='text-transform:uppercase;'>
-	</td>";
+// echo "<tr><th align='left'>Descripcion</th>";
+// echo "<td align='left'>
+// 	<input type='text' class='texto' name='observaciones' id='observaciones' size='80' style='text-transform:uppercase;'>
+// 	</td>";
 
-echo "<tr><th>Unidad de Manejo</th>";
-$sql1="select u.codigo, u.nombre, u.abreviatura from unidades_medida u order by 1;";
+// echo "<tr><th>Unidad de Manejo</th>";
+// $sql1="select u.codigo, u.nombre, u.abreviatura from unidades_medida u order by 1;";
+// $resp1=mysqli_query($enlaceCon,$sql1);
+// echo "<td>
+// 			<select name='cod_unidad' id='cod_unidad' required>
+// 			<option value=''></option>";
+// 			while($dat1=mysqli_fetch_array($resp1))
+// 			{	$codUnidad=$dat1[0];
+// 				$nombreUnidad=$dat1[1];
+// 				$abreviatura=$dat1[2];
+// 				echo "<option value='$codUnidad'>$nombreUnidad $abreviatura</option>";
+// 			}
+// 			echo "</select>
+// </td>";
+// echo "</tr>";
+
+
+
+echo "<tr><th align='left'>Medida</th>";
+echo "<td align='left'>
+	<input type='text' class='texto' name='medida' id='medida'>
+	</td></tr>";
+
+echo "<tr><th align='left'>Modelo</th>";
+echo "<td align='left'>
+	<input type='text' class='texto' name='modelo' id='modelo'>
+	</td></tr>";
+
+echo "<tr><th align='left'>Capacidad de Carga y <br> Código de Velocidad</th>";
+echo "<td align='left'>
+	<input type='text' class='texto' name='capacidad_carga_velocidad' id='capacidad_carga_velocidad'>
+	</td></tr>";
+	
+echo "<tr><th>Pais Procedencia</th>";
+$sql1="SELECT p.codigo, p.nombre, p.abreviatura from pais_procedencia p order by 1;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_unidad' id='cod_unidad' required>
+			<select name='cod_pais_procedencia' id='cod_pais_procedencia' required>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
-			{	$codUnidad=$dat1[0];
-				$nombreUnidad=$dat1[1];
-				$abreviatura=$dat1[2];
-				echo "<option value='$codUnidad'>$nombreUnidad $abreviatura</option>";
+			{	$codPaisProcedencia=$dat1[0];
+				$nombrePaisProcedencia=$dat1[1];
+				$abreviaturaPaisProcedencia=$dat1[2];
+				echo "<option value='$codPaisProcedencia'>$nombrePaisProcedencia $abreviaturaPaisProcedencia</option>";
 			}
 			echo "</select>
 </td>";
 echo "</tr>";
+
 
 
 echo "<tr><th>Imagen</th>";
@@ -93,21 +127,84 @@ echo "<tr><th align='left'>Codigo Barras</th>";
 echo "<td align='left'>
 	<input type='text' class='texto' name='codigo_barras' id='codigo_barras'>
 	</td></tr>";
-echo "<tr><th align='left'>Codigo Interno</th>";
 
-echo "<td align='left'>
-	<input type='text' class='texto' name='codigo_interno' id='codigo_interno' required='true'>
-	</td></tr>";
+// echo "<tr><th align='left'>Codigo Interno</th>";
+// echo "<td align='left'>
+// 	<input type='text' class='texto' name='codigo_interno' id='codigo_interno' required='true'>
+// 	</td></tr>";
 
-echo "<tr><th align='left'>Costo</th>";
-echo "<td align='left'>
-	<input type='number' class='texto' name='costo_producto' id='costo_producto' step='0.01'>
-	</td></tr>";
+// echo "<tr><th align='left'>Costo</th>";
+// echo "<td align='left'>
+// 	<input type='number' class='texto' name='costo_producto' id='costo_producto' step='0.01'>
+// 	</td></tr>";
 
-echo "<tr><th align='left'>Precio de Venta</th>";
-echo "<td align='left'>
-	<input type='number' class='texto' name='precio_producto' id='precio_producto' step='0.01'>
-	</td></tr>";
+// echo "<tr><th align='left'>Precio de Venta</th>";
+// echo "<td align='left'>
+// 	<input type='number' class='texto' name='precio_producto' id='precio_producto' step='0.01'>
+// 	</td>";
+
+?>
+	<tr>
+		<td colspan='2'>
+			<table width='100%'>
+				<thead>
+					<tr>
+						<th colspan="5">Detalles de Precios</th>
+					</tr>
+					<tr>
+						<th style="text-align: left;">Descripción</th>
+						<th style="text-align: left;">Tipo Venta</th>
+						<th style="text-align: left;">Cantidad Inicio</th>
+						<th style="text-align: left;">Cantidad Final</th>
+						<th style="text-align: left;">Precio</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+						$sql1="SELECT 
+									tp.codigo, 
+									tp.nombre, 
+									tp.abreviatura, 
+									tp.cantidad_inicio, 
+									tp.cantidad_final,
+									tp.cod_tipoventa,
+									CASE
+										WHEN tp.cod_tipoventa = 0 THEN 'CONTADO/CREDITO'
+										ELSE tv.nombre_tipoventa
+									END AS nombre_tipoventa
+								FROM 
+									tipos_precio tp 
+								LEFT JOIN tipos_venta tv ON tv.cod_tipoventa = tp.cod_tipoventa
+								ORDER BY 
+									tp.codigo";
+						$resp1=mysqli_query($enlaceCon,$sql1);
+						$index = 0;
+						while($dat1=mysqli_fetch_array($resp1)){
+							$index++;
+					?>
+					<tr>
+						<input type='hidden' name='cod_precio[]' value="<?= $dat1['codigo'] ?>"></td>
+						<input type='hidden' name='cod_tipoventa[]' value="<?= $dat1['cod_tipoventa'] ?>"></td>
+						<td><?= $dat1['nombre'] ?></td>
+						<td><?= $dat1['nombre_tipoventa'] ?></td>
+						<td>
+							<?= $dat1['cantidad_inicio'] ?>
+							<input type='hidden' name='cantidad_inicio[]' step='0.02' value="<?= $dat1['cantidad_inicio'] ?>"></td>
+						<td>
+							<?= $dat1['cantidad_inicio'] ?>
+							<input type='hidden' name='cantidad_final[]' step='0.02' value="<?= $dat1['cantidad_final'] ?>"></td>
+						<td><input type='number' name='precio[]' step='0.02'></td>
+					</tr>
+					<?php
+						}
+					?>
+				</tbody>
+			</table>
+		</td>
+	</tr>
+<?php
+
+echo "</tr>";
 
 ?>	
 
@@ -121,3 +218,31 @@ echo "<div class='divBotones'>
 echo "</form>";
 ?>
 
+
+<script>
+	$(document).ready(function() {
+		// Detectar cambios en los campos mediante keyup
+		$('#medida, #modelo, #capacidad_carga_velocidad').on('keyup', function() {
+			actualizarMaterial();
+		});
+
+		// Detectar cambios en el select mediante change
+		$('#cod_pais_procedencia').on('change', function() {
+			actualizarMaterial();
+		});
+
+		function actualizarMaterial() {
+			// Obtener los valores de los campos
+			var medida = $('#medida').val();
+			var modelo = $('#modelo').val();
+			var capacidad = $('#capacidad_carga_velocidad').val();
+			var pais = $('#cod_pais_procedencia option:selected').text(); // Obtener el texto seleccionado del select
+
+			// Concatenar los valores
+			var nuevoMaterial = medida + ' - ' + modelo + ' - ' + capacidad + ' - ' + pais;
+
+			// Actualizar el valor del campo "material"
+			$('[name="material"]').val(nuevoMaterial);
+		}
+	});
+</script>
