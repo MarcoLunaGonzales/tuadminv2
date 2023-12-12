@@ -4,13 +4,14 @@ require("../../conexion.inc");
 ob_clean();
 
 $nomCli = $_GET["nomcli"];
-$apCli = $_GET["apcli"];
+$apCli = $_GET["apCli"];
 $nit = $_GET["nit"];
 $dir = $_GET["dir"];
 $tel1 = $_GET["tel1"];
 $mail = $_GET["mail"];
 $area = $_GET["area"];
 $fact = $_GET["fact"];
+$diasCredito = $_GET["diasCredito"];
 
 $ci = $_GET['ci'];
 
@@ -22,6 +23,7 @@ $tel1 = str_replace("'", "''", $tel1);
 $mail = str_replace("'", "''", $mail);
 $area = $area;
 $fact = str_replace("'", "''", $fact);
+$diasCredito = str_replace("'", "''", $diasCredito);
 
 $sql = "select IFNULL(MAX(cod_cliente)+1,1) as id from clientes order by cod_cliente desc";
 $resp = mysqli_query($enlaceCon,$sql);
@@ -29,8 +31,8 @@ $dat=mysqli_fetch_array($resp);
 $codigoCliente=$dat['id'];
 
 $consulta="
-INSERT INTO clientes (cod_cliente, nombre_cliente,paterno, nit_cliente, dir_cliente, telf1_cliente, email_cliente, cod_area_empresa, nombre_factura, cod_tipo_precio, ci_cliente)
-VALUES ('$codigoCliente', '$nomCli','$apCli', '$nit', '$dir', '$tel1', '$mail', $area, '$fact', '0', '$ci')
+INSERT INTO clientes (cod_cliente, nombre_cliente,paterno, nit_cliente, dir_cliente, telf1_cliente, email_cliente, cod_area_empresa, nombre_factura, cod_tipo_precio, ci_cliente, dias_credito)
+VALUES ('$codigoCliente', '$nomCli','$apCli', '$nit', '$dir', '$tel1', '$mail', $area, '$fact', '0', '$ci', '$diasCredito')
 ";
 if(isset($_GET["dv"])){
     $resp=mysqli_query($enlaceCon,$consulta);

@@ -160,11 +160,30 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>
 						
   			<!-- Nueva Sección de Pagos de Servicio por Pagar -->
-			<li><span>Obligaciones</span>
+			<!-- <li><span>Obligaciones</span>
 				<ul>
 					<li><a href="obligaciones/navegadorObligaciones.php" target="contenedorPrincipal">Listado de Obligaciones</a></li>
 					<li><a href="obligaciones/rptOpObligaciones.php" target="contenedorPrincipal">Reporte de Pagos</a></li>
 					<li><a href="obligaciones/rptOpObligacionesPagar.php" target="contenedorPrincipal">Reporte Obligaciones x Pagar</a></li>
+				</ul>	
+			</li> -->
+				
+			<li><span>Cobros/Obligaciones</span>
+				<ul>
+					<li><span>Cobranzas</span>
+						<ul>
+							<li><a href="cobranzas/navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
+							<li><a href="cobranzas/rptOpCobranzas.php" target="contenedorPrincipal">Reporte de Cobros</a></li>
+							<li><a href="cobranzas/rptOpCuentasCobrar.php" target="contenedorPrincipal">Reporte Cuentas x Cobrar</a></li>
+						</ul>	
+					</li>	
+					<li><span>Obligaciones</span>
+						<ul>
+							<li><a href="obligaciones/navegadorObligaciones.php" target="contenedorPrincipal">Listado de Obligaciones</a></li>
+							<li><a href="obligaciones/rptOpObligaciones.php" target="contenedorPrincipal">Reporte de Pagos</a></li>
+							<li><a href="obligaciones/rptOpObligacionesPagar.php" target="contenedorPrincipal">Reporte Obligaciones x Pagar</a></li>
+						</ul>	
+					</li>
 				</ul>	
 			</li>
 

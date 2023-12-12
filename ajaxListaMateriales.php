@@ -15,6 +15,7 @@ $globalAlmacen=$_COOKIE['global_almacen'];
 $itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $globalAgencia=$_COOKIE["global_agencia"];
 
+$soloStock = $_GET["stock"];
 
 
 	$sql="select m.codigo_material, m.descripcion_material,
@@ -47,22 +48,30 @@ $globalAgencia=$_COOKIE["global_agencia"];
 
 			$stockProducto=stockProducto($globalAlmacen, $codigo);
 			
-			$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and cod_ciudad='$globalAgencia'";
-			$rs=mysqli_query($enlaceCon,$consulta);
-			$registro=mysqli_fetch_array($rs);
-			$precioProducto=empty($registro[0]) ? '' : $registro[0];
-			if($precioProducto=="")
-			{   $precioProducto=0;
+			// Verifica si se muestra fila
+			$mostrarFila = 1;
+			if($soloStock && $stockProducto <= 0){
+				$mostrarFila = 0;
 			}
-			$precioProducto=redondear2($precioProducto);
 			
-			echo "<tr>
-			<td>$linea</td>
-			<td>$codigoInterno</td>
-			<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\")'>$nombre</a></div></td>
-			<td>$stockProducto</td>
-			<td>$precioProducto</td>
-			</tr>";
+			if($mostrarFila == 1){
+				$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and cod_ciudad='$globalAgencia'";
+				$rs=mysqli_query($enlaceCon,$consulta);
+				$registro=mysqli_fetch_array($rs);
+				$precioProducto=empty($registro[0]) ? '' : $registro[0];
+				if($precioProducto=="")
+				{   $precioProducto=0;
+				}
+				$precioProducto=redondear2($precioProducto);
+				
+				echo "<tr>
+				<td>$linea</td>
+				<td>$codigoInterno</td>
+				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\")'>$nombre</a></div></td>
+				<td>$stockProducto</td>
+				<td>$precioProducto</td>
+				</tr>";
+			}
 		}
 	}else{
 		echo "<tr><td colspan='3'>Sin Resultados en la busqueda.</td></tr>";

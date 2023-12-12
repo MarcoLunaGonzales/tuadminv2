@@ -82,11 +82,11 @@ $pdf->SetXY(0,$y+52);		$pdf->Cell(0,0,"=========================================
 
 $yyy=55;
 
-$sql_detalle="SELECT pd.`monto_detalle`, oc.`nro_correlativo`
+$sql_detalle="SELECT pd.`monto_detalle`, ia.`nro_correlativo`
 			FROM `pagos_proveedor_cab` pc
 			JOIN `pagos_proveedor_detalle` pd ON pc.`cod_pago` = pd.`cod_pago`
-			JOIN `ordenes_compra` oc ON pd.`cod_ordencompra` = oc.`codigo` 
-			WHERE pc.`cod_pago` = '$codPago'";
+			JOIN `ingreso_almacenes` ia ON pd.`cod_ingreso_almacen` = ia.`cod_ingreso_almacen`
+			WHERE pc.`cod_pago` = '$codPago'";		
 // echo $sql_detalle;
 $resp_detalle=mysqli_query($enlaceCon, $sql_detalle);
 $montoTotal=0;

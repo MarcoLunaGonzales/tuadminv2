@@ -10,8 +10,8 @@ $globalSucursal=$_COOKIE['global_agencia'];
 
 $tipoSalida=$_POST['tipoSalida'];
 $tipoDoc=$_POST['tipoDoc'];
-$almacenDestino=$_POST['almacen'];
-$codCliente=$_POST['cliente'];
+$almacenDestino=empty($_POST['almacen']) ? 0 : $_POST['almacen'];
+$codCliente=empty($_POST['cliente']) ? 0 : $_POST['cliente'];
 
 $tipoPrecio=$_POST['tipoPrecio'];
 $razonSocial=$_POST['razonSocial'];
@@ -42,17 +42,17 @@ $hora=date("H:i:s");
 
 //SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
-$respConf=mysqli_query($sqlConf);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
 $tipoDocDefault=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA EL CLIENTE POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=2";
-$respConf=mysqli_query($sqlConf);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
 $clienteDefault=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
-$respConf=mysqli_query($sqlConf);
+$respConf=mysqli_query($enlaceCon,$sqlConf);
 $facturacionActivada=mysqli_result($respConf,0,0);
 
 //SACAMOS LA CONFIGURACION PARA LA VALIDACION DE STOCKS
@@ -63,9 +63,8 @@ $banderaValidacionStock=$datConf[0];
 
 
 $sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
-$resp=mysqli_query($sql);
+$resp=mysqli_query($enlaceCon,$sql);
 $codigo=mysqli_result($resp,0,0);
-
 
 $vectorNroCorrelativo=numeroCorrelativo($tipoDoc);
 $nro_correlativo=$vectorNroCorrelativo[0];
@@ -75,9 +74,17 @@ if($facturacionActivada==1 && $tipoDoc==1){
 		//SACAMOS DATOS DE LA DOSIFICACION PARA INSERTAR EN LAS FACTURAS EMITIDAS
 	$sqlDatosDosif="select d.nro_autorizacion, d.llave_dosificacion 
 		from dosificaciones d where d.cod_dosificacion='$cod_dosificacion'";
-	$respDatosDosif=mysqli_query($sqlDatosDosif);
-	$nroAutorizacion=mysqli_result($respDatosDosif,0,0);
-	$llaveDosificacion=mysqli_result($respDatosDosif,0,1);
+	$respDatosDosif=mysqli_query($enlaceCon,$sqlDatosDosif);
+	// $nroAutorizacion=mysqli_result($respDatosDosif,0,0);
+	// $llaveDosificacion=mysqli_result($respDatosDosif,0,1);
+	if (mysqli_num_rows($respDatosDosif) > 0) {
+        $row = mysqli_fetch_assoc($respDatosDosif);
+        $nroAutorizacion 	= $row['nro_autorizacion'];
+        $llaveDosificacion 	= $row['llave_dosificacion'];
+    }else{
+        $nroAutorizacion 	= "";
+        $llaveDosificacion 	= "";
+	}
 	include 'controlcode/sin/ControlCode.php';
 	$controlCode = new ControlCode();
 	$code = $controlCode->generate($nroAutorizacion,//Numero de autorizacion
@@ -150,7 +157,7 @@ if($sql_inserta==1){
 					where cod_venta='$codigo'";
 		$respUpdMonto=mysqli_query($sqlUpdMonto);
 	}
-	
+	exit;
 	if($tipoSalida==1001){
 		/*if($tipoDoc==1){
 			echo "<script type='text/javascript' language='javascript'>	
@@ -177,6 +184,7 @@ if($sql_inserta==1){
 
 	
 }else{
+	exit;
 		echo "<script type='text/javascript' language='javascript'>
 		alert('Ocurrio un error en la transaccion. Contacte con el administrador del sistema.');
 		location.href='navegador_salidamateriales.php';

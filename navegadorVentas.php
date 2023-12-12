@@ -384,6 +384,7 @@ if(isset($_GET["fechaFinBusqueda"])){
 
 $BDSiat=obtenerValorConfiguracion(8);
 
+$fecha_sistema = date('Y-m-d');
 echo "<form method='post' action=''>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
@@ -484,6 +485,7 @@ while ($dat = mysqli_fetch_array($resp)) {
     }
 
     $sqlAnuladoSiat="SELECT s.estado_salida, s.salida_anulada from $BDSiat.salida_almacenes s where s.cod_salida_almacenes='$idTransaccion'";
+    // echo $sqlAnuladoSiat;
     $respAnuladoSiat=mysqli_query($enlaceCon, $sqlAnuladoSiat);
     if($datAnuladoSiat=mysqli_fetch_array($respAnuladoSiat)){
         $estadoSalidaAnuladaSiat=$datAnuladoSiat[0];

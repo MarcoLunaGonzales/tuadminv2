@@ -561,7 +561,7 @@ $respConf=mysqli_query($enlaceCon,$sqlConf);
 $ventaDebajoCosto=mysqli_result($respConf,0,0);
 
 ?>
-<form action='guardarSalidaMaterial.php' method='POST' name='form1' id="guardarSalidaVenta" ><!--onsubmit='return checkSubmit();'-->
+<form action='guardarSalidaMaterial_first.php' method='POST' name='form1' id="guardarSalidaVenta" ><!--onsubmit='return checkSubmit();'-->
 
 <!--h1>Registrar Venta</h1-->
 
@@ -602,6 +602,11 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		$vectorNroCorrelativo=numeroCorrelativo($tipoDocDefault);
 		$nroCorrelativo=$vectorNroCorrelativo[0];
 		$banderaErrorFacturacion=$vectorNroCorrelativo[1];
+
+		
+		$vectorNroCorrelativo=1;
+		$nroCorrelativo=1;
+		$banderaErrorFacturacion=0;
 	
 		echo "<span class='textogranderojo'>$nroCorrelativo</span>";
 	
