@@ -405,7 +405,7 @@ function obtienePrecioProducto(index){
 	let cantidad_unitaria = document.getElementById("cantidad_unitaria" + index).value;
 	// Precio de Producto Final
 	let precioProducto = 0;
-	console.log(precios)
+	// console.log(precios)
     for (let i = 0; i < precios.length; i++) {
         let codTipoVenta   = parseFloat(precios[i][0]);
         let cantidadInicio = parseFloat(precios[i][1]);
@@ -420,7 +420,7 @@ function obtienePrecioProducto(index){
 
         // Si no se encontró una coincidencia por tipo de venta, verifica solo la cantidad
         if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal) {
-			console.log('Entroooooo')
+			// console.log('Entroooooo')
             precioProducto = precio;
         }
     }
@@ -1028,6 +1028,13 @@ $(document).ready(function() {
 			obtienePrecioProducto(index);
 		});
 		total();
+		$('#tipoVenta').select2(); // Inicializa Select2 si no lo has hecho
+		// TipoVenta
+		if($(this).val() == 1){
+			$('#tipoVenta').val(1).trigger('change.select2');
+		}else if($(this).val() == 2){
+			$('#tipoVenta').val(4).trigger('change.select2');
+		}
 	});
 
 </script>
