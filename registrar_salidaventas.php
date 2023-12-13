@@ -369,7 +369,7 @@ function Hidden(){
 	document.getElementById('divboton').style.visibility='hidden';
 
 }
-function setMateriales(f, cod, nombreMat){
+function setMateriales(f, cod, nombreMat, precioVentaArray){
 	var numRegistro=f.materialActivo.value;
 	
 	document.getElementById('materiales'+numRegistro).value=cod;
@@ -382,8 +382,51 @@ function setMateriales(f, cod, nombreMat){
 	
 	document.getElementById("cantidad_unitaria"+numRegistro).focus();
 
+	document.getElementById('precioVentaArray'+numRegistro).value=precioVentaArray;
+	// Obtiene el precio de acuerdo a la cantidad del producto
+	obtienePrecioProducto(numRegistro);
+
 	actStock(numRegistro);
 }
+
+/**
+ * Obtiene precio de acuerdo a la cantidad
+ */
+function obtienePrecioProducto(index){
+    let precioArrayString = document.getElementById("precioVentaArray" + index).value;
+	// Remueve las comillas simples alrededor de los números
+	precioArrayString = precioArrayString.replace(/'/g, '"');
+	// Parsea la cadena a un array
+	var precios = JSON.parse(precioArrayString);
+	
+	// Tipo Venta
+	let tipo_venta = document.getElementById("tipo").value;
+	// Cantidad Unitaria
+	let cantidad_unitaria = document.getElementById("cantidad_unitaria" + index).value;
+	// Precio de Producto Final
+	let precioProducto = 0;
+	console.log(precios)
+    for (let i = 0; i < precios.length; i++) {
+        let codTipoVenta   = parseFloat(precios[i][0]);
+        let cantidadInicio = parseFloat(precios[i][1]);
+        let cantidadFinal  = parseFloat(precios[i][2]);
+        let precio  	   = parseFloat(precios[i][3]);
+		
+		 // Verifica si la cantidad está en el rango y coincide con el tipo de venta
+		 if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal && codTipoVenta == tipo_venta) {
+            precioProducto = precio;
+            break; // Sal del bucle si encuentras una coincidencia
+        }
+
+        // Si no se encontró una coincidencia por tipo de venta, verifica solo la cantidad
+        if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal) {
+			console.log('Entroooooo')
+            precioProducto = precio;
+        }
+    }
+	document.getElementById("precio_unitario" + index).value = precioProducto;
+}
+
 		
 function precioNeto(fila){
 
@@ -947,35 +990,46 @@ $(document).ready(function() {
 	$('body').on('keyup', '.cantidad_upd', function() {
 		let index        = $(this).data('index');
 		let cantidad     = $(this).val();
-		let cod_material = $('#materiales' + index).val();
-		let tipo_venta   = $('#tipoVenta').val();
+		obtienePrecioProducto(index);
+		// let cod_material = $('#materiales' + index).val();
+		// let tipo_venta   = $('#tipoVenta').val();
 		
 		// Realizar la solicitud AJAX después del retraso TIME
-		$.ajax({
-			type: "POST",
-			url: "ajax_producto_precio_rango.php",
-			data: {
-				tipo_venta: tipo_venta,
-				cod_material: cod_material,
-				cantidad: cantidad
-			},
-			dataType: "json",
-			success: function(response) {
-				if (response && response.precio !== undefined) {
-					$('#precio_unitario' + index).val(response.precio);
-				} else {
-					$('#precio_unitario' + index).val(0);
-					// Manejar un caso de respuesta no válida
-					console.error("Respuesta no válida del servidor");
-				}
-				total();
-			},
-			error: function(xhr, status, error) {
-				// Manejar errores de la solicitud AJAX
-				alert("Error en la solicitud AJAX: " + error);
-			}
-		});
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: "ajax_producto_precio_rango.php",
+		// 	data: {
+		// 		tipo_venta: tipo_venta,
+		// 		cod_material: cod_material,
+		// 		cantidad: cantidad
+		// 	},
+		// 	dataType: "json",
+		// 	success: function(response) {
+		// 		if (response && response.precio !== undefined) {
+		// 			$('#precio_unitario' + index).val(response.precio);
+		// 		} else {
+		// 			$('#precio_unitario' + index).val(0);
+		// 			// Manejar un caso de respuesta no válida
+		// 			console.error("Respuesta no válida del servidor");
+		// 		}
+		// 		total();
+		// 	},
+		// 	error: function(xhr, status, error) {
+		// 		// Manejar errores de la solicitud AJAX
+		// 		alert("Error en la solicitud AJAX: " + error);
+		// 	}
+		// });
 	});
+
+	// Cambio total de la lista
+	$('body').on('change', '#tipo', function(){
+		$('.formIndex').each(function(index, element) {
+			var index = $(element).val();
+			obtienePrecioProducto(index);
+		});
+		total();
+	});
+
 </script>
 
 
@@ -1131,8 +1185,27 @@ if($tipoDocDefault==2){
 	<th>
 		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" size="10" readonly><img id="imagenFecha" src="imagenes/fecha.bmp"> 
 	</th>
-	<th>Tipo Pago</th>
 	<th>
+		Tipo Venta
+		<div id='divTipo'>
+			<?php
+				$sql1="SELECT cod_tipoventa, nombre_tipoventa 
+						FROM tipos_venta tv  
+						WHERE tv.estado = 1";
+				$resp1=mysqli_query($enlaceCon,$sql1);
+				echo "<select class='selectpicker form-control' name='tipo' data-style='btn btn-rose' data-live-search='true' id='tipo'>";
+				while($dat=mysqli_fetch_array($resp1)){
+					$codigo=$dat[0];
+					$nombre=$dat[1];
+					echo "<option value='$codigo'>$nombre</option>";
+				}
+				echo "</select>";
+				?>
+
+		</div>
+	</th>
+	<th>
+		Tipo Pago
 		<div id='divTipoVenta'>
 			<?php
 				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
@@ -1146,7 +1219,7 @@ if($tipoDocDefault==2){
 				echo "</select>";
 				?>
 
-		</div>
+		</div><br>
 		<!-- Numero de Tarjeta -->
 		<input type='text' style='display:none;' name='nroTarjeta_form' id='nroTarjeta_form' class="custom-input" placeholder="Ingresar nro. tarjeta" style="width: 100%;">
 	</th>

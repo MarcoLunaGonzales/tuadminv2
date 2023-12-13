@@ -194,8 +194,7 @@ echo "<script language='Javascript'>
 		</div>";
 	
 	echo "<center><table class='texto'>";
-	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Descripcion</th>
-		<th>Grupo</th><th>Tipo</th><th>Proveedor</th><th>Medida</th><th>Modelo</th><th>Capacidad de Carga y<br>Código de Velocidad</th><th>País Procedencia</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Proveedor</th><th>Medida</th><th>Modelo</th><th>Capacidad de Carga y<br>Código de Velocidad</th><th>País Procedencia</th><th>Imagen</th><th>Acciones</th></tr>";
 	
 	$indice_tabla=1;
 	while($dat=mysqli_fetch_array($resp))
@@ -223,9 +222,7 @@ echo "<script language='Javascript'>
 		}
 		echo "<tr><td align='center'>$indice_tabla</td><td align='center'>
 		<input type='checkbox' name='codigo' value='$codigo'></td>
-		<td>$nombreProd</td><td>$observaciones</td>
-		<td>$grupo</td>
-		<td>$tipoMaterial</td>
+		<td>$nombreProd</td>
 		<td>$nombreLinea</td>
 		<td>$medida</td>
 		<td>$modelo</td>

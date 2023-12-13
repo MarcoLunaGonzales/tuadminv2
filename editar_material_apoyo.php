@@ -85,7 +85,7 @@ echo "<td>
 </td>";
 echo "</tr>";
 
-echo "<tr><th>Tipo</th>";
+echo "<tr hidden><th>Tipo</th>";
 $sql1="select e.cod_tipomaterial, e.nombre_tipomaterial from tipos_material e order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
@@ -228,6 +228,7 @@ echo "</tr>";
 									tipos_precio tp 
 								LEFT JOIN tipos_venta tv ON tv.cod_tipoventa = tp.cod_tipoventa
 								LEFT JOIN precios p ON p.cod_precio = tp.codigo AND p.codigo_material = '$codProducto'
+								WHERE tp.estado = 1
 								ORDER BY tp.codigo";
 						$resp1=mysqli_query($enlaceCon,$sql1);
 						$index = 0;
@@ -243,7 +244,7 @@ echo "</tr>";
 							<?= $dat1['cantidad_inicio'] ?>
 							<input type='hidden' name='cantidad_inicio[]' step='0.02' value="<?= $dat1['cantidad_inicio'] ?>"></td>
 						<td>
-							<?= $dat1['cantidad_inicio'] ?>
+							<?= $dat1['cantidad_final'] ?>
 							<input type='hidden' name='cantidad_final[]' step='0.02' value="<?= $dat1['cantidad_final'] ?>"></td>
 						<td><input type='number' name='precio[]' step='0.02' value="<?= $dat1['precio'] ?>"></td>
 					</tr>

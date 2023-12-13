@@ -43,6 +43,19 @@ $soloStock = $_GET["stock"];
 			$linea=$dat[2];
 			$codigoInterno=$dat[3];
 			
+			// Obtiene precios de la tabla PRECIOS
+			$arrayPrecios = [];
+			$sqlPrecio = "SELECT p.cod_tipoventa, p.cantidad_inicio, p.cantidad_final, p.precio
+							FROM precios p
+							WHERE p.codigo_material = '$codigo'";
+			$respPrecios = mysqli_query($enlaceCon,$sqlPrecio);
+			while($dataPrecio=mysqli_fetch_array($respPrecios)){
+				$arrayPrecios[] = [$dataPrecio['cod_tipoventa'], $dataPrecio['cantidad_inicio'], $dataPrecio['cantidad_final'], $dataPrecio['precio']];
+			}
+			$arrayPrecios = json_encode($arrayPrecios);
+			// Reemplazar comillas dobles por comillas simples
+			$jsonPrecios = str_replace('"', "'", $arrayPrecios);
+			
 			$nombreCompletoProducto=$linea."-".$nombre;
 			$nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
 
@@ -67,7 +80,7 @@ $soloStock = $_GET["stock"];
 				echo "<tr>
 				<td>$linea</td>
 				<td>$codigoInterno</td>
-				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\")'>$nombre</a></div></td>
+				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\", \"" . htmlspecialchars($jsonPrecios, ENT_QUOTES, 'UTF-8') . "\")'>$nombre</a></div></td>
 				<td>$stockProducto</td>
 				<td>$precioProducto</td>
 				</tr>";

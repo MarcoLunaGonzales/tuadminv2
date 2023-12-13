@@ -22,6 +22,8 @@ require("conexion.inc");
 </td>
 
 <td width="30%" align="center">
+	<input type="hidden" class="formIndex" value="<?php echo $num;?>">
+	<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="[]">
 	<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="0">
 	<div id="cod_material<?php echo $num;?>" class='textomedianonegro'>-</div>
 </td>
