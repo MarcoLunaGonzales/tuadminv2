@@ -941,6 +941,9 @@ $(document).ready(function() {
 	});
 	/*******************/
 
+	/**
+	 * Se obtien el precio de acuerdo a la cantidad por producto
+	 */
 	$('body').on('keyup', '.cantidad_upd', function() {
 		let index        = $(this).data('index');
 		let cantidad     = $(this).val();
@@ -961,9 +964,11 @@ $(document).ready(function() {
 				if (response && response.precio !== undefined) {
 					$('#precio_unitario' + index).val(response.precio);
 				} else {
+					$('#precio_unitario' + index).val(0);
 					// Manejar un caso de respuesta no válida
 					console.error("Respuesta no válida del servidor");
 				}
+				total();
 			},
 			error: function(xhr, status, error) {
 				// Manejar errores de la solicitud AJAX
