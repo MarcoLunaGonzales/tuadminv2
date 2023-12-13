@@ -112,7 +112,8 @@ function ajaxPrecioItem(indice){
 	var contenedor;
 	contenedor=document.getElementById("idprecio"+indice);
 	var codmat=document.getElementById("materiales"+indice).value;
-	var tipoPrecio=document.getElementById("tipoPrecio"+indice).value;
+	// var tipoPrecio=document.getElementById("tipoPrecio"+indice).value;
+	var tipoPrecio=1;
 	var cantidadUnitaria=document.getElementById("cantidad_unitaria"+indice).value;
 	ajax=nuevoAjax();
 	ajax.open("GET", "ajaxPrecioItem.php?codmat="+codmat+"&indice="+indice+"&tipoPrecio="+tipoPrecio,true);
@@ -939,6 +940,37 @@ $(document).ready(function() {
 		}
 	});
 	/*******************/
+
+	$('body').on('keyup', '.cantidad_upd', function() {
+		let index        = $(this).data('index');
+		let cantidad     = $(this).val();
+		let cod_material = $('#materiales' + index).val();
+		let tipo_venta   = $('#tipoVenta').val();
+		
+		// Realizar la solicitud AJAX después del retraso TIME
+		$.ajax({
+			type: "POST",
+			url: "ajax_producto_precio_rango.php",
+			data: {
+				tipo_venta: tipo_venta,
+				cod_material: cod_material,
+				cantidad: cantidad
+			},
+			dataType: "json",
+			success: function(response) {
+				if (response && response.precio !== undefined) {
+					$('#precio_unitario' + index).val(response.precio);
+				} else {
+					// Manejar un caso de respuesta no válida
+					console.error("Respuesta no válida del servidor");
+				}
+			},
+			error: function(xhr, status, error) {
+				// Manejar errores de la solicitud AJAX
+				alert("Error en la solicitud AJAX: " + error);
+			}
+		});
+	});
 </script>
 
 
