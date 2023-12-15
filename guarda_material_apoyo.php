@@ -26,6 +26,7 @@ $modelo = $_POST['modelo'];
 $medida = $_POST['medida'];
 $capacidad_carga_velocidad = $_POST['capacidad_carga_velocidad'];
 $cod_pais_procedencia = $_POST['cod_pais_procedencia'];
+$stock_minimo = $_POST['stock_minimo'];
 
 
 $fechahora=date("dmy.Hi");
@@ -43,7 +44,7 @@ $resp=mysqli_query($enlaceCon,$sql);
 $codigo=mysqli_result($resp,0,0);
 
 $sql_inserta="INSERT INTO material_apoyo(codigo_material, descripcion_material, estado, cod_linea_proveedor, cod_grupo, cod_tipomaterial,
-cantidad_presentacion, observaciones, imagen, cod_unidad, codigo_anterior, codigo_barras, modelo, medida, capacidad_carga_velocidad, cod_pais_procedencia) values ($codigo,'$nombreProducto','1','$codLinea','$codGrupo','$codTipo','1','$observaciones','$archivoName','$codUnidad','$codigoInterno','$codigoBarras','$modelo','$medida','$capacidad_carga_velocidad', '$cod_pais_procedencia')";
+cantidad_presentacion, observaciones, imagen, cod_unidad, codigo_anterior, codigo_barras, modelo, medida, capacidad_carga_velocidad, cod_pais_procedencia,stock_minimo) values ($codigo,'$nombreProducto','1','$codLinea','$codGrupo','$codTipo','1','$observaciones','$archivoName','$codUnidad','$codigoInterno','$codigoBarras','$modelo','$medida','$capacidad_carga_velocidad', '$cod_pais_procedencia', '$stock_minimo')";
 
 //echo $sql_inserta;
 

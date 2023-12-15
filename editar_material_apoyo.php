@@ -15,7 +15,9 @@ $codProducto=$_GET['cod_material'];
 $globalAgencia=$_COOKIE['global_agencia'];
 
 $sqlEdit="SELECT m.codigo_material, m.descripcion_material, m.estado, m.cod_linea_proveedor, m.cod_grupo, m.cod_tipomaterial, 
-	m.observaciones, m.cod_unidad, m.modelo, m.medida, m.capacidad_carga_velocidad, m.cod_pais_procedencia from material_apoyo m where m.codigo_material='$codProducto'";
+	m.observaciones, m.cod_unidad, m.modelo, m.medida, m.capacidad_carga_velocidad, m.cod_pais_procedencia, m.stock_minimo
+	FROM material_apoyo m 
+	WHERE m.codigo_material='$codProducto'";
 $respEdit=mysqli_query($enlaceCon,$sqlEdit);
 while($datEdit=mysqli_fetch_array($respEdit)){
 	$nombreProductoX=$datEdit[1];
@@ -29,6 +31,7 @@ while($datEdit=mysqli_fetch_array($respEdit)){
 	$medidaX 					= $datEdit[9];
 	$capacidad_carga_velocidadX = $datEdit[10];
 	$cod_pais_procedenciaX 		= $datEdit[11];
+	$stockMinimo 				= $datEdit[12];
 }
 
 $sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`='$codProducto' and p.cod_ciudad='$globalAgencia'";
@@ -70,7 +73,7 @@ $sql1="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_
 where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-		<select name='codLinea' id='codLinea' required>
+		<select name='codLinea' id='codLinea' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 		<option value=''></option>";
 		while($dat1=mysqli_fetch_array($resp1))
 		{	$codLinea=$dat1[0];
@@ -107,7 +110,7 @@ echo "<tr><th>Grupo</th>";
 $sql1="select f.cod_grupo, f.nombre_grupo from grupos f  where f.estado=1 order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_grupo' id='cod_grupo' required>
+		<select name='cod_grupo' id='cod_grupo' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codigo=$dat1[0];
@@ -181,7 +184,7 @@ echo "<tr><th>Pais Procedencia</th>";
 $sql1="SELECT p.codigo, p.nombre, p.abreviatura from pais_procedencia p order by 1;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_pais_procedencia' id='cod_pais_procedencia' required>
+		<select name='cod_pais_procedencia' id='cod_pais_procedencia' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codPaisProcedencia=$dat1[0];
@@ -193,6 +196,11 @@ echo "<td>
 			echo "</select>
 </td>";
 echo "</tr>";
+
+echo "<tr><th>Stock Mínimo</th>";
+echo "<td><input type='number' class='texto' name='stock_minimo' id='stock_minimo' value='$stockMinimo'></td>";
+echo "</tr>";
+
 
 ?>
 	<tr>
@@ -285,7 +293,7 @@ echo "</form>";
 			var pais = $('#cod_pais_procedencia option:selected').text(); // Obtener el texto seleccionado del select
 
 			// Concatenar los valores
-			var nuevoMaterial = medida + ' - ' + modelo + ' - ' + capacidad + ' - ' + pais;
+			var nuevoMaterial = medida + ' ' + modelo + ' ' + capacidad + ' ' + pais;
 
 			// Actualizar el valor del campo "material"
 			$('[name="material"]').val(nuevoMaterial);

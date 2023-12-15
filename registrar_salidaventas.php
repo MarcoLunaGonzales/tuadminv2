@@ -36,7 +36,7 @@ function nuevoAjax()
 
 function listaMateriales(f){
 	var contenedor;
-	var codTipo=f.itemTipoMaterial.value;
+	var codMarca=f.itemMarca.value;
 	var nombreItem=f.itemNombreMaterial.value;
 	var codInterno=f.codigoInterno.value;
 	contenedor = document.getElementById('divListaMateriales');
@@ -53,7 +53,7 @@ function listaMateriales(f){
 	}
 	
 	ajax=nuevoAjax();
-	ajax.open("GET", "ajaxListaMateriales.php?codTipo="+codTipo+"&nombreItem="+nombreItem+"&stock="+stock+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
+	ajax.open("GET", "ajaxListaMateriales.php?codMarca="+codMarca+"&nombreItem="+nombreItem+"&stock="+stock+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText
@@ -369,7 +369,7 @@ function Hidden(){
 	document.getElementById('divboton').style.visibility='hidden';
 
 }
-function setMateriales(f, cod, nombreMat, precioVentaArray){
+function setMateriales(f, cod, nombreMat, precioVentaArray, stockProducto, precioProducto){
 	var numRegistro=f.materialActivo.value;
 	
 	document.getElementById('materiales'+numRegistro).value=cod;
@@ -386,7 +386,8 @@ function setMateriales(f, cod, nombreMat, precioVentaArray){
 	// Obtiene el precio de acuerdo a la cantidad del producto
 	obtienePrecioProducto(numRegistro);
 
-	actStock(numRegistro);
+	document.getElementById('stock'+numRegistro).value=stockProducto;
+	// actStock(numRegistro);
 }
 
 /**
@@ -1299,7 +1300,7 @@ if($tipoDocDefault==2){
 			<tr>
 				<th>
 				</th>
-				<th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
+				<th>Marca</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
 			<tr>
 			<td>
 				<div class="custom-control" style="padding-left: 0px;">
@@ -1307,14 +1308,18 @@ if($tipoDocDefault==2){
 					<label class="text-dark font-weight-bold" for="solo_stock">Solo Productos con Stock</label>
 				</div>
 			</td>
-			<td><select class="textomedianorojo" name='itemTipoMaterial' style="width:200px">
+			<td><select class="textomedianorojo" name='itemMarca' style="width:200px">
 			<?php
-			$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g where g.estado=1 order by 2;";
+			$sqlTipo="SELECT pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) 
+						FROM proveedores p, proveedores_lineas pl 
+						WHERE p.cod_proveedor=pl.cod_proveedor 
+						AND pl.estado=1 
+						ORDER BY 2;";
 			$respTipo=mysqli_query($enlaceCon,$sqlTipo);
 			echo "<option value='0'>--</option>";
 			while($datTipo=mysqli_fetch_array($respTipo)){
-				$codTipoMat=$datTipo[0];
-				$nombreTipoMat=$datTipo[1];
+				$codTipoMat		= $datTipo[0];
+				$nombreTipoMat	= $datTipo[1];
 				echo "<option value=$codTipoMat>$nombreTipoMat</option>";
 			}
 			?>

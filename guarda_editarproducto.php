@@ -25,11 +25,11 @@ $modelo = $_POST['modelo'];
 $medida = $_POST['medida'];
 $capacidad_carga_velocidad = $_POST['capacidad_carga_velocidad'];
 $cod_pais_procedencia = $_POST['cod_pais_procedencia'];
-
+$stock_minimo = $_POST['stock_minimo'];
 
 $sql_inserta="UPDATE material_apoyo set descripcion_material='$nombreProducto', cod_linea_proveedor='$codLinea', 
 cod_grupo='$codGrupo', cod_tipomaterial='$codTipo', observaciones='$observaciones', 
-cod_unidad='$codUnidad', modelo='$modelo', medida='$medida', capacidad_carga_velocidad='$capacidad_carga_velocidad', cod_pais_procedencia='$cod_pais_procedencia'
+cod_unidad='$codUnidad', modelo='$modelo', medida='$medida', capacidad_carga_velocidad='$capacidad_carga_velocidad', cod_pais_procedencia='$cod_pais_procedencia', stock_minimo='$stock_minimo'
 WHERE codigo_material='$codProducto'";
 $resp_inserta=mysqli_query($enlaceCon,$sql_inserta);
 

@@ -2,13 +2,13 @@
 <body>
 <table align='center' class="texto">
 <tr>
-<th>Linea</th><th>CodInterno</th><th>Producto</th><th>Stock</th><th>Precio</th>
+<th>Marca</th><th>Procedencia</th><th>Producto</th><th>Stock</th><th>Precio</th>
 </tr>
 <?php
 require("conexion.inc");
 require("funciones.php");
 
-$codTipo=$_GET['codTipo'];
+$codMarca=$_GET['codMarca'];
 $nombreItem=$_GET['nombreItem'];
 $codInterno=$_GET['codInterno'];
 $globalAlmacen=$_COOKIE['global_almacen'];
@@ -18,14 +18,20 @@ $globalAgencia=$_COOKIE["global_agencia"];
 $soloStock = $_GET["stock"];
 
 
-	$sql="select m.codigo_material, m.descripcion_material,
-	(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor) 
-	, m.codigo_anterior  from material_apoyo m where estado=1 and m.codigo_material not in ($itemsNoUtilizar)";
+	$sql="SELECT m.codigo_material, 
+		m.descripcion_material,
+		(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor), 
+		m.codigo_anterior, 
+		pp.nombre as procedencia  
+	FROM material_apoyo m 
+	LEFT JOIN pais_procedencia pp ON pp.codigo = m.cod_pais_procedencia
+	WHERE m.estado=1 
+	AND m.codigo_material not in ($itemsNoUtilizar)";
 	if($nombreItem!=""){
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
 	}
-	if($codTipo!=0){
-		$sql=$sql. " and m.cod_grupo='$codTipo' ";
+	if($codMarca!=0){
+		$sql=$sql. " and m.cod_linea_proveedor='$codMarca' ";
 	}
 	if($codInterno!=""){
 		$sql=$sql. " and m.codigo_anterior like '%$codInterno%' ";
@@ -42,6 +48,8 @@ $soloStock = $_GET["stock"];
 			$nombre=addslashes($nombre);
 			$linea=$dat[2];
 			$codigoInterno=$dat[3];
+
+			$nombreProcedencia=$dat[4];
 			
 			// Obtiene precios de la tabla PRECIOS
 			$arrayPrecios = [];
@@ -79,8 +87,8 @@ $soloStock = $_GET["stock"];
 				
 				echo "<tr>
 				<td>$linea</td>
-				<td>$codigoInterno</td>
-				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\", \"" . htmlspecialchars($jsonPrecios, ENT_QUOTES, 'UTF-8') . "\")'>$nombre</a></div></td>
+				<td>$nombreProcedencia</td>
+				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\", \"" . htmlspecialchars($jsonPrecios, ENT_QUOTES, 'UTF-8') . "\", $stockProducto, $precioProducto)'>$nombre</a></div></td>
 				<td>$stockProducto</td>
 				<td>$precioProducto</td>
 				</tr>";

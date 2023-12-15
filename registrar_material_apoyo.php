@@ -22,7 +22,7 @@ $sql1="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_
 where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-		<select name='codLinea' id='codLinea' required>
+		<select name='codLinea' id='codLinea' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 		<option value=''></option>";
 		while($dat1=mysqli_fetch_array($resp1))
 		{	$codLinea=$dat1[0];
@@ -52,7 +52,7 @@ $sql1="select f.cod_grupo, f.nombre_grupo from grupos f
 where f.estado=1 order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_grupo' id='cod_grupo' required>
+		<select name='cod_grupo' id='cod_grupo' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codGrupo=$dat1[0];
@@ -105,7 +105,7 @@ echo "<tr><th>Pais Procedencia</th>";
 $sql1="SELECT p.codigo, p.nombre, p.abreviatura from pais_procedencia p order by 1;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_pais_procedencia' id='cod_pais_procedencia' required>
+		<select name='cod_pais_procedencia' id='cod_pais_procedencia' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codPaisProcedencia=$dat1[0];
@@ -121,6 +121,10 @@ echo "</tr>";
 
 echo "<tr><th>Imagen</th>";
 echo "<td> <input name='archivo' id='archivo' type='file' class='boton2'/> </td>";
+echo "</tr>";
+
+echo "<tr><th>Stock Mínimo</th>";
+echo "<td><input type='number' class='texto' name='stock_minimo' id='stock_minimo'></td>";
 echo "</tr>";
 
 echo "<tr><th align='left'>Codigo Barras</th>";
@@ -240,7 +244,7 @@ echo "</form>";
 			var pais = $('#cod_pais_procedencia option:selected').text(); // Obtener el texto seleccionado del select
 
 			// Concatenar los valores
-			var nuevoMaterial = medida + ' - ' + modelo + ' - ' + capacidad + ' - ' + pais;
+			var nuevoMaterial = medida + ' ' + modelo + ' ' + capacidad + ' ' + pais;
 
 			// Actualizar el valor del campo "material"
 			$('[name="material"]').val(nuevoMaterial);
