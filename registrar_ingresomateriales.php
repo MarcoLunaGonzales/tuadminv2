@@ -1,5 +1,5 @@
 <?php
-require("conexion.inc");
+require("conexionmysqli.php");
 require("estilos.inc");
 ?>
 
@@ -7,7 +7,6 @@ require("estilos.inc");
     <head>
         <title>Busqueda</title>
         <script type="text/javascript" src="lib/externos/jquery/jquery-1.4.4.min.js"></script>
-        <script type="text/javascript" src="dlcalendar.js"></script>
 <script>
 function nuevoAjax()
 {	var xmlhttp=false;
@@ -269,8 +268,7 @@ echo "</select></td>";
 echo"<th colspan='1'>Tipo de Documento: </th><th>";
 $sql1="SELECT td.codigo, td.nombre, td.abreviatura
 		FROM tipos_docs td
-		WHERE td.codigo IN (1,2)
-		LIMIT 1";
+		WHERE td.codigo IN (1,2)";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<select name='tipo_documento' id='tipo_documento' class='selectpicker' data-style='btn btn-info'>";
 while($dat1=mysqli_fetch_array($resp1))
@@ -365,8 +363,6 @@ echo "<div class='divBotones'>
 </div>";
 
 echo "</div>";
-echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
-
 ?>
 
 

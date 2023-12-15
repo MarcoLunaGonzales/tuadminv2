@@ -56,10 +56,18 @@ $serverSIAT=obtenerValorConfiguracion(7);
 		<a href="#menu"><span></span></a>
 		<?=$_COOKIE["global_empresa_nombre"];?>
 		<div style="position:absolute; width:95%; height:50px; text-align:right; top:0px; font-size: 9px; font-weight: bold; color: #fff;">
-			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]			
+			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]		<button onclick="location.href='salir.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Salir">
+				<i class="material-icons" style="font-size: 16px">logout</i>
+			</button>
 		<div>
 		<div style="position:absolute; width:95%; height:50px; text-align:left; top:0px; font-size: 12px; font-weight: bold; color: #ffff00;">
 			[<?=$nombreUsuarioSesion; ?>]&nbsp;&nbsp;&nbsp;[<?=$nombreAlmacenSesion;?>]
+			<button onclick="window.contenedorPrincipal.location.href='cambiarSucursalSesion.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Cambiar Sucursal" formtarget="contenedorPrincipal">
+				<i class="material-icons" style="font-size: 16px">swap_horiz</i>
+			</button>
+			<button onclick="window.contenedorPrincipal.location.href='editPerfil.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Cambiar Clave de Acceso" formtarget="contenedorPrincipal">
+				<i class="material-icons" style="font-size: 16px">person</i>
+			</button>
 		<div>
 	</div>
 	
@@ -76,9 +84,9 @@ $serverSIAT=obtenerValorConfiguracion(7);
 		<ul>
 			<li><span>Datos Generales</span>
 				<ul>
-					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Proveedores</a></li>
+					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Fabricantes</a></li>
 
-					<li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Materiales Serviteca</a></li>
+					<!--li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Materiales Serviteca</a></li-->
 
 					<li><span>Gestion de Productos</span>
 						<ul>
@@ -86,13 +94,14 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="navegador_grupos.php" target="contenedorPrincipal">Grupos</a></li>
 							<li><a href="pais_procedencia/list.php" target="contenedorPrincipal">Paises de Procedencia</a></li>
 							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos</a></li>
-							<li><a href="navegador_precios.php?orden=1" target="contenedorPrincipal">Precios (Orden Alfabetico)</a></li>
+							<!--li><a href="navegador_precios.php?orden=1" target="contenedorPrincipal">Precios (Orden Alfabetico)</a></li>
 							<li><a href="navegador_precios.php?orden=2" target="contenedorPrincipal">Precios (Por Linea Proveedor)</a></li>			
-							<li><a href="navegador_precios.php?orden=3" target="contenedorPrincipal">Precios (Por Grupo)</a></li>			
+							<li><a href="navegador_precios.php?orden=3" target="contenedorPrincipal">Precios (Por Grupo)</a></li-->			
 						</ul>
 					</li>
 					<li><a href="navegador_funcionarios1.php" target="contenedorPrincipal">Funcionarios</a></li>
 					<li><a href="programas/clientes/inicioClientes.php" target="contenedorPrincipal">Clientes</a></li>
+					<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
 					<li><span>Gestion de Almacenes</span>
 						<ul>
 							<li><a href="navegador_almacenes.php" target="contenedorPrincipal">Almacenes</a></li>
@@ -133,13 +142,18 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
 				</ul>	
 			</li>
+			<li><span>Gastos</span>
+				<ul>
+					<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
+					<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
+				</ul>	
+			</li>
 			<!-- Versión Antigua -->
-			<li><span>Registrar</span>
+			<!--li><span>Registrar</span>
 				<ul>
 					<li><a href="registrar_salidaventas_first.php" target='_blank'>Venta SFV</a></li>
 				</ul>	
-			</li>
-			<li><a href="rpt_op_gestion_serv.php" target="contenedorPrincipal">Gestión de Servicios</a></li>
+			</li-->
 			<!--li><span>Listado de Cobranzas</span>
 				<ul>
 					<li><a href="navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
@@ -150,16 +164,10 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="navegadorDolar.php" target="contenedorPrincipal">Cambiar Cotizacion de Dolar</a></li>
 				</ul>	
 			</li-->
-  						<!-- Versión Nueva -->
-						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
-						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
-						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
-						<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
-						<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li>
-						<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
-						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
-						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>
-						
+			<!-- Versión Nueva -->
+			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
+			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
+			
   			<!-- Nueva Sección de Pagos de Servicio por Pagar -->
 			<!-- <li><span>Obligaciones</span>
 				<ul>

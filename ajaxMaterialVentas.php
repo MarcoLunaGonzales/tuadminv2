@@ -13,7 +13,6 @@ require("conexion.inc");
 	}
 
 ?>
-
 <table border="0" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
 <tr bgcolor="#FFFFFF">
 

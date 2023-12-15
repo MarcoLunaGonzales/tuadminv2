@@ -1,7 +1,8 @@
 <?php
 
 require("../../conexion.inc");
-require("../../estilos_almacenes.inc");
+
+echo "<link rel='stylesheet' type='text/css' href='../../stilos.css'/>";
 
 $codProv   = "";
 $nomProv   = "";
@@ -13,7 +14,7 @@ $contacto  = "";
 ?>
 <center>
     <br/>
-    <h1>Adicionar Distribuidor</h1>
+    <h1>Adicionar Fabricante</h1>
     <table class="texto">
         <tr>
             <th>Codigo</th>

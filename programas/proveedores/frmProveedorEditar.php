@@ -1,7 +1,9 @@
 <?php
 
 require("../../conexion.inc");
-require("../../estilos_almacenes.inc");
+
+
+echo "<link rel='stylesheet' type='text/css' href='../../stilos.css'/>";
 
 $codProv   = $_GET["codprov"];
 $nomProv   = "";
@@ -30,7 +32,7 @@ if($nroregs==1)
 ?>
 <center>
     <br/>
-    <h1>Editar Distribuidor</h1>
+    <h1>Editar Fabricante</h1>
     <table class="texto">
         <tr>
             <th>Codigo</th>

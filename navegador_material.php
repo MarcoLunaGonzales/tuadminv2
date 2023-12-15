@@ -218,7 +218,7 @@ echo "<script language='Javascript'>
 		if($imagen=='default.png'){
 			$tamanioImagen=80;
 		}else{
-			$tamanioImagen=200;
+			$tamanioImagen=100;
 		}
 		echo "<tr><td align='center'>$indice_tabla</td><td align='center'>
 		<input type='checkbox' name='codigo' value='$codigo'></td>

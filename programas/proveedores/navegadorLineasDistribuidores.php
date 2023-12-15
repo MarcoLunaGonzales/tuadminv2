@@ -67,7 +67,6 @@
 <?php
 
 require("../../conexion.inc");
-require("../../estilos_almacenes.inc");
 require("../../funcion_nombres.php");
 echo "<link rel='stylesheet' type='text/css' href='../../stilos.css'/>";
 
@@ -77,7 +76,7 @@ $nombreProveedor=nombreProveedor($codProveedor);
 $globalAdmin=$_COOKIE["global_admin_cargo"];
 
 echo "<center>";
-echo "<h1>Lineas de Distribuidor <br> $nombreProveedor</h1>";
+echo "<br><h1>Marcas <br> $nombreProveedor</h1>";
 echo "<table class='texto'>";
 echo "<tr>";
 echo "<th>&nbsp;</th><th>Linea</th><th>Abreviatura</th><th>Procedencia</th><th>Margen de precio</th><th>Contacto 1</th>

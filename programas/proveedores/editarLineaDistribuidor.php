@@ -41,7 +41,7 @@ while($datLineas=mysqli_fetch_array($respLineas)){
 
 <center>
     <br/>
-    <h1>Editar Linea<br>Distribuidor - <?php echo $nombreProveedor;?></h1>
+    <h1>Editar Marca<br>Fabricante - <?php echo $nombreProveedor;?></h1>
     <table class="texto">
         <tr>
             <th>Nombre</th>
