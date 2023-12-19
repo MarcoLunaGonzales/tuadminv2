@@ -35,7 +35,7 @@ $resp = mysqli_query($enlaceCon,$consulta);
 	
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nro.Factura</th><th>Fecha</th><th>Tipo de Ingreso</th>
-<th>Proveedor</th>
+<th>Marca</th>
 <th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
@@ -79,7 +79,7 @@ while ($dat = mysqli_fetch_array($resp)) {
     </td>
     <td align='center'>
         <a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
-            <img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
+            <img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Marca'>
         </a>
     </td>
         <td align='center'>

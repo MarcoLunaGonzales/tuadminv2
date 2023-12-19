@@ -126,9 +126,9 @@ require("estilos_almacenes.inc");
         <table class="texto">
             <input type="hidden" id="codigo" value="<?=$form_codigo?>">
             <tr>
-                <th>Proveedor</th>
+                <th>Marca</th>
                 <th>Observaciones</th>
-                <th>Fecha Documento Proveedor</th>
+                <th>Fecha Documento Marca</th>
             </tr>
             <tr>
                 <td>

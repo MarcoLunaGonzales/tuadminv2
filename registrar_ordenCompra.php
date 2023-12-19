@@ -91,7 +91,7 @@ if($fecha=="")
 echo "<form action='' method='post'>";
 echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Orden de Compra</th></tr></table><br>";
 echo "<table border='1' class='texto' cellspacing='0' align='center' width='90%'>";
-echo "<tr><th>Nro. OC</th><th>Fecha</th><th>Proveedor</th></tr>";
+echo "<tr><th>Nro. OC</th><th>Fecha</th><th>Marca</th></tr>";
 echo "<tr>";
 $sql="select nro_orden from orden_compra order by cod_orden desc";
 $resp=mysqli_query($enlaceCon,$sql);

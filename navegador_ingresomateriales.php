@@ -74,7 +74,7 @@ function funOk(codReg,funOkConfirm)
 
 function funModif(codReg,funOkConfirm)
 {   $.get("programas/ingresos/frmModificarIngreso.php","codigo="+codReg, function(inf1) {
-        dlgAC("#pnldlgAC","Modificar Tipo de Ingreso y Proveedor",inf1,function(){
+        dlgAC("#pnldlgAC","Modificar Tipo de Ingreso y Marca",inf1,function(){
             var cad1=$("select[id=combotipoingreso]").val();
             var cad2=$("select[id=comboproveedor]").val();
             if(cad1!="" && cad2!="") {
@@ -215,7 +215,7 @@ echo "<div class='divBotones'><input type='button' value='Registrar Ingreso' nam
 echo "<div id='divCuerpo'>";
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nro.Factura</th><th>Fecha</th><th>Tipo de Ingreso</th>
-<th>Proveedor</th>
+<th>Marca</th>
 <th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
@@ -274,7 +274,7 @@ while ($dat = mysqli_fetch_array($resp)) {
 	</td>
 	<td align='center'>
 		<a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
-			<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
+			<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Marca'>
 		</a>
 	</td>
 		<td align='center'>
@@ -328,7 +328,7 @@ echo "</form>";
 				</td>
 			</tr>			
 			<tr>
-				<td>Proveedor:</td>
+				<td>Marca:</td>
 				<td>
 					<select name="ProvBusqueda" class="texto" id="provBusqueda">
 						<option value="0">Todos</option>

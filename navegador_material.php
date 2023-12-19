@@ -194,7 +194,7 @@ echo "<script language='Javascript'>
 		</div>";
 	
 	echo "<center><table class='texto'>";
-	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Proveedor</th><th>Medida</th><th>Modelo</th><th>Capacidad de Carga y<br>Código de Velocidad</th><th>País Procedencia</th><th>Imagen</th><th>Acciones</th></tr>";
+	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Proveedor</th><th>Medida</th><th>Modelo</th><th>Capacidad de Carga y<br>Código de Velocidad</th><th>País Origen</th><th>Imagen</th><th>Acciones</th></tr>";
 	
 	$indice_tabla=1;
 	while($dat=mysqli_fetch_array($resp))

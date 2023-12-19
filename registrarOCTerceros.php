@@ -183,7 +183,7 @@ $tipoCambio=mysqli_result($respDolar,0,0);
 echo "<form action='guardaOCTerceros.php' method='post' name='form1'>";
 echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Orden de Compra de Terceros</th></tr></table><br>";
 echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
-echo "<tr><th>Numero de O.C.</th><th>Fecha O.C.</th><th>Proveedor</th><th>Nro. Factura</th><th>Tipo de Pago</th><th>Monto OC Bs.</th><th>Monto OC Dolares</th></tr>";
+echo "<tr><th>Numero de O.C.</th><th>Fecha O.C.</th><th>Marca</th><th>Nro. Factura</th><th>Tipo de Pago</th><th>Monto OC Bs.</th><th>Monto OC Dolares</th></tr>";
 echo "<tr>";
 $sql="select nro_orden from orden_compra order by cod_orden desc";
 $resp=mysqli_query($enlaceCon,$sql);

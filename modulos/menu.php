@@ -36,7 +36,7 @@ switch ($_GET["cod_modulo"]) {
     <li class="nav-item">
         <a class="nav-link" href="../<?=$carpeta?>/listClientesProveedores.php" target="cuerpo">
           <i class="fas fa-fw fa-table"></i>
-          <span>Clientes y Proveedores</span></a>
+          <span>Clientes y Marcas</span></a>
     </li>
     <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -112,7 +112,7 @@ switch ($_GET["cod_modulo"]) {
             <a class="collapse-item" href="../<?=$carpeta?>/navegadorGrupos.php" target="cuerpo">Grupos</a>
             <a class="collapse-item" href="../<?=$carpeta?>/navegadorMateriales.php" target="cuerpo">Materiales</a>
             <a class="collapse-item" href="../<?=$carpeta?>/filtroCambioPreciosMateriales.php" target="cuerpo">Cambio Precio Venta Materiales</a>
-            <a class="collapse-item" href="../<?=$carpeta?>/listProveedores.php" target="cuerpo">Proveedores</a>
+            <a class="collapse-item" href="../<?=$carpeta?>/listProveedores.php" target="cuerpo">Marcas</a>
             <a class="collapse-item" href="../<?=$carpeta?>/navegadorUnidadesMedida.php" target="cuerpo">Unidades de Medida</a>
           </div>
         </div>
@@ -120,7 +120,7 @@ switch ($_GET["cod_modulo"]) {
     <li class="nav-item">
         <a class="nav-link" href="../cotizaciones/listClientesProveedores.php" target="cuerpo">
           <i class="fas fa-fw fa-table"></i>
-          <span>Clientes y Proveedores</span></a>
+          <span>Clientes y Marcas</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages2">
@@ -176,7 +176,7 @@ switch ($_GET["cod_modulo"]) {
             <a class="collapse-item" href="../<?=$carpeta?>/filtroRptKardexMovimiento.php" target="cuerpo">Kardex de Movimiento</a>
             <a class="collapse-item" href="../<?=$carpeta?>/rptStockMaterial.php" target="cuerpo">Stock de Materiales</a>
             <a class="collapse-item" href="../administracion/rptClientes.php" target="cuerpo">Reporte Clientes</a>
-            <a class="collapse-item" href="../administracion/rptProveedores.php" target="cuerpo">Reporte Proveedores</a>
+            <a class="collapse-item" href="../administracion/rptProveedores.php" target="cuerpo">Reporte Marcas</a>
           </div>
         </div>
     </li>
@@ -230,7 +230,7 @@ switch ($_GET["cod_modulo"]) {
             <a class="collapse-item" href="../<?=$carpeta?>/navegadorAlmacenes.php" target="cuerpo">Almacenes</a>
             <a class="collapse-item" href="../<?=$carpeta?>/navegadorGrupos.php" target="cuerpo">Grupos</a>
             <a class="collapse-item" href="../<?=$carpeta?>/navegadorMateriales.php" target="cuerpo">Materiales</a>
-            <a class="collapse-item" href="../<?=$carpeta?>/listProveedores.php" target="cuerpo">Proveedores</a>
+            <a class="collapse-item" href="../<?=$carpeta?>/listProveedores.php" target="cuerpo">Marcas</a>
             <a class="collapse-item" href="../<?=$carpeta?>/navegadorUnidadesMedida.php" target="cuerpo">Unidades de Medida</a>
             <a class="collapse-item" href="../<?=$carpeta?>/filtroCambioPreciosMateriales.php" target="cuerpo">Cambio Precio Venta Materiales</a>  
           </div>
@@ -286,13 +286,13 @@ switch ($_GET["cod_modulo"]) {
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages6" aria-expanded="true" aria-controls="collapsePages6">
           <i class="fas fa-fw fa-folder"></i>
-          <span>Pagos Proveedor</span>
+          <span>Pagos Marca</span>
         </a>
         <div id="collapsePages6" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white small py-2 collapse-inner rounded">
             <h6 class="collapse-header">Sub Menu</h6>
-              <a class="collapse-item" href="../<?=$carpeta?>/newPagoProveedor.php" target="cuerpo">Registro de Pago Proveedor</a>
-              <a class="collapse-item" href="../<?=$carpeta?>/listPagoProveedor.php" target="cuerpo">Lista Pago Proveedor</a>
+              <a class="collapse-item" href="../<?=$carpeta?>/newPagoProveedor.php" target="cuerpo">Registro de Pago Marca</a>
+              <a class="collapse-item" href="../<?=$carpeta?>/listPagoProveedor.php" target="cuerpo">Lista Pago Marca</a>
           </div>
         </div>
     </li>
@@ -307,7 +307,7 @@ switch ($_GET["cod_modulo"]) {
               <a class="collapse-item" href="../<?=$carpeta?>/filtroRptCuentasCobrar.php" target="cuerpo">Cuentas por Cobrar</a>
               <a class="collapse-item" href="../<?=$carpeta?>/filtroRptCotizacionesItem.php" target="cuerpo">Reporte Cotizaciones por Item</a>
               <a class="collapse-item" href="../<?=$carpeta?>/rptClientes.php" target="cuerpo">Reporte Clientes</a>
-              <a class="collapse-item" href="../<?=$carpeta?>/rptProveedores.php" target="cuerpo">Reporte Proveedores</a>
+              <a class="collapse-item" href="../<?=$carpeta?>/rptProveedores.php" target="cuerpo">Reporte Marcas</a>
           </div>
         </div>
     </li>
@@ -331,7 +331,7 @@ switch ($_GET["cod_modulo"]) {
             <h6 class="collapse-header">Sub Menu</h6>
               <a class="collapse-item" href="../<?=$carpeta?>/listCuentas.php" target="cuerpo">Cuentas</a>
               <a class="collapse-item" href="../<?=$carpeta?>/listClientesCuentas.php" target="cuerpo">Clientes</a>
-              <a class="collapse-item" href="../<?=$carpeta?>/listProveedoresCuentas.php" target="cuerpo">Proveedores</a>
+              <a class="collapse-item" href="../<?=$carpeta?>/listProveedoresCuentas.php" target="cuerpo">Marcas</a>
           </div>
         </div>
     </li>
@@ -377,13 +377,13 @@ switch ($_GET["cod_modulo"]) {
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4" aria-expanded="true" aria-controls="collapsePages4">
           <i class="fas fa-fw fa-folder"></i>
-          <span>Pagos Proveedor</span>
+          <span>Pagos Marca</span>
         </a>
         <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white small py-2 collapse-inner rounded">
             <h6 class="collapse-header">Sub Menu</h6>
-              <a class="collapse-item" href="../administracion/listPagoProveedor.php" target="cuerpo">Lista Pago Proveedor</a>
-              <a class="collapse-item" href="../administracion/newPagoProveedor.php" target="cuerpo">Registro de Pago Proveedor</a>
+              <a class="collapse-item" href="../administracion/listPagoProveedor.php" target="cuerpo">Lista Pago Marca</a>
+              <a class="collapse-item" href="../administracion/newPagoProveedor.php" target="cuerpo">Registro de Pago Marca</a>
           </div>
         </div>
     </li>
@@ -416,7 +416,7 @@ switch ($_GET["cod_modulo"]) {
                 <a class="collapse-item" href="../administracion/filtroRptCuentasCobrar.php" target="cuerpo">Cuentas por Cobrar</a>
                 <a class="collapse-item" href="../administracion/filtroRptCotizacionesItem.php" target="cuerpo">Reporte Cotizaciones por Item</a>
                 <a class="collapse-item" href="../administracion/rptClientes.php" target="cuerpo">Reporte Clientes</a>
-                <a class="collapse-item" href="../administracion/rptProveedores.php" target="cuerpo">Reporte Proveedores</a>
+                <a class="collapse-item" href="../administracion/rptProveedores.php" target="cuerpo">Reporte Marcas</a>
           </div>
         </div>
     </li> 
@@ -428,7 +428,7 @@ switch ($_GET["cod_modulo"]) {
     <li class="nav-item">
         <a class="nav-link" href="../<?=$carpeta?>/listClientesProveedores.php" target="cuerpo">
           <i class="fas fa-fw fa-table"></i>
-          <span>Clientes y Proveedores</span></a>
+          <span>Clientes y Marcas</span></a>
     </li>
      
      <li class="nav-item">
@@ -456,7 +456,7 @@ switch ($_GET["cod_modulo"]) {
             <h6 class="collapse-header">Sub Menu</h6>
                 <a class="collapse-item" href="../<?=$carpeta?>/filtroRptCotizacionesItem.php" target="cuerpo">Reporte Cotizaciones por Item</a>
                 <a class="collapse-item" href="../<?=$carpeta?>/rptClientes.php" target="cuerpo">Reporte Clientes</a>
-                <a class="collapse-item" href="../<?=$carpeta?>/rptProveedores.php" target="cuerpo">Reporte Proveedores</a>
+                <a class="collapse-item" href="../<?=$carpeta?>/rptProveedores.php" target="cuerpo">Reporte Marcas</a>
           </div>
         </div>
     </li>    

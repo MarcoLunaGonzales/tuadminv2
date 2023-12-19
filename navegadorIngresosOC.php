@@ -157,7 +157,7 @@ echo "<div class='divBotones'><input type='button' value='Generar OC' name='gene
 echo "<div id='divCuerpo'>";
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Numero Ingreso</th><th>Nota de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th>
-<th>Proveedor</th>
+<th>Marca</th>
 <th>Observaciones</th><th>&nbsp;</th></tr>";
 while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
@@ -232,7 +232,7 @@ echo "</form>";
 				</td>
 			</tr>			
 			<tr>
-				<td>Proveedor:</td>
+				<td>Marca:</td>
 				<td>
 					<select name="ProvBusqueda" class="texto" id="provBusqueda">
 						<option value="0">Todos</option>

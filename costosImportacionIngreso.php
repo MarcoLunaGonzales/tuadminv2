@@ -82,7 +82,7 @@ while ($dat = mysqli_fetch_array($resp)) {
 ?>
 <h1>Asociar  Items de Importacion a Ingreso</h1>
 	<table border='0' class='texto' align='center'>
-	<tr><th>Nro. de Ingreso</th><th>Proveedor</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Observaciones</th></tr>
+	<tr><th>Nro. de Ingreso</th><th>Marca</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Observaciones</th></tr>
 
 	<tr><td align='center'><?=$nro_correlativo;?></td>
 	<td ><?=$proveedor;?></td>

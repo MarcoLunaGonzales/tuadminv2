@@ -10,7 +10,7 @@
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><th>Detalle de OC</th></tr></table></center><br>";
 	echo "<table border='1' class='texto' cellspacing='0' width='70%' align='center'>";
-	echo "<tr><th>Nro. de OC</th><th>Fecha</th><th>Proveedor</th><th>Tipo Pago</th><th>Observaciones</th></tr>";
+	echo "<tr><th>Nro. de OC</th><th>Fecha</th><th>Marca</th><th>Tipo Pago</th><th>Observaciones</th></tr>";
 	$dat=mysqli_fetch_array($resp);
 	$codigo=$dat[0];
 	$fecha_ingreso=$dat[1];

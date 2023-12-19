@@ -2,7 +2,7 @@
 <body>
 <table align='center' class="texto">
 <tr>
-<th>Marca</th><th>Procedencia</th><th>Producto</th><th>Stock</th><th>Precio</th>
+<th>Marca</th><th>País de Origen</th><th>Producto</th><th>Stock</th><th>Precio</th>
 </tr>
 <?php
 require("conexion.inc");

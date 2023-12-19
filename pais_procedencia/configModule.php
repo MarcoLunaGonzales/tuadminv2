@@ -1,7 +1,7 @@
 <?php
 $table="pais_procedencia";
-$moduleNameSingular="Paises de Procedencia";
-$moduleNamePlural="Pais de Procedencia";
+$moduleNameSingular="Países de Origen";
+$moduleNamePlural="País de Origen";
 
 
 $urlList="pais_procedencia/list.php";

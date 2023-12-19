@@ -45,7 +45,7 @@ $fecha_rptdefault=date("d/m/Y");
             </td>
         </tr>
         <tr>
-            <th align='left'>Proveedor</th>
+            <th align='left'>Marca</th>
             <td>
                 <select name='rpt_proveedor' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
                     <option value='0'>Todos</option>

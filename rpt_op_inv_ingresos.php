@@ -79,7 +79,7 @@ echo"<form method='post' action='rpt_inv_ingresos.php' target='_blank'>";
 	}
 	echo "</select></td>";
 	
-	echo "<tr><th align='left'>Proveedor</th>";
+	echo "<tr><th align='left'>Marca</th>";
 	$sqlProveedor="select cod_proveedor, nombre_proveedor from proveedores order by 2";
 	//echo $sql_tipoingreso;
 	$respProveedor=mysqli_query($enlaceCon,$sqlProveedor);

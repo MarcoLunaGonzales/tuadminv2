@@ -90,7 +90,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 
 	echo "<br><center><table class='texto'>";
 
-	echo "<tr><th>&nbsp;</th><th>Nro. Pago</th><th>Proveedor</th>
+	echo "<tr><th>&nbsp;</th><th>Nro. Pago</th><th>Marca</th>
 		<th>Fecha</th><th>Nro. Doc</th><th>Monto</th><th>Observaciones</th></tr>";
 	
 	$consulta = "select p.cod_pago, p.fecha_pago, p.nro_doc, p.observaciones, p.monto_pago, 

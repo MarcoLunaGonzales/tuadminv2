@@ -101,7 +101,7 @@ echo "<td align='left'>
 	<input type='text' class='texto' name='capacidad_carga_velocidad' id='capacidad_carga_velocidad'>
 	</td></tr>";
 	
-echo "<tr><th>Pais Procedencia</th>";
+echo "<tr><th>País de Origen</th>";
 $sql1="SELECT p.codigo, p.nombre, p.abreviatura from pais_procedencia p order by 1;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
@@ -111,7 +111,7 @@ echo "<td>
 			{	$codPaisProcedencia=$dat1[0];
 				$nombrePaisProcedencia=$dat1[1];
 				$abreviaturaPaisProcedencia=$dat1[2];
-				echo "<option value='$codPaisProcedencia'>$nombrePaisProcedencia $abreviaturaPaisProcedencia</option>";
+				echo "<option value='$codPaisProcedencia' data-abrev='$abreviaturaPaisProcedencia'>$nombrePaisProcedencia $abreviaturaPaisProcedencia</option>";
 			}
 			echo "</select>
 </td>";
@@ -241,7 +241,7 @@ echo "</form>";
 			var medida = $('#medida').val();
 			var modelo = $('#modelo').val();
 			var capacidad = $('#capacidad_carga_velocidad').val();
-			var pais = $('#cod_pais_procedencia option:selected').text(); // Obtener el texto seleccionado del select
+			var pais = $('#cod_pais_procedencia option:selected').data('abrev'); // Obtener el texto seleccionado del select
 
 			// Concatenar los valores
 			var nuevoMaterial = medida + ' ' + modelo + ' ' + capacidad + ' ' + pais;

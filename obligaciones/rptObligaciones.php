@@ -46,7 +46,7 @@ echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='10
 <th width='7%'>Nro.Cob</th>
 <th width='7%'>Doc.Cob</th>
 <th width='15%'>Fecha</th>
-<th width='20%'>Proveedor</th>
+<th width='20%'>Marca</th>
 <th width='10%'>Nro. Orden</th>
 <th width='10%'>Nro. Doc.</th>
 <th width='30%'>Observaciones</th>

@@ -528,6 +528,7 @@ function verificarDeudaCliente(cod_cliente) {
 			if (response.status) {
 				alert(response.message);
 				$('#tipoVenta').trigger('change').val(1);
+				$('#tipo').trigger('change').val(1);
 				// console.log(response)
 			}
 		},
@@ -538,12 +539,19 @@ function verificarDeudaCliente(cod_cliente) {
 	});
 }
 
-async function validar(f, ventaDebajoCosto){
+function validar(f, ventaDebajoCosto){
 	// Si el tipo pago es CREDITO y no se seleccionó clietne no se termina el proceso
 	let tipo_pago = $('#tipoVenta').val();
 	if(tipo_pago == 4 && ($('#cliente').val() == 146 || $('#cliente').val() == '')){
-		alert("Debe seleccionar un cliente");
-		return false;
+		Swal.fire({
+			text: "Ups! Debe seleccionar un cliente",
+			type: "error",
+			position: "top",
+			toast:true,
+			showConfirmButton: false,
+			timer: 3000
+		});
+		return(false);
 	} 
 
 	//alert(ventaDebajoCosto);
@@ -1028,15 +1036,18 @@ $(document).ready(function() {
 			var index = $(element).val();
 			obtienePrecioProducto(index);
 		});
-		total();
-		$('#tipoVenta').select2(); // Inicializa Select2 si no lo has hecho
+		totales();
 		// TipoVenta
 		if($(this).val() == 1){
-			$('#tipoVenta').val(1).trigger('change.select2');
+			$('#tipoVenta').trigger('change').val(1);
 		}else if($(this).val() == 2){
-			$('#tipoVenta').val(4).trigger('change.select2');
+			console.log('credito')
+			$('#tipoVenta').trigger('change').val(4);
+			verificarDeudaCliente($('#cliente').val());
 		}
+		$("#tipoVenta").selectpicker('refresh');
 	});
+
 
 </script>
 

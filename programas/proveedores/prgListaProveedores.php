@@ -9,7 +9,7 @@ echo "<center>";
 echo "<h1>Fabricantes</h1>";
 echo "<table class='texto'>";
 echo "<tr>";
-echo "<th>&nbsp;</th><th>Nombre</th><th>Direccion</th><th>Telefono 1</th><th>Telefono 2</th><th>Contacto</th><th>Tipo Proveedor</th><th>Marcas</th>";
+echo "<th>&nbsp;</th><th>Nombre</th><th>Direccion</th><th>Telefono 1</th><th>Telefono 2</th><th>Contacto</th><th>Tipo Marca</th><th>Marcas</th>";
 echo "</tr>";
 $consulta="SELECT p.cod_proveedor, p.nombre_proveedor, p.direccion, p.telefono1, p.telefono2, p.contacto, tp.nombre as tipo_proveedor
     FROM proveedores AS p

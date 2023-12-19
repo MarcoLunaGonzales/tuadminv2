@@ -48,7 +48,7 @@ echo "<h1>Reporte Ingresos Almacen</h1>
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><br><table class='texto' width='100%'>";
 	echo "<tr class='textomini'><th>Nro.</th><th>Nota de Entrega</th><th>Fecha</th><th>Tipo de Ingreso</th>
-	<th>Proveedor</th><th>Observaciones</th><th>Estado</th>
+	<th>Marca</th><th>Observaciones</th><th>Estado</th>
 		<th>CodInterno</th><th>Material</th><th>Cantidad</th><th>CUnit</th><th>CItem</th>
 	</th></tr>";
 	$costoTotal=0;

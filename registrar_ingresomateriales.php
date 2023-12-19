@@ -233,7 +233,7 @@ echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Ingres
 // echo "</select></td>";
 // echo "<td align='center'><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required></td></tr>";
 
-// echo "<tr><th>Proveedor</th>";
+// echo "<tr><th>Marca</th>";
 // echo "<th colspan='3'>Observaciones</th></tr>";
 // $sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
 // $resp1=mysqli_query($enlaceCon,$sql1);
@@ -282,7 +282,7 @@ echo "<th>Nro. Documento: </th>
 	<th><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required>
 	</th></tr>";
 
-echo "<tr><th>Proveedor/Distribuidor:</th>";
+echo "<tr><th>Marca/Distribuidor:</th>";
 $sql1="SELECT p.cod_proveedor, p.nombre_proveedor
 		FROM proveedores p 
 		ORDER BY 2";
@@ -318,7 +318,7 @@ while($dat1=mysqli_fetch_array($resp1))
 echo "</select></th>";
 
 echo "<th colspan='1'>Días de Credito: <input type='number' class='texto' name='dias_credito' id='dias_credito' min='0' max='180' readonly></th>
-<th colspan='1'>Fecha Documento Proveedor: <input type='date' class='texto' name='fecha_factura_proveedor' id='fecha_factura_proveedor' ".(($banderaCamposEscondidos == 1) ? 'readonly' : '')."></th>";
+<th colspan='1'>Fecha Documento Marca: <input type='date' class='texto' name='fecha_factura_proveedor' id='fecha_factura_proveedor' ".(($banderaCamposEscondidos == 1) ? 'readonly' : '')."></th>";
 
 echo "<th colspan='1'>Observaciones:</th>
 	<th colspan='1'><textarea class='texto' name='observaciones' value='$observaciones' size='20'></textarea></th>";

@@ -126,7 +126,7 @@ require('home_almacen.php');
 		</div>";
 
 	echo "<br><center><table class='texto'>";
-echo "<tr><th>&nbsp;</th><th>Nro. OC</th><th>Proveedor</th><th>Tipo de Pago</th><th>Fecha</th><th>Observaciones</th>
+echo "<tr><th>&nbsp;</th><th>Nro. OC</th><th>Marca</th><th>Tipo de Pago</th><th>Fecha</th><th>Observaciones</th>
 <th>Estado</th><th>Nro Documento</th><th>Monto OC Bs.</th><th>&nbsp;</th></tr>";
 while ($dat = mysqli_fetch_array($resp)) {
     $nroOC = $dat[0];

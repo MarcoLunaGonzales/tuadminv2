@@ -62,7 +62,7 @@ function validar(f)
 	var monto;
 	var nroDoc;
 	if(codProveedor==0){
-		alert("Debe seleccionar un Proveedor");
+		alert("Debe seleccionar un Marca");
 	}else{
 		if(numRegistros>0){
 			for(var i=1; i<=numRegistros; i++){
@@ -91,7 +91,7 @@ require("estilos_almacenes.inc");
 <h3 align="center">Registrar Pagos</h3>
 
 <table border='0' class='texto' cellspacing='0' align='center' width='80%' style='border:#ccc 1px solid;'>
-<tr><th>Proveedor</th><th>Fecha Pago</th><th>Observaciones</th></tr>
+<tr><th>Marca</th><th>Fecha Pago</th><th>Observaciones</th></tr>
 <?php
 $sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
 $resp1=mysqli_query($enlaceCon,$sql1);

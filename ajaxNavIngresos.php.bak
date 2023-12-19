@@ -13,7 +13,7 @@ $fechaFinBusqueda=formateaFechaVista($fechaFinBusqueda);
 
 echo "<center><table class='texto' width='100%'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nota de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th>
-<th>Proveedor</th>
+<th>Marca</th>
 <th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 	
 //
@@ -75,7 +75,7 @@ while ($dat = mysqli_fetch_array($resp)) {
 	<img src='imagenes/detalles.png' border='0' title='Ver Detalles del Ingreso' width='40'></a></td>
 	<td align='center'>
 		<a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
-		<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
+		<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Marca'>
 		</a>
 	</td>
 	</tr>";

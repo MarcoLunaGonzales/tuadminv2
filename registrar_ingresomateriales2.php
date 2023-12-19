@@ -206,7 +206,7 @@ while($dat1=mysqli_fetch_array($resp1))
 echo "</select></td>";
 echo "<td align='center'><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required></td></tr>";
 
-echo "<tr><th>Proveedor</th>";
+echo "<tr><th>Marca</th>";
 echo "<th colspan='3'>Observaciones</th></tr>";
 $sql1="select cod_proveedor, nombre_proveedor from proveedores order by 2";
 $resp1=mysqli_query($enlaceCon,$sql1);

@@ -36,7 +36,7 @@ if($nroregs==1)
     <table class="texto">
         <tr>
             <th>Codigo</th>
-            <th>Proveedor</th>
+            <th>Marca</th>
             <th>Direccion</th>
         </tr>
         <tr>
@@ -55,7 +55,7 @@ if($nroregs==1)
             <td><input type="text" id="contacto" value="<?php echo "$contacto"; ?>"/></td>
         </tr>
         <tr>
-            <th>Tipo Proveedor</th>
+            <th>Tipo Marca</th>
             <th colspan="2"></th>  
         </tr>
         <tr>

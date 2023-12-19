@@ -37,7 +37,7 @@ $contacto  = "";
             <td><input type="text" id="contacto" value="<?php echo "$contacto"; ?>"/></td>
         </tr>
         <tr>
-            <th>Tipo Proveedor</th>
+            <th>Tipo Marca</th>
             <th colspan="2"></th>  
         </tr>
         <tr>

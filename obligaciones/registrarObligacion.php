@@ -100,7 +100,7 @@ function solonumeros(e)
 <h3 align="center">Registrar Pagos</h3>
 
 <table border='0' class='texto' cellspacing='0' align='center' width='80%' style='border:#ccc 1px solid;'>
-<tr><th>Proveedor</th><th>Fecha Pago</th><th>Observaciones</th></tr>
+<tr><th>Marca</th><th>Fecha Pago</th><th>Observaciones</th></tr>
 <?php
 $sql1="SELECT cod_proveedor, nombre_proveedor from proveedores order by 2";
 $resp1=mysqli_query($enlaceCon, $sql1);

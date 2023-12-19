@@ -91,9 +91,9 @@ require("estilos_almacenes.inc");
         <h1>Registrar - Servicios por Pagar</h1>
         <table class="texto">
             <tr>
-                <th>Proveedor</th>
+                <th>Marca</th>
                 <th>Observaciones</th>
-                <th>Fecha Documento Proveedor</th>
+                <th>Fecha Documento Marca</th>
             </tr>
             <tr>
                 <td>

@@ -14,7 +14,7 @@
 	echo "<center><table border='0' class='textotit'><tr><td>Reporte de Ordenes de Compra por Pagar</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='80%' id='main'>";
 	echo "<tr><th>Nro. Documento</th>
-	<th>Proveedor</th>
+	<th>Marca</th>
 	<th>Fecha OC</th>
 	<th>Saldo Bs.</th>
 	<th>Saldo Dolar</th>

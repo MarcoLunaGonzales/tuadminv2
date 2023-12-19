@@ -76,7 +76,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 		<ul>
 			<!--li><span>Datos Generales</span>
 				<ul>
-					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Proveedores</a></li>
+					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Marcas</a></li>
 
 					<li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Materiales Serviteca</a></li>
 
@@ -86,7 +86,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="navegador_grupos.php" target="contenedorPrincipal">Grupos</a></li>
 							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos</a></li>
 							<li><a href="navegador_precios.php?orden=1" target="contenedorPrincipal">Precios (Orden Alfabetico)</a></li>
-							<li><a href="navegador_precios.php?orden=2" target="contenedorPrincipal">Precios (Por Linea Proveedor)</a></li>			
+							<li><a href="navegador_precios.php?orden=2" target="contenedorPrincipal">Precios (Por Linea Marca)</a></li>			
 							<li><a href="navegador_precios.php?orden=3" target="contenedorPrincipal">Precios (Por Grupo)</a></li>			
 						</ul>
 					</li>

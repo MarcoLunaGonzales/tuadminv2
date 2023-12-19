@@ -62,7 +62,7 @@ echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='10
 <tr>
 <th>N.R.</th>
 <th>Fecha</th>
-<th>Proveedor</th>
+<th>Marca</th>
 <th>MontoVenta</th>
 <th>A Cuenta</th>
 <th>Saldo</th>

@@ -29,7 +29,9 @@ $tipoDocumento=empty($_POST["tipo_documento"])?'':$_POST["tipo_documento"];
 
 $observaciones=empty($_POST["observaciones"])?'':$_POST["observaciones"];
 
-$tipoVenta=empty($_POST["tipoVenta"])?'':$_POST["tipoVenta"];
+$tipoVenta = empty($_POST["tipo"])?'':$_POST["tipo"]; 			// Tipo de Venta
+$tipoPago  = empty($_POST["tipoVenta"])?'':$_POST["tipoVenta"]; // Tipo de Pago
+
 $almacenOrigen=$global_almacen;
 
 $totalVenta=empty($_POST["totalVenta"])?'':$_POST["totalVenta"];
@@ -140,7 +142,7 @@ if($tipoDoc == 1){ // Tipo de Emisión Factura
 		"usuario" 			=> $nombreVendedor,
 		"nitCliente" 		=> $nitCliente,
 		"nombreFactura" 	=> $razonSocial,
-		"tipoPago" 			=> $tipoVenta,
+		"tipoPago" 			=> $tipoPago,
 		"nroTarjeta" 		=> $nroTarjeta,
 		"tipoDocumento" 	   => $tipoDocumento,
 		"complementoDocumento" => $complemento,
@@ -241,9 +243,9 @@ if($tipoDoc <> 1){
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta)
+		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta','$idTransaccion_siat','$nroTarjeta')";
+		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta')";
 
 //echo $sql_inserta;
 

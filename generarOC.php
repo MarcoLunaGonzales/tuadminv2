@@ -136,7 +136,7 @@ function validar(f){
 	
 	echo "<center><table border='0' class='textotit'><tr><th>Generar OC</th></tr></table></center><br>";
 	echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
-	echo "<tr><th>Numero de O.C.</th><th>Fecha OC</th><th>Proveedor</th><th>Nro. Factura</th><th>Tipo de Pago</th><th>Orden Propia</th></tr>";
+	echo "<tr><th>Numero de O.C.</th><th>Fecha OC</th><th>Marca</th><th>Nro. Factura</th><th>Tipo de Pago</th><th>Orden Propia</th></tr>";
 	echo "<tr>";
 	$sql="select nro_orden from orden_compra order by cod_orden desc";
 	$resp=mysqli_query($enlaceCon,$sql);

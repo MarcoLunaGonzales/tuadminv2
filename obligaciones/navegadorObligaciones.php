@@ -114,7 +114,7 @@ function anular_pago(f)
             <tr>
                 <th>#</th>
                 <th>Nro. Doc. Pago</th>
-                <th>Proveedor</th>
+                <th>Marca</th>
                 <th>Fecha</th>
                 <th>Monto</th>
                 <th>Observaciones</th>

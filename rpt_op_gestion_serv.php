@@ -20,7 +20,7 @@
 		<table cellspacing="0" class="texto">
 			<tr>
 				<th>Nro. Correlativo</th>
-				<th>Proveedor</th>
+				<th>Marca</th>
 				<th>Fecha</th>
 				<th>Observaciones</th>
 				<th>Nro. Documento</th>

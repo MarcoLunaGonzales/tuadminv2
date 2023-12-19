@@ -39,7 +39,7 @@ $resp2=mysqli_query($enlaceCon,$sql2);
 				</td>
 			</tr>
             <tr>
-				<td>Proveedor:</td>
+				<td>Marca:</td>
 				<td>
 					<select name='comboproveedor' id='comboproveedor' class='texto'>
 					<?php
