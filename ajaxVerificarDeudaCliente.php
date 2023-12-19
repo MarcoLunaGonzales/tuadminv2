@@ -25,7 +25,7 @@
 
         echo json_encode(array(
             'status'  => $credito_expirado ? true : false,
-            'message' => $credito_expirado ? 'El cliente tiene deuda pendiente' : 'El cliente no tiene deuda pendiente'
+            'message' => $credito_expirado ? 'El cliente tiene deuda una pendiente' : 'El cliente no tiene deuda pendiente'
         ));
     } catch (Exception $e) {
         echo json_encode(array(
