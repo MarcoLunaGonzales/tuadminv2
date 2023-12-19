@@ -21,8 +21,8 @@ echo "<tr><th align='left'>Nombre</th>";
 echo "<input type='hidden' name='codigo' value='$codigo_registro'>";
 echo "<td align='left'><input type='text' class='texto' name='nombre' value='$nombre' size='30' onKeyUp='javascript:this.value=this.value.toUpperCase();' required></td></tr>";
 
-echo "<tr><th align='left'>Descuento</th>";
-echo "<td align='left'><input type='number' class='texto' name='abreviatura' value='$abreviatura' size='20' required></td></tr>";
+echo "<tr><th align='left'>Abreviatura</th>";
+echo "<td align='left'><input type='text' class='texto' name='abreviatura' value='$abreviatura' size='20' required></td></tr>";
 
 echo "</table>";
 
