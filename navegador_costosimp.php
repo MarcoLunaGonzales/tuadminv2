@@ -129,10 +129,10 @@ $fechaHoy=date("d/m/Y");
 		}
 	}
 	//////
+	$usuMod ="";
 	if(!empty($modified_by)){
 		$sqlModUsu=" select nombres,paterno  from funcionarios where codigo_funcionario=".$modified_by;
 		$respModUsu=mysqli_query($enlaceCon,$sqlModUsu);
-		$usuMod ="";
 		while($datModUsu=mysqli_fetch_array($respModUsu)){
 			$usuMod =$datModUsu['nombres'][0].$datModUsu['paterno'];		
 		}
@@ -155,7 +155,7 @@ $fechaHoy=date("d/m/Y");
 		<td align='left'><?=$codCostoimp;?></td>
 		<td align='left'><?=$nombreCostoimp;?></td>
 			<td><?=$usuReg;?><br><?=$created_date_mostrar;?></td>
-	<td><?=$usuMod;?><br><?=$modified_date_mostrar;?></td>
+		<td><?=$usuMod;?><br><?=$modified_date_mostrar;?></td>
 		<td align='left' bgcolor='<?=$color_fondo;?>'>&nbsp;</td>
 		</tr>
 <?php		

@@ -14,9 +14,9 @@ echo "<tr><th align='left'>Nombre</th>";
 echo "<td align='left'>
 	<input type='text' class='texto' name='nombre' size='40' onKeyUp='javascript:this.value=this.value.toUpperCase();' required>
 </td>";
-echo "<tr><th align='left'>Descuento</th>";
+echo "<tr><th align='left'>Abreviatura</th>";
 echo "<td align='left'>
-	<input type='number' class='texto' name='abreviatura' size='30' required>
+	<input type='text' class='texto' name='abreviatura' size='30' required>
 </td>";
 echo "</tr>";
 echo "</table></center>";
