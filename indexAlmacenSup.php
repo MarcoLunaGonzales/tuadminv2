@@ -56,10 +56,19 @@ $serverSIAT=obtenerValorConfiguracion(7);
 		<a href="#menu"><span></span></a>
 		<?=$_COOKIE["global_empresa_nombre"];?>
 		<div style="position:absolute; width:95%; height:50px; text-align:right; top:0px; font-size: 9px; font-weight: bold; color: #fff;">
-			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]			
+			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]
+			<button onclick="location.href='salir.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Salir">
+				<i class="material-icons" style="font-size: 16px">logout</i>
+			</button>	
 		<div>
 		<div style="position:absolute; width:95%; height:50px; text-align:left; top:0px; font-size: 12px; font-weight: bold; color: #ffff00;">
 			[<?=$nombreUsuarioSesion; ?>]&nbsp;&nbsp;&nbsp;[<?=$nombreAlmacenSesion;?>]
+			<button onclick="window.contenedorPrincipal.location.href='cambiarSucursalSesion.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Cambiar Sucursal" formtarget="contenedorPrincipal">
+				<i class="material-icons" style="font-size: 16px">swap_horiz</i>
+			</button>
+			<button onclick="window.contenedorPrincipal.location.href='editPerfil.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Cambiar Clave de Acceso" formtarget="contenedorPrincipal">
+				<i class="material-icons" style="font-size: 16px">person</i>
+			</button>
 		<div>
 	</div>
 	
@@ -74,20 +83,18 @@ $serverSIAT=obtenerValorConfiguracion(7);
 		<div id="panel-menu">
 		
 		<ul>
-			<!--li><span>Datos Generales</span>
+			<li><span>Datos Generales</span>
 				<ul>
 					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Proveedores</a></li>
 
-					<li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Materiales Serviteca</a></li>
+					<!--li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Materiales Serviteca</a></li-->
 
 					<li><span>Gestion de Productos</span>
 						<ul>
 							<li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li>
 							<li><a href="navegador_grupos.php" target="contenedorPrincipal">Grupos</a></li>
-							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos</a></li>
-							<li><a href="navegador_precios.php?orden=1" target="contenedorPrincipal">Precios (Orden Alfabetico)</a></li>
-							<li><a href="navegador_precios.php?orden=2" target="contenedorPrincipal">Precios (Por Linea Proveedor)</a></li>			
-							<li><a href="navegador_precios.php?orden=3" target="contenedorPrincipal">Precios (Por Grupo)</a></li>			
+							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos Serviteca</a></li>
+							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos Cafeteria</a></li>			
 						</ul>
 					</li>
 					<li><a href="navegador_funcionarios1.php" target="contenedorPrincipal">Funcionarios</a></li>
@@ -101,7 +108,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						</ul>	
 					</li>					
 				</ul>	
-			</li-->
+			</li>
 
 			<!--li><span>Ordenes de Compra</span>
 				<ul>
@@ -114,7 +121,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			<li><span>Ingresos</span>
 				<ul>
 					<li><a href="navegador_ingresomateriales.php" target="contenedorPrincipal">Ingreso de Materiales</a></li>
-					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Materiales en Transito</a></li>
+					<!--li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Materiales en Transito</a></li-->
 					<li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li>
 				</ul>	
 			</li>
@@ -122,7 +129,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				<ul>
 					<li><a href="navegador_salidamateriales.php" target="contenedorPrincipal">Listado de Traspasos</a></li>
 					<li><a href="navegadorVentas.php" target="contenedorPrincipal">Listado de Ventas</a></li>
-					<li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li>
+					<!--li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li-->
 				</ul>	
 			</li>
 			<li><span>SIAT</span>
@@ -133,11 +140,12 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				</ul>	
 			</li>
 			<!-- Versión Antigua -->
-			<li><span>Registrar</span>
+			<!--li><span>Registrar</span>
 				<ul>
 					<li><a href="registrar_salidaventas_first.php" target='_blank'>Venta SFV</a></li>
 				</ul>	
 			</li>
+			<li><a href="rpt_op_gestion_serv.php" target="contenedorPrincipal">Gestión de Servicios</a></li-->
 			<!--li><span>Listado de Cobranzas</span>
 				<ul>
 					<li><a href="navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
@@ -149,15 +157,42 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				</ul>	
 			</li-->
   						<!-- Versión Nueva -->
-						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
-						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
-						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
-						<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
-						<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li>
-						<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
-						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
-						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>
+			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
+			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 						
+  			<!-- Nueva Sección de Pagos de Servicio por Pagar -->
+			<!-- <li><span>Obligaciones</span>
+				<ul>
+					<li><a href="obligaciones/navegadorObligaciones.php" target="contenedorPrincipal">Listado de Obligaciones</a></li>
+					<li><a href="obligaciones/rptOpObligaciones.php" target="contenedorPrincipal">Reporte de Pagos</a></li>
+					<li><a href="obligaciones/rptOpObligacionesPagar.php" target="contenedorPrincipal">Reporte Obligaciones x Pagar</a></li>
+				</ul>	
+			</li> -->
+				
+			<li><span>Gastos/Cobros/Obligaciones</span>
+				<ul>
+					<li><span>Gastos</span>
+						<ul>
+							<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
+							<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte Detallado de Gastos</a></li>
+						</ul>	
+					</li>
+					<li><span>Cobranzas</span>
+						<ul>
+							<li><a href="cobranzas/navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
+							<li><a href="cobranzas/rptOpCobranzas.php" target="contenedorPrincipal">Reporte de Cobros</a></li>
+							<li><a href="cobranzas/rptOpCuentasCobrar.php" target="contenedorPrincipal">Reporte Cuentas x Cobrar</a></li>
+						</ul>	
+					</li>	
+					<li><span>Obligaciones</span>
+						<ul>
+							<li><a href="obligaciones/navegadorObligaciones.php" target="contenedorPrincipal">Listado de Obligaciones</a></li>
+							<li><a href="obligaciones/rptOpObligaciones.php" target="contenedorPrincipal">Reporte de Pagos</a></li>
+							<li><a href="obligaciones/rptOpObligacionesPagar.php" target="contenedorPrincipal">Reporte Obligaciones x Pagar</a></li>
+						</ul>	
+					</li>
+				</ul>	
+			</li>
 
 			<li><span>Reportes</span>
 				<ul>
@@ -194,6 +229,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Item</a></li>
 							<li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento e Item</a></li>
 							<li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor</a></li>
+							<li><a href="rptOpVentasSucursalTipoPago.php" target="contenedorPrincipal">Ventas x Sucursal y Tipo de Pago</a></li>
 							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li>
 						</ul>	
 					</li>
@@ -224,6 +260,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			<li><span>Utilitarios</span>
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>
+					<li><a href="reprocesarcostos.php" target="_blank">Reprocesar Costos</a></li>
 				</ul>
 			</li>	
 		</div>	
