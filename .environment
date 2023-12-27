@@ -5,7 +5,7 @@ DATABASE_ENCODING = utf8
 [ parametros de conexion bd mysql ]
 DATABASE_HOST = localhost
 DATABASE_PORT = 3306
-DATABASE_NAME = maitkava
+DATABASE_NAME = serviteca_tiendasiat
 DATABASE_USER = root
 DATABASE_PASSWORD = 
 DATABASE_DESCRIPTION = DB LOCAL
