@@ -89,18 +89,31 @@ while($datos=mysql_fetch_array($resp)){
 	
 	$observacionesNota=$datos[13];
 	
+
 	$descuentoAdiProducto=0;
 	if($descuentoVenta>0){
 		$porcentajeVentaProd=($montoVenta/$montoNota);
 		$descuentoAdiProducto=($descuentoVenta*$porcentajeVentaProd);
 		$montoVenta=$montoVenta-$descuentoAdiProducto;
 	}
+
+	//VALIDACION CUANDO EL COSTO ES 0
+	$txtFondo="";
+	if($costoUnitario==0){
+		$montoNota=0;
+		$descuentoVenta=0;
+		$utilidad=0;
+		$montoVenta=0;
+		$precioUnitario=0;
+		$txtFondo="textopequenorojo";
+	}
 	
+
 	$descuentoAdiProductoF=number_format($descuentoAdiProducto,2,".",",");
 	
 	$montoPtr=number_format($montoVenta,2,".",",");
 	$cantidadFormat=number_format($cantidad,2,".",",");
-	
+
 	$totalCosto=$totalCosto+$montoCosto;
 	$montoCostoFormat=number_format($montoCosto,2,".",",");
 	
@@ -108,7 +121,9 @@ while($datos=mysql_fetch_array($resp)){
 	$utilidadFormat=number_format($utilidad,2,".",",");
 	
 	$totalVenta=$totalVenta+$montoVenta;
-	echo "<tr>
+
+
+	echo "<tr class='$txtFondo'>
 	<td>$fecha</td>
 	<td>$nroNota</td>
 	<td>$nombreCliente</td>
