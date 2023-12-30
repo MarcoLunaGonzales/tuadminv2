@@ -59,6 +59,13 @@ if ($num_filas != 0) {
 
 	setcookie("global_almacen",$global_almacen);
 	setcookie("globalGestion", $globalGestion);
+
+	// Tipo de ITEM
+	$sql_almacen = "SELECT cod_ciudad, descripcion, tipo FROM ciudades WHERE cod_ciudad = '$cod_ciudad'";
+	$resp_almacen = mysqli_query($enlaceCon, $sql_almacen);
+	$tipoItem = ($dat_almacen = mysqli_fetch_array($resp_almacen)) ? $dat_almacen['tipo'] : 0;
+	setcookie("global_tipoItem", $tipoItem);
+
 	
 	if($cod_cargo==1000){//ADMINISTRADORES
 		header("location:indexGerencia.php");

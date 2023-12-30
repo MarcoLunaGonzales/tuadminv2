@@ -15,7 +15,7 @@
 	$globalAlmacen=$_COOKIE['global_almacen'];
 	$lineaDistribuidor=$_GET['linea'];
 	
-	echo "<h1>Ajuste de Stocks x Linea de Distribuidor</h1>";
+	echo "<h1>Ajuste de Stocks x Linea/Marca de Proveedor</h1>";
 
 	echo "<form method='post' action='guardarAjusteStocks.php'>";
 
@@ -33,7 +33,7 @@
 		
 	echo "<center><table class='texto'>";
 	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Codigo Interno</th><th>Nombre Producto</th>
-		<th>Cant.Presentacion</th><th>Linea Distribuidor</th><th>Stock</th><th>Stock Ajustado</th></tr>";
+		<th>Cant.Presentacion</th><th>Linea/Marca Proveedor</th><th>Stock</th><th>Stock Ajustado</th></tr>";
 	
 	$indice_tabla=1;
 	while($dat=mysqli_fetch_array($resp))

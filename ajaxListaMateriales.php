@@ -2,7 +2,7 @@
 <body>
 <table align='center' class="texto">
 <tr>
-<th>Linea</th><th>CodInterno</th><th>Producto</th><th>Stock</th><th>Precio</th>
+<th>Linea/Marca</th><th>CodInterno</th><th>Producto</th><th>Stock</th><th>Precio</th>
 </tr>
 <?php
 require("conexion.inc");
@@ -14,13 +14,18 @@ $codInterno=$_GET['codInterno'];
 $globalAlmacen=$_COOKIE['global_almacen'];
 $itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $globalAgencia=$_COOKIE["global_agencia"];
+$global_tipoItem = $_COOKIE['global_tipoItem'];
 
 $soloStock = $_GET["stock"];
 
 
-	$sql="select m.codigo_material, m.descripcion_material,
+	$sql="SELECT m.codigo_material, m.descripcion_material,
 	(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor) 
-	, m.codigo_anterior  from material_apoyo m where estado=1 and m.codigo_material not in ($itemsNoUtilizar)";
+	, m.codigo_anterior  
+		from material_apoyo m 
+		where estado=1
+		AND m.cod_tipomaterial = '$global_tipoItem' 
+		and m.codigo_material not in ($itemsNoUtilizar)";
 	if($nombreItem!=""){
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
 	}

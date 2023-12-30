@@ -19,7 +19,7 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
-echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Detallado de Ventas por Linea e Item
+echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Detallado de Ventas por Linea/Marca e Item
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 	
@@ -39,7 +39,7 @@ $resp=mysqli_query($enlaceCon,$sql);
 echo "<br><table align='center' class='texto' width='100%'>
 <tr>
 <th>Documento</th>
-<th>Linea</th>
+<th>Linea/Marca</th>
 <th>CodigoInterno</th>
 <th>Item</th>
 <th>Cantidad</th>

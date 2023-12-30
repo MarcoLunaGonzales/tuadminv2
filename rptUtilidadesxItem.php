@@ -24,7 +24,7 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
-echo "<h1>Ranking de Utilidades x Linea e Item</h1>
+echo "<h1>Ranking de Utilidades x Linea/Marca e Item</h1>
 	<h2>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</h2>";
 	
@@ -52,7 +52,7 @@ $resp=mysqli_query($enlaceCon,$sql);
 echo "<center><table class='texto'>
 <tr>
 <th>Codigo</th>
-<th>Linea</th>
+<th>Linea/Marca</th>
 <th>Item</th>
 <th>Cantidad</th>
 <th>Monto Venta</th>

@@ -23,7 +23,7 @@ $nombreProveedor=nombreProveedor($codProveedor);
 <input type="hidden" name="codProveedor" id="codProveedor" value="<?php echo $codProveedor?>">
 <center>
     <br/>
-    <h1>Adicionar Linea<br>Distribuidor - <?php echo $nombreProveedor;?></h1>
+    <h1>Adicionar Linea/Marca<br>Proveedor - <?php echo $nombreProveedor;?></h1>
     <table class="texto">
         <tr>
             <th>Nombre</th>

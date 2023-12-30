@@ -77,17 +77,25 @@ $nombreProveedor=nombreProveedor($codProveedor);
 $globalAdmin=$_COOKIE["global_admin_cargo"];
 
 echo "<center>";
-echo "<h1>Lineas de Distribuidor <br> $nombreProveedor</h1>";
+echo "<h1>Lineas de Proveedor <br> $nombreProveedor</h1>";
 echo "<table class='texto'>";
 echo "<tr>";
-echo "<th>&nbsp;</th><th>Linea</th><th>Abreviatura</th><th>Procedencia</th><th>Margen de precio</th><th>Contacto 1</th>
+echo "<th>&nbsp;</th><th>Linea/Marca</th><th>Abreviatura</th><th>Procedencia</th><th>Margen de precio</th><th>Contacto 1</th>
 <th>Contacto 2</th><th>Ajustar Stocks</th>";
 echo "</tr>";
-$consulta="select p.cod_linea_proveedor, p.nombre_linea_proveedor, p.abreviatura_linea_proveedor, p.contacto1, 
-	p.contacto2, (select t.nombre_procedencia from tipos_procedencia t where t.cod_procedencia=p.cod_procedencia), 
-	margen_precio
-	from proveedores_lineas p where p.cod_proveedor=$codProveedor and estado=1";
-
+$consulta="SELECT p.cod_linea_proveedor, p.nombre_linea_proveedor, p.abreviatura_linea_proveedor, p.contacto1, 
+	p.contacto2, tp.nombre_procedencia, 
+	0
+	FROM proveedores_lineas p 
+	LEFT JOIN tipos_procedencia tp ON tp.cod_procedencia = p.cod_procedencia
+	WHERE p.cod_proveedor=$codProveedor and estado=1";
+// $consulta="SELECT p.cod_linea_proveedor, p.nombre_linea_proveedor, p.abreviatura_linea_proveedor, p.contacto1, 
+// 	p.contacto2, tp.nombre_procedencia, 
+// 	margen_precio
+// 	FROM proveedores_lineas p 
+// 	LEFT JOIN tipos_procedencia tp ON tp.cod_procedencia = p.cod_procedencia
+// 	WHERE p.cod_proveedor=$codProveedor and estado=1";
+// echo $consulta;
 $rs=mysqli_query($enlaceCon,$consulta);
 
 $cont=0;

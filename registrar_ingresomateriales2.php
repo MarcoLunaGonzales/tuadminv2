@@ -267,7 +267,7 @@ echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'>
 <div id="divProfileData" style="background-color:#FFF; width:750px; height:450px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
   	<div id="divProfileDetail" style="visibility:hidden; text-align:center; height:445px; overflow-y: scroll;">
 		<table align='center' class="texto">
-			<tr><th>Linea</th><th>Material</th><th>&nbsp;</th></tr>
+			<tr><th>Linea/Marca</th><th>Material</th><th>&nbsp;</th></tr>
 			<tr>
 			<td><select name='itemTipoMaterial' id="itemTipoMaterial" class="textogranderojo" style="width:300px">
 			<?php

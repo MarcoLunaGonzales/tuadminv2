@@ -3,37 +3,29 @@
 require("../../conexion.inc");
 ob_clean();
 
-$nomCli = $_GET["nomcli"];
-$apCli = $_GET["apCli"];
-$nit = $_GET["nit"];
-$dir = $_GET["dir"];
-$tel1 = $_GET["tel1"];
-$mail = $_GET["mail"];
-$area = $_GET["area"];
-$fact = $_GET["fact"];
-$diasCredito = $_GET["diasCredito"];
+$nomCli = isset($_GET['nomcli']) ? str_replace("'", "''", $_GET['nomcli']) : '';
+$apCli  = isset($_GET['apCli']) ? str_replace("'", "''", $_GET['apCli']) : '';
+$nit    = isset($_GET['nit']) ? str_replace("'", "''", $_GET['nit']) : '';
+$fact   = isset($_GET['fact']) ? str_replace("'", "''", $_GET['fact']) : '';
+$tel1   = isset($_GET['tel1']) ? str_replace("'", "''", $_GET['tel1']) : '';
+$mail   = isset($_GET['mail']) ? str_replace("'", "''", $_GET['mail']) : '';
+$dir    = isset($_GET['dir']) ? str_replace("'", "''", $_GET['dir']) : '';
+$cont   = isset($_GET['cont']) ? str_replace("'", "''", $_GET['cont']) : '';
+$tel2   = isset($_GET['tel2']) ? str_replace("'", "''", $_GET['tel2']) : '';
+$obs    = isset($_GET['obs']) ? str_replace("'", "''", $_GET['obs']) : '';
+$tipo_cliente   = isset($_GET['tipo_cliente']) ? str_replace("'", "''", $_GET['tipo_cliente']) : '';
+$nombre_cliente = $nomCli.' '.$apCli;
 
-$ci = $_GET['ci'];
 
-$nomCli = str_replace("'", "''", $nomCli);
-$apCli = str_replace("'", "''", $apCli);
-$nit = str_replace("'", "''", $nit);
-$dir = str_replace("'", "''", $dir);
-$tel1 = str_replace("'", "''", $tel1);
-$mail = str_replace("'", "''", $mail);
-$area = $area;
-$fact = str_replace("'", "''", $fact);
-$diasCredito = str_replace("'", "''", $diasCredito);
-
-$sql = "select IFNULL(MAX(cod_cliente)+1,1) as id from clientes order by cod_cliente desc";
+$sql = "SELECT IFNULL(MAX(cod_cliente)+1,1) as id from clientes order by cod_cliente desc";
 $resp = mysqli_query($enlaceCon,$sql);
 $dat=mysqli_fetch_array($resp);
 $codigoCliente=$dat['id'];
 
-$consulta="
-INSERT INTO clientes (cod_cliente, nombre_cliente,paterno, nit_cliente, dir_cliente, telf1_cliente, email_cliente, cod_area_empresa, nombre_factura, cod_tipo_precio, ci_cliente, dias_credito)
-VALUES ('$codigoCliente', '$nomCli','$apCli', '$nit', '$dir', '$tel1', '$mail', $area, '$fact', '0', '$ci', '$diasCredito')
+$consulta="INSERT INTO clientes (cod_cliente, nombre_cliente, nit_cliente, dir_cliente, telf1_cliente, email_cliente, nombre_factura, contacto, telefono2, observaciones, cod_tipocliente)
+VALUES ('$codigoCliente','$nombre_cliente','$nit','$dir','$tel1','$mail','$fact','$cont','$tel2','$obs','$tipo_cliente')
 ";
+
 if(isset($_GET["dv"])){
     $resp=mysqli_query($enlaceCon,$consulta);
     if($resp) {

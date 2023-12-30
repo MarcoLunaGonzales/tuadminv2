@@ -30,7 +30,7 @@ $monto_bs=0;
 $monto_usd=0;
 $tipo_cambio=0;
 $tipoVenta=0;
-$observaciones="Salida por Ajuste de Inventario por Linea. Linea $nombreLineaProveedorX";
+$observaciones="Salida por Ajuste de Inventario por Linea/Marca. Linea/Marca $nombreLineaProveedorX";
 $totalVenta=0; 
 $descuentoVenta=0; 
 $totalFinal=0; 
@@ -149,7 +149,7 @@ $hora_sistema = date("H:i:s");
 $tipo_ingreso=1003;
 $nota_entrega=0;
 $nro_factura=0;
-$observaciones="Ingreso por ajuste de Linea. Linea $nombreLineaProveedorX";
+$observaciones="Ingreso por ajuste de Linea/Marca. Linea/Marca $nombreLineaProveedorX";
 $proveedor=0;
 
 $createdBy=$_COOKIE['global_usuario'];

@@ -76,8 +76,11 @@ function adicionarProveedor() {
     var tel1 = $("#tel1").val();
     var tel2 = $("#tel2").val();
     var contacto = $("#contacto").val();
-    var tipoProveedor = $('#tipo_proveedor').val();
-    var parms="nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"&tipo_proveedor="+tipoProveedor;
+    var cod_tipomaterial = $('#cod_tipomaterial').val();
+    var lineaMarcaCheckbox = document.getElementById("linea_marca");
+    var isChecked = lineaMarcaCheckbox.checked;
+
+    var parms="nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"&cod_tipomaterial="+cod_tipomaterial+"&linea_marca="+isChecked;
     cargarPnl("#pnl00","prgProveedorAdicionar.php",parms);
 }
 function modificarProveedor() {
@@ -87,8 +90,8 @@ function modificarProveedor() {
     var tel1 = $("#tel1").val();
     var tel2 = $("#tel2").val();
     var contacto = $("#contacto").val();
-    var tipoProveedor = $('#tipo_proveedor').val();
-    var parms="codpro="+codpro+"&nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"&tipo_proveedor="+tipoProveedor+"";
+    var cod_tipomaterial = $('#cod_tipomaterial').val();
+    var parms="codpro="+codpro+"&nompro="+nompro+"&dir="+dir+"&tel1="+tel1+"&tel2="+tel2+"&contacto="+contacto+"&cod_tipomaterial="+cod_tipomaterial+"";
     cargarPnl("#pnl00","prgProveedorModificar.php",parms);
 }
 function eliminarProveedor(cods) {

@@ -944,6 +944,8 @@ $(document).ready(function() {
 
 <?php
 
+$global_tipoItem = $_COOKIE['global_tipoItem'];
+
 if($fecha==""){   
 	$fecha=date("Y-m-d");
 }
@@ -1192,7 +1194,11 @@ if($tipoDocDefault==2){
 			</td>
 			<td><select class="textomedianorojo" name='itemTipoMaterial' style="width:200px">
 			<?php
-			$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g where g.estado=1 order by 2;";
+			$sqlTipo="SELECT g.cod_grupo, g.nombre_grupo 
+						FROM grupos g 
+						WHERE g.estado=1 
+						AND g.cod_tipomaterial = '$global_tipoItem'
+						ORDER BY 2;";
 			$respTipo=mysqli_query($enlaceCon,$sqlTipo);
 			echo "<option value='0'>--</option>";
 			while($datTipo=mysqli_fetch_array($respTipo)){

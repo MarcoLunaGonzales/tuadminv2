@@ -62,7 +62,7 @@
 
 	echo "<table border='0' class='texto' cellspacing='0' width='90%' align='center'>";
 	
-	echo "<tr><th>Codigo</th><th>Codigo Interno</th><th>Linea</th><th>Producto</th><th>Cantidad</th><th>CostoUnitario</th><th>CostoItem</th></tr>";
+	echo "<tr><th>Codigo</th><th>Codigo Interno</th><th>Linea/Marca</th><th>Producto</th><th>Cantidad</th><th>CostoUnitario</th><th>CostoItem</th></tr>";
 	
 	echo "<form method='post' action=''>";
 	

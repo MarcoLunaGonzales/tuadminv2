@@ -320,7 +320,7 @@ echo "</div>";
 <div id="divProfileData" style="background-color:#FFF; width:750px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2;">
   	<div id="divProfileDetail" style="visibility:hidden; text-align:center">
 		<table align='center' class="texto">
-			<tr><th>Linea</th><th>Material</th><th>&nbsp;</th></tr>
+			<tr><th>Linea/Marca</th><th>Material</th><th>&nbsp;</th></tr>
 			<tr>
 			<td><select name='itemTipoMaterial' id="itemTipoMaterial">
 			<?php

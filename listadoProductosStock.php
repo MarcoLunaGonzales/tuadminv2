@@ -51,7 +51,7 @@
 
 	echo "<center><table class='texto' id='myTable'>";
 	echo "<thead>";
-	echo "<tr><th>Indice</th><th>Grupo</th><th>Linea</th><th>Nombre Producto</th><th>Precio</th><th>
+	echo "<tr><th>Indice</th><th>Grupo</th><th>Linea/Marca</th><th>Nombre Producto</th><th>Precio</th><th>
 	<table width='100%'><tr><th colspan='3' align='center'>Detalle de Costos</th></tr>
 		<tr><td width='40%'>Fecha</td><td width='30%' align='right'>Cantidad</td>
 			<td width='30%' align='right'>Costo</td></tr></table>

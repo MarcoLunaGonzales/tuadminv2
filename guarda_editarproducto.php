@@ -36,7 +36,7 @@ $respInsertPrecio=mysqli_query($enlaceCon,$sqlInsertPrecio);
 if($resp_inserta){
 		echo "<script language='Javascript'>
 			alert('Los datos fueron guardados correctamente.');
-			location.href='navegador_material.php';
+			location.href='navegador_material.php?tipo_material=$codTipo';
 			</script>";
 }else{
 	echo "<script language='Javascript'>

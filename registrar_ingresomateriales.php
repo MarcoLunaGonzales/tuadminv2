@@ -284,9 +284,11 @@ echo "<th>Nro. Documento: </th>
 	<th><input type='number' class='texto' name='nro_factura' value='' id='nro_factura' required>
 	</th></tr>";
 
+$global_tipoItem = $_COOKIE['global_tipoItem'];
 echo "<tr><th>Proveedor/Distribuidor:</th>";
 $sql1="SELECT p.cod_proveedor, p.nombre_proveedor
 		FROM proveedores p 
+		WHERE p.cod_tipomaterial = '$global_tipoItem'
 		ORDER BY 2";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<th align='center'>
@@ -385,8 +387,11 @@ echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'>
 			<tr>
 			<td><select name='itemTipoMaterial' id="itemTipoMaterial" class="textogranderojo" style="width:300px">
 			<?php
-			$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g
-			where g.estado=1 order by 2;";
+			$sqlTipo="SELECT g.cod_grupo, g.nombre_grupo 
+					from grupos g
+					where g.estado=1
+					AND g.cod_tipomaterial = '$global_tipoItem' 
+					order by 2;";
 			$respTipo=mysqli_query($enlaceCon,$sqlTipo);
 			echo "<option value='0'>--</option>";
 			while($datTipo=mysqli_fetch_array($respTipo)){

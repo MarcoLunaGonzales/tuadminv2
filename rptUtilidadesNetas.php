@@ -40,7 +40,7 @@ echo "<center><table class='texto' style='border: gray 0.5px solid;' width='80%'
 <td colspan='5' align='center'>Ingresos, Costo de Venta y Utilidad Bruta</td>
 </tr>
 <tr>
-<th>Linea</th>
+<th>Linea/Marca</th>
 <th>Monto Venta</th>
 <th>Costo Venta</th>
 <th>Utilidad Bruta</th>

@@ -5,6 +5,8 @@
 require("conexion.inc");
 require('estilos.inc');
 
+$tipo_material=$_GET['tipo_material'];
+
 echo "<form enctype='multipart/form-data' action='guarda_material_apoyo.php' method='post' name='form1'>";
 
 echo "<h1>Adicionar Producto</h1>";
@@ -18,11 +20,11 @@ echo "<td align='left'>
 	</td></tr>";
 	
 echo "<tr><th align='left'>Proveedor</th>";
-$sql1="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) from proveedores p, proveedores_lineas pl 
-where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
+$sql1="SELECT pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) from proveedores p, proveedores_lineas pl 
+where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 AND p.cod_tipomaterial = $tipo_material order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-		<select name='codLinea' id='codLinea' required>
+		<select name='codLinea' id='codLinea' required class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true'>
 		<option value=''></option>";
 		while($dat1=mysqli_fetch_array($resp1))
 		{	$codLinea=$dat1[0];
@@ -34,10 +36,10 @@ echo "<td>
 echo "</tr>";
 
 echo "<tr><th>Tipo</th>";
-$sql1="select f.cod_tipomaterial, f.nombre_tipomaterial from tipos_material f where f.cod_tipomaterial in (1,2) order by 2;";
+$sql1="SELECT f.cod_tipomaterial, f.nombre_tipomaterial from tipos_material f where f.cod_tipomaterial in (1,2) AND f.cod_tipomaterial = $tipo_material order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_tipo' id='cod_tipo' required>";
+			<select name='cod_tipo' id='cod_tipo' required class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true'>";
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codTipo=$dat1[0];
 				$nombreTipo=$dat1[1];
@@ -48,11 +50,12 @@ echo "<td>
 echo "</tr>";
 
 echo "<tr><th>Grupo</th>";
-$sql1="select f.cod_grupo, f.nombre_grupo from grupos f 
-where f.estado=1 order by 2;";
+$sql1="SELECT f.cod_grupo, f.nombre_grupo from grupos f 
+		where f.estado=1 
+		AND f.cod_tipomaterial = $tipo_material order by 2";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_grupo' id='cod_grupo' required>
+			<select name='cod_grupo' id='cod_grupo' required class='selectpicker form-control' data-style='btn btn-primary' data-live-search='true'>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codGrupo=$dat1[0];
@@ -63,7 +66,7 @@ echo "<td>
 </td>";
 echo "</tr>";
 
-echo "<tr><th align='left'>Descripcion</th>";
+echo "<tr hidden><th align='left'>Descripcion</th>";
 echo "<td align='left'>
 	<input type='text' class='texto' name='observaciones' id='observaciones' size='80' style='text-transform:uppercase;'>
 	</td>";
@@ -72,7 +75,7 @@ echo "<tr><th>Unidad de Manejo</th>";
 $sql1="select u.codigo, u.nombre, u.abreviatura from unidades_medida u order by 1;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_unidad' id='cod_unidad' required>
+			<select name='cod_unidad' id='cod_unidad' required class='selectpicker form-control' data-style='btn btn-success' data-live-search='true'>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codUnidad=$dat1[0];
@@ -116,7 +119,7 @@ echo "<td align='left'>
 echo "</table></center>";
 echo "<div class='divBotones'>
 <input type='submit' class='boton' value='Guardar'>
-<input type='button' class='boton2' value='Cancelar' onClick='location.href=\"navegador_material.php\"'>
+<input type='button' class='boton2' value='Cancelar' onClick='location.href=\"navegador_material.php?tipo_material=$tipo_material\"'>
 </div>";
 echo "</form>";
 ?>

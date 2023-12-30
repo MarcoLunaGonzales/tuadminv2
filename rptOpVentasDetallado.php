@@ -14,7 +14,7 @@ require("conexion.inc");
 require("estilos_almacenes.inc");
 
 $fecha_rptdefault=date("d/m/Y");
-echo "<table align='center' class='textotit'><tr><th>Reporte Detallado por Linea e Item</th></tr></table><br>";
+echo "<table align='center' class='textotit'><tr><th>Reporte Detallado por Linea/Marca e Item</th></tr></table><br>";
 echo"<form method='post' action=''>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";

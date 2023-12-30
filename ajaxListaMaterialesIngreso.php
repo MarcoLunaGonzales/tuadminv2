@@ -9,12 +9,16 @@ $codTipo=$_GET['codTipo'];
 $nombreItem=$_GET['nombreItem'];
 $codInterno=$_GET['codInterno'];
 
+$global_tipoItem = $_COOKIE['global_tipoItem'];
 $globalAlmacen=$_COOKIE['global_almacen'];
 $globalAgencia=$_COOKIE['global_agencia'];
 //$itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $itemsNoUtilizar="0";
 
-	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion, m.codigo_anterior from material_apoyo m where estado=1 
+	$sql="SELECT m.codigo_material, m.descripcion_material, m.cantidad_presentacion, m.codigo_anterior 
+		FROM material_apoyo m 
+		WHERE estado=1 
+		AND m.cod_tipomaterial = '$global_tipoItem'
 		and m.codigo_material not in ($itemsNoUtilizar)";
 	if($nombreItem!=""){
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";

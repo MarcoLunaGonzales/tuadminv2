@@ -58,7 +58,7 @@ if($rpt_ver==1){
 	<th>Documento</th>
 	<th>Fecha</th>
 	<th>Vendedor</th>
-	<th>Linea</th>
+	<th>Linea/Marca</th>
 	<th>Codigo<br>Interno</th>
 	<th>Item</th>
 	<th>Cantidad</th>

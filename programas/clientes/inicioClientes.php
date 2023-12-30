@@ -22,21 +22,25 @@ function frmAdicionar() {
     cargarPnl("#pnl00","frmClienteAdicionar.php","");
 }
 function frmModificar() {
-    var total=$("#idtotal").val();
-    var tag,sel,cod,c=0;
-    for(var i=1;i<=total;i++) {
-        tag=$("#idchk"+i);
-        sel=tag.attr("checked");
-        if(sel==true) {
-            cod=tag.val(); c++;
+    var total = $("#idtotal").val();
+    var tag, sel, cod, c = 0;
+
+    for (var i = 1; i <= total; i++) {
+        tag = $("#idchk" + i);
+        sel = tag.prop("checked");
+
+        if (sel === true) {
+            cod = tag.val();
+            c++;
         }
     }
-    if(c==1) {
-        cargarPnl("#pnl00","frmClienteEditar.php","codcli="+cod);
-    } else if(c>1) {
-        alert("Seleccione solo un elememnto para editar.");
+
+    if (c === 1) {
+        cargarPnl("#pnl00", "frmClienteEditar.php", "codcli=" + cod);
+    } else if (c > 1) {
+        alert("Seleccione solo un elemento para editar.");
     } else {
-        alert("Seleccione un elememnto para editar.");
+        alert("Seleccione un elemento para editar.");
     }
 }
 function frmEliminar() {
@@ -59,28 +63,33 @@ function frmEliminar() {
 }
 function adicionarCliente() {
     var nomcli = $("#nomcli").val();
-    var nit = $("#nit").val();
-    var dir = $("#dir").val();
-    var tel1 = $("#tel1").val();
-    var mail = $("#mail").val();
-    var area = $("#area").val();
-    var fact = $("#fact").val();
-    var apCli = $("#apCli").val();
-    var diasCredito = $("#diasCredito").val();
-    var parms="nomcli="+nomcli+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+"";
+    var apCli  = $("#apCli").val();
+    var nit    = $("#nit").val();
+    var fact   = $("#fact").val();
+    var tel1   = $("#tel1").val();
+    var mail   = $("#mail").val();
+    var dir    = $("#dir").val();
+    var cont   = $("#cont").val();
+    var tel2   = $("#tel2").val();
+    var obs    = $("#obs").val();
+    var tipo_cliente = $("#tipo_cliente").val();
+    var parms="nomcli="+nomcli+"&nomcli="+nomcli+"&apCli="+apCli+"&nit="+nit+"&fact="+fact+"&tel1="+tel1+"&mail="+mail+"&dir="+dir+"&cont="+cont+""+"&tel2="+tel2+"&obs="+obs+"&tipo_cliente="+tipo_cliente;
     cargarPnl("#pnl00","prgClienteAdicionar.php",parms);
 }
 function modificarCliente() {
-    var codcli = $("#codcli").text();
+    var codcli = $("#codcli").val();
     var nomcli = $("#nomcli").val();
-    var nit = $("#nit").val();
-    var dir = $("#dir").val();
-    var tel1 = $("#tel1").val();
-    var mail = $("#mail").val();
-    var area = $("#area").val();
-    var fact = $("#fact").val();
-    var apCli = $("#apCli").val();
-    var parms="codcli="+codcli+"&nomcli="+nomcli+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+"";
+    var apCli  = $("#apCli").val();
+    var nit    = $("#nit").val();
+    var fact   = $("#fact").val();
+    var tel1   = $("#tel1").val();
+    var mail   = $("#mail").val();
+    var dir    = $("#dir").val();
+    var cont   = $("#cont").val();
+    var tel2   = $("#tel2").val();
+    var obs    = $("#obs").val();
+    var tipo_cliente = $("#tipo_cliente").val();
+    var parms  = "codcli="+codcli+"&nomcli="+nomcli+"&apCli="+apCli+"&nit="+nit+"&fact="+fact+"&tel1="+tel1+"&mail="+mail+"&dir="+dir+"&cont="+cont+""+"&tel2="+tel2+"&obs="+obs+"&tipo_cliente="+tipo_cliente;
     cargarPnl("#pnl00","prgClienteModificar.php",parms);
 }
 function eliminarCliente(cods) {

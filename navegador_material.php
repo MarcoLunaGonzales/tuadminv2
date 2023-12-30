@@ -1,8 +1,10 @@
 <?php
+// Tipo de material (Serviteca, Cafeteria)
+$tipo_material=$_GET['tipo_material'];
 
 echo "<script language='Javascript'>
 		function enviar_nav()
-		{	location.href='registrar_material_apoyo.php';
+		{	location.href='registrar_material_apoyo.php?tipo_material=$tipo_material';
 		}
 		function eliminar_nav(f)
 		{
@@ -19,7 +21,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un material de apoyo para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -58,7 +60,7 @@ echo "<script language='Javascript'>
 				}
 				else
 				{
-					location.href='editar_material_apoyo.php?cod_material='+j_ciclo+'';
+					location.href='editar_material_apoyo.php?cod_material='+j_ciclo+'&tipo_material=$tipo_material';
 				}
 			}
 		}
@@ -70,7 +72,7 @@ echo "<script language='Javascript'>
 			modo_vista=f.vista.value;
 			modo_orden=f.vista_ordenar.value;
 			grupo=f.grupo.value;
-			location.href='navegador_material.php?vista='+modo_vista+'&vista_ordenar='+modo_orden+'&grupo='+grupo;
+			location.href='navegador_material.php?vista='+modo_vista+'&vista_ordenar='+modo_orden+'&grupo='+grupo+'&tipo_material=$tipo_material';
 		}
 		function duplicar(f)
 		{
@@ -116,21 +118,23 @@ echo "<script language='Javascript'>
 	echo "<h1>Registro de Productos</h1>";
 
 	echo "<form method='post' action=''>";
-	$sql="select m.codigo_material, m.descripcion_material, m.estado, 
+	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
 		(select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
 		m.observaciones, imagen
 		from material_apoyo m
-		where m.estado='1' and m.cod_tipomaterial in (1,2)";
+		where m.estado='1' and m.cod_tipomaterial in (1,2)
+		AND m.cod_tipomaterial = '$tipo_material'";
 	if($vista==1)
-	{	$sql="select m.codigo_material, m.descripcion_material, m.estado, 
+	{	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
 		(select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
 		m.observaciones, imagen
 		from material_apoyo m
-		where m.estado='0' and m.cod_tipomaterial in (1,2)";
+		where m.estado='0' and m.cod_tipomaterial in (1,2)
+		AND m.cod_tipomaterial = '$tipo_material'";
 	}
 	if($grupo!=0){
 		$sql.=" and m.cod_grupo in ($grupo) ";
@@ -159,7 +163,7 @@ echo "<script language='Javascript'>
 	<th>Filtrar Grupo:
 	<select name='grupo' class='texto' onChange='cambiar_vista(this.form)'>";
 	echo "<option value='0'>-</option>";
-	$sqlGrupo="select cod_grupo, nombre_grupo from grupos where estado=1 order by 2";
+	$sqlGrupo="SELECT cod_grupo, nombre_grupo from grupos where estado=1 AND cod_tipomaterial=$tipo_material order by 2";
 	$respGrupo=mysqli_query($enlaceCon,$sqlGrupo);
 	while($datGrupo=mysqli_fetch_array($respGrupo)){
 		$codGrupoX=$datGrupo[0];
@@ -176,9 +180,9 @@ echo "<script language='Javascript'>
 	<th>
 	Ordenar por:
 	<select name='vista_ordenar' class='texto' onChange='cambiar_vista(this.form)'>";
-	if($vista_ordenar==0)	echo "<option value='0' selected>Por Grupo y Producto</option><option value='1'>Por Producto</option><option value='2'>Por Linea y Producto</option>";
-	if($vista_ordenar==1)	echo "<option value='0'>Por Grupo y Producto</option><option value='1' selected>Por Producto</option><option value='2'>Por Linea y Producto</option>";
-	if($vista_ordenar==2)	echo "<option value='0'>Por Grupo y Producto</option><option value='1'>Por Producto</option><option value='2' selected>Por Linea y Producto</option>";
+	if($vista_ordenar==0)	echo "<option value='0' selected>Por Grupo y Producto</option><option value='1'>Por Producto</option><option value='2'>Por Linea/Marca y Producto</option>";
+	if($vista_ordenar==1)	echo "<option value='0'>Por Grupo y Producto</option><option value='1' selected>Por Producto</option><option value='2'>Por Linea/Marca y Producto</option>";
+	if($vista_ordenar==2)	echo "<option value='0'>Por Grupo y Producto</option><option value='1'>Por Producto</option><option value='2' selected>Por Linea/Marca y Producto</option>";
 	echo "</select>
 	</th>
 	</tr></table><br>";
@@ -194,7 +198,7 @@ echo "<script language='Javascript'>
 		</div>";
 	
 	echo "<center><table class='texto'>";
-	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Descripcion</th>
+	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th>
 		<th>Grupo</th><th>Tipo</th><th>Proveedor</th><th>Precio de Venta [Bs]</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 	
 	$indice_tabla=1;
@@ -218,7 +222,7 @@ echo "<script language='Javascript'>
 		}
 		echo "<tr><td align='center'>$indice_tabla</td><td align='center'>
 		<input type='checkbox' name='codigo' value='$codigo'></td>
-		<td>$nombreProd</td><td>$observaciones</td>
+		<td>$nombreProd</td>
 		<td>$grupo</td>
 		<td>$tipoMaterial</td>
 		<td>$nombreLinea</td>

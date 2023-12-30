@@ -19,7 +19,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un Grupo para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un Grupo para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -68,7 +68,10 @@ echo "<script language='Javascript'>
 	require("estilos.inc");
 	
 	echo "<form method='post' action=''>";
-	$sql="select cod_grupo, nombre_grupo, estado from grupos where estado=1 order by 2";
+	$sql="SELECT g.cod_grupo, g.nombre_grupo, g.estado, tm.nombre_tipomaterial 
+		FROM grupos g
+		LEFT JOIN tipos_material tm ON tm.cod_tipomaterial = g.cod_tipomaterial 
+		WHERE g.estado=1 order by 2";
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<h1>Registro de Grupos</h1>";
 	
@@ -80,12 +83,13 @@ echo "<script language='Javascript'>
 	
 	
 	echo "<center><table class='texto'>";
-	echo "<tr><th>&nbsp;</th><th>Grupo</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Grupo</th><th>Tipo Material</th></tr>";
 	while($dat=mysqli_fetch_array($resp))
 	{
-		$codigo=$dat[0];
-		$material=$dat[1];
-		echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td>$material</td></tr>";
+		$codigo 		 	= $dat[0];
+		$material 		 	= $dat[1];
+		$nombreTipoMaterial = $dat[3];
+		echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td>$material</td><td>$nombreTipoMaterial</td></tr>";
 	}
 	echo "</table></center><br>";
 	
