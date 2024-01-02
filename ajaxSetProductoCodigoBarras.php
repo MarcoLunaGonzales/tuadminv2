@@ -4,10 +4,12 @@ require("funciones.php");
 $codigoItem=$_GET['codigo'];
 $globalAlmacen=$_COOKIE['global_almacen'];
 $globalAgencia=$_COOKIE['global_agencia'];
+$global_tipoItem = $_COOKIE['global_tipoItem'];
 
-	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion, 
+	$sql="SELECT m.codigo_material, m.descripcion_material, m.cantidad_presentacion, 
 		(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)
 		from material_apoyo m where estado=1 
+		AND m.cod_tipomaterial = '$global_tipoItem' 
 		and m.codigo_barras = '$codigoItem'";
 	$sql=$sql." limit 1";
 	$resp=mysqli_query($enlaceCon,$sql);

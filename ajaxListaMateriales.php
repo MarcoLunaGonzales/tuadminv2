@@ -72,7 +72,7 @@ $soloStock = $_GET["stock"];
 				echo "<tr>
 				<td>$linea</td>
 				<td>$codigoInterno</td>
-				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\")'>$nombre</a></div></td>
+				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\", \"$stockProducto\", \"$precioProducto\")'>$nombre</a></div></td>
 				<td>$stockProducto</td>
 				<td>$precioProducto</td>
 				</tr>";

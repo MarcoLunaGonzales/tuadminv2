@@ -28,7 +28,7 @@ require("conexion.inc");
 
 <td width="10%" align="center">
 	<div id='idstock<?php echo $num;?>'>
-		<input type='hidden' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' value=''>
+		<input type='number' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' value='0' readonly>
 	</div>
 </td>
 

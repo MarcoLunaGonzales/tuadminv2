@@ -6,8 +6,19 @@ ob_clean();
 $cliente=$_GET["cliente"];
 $nit=$_GET["nit"];
 
-$sql = "SELECT f.cod_cliente, CONCAT(f.nombre_cliente, ' ', f.paterno, ' (CI:', f.ci_cliente, ')') AS nombre FROM clientes f 
-        WHERE f.nit_cliente = '$nit' ORDER BY f.cod_cliente DESC LIMIT 1";
+// $sql = "SELECT f.cod_cliente, CONCAT(f.nombre_cliente, ' ', f.paterno, ' (CI:', f.ci_cliente, ')') AS nombre FROM clientes f 
+//         WHERE f.nit_cliente = '$nit' ORDER BY f.cod_cliente DESC LIMIT 1";
+
+$sql = "SELECT
+        f.cod_cliente,
+        CONCAT( f.nombre_cliente, ' (NIT:', f.nit_cliente, ')' ) AS nombre,
+        '' AS tipo 
+        FROM
+        clientes f 
+        WHERE
+        f.nit_cliente = '$nit'
+        ORDER BY
+        f.cod_cliente DESC";
 $resp = mysqli_query($enlaceCon, $sql);
 
 $cod_cliente = 146; // valor por defecto

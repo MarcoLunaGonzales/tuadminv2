@@ -101,7 +101,7 @@ function actStock(indice){
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText;
-			ajaxPrecioItem(indice);
+			// ajaxPrecioItem(indice);
 		}
 	}
 	totales();
@@ -368,7 +368,7 @@ function Hidden(){
 	document.getElementById('divboton').style.visibility='hidden';
 
 }
-function setMateriales(f, cod, nombreMat){
+function setMateriales(f, cod, nombreMat, stockProducto, precioProducto){
 	var numRegistro=f.materialActivo.value;
 	
 	document.getElementById('materiales'+numRegistro).value=cod;
@@ -380,8 +380,11 @@ function setMateriales(f, cod, nombreMat){
 	document.getElementById('divboton').style.visibility='hidden';
 	
 	document.getElementById("cantidad_unitaria"+numRegistro).focus();
+	document.getElementById("stock"+numRegistro).value = stockProducto;
+	
 
-	actStock(numRegistro);
+	// actStock(numRegistro);
+	ajaxPrecioItem(numRegistro);
 }
 		
 function precioNeto(fila){
@@ -605,12 +608,14 @@ $(document).ready(function() {
 	function registrarNuevoCliente(){
 		$("#nomcli").val("");
 		$("#apcli").val("");
-		$("#ci").val("");
 		$("#nit").val("");
 		$("#dir").val("");
 		$("#tel1").val("");
 		$("#mail").val("");
 		$("#fact").val("");
+		$("#cont").val("");
+		$("#tel2").val("");
+		
 		if($("#nitCliente").val()!=""){
 			$("#nit").val($("#nitCliente").val());
 			//$("#nomcli").val($("#razonSocial").val());
@@ -628,16 +633,19 @@ $(document).ready(function() {
 	function adicionarCliente() {	
 		var nomcli = $("#nomcli").val();
 		var apcli = $("#apcli").val();
-		var ci = $("#ci").val();
+		var tipo_cliente = $("#tipo_cliente").val();
 		var nit = $("#nit").val();
 		var dir = $("#dir").val();
 		var tel1 = $("#tel1").val();
 		var mail = $("#mail").val();
 		var area = $("#area").val();
 		var fact = $("#fact").val();
+		var cont = $("#cont").val();
+		var tel2 = $("#tel2").val();
 		var edad = '';
 		var genero = '';
-		var tipoPrecio = '';	
+		var tipoPrecio = '';
+		nomcli = nomcli + ' ' + apcli;
 
 		if (nomcli == "" || nit == "" || (mail == "" && tel1 == "")) {
 			Swal.fire("Informativo!", "Debe llenar los campos obligatorios", "warning");
@@ -648,12 +656,14 @@ $(document).ready(function() {
 				var parametros = {
 					"nomcli": nomcli,
 					"nit": nit,
-					"ci": ci,
+					"tipo_cliente": tipo_cliente,
 					"dir": dir,
 					"tel1": tel1,
 					"mail": mail,
 					"area": area,
 					"fact": fact,
+					"cont": cont,
+					"tel2": tel2,
 					"edad": edad,
 					"apcli": apcli,
 					"tipoPrecio": tipoPrecio,
@@ -676,13 +686,14 @@ $(document).ready(function() {
 
 							$("#nomcli").val("");
 							$("#apcli").val("");
-							$("#ci").val("");
 							$("#nit").val("");
 							$("#dir").val("");
 							$("#tel1").val("");
 							$("#mail").val("");
 							$("#area").val("");
 							$("#fact").val("");
+							$("#cont").val("");
+							$("#tel2").val("");
 							// $("#edad").val(0);
 							// $("#genero").val(0);
 						} else {		           	
@@ -1159,8 +1170,8 @@ if($tipoDocDefault==2){
 
 	<tr align="center">
 		<td width="5%">&nbsp;</td>
-		<td width="30%">Material</td>
-		<td width="10%">Stock</td>
+		<td width="30%">Stock</td>
+		<td width="10%">Material</td>
 		<td width="10%">Cantidad</td>
 		<td width="10%">Precio </td>
 		<td width="15%">Desc.</td>
@@ -1363,16 +1374,39 @@ if($banderaErrorFacturacion==0){
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-2 col-form-label text-white">CI</label>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <input class="form-control" style="color:black;background: #fff;" type="text" id="ci" value="<?php echo "$ciCliente"; ?>" required/>
-                        </div>
-                    </div>
+                    <label class="col-sm-2 col-form-label text-white">Tipo de Cliente (*)</label>
+					<div class="col-sm-4 mt-1">
+						<select id="tipo_cliente" name="tipo_cliente" style="background-color: #fff;" class="form-control">
+							<?php 
+								$consulta1="SELECT tc.codigo, tc.nombre, tc.abreviatura
+											FROM tipos_clientes tc";
+								$res = mysqli_query($enlaceCon,$consulta1);
+								while($row = mysqli_fetch_array($res)){
+							?>
+							<option value="<?=$row['codigo']?>"><?=$row['nombre']?></option>
+							<?php
+								}
+							?>
+						</select>
+					</div>
                     <label class="col-sm-1 col-form-label text-white">NIT(*)</label>
                     <div class="col-sm-5">
                         <div class="form-group">
                             <input class="form-control" style="color:black;background: #fff;" type="text" id="nit" value="<?php echo "$nitCliente"; ?>" readonly/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label text-white">Contacto/Cel (*)</label>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="cont" value="" required placeholder="Ingrese contacto Celular"/>
+                        </div>
+                    </div>
+                    <label class="col-sm-1 col-form-label text-white">Contacto/Telf (*)</label>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="tel2" value="" required placeholder="Ingrese contacto Telefono"/>
                         </div>
                     </div>
                 </div>
