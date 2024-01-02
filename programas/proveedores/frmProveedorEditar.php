@@ -31,7 +31,7 @@ if($nroregs==1)
 <div class="container mt-5">
     <div class="card">
         <div class="card-header text-center">
-            <h3>Editar Distribuidor</h3>
+            <h3>Editar Proveedor</h3>
         </div>
         <div class="card-body">
                 <div class="mb-3 row">

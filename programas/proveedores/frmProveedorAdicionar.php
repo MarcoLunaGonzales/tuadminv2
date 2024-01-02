@@ -15,7 +15,7 @@ $contacto  = "";
 <div class="container mt-5">
     <div class="card">
         <div class="card-header text-center">
-            <h3>Adicionar Distribuidor</h3>
+            <h3>Adicionar Proveedor</h3>
         </div>
         <div class="card-body">
             <div class="mb-3 row">

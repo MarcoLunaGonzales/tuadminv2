@@ -285,7 +285,7 @@ echo "<th>Nro. Documento: </th>
 	</th></tr>";
 
 $global_tipoItem = $_COOKIE['global_tipoItem'];
-echo "<tr><th>Proveedor/Distribuidor:</th>";
+echo "<tr><th>Proveedor:</th>";
 $sql1="SELECT p.cod_proveedor, p.nombre_proveedor
 		FROM proveedores p 
 		WHERE p.cod_tipomaterial = '$global_tipoItem'

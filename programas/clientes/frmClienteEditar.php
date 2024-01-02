@@ -61,9 +61,9 @@ if($nroregs==1){
     <table class="texto">
         <tr>
             <th>Codigo</th>
-            <th>Cliente</th>
+            <th>Nombre</th>
             <th>Paterno</th>
-            <th>Tipo de Precio</th>
+            <th>Tipo de Cliente</th>
             <th>NIT</th>
             <th>Factura</th>
         </tr>

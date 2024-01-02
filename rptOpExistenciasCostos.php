@@ -79,7 +79,7 @@ echo"<form method='post' action=''>";
 	echo "</select></td></tr>";
 
 
-	echo "<tr><th align='left'>Distribuidor</th><td>
+	echo "<tr><th align='left'>Proveedor</th><td>
 		<select name='rpt_distribuidor' id='rpt_distribuidor' class='texto' multiple size='7'>";
 	$sql="select p.cod_proveedor, p.nombre_proveedor from proveedores p order by 2";
 	$resp=mysqli_query($enlaceCon, $sql);
