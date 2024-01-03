@@ -11,6 +11,10 @@ require("funciones.php");
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="lib/js/xlibPrototipoSimple-v0.1.js"></script>
 		<script type="text/javascript" src="functionsGeneral.js"></script>
+		<!-- JQUERY AUTOCOMPLETE -->
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type='text/javascript' language='javascript'>
 function funcionInicio(){
 	//document.getElementById('nitCliente').focus();
@@ -501,7 +505,7 @@ async function validar(f, ventaDebajoCosto){
 	let tipo_pago = $('#tipoVenta').val();
 	if(tipo_pago == 4 && ($('#cliente').val() == 146 || $('#cliente').val() == '')){
 		alert("Debe seleccionar un cliente");
-		return false;
+		return(false);
 	} 
 
 	//alert(ventaDebajoCosto);
@@ -806,9 +810,10 @@ $(document).ready(function() {
 		}
 	}
 	/**
-	 * VERIFICACIÓN DE CUFD - MINKA_SIAT
+	 * Preparación del Formulario
 	 */
 	$(document).ready(function () {
+		// * VERIFICACIÓN DE CUFD - MINKA_SIAT
 		// Verificación - NOTA DE EMISIÓN
 		let tipoDoc = $('#tipoDoc').val();
 		if(tipoDoc == 1){
@@ -893,6 +898,10 @@ $(document).ready(function() {
 			$('.divBotones2').show();
 		}
 	});
+	/**
+	 * Campos autocompletados
+	 */
+
 	/**
 	 * Selección de tipo de Pago
 	 * tipo_pago = tipoVenta
@@ -1025,7 +1034,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 
 <table class='texto' align='center' width='100%'>
 <tr>
-<th align='center' width="10%">
+<th align='center' width="5%">
 	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
 
@@ -1083,7 +1092,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 	</div>
 </th>
 
-<th align='center' id='divCliente' width="25%">		
+<th align='center' id='divCliente' width="20%">		
 	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-rose">
 		<option value='146'>NO REGISTRADO</option>
 	</select>
@@ -1104,11 +1113,11 @@ if($tipoDocDefault==2){
 }
 ?>
 <tr>
-	<th>
+	<th width="5%">
 		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" size="10" readonly><img id="imagenFecha" src="imagenes/fecha.bmp"> 
 	</th>
-	<th>Tipo Pago</th>
-	<th>
+	<th width="20%">
+		Tipo Pago
 		<div id='divTipoVenta'>
 			<?php
 				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
@@ -1126,7 +1135,7 @@ if($tipoDocDefault==2){
 		<!-- Numero de Tarjeta -->
 		<input type='text' style='display:none;' name='nroTarjeta_form' id='nroTarjeta_form' class="custom-input" placeholder="Ingresar nro. tarjeta" style="width: 100%;">
 	</th>
-	<th>
+	<th width="20%">
 		Vendedor
 		<select class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
 			<option value=''>----</option>
@@ -1146,7 +1155,17 @@ if($tipoDocDefault==2){
 			?>
 		</select>
 	</th>
-	<th colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='50' rows="3">
+	<th width="20%">Observaciones:<input type='text' class='custom-input' name='observaciones' size='40'>
+	</th>
+	<th width="20%">
+		Conductor:<input type='text' class='custom-input' name='conductor_vehiculo' size='50' id="conductor_vehiculo">
+		<div id="suggestions-container1"></div>
+	</th>
+	<th width="5%">
+		Modelo:<input type='text' class='custom-input' name='modelo_vehiculo' id="modelo_vehiculo">
+		<div id="suggestions-container2"></div>
+		Placa:<input type='text' class='custom-input' name='placa_vehiculo' id="placa_vehiculo">
+		<div id="suggestions-container3"></div>
 	</th>
 
 </tr>
@@ -1170,8 +1189,8 @@ if($tipoDocDefault==2){
 
 	<tr align="center">
 		<td width="5%">&nbsp;</td>
-		<td width="30%">Stock</td>
-		<td width="10%">Material</td>
+		<td width="30%">Material</td>
+		<td width="10%">Stock</td>
 		<td width="10%">Cantidad</td>
 		<td width="10%">Precio </td>
 		<td width="15%">Desc.</td>
@@ -1437,6 +1456,83 @@ if($banderaErrorFacturacion==0){
         </div>
     </div>
 </div>
-
+<script>
+	/**
+	 * Preparación del Formulario
+	 */
+	var aucomplete_conductor = [];
+	var aucomplete_modelo 	 = [];
+	var aucomplete_placa 	 = [];
+	$(document).ready(function () {
+		// Prepara input autocomplete
+		$.ajax({
+			url: "ajaxAutocompleteVenta.php",
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json",
+			success: function (data) {
+				aucomplete_conductor = data.data_conductor;
+				aucomplete_modelo 	 = data.data_modelo;
+				aucomplete_placa 	 = data.data_placa;
+				// Input Autocomplete - Conductor
+				$("#conductor_vehiculo").autocomplete({
+					source: aucomplete_conductor,
+					select: function (event, ui) {
+						// Manejar la selección de la sugerencia
+						var selectedValue = ui.item.value;
+						$("#conductor_vehiculo").val(selectedValue);
+						// console.log(selectedValue);
+						return false;
+					}
+				});
+				// Input Autocomplete - Modelo
+				$("#modelo_vehiculo").autocomplete({
+					source: aucomplete_modelo,
+					select: function (event, ui) {
+						// Manejar la selección de la sugerencia
+						var selectedValue = ui.item.value;
+						$("#modelo_vehiculo").val(selectedValue);
+						// console.log(selectedValue);
+						return false;
+					}
+				});
+				// Input Autocomplete - Placa
+				$("#placa_vehiculo").autocomplete({
+					source: aucomplete_placa,
+					select: function (event, ui) {
+						// Manejar la selección de la sugerencia
+						var selectedValue = ui.item.value;
+						$("#placa_vehiculo").val(selectedValue);
+						// console.log(selectedValue);
+						return false;
+					}
+				});
+			},
+			error: function (xhr, status, error) {
+				console.log('Ocurrio un error con los campos autocompletados');
+			}
+		});
+	});
+</script>
+<style>
+	#suggestions-container1 {
+		max-height: 150px;
+		overflow-y: auto;
+		position: absolute;
+		width: 200px;
+	}
+	#suggestions-container2 {
+		max-height: 150px;
+		overflow-y: auto;
+		position: absolute;
+		width: 200px;
+	}
+	#suggestions-container3 {
+		max-height: 150px;
+		overflow-y: auto;
+		position: absolute;
+		width: 200px;
+	}
+</style>
 </body>
 </html>

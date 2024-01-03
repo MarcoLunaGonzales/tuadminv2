@@ -1,5 +1,5 @@
 <?php
-require("conexion.inc");
+require("conexionmysqli.php");
 require("estilos_almacenes.inc");
 require("funciones.php");
 require("funciones_inventarios.php");
@@ -43,6 +43,10 @@ $cantidad_material=$_POST["cantidad_material"];
 
 $nroCorrelativo=empty($_POST["nroCorrelativo"])?'':$_POST["nroCorrelativo"];
 
+$modelo_vehiculo 	= empty($_POST["modelo_vehiculo"])	  ? '' : $_POST["modelo_vehiculo"];
+$placa_vehiculo 	= empty($_POST["placa_vehiculo"])	  ? '' : $_POST["placa_vehiculo"];
+$conductor_vehiculo = empty($_POST["conductor_vehiculo"]) ? '' : $_POST["conductor_vehiculo"];
+
 if($descuentoVenta=="" || $descuentoVenta==0){
 	$descuentoVenta=0;
 }
@@ -79,10 +83,11 @@ if((int)$nitCliente=='99001' || (int)$nitCliente=='99002' || (int)$nitCliente=='
 	$tipoDocumento=5;//nit
 }
 // Cliente
-$sqlCliente="SELECT CONCAT(c.nombre_cliente, ' ', c.paterno) as cliente, c.email_cliente, c.cod_cliente
+$sqlCliente="SELECT CONCAT(c.nombre_cliente) as cliente, c.email_cliente, c.cod_cliente
 			FROM clientes c
 			WHERE c.cod_cliente = '$codCliente'
 			LIMIT 1";
+// echo $sqlCliente;
 $respCliente = mysqli_query($enlaceCon,$sqlCliente);
 $datCliente	 = mysqli_fetch_array($respCliente);
 $nombreCliente = empty($datCliente['cliente'])?'':$datCliente['cliente'];
@@ -100,10 +105,11 @@ $nombreVendedor = $datConf['usuario'];
  * Verificar datos Cliente
  **************************/
 $cod_cliente = empty($_POST['cliente'])?'':$_POST['cliente'];
-$sql = "SELECT CONCAT(c.nombre_cliente, ' ',c.paterno) as cliente, c.email_cliente
+$sql = "SELECT CONCAT(c.nombre_cliente) as cliente, c.email_cliente
 		FROM clientes c
 		WHERE c.cod_cliente = '$cod_cliente'
 		LIMIT 1";
+// echo $sql;
 $resp 	= mysqli_query($enlaceCon,$sql);
 $data	= mysqli_fetch_array($resp);
 $nombre_cliente = empty($data['cliente'])?'':$data['cliente'];
@@ -241,14 +247,15 @@ if($tipoDoc <> 1){
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta)
+		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, modelo_vehiculo, placa_vehiculo, conductor_vehiculo)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta','$idTransaccion_siat','$nroTarjeta')";
+		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoVenta','$idTransaccion_siat','$nroTarjeta','$modelo_vehiculo','$placa_vehiculo','$conductor_vehiculo')";
 
-//echo $sql_inserta;
+// echo $sql_inserta;
+// exit;
 
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
-
+exit;
 if($sql_inserta==1){
 	
 	$montoTotalVentaDetalle=0;
