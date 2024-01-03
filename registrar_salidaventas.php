@@ -1059,6 +1059,9 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		echo "</select>";
 		?>
 </th>
+<th width="5%">
+	<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" size="10" readonly><img id="imagenFecha" src="imagenes/fecha.bmp"> 
+</th>
 <input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
 <th width="20%">
 	<div class="dropdown bootstrap-select form-control show">
@@ -1113,9 +1116,6 @@ if($tipoDocDefault==2){
 }
 ?>
 <tr>
-	<th width="5%">
-		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" size="10" readonly><img id="imagenFecha" src="imagenes/fecha.bmp"> 
-	</th>
 	<th width="20%">
 		Tipo Pago
 		<div id='divTipoVenta'>
@@ -1155,17 +1155,21 @@ if($tipoDocDefault==2){
 			?>
 		</select>
 	</th>
-	<th width="20%">Observaciones:<input type='text' class='custom-input' name='observaciones' size='40'>
-	</th>
 	<th width="20%">
-		Conductor:<input type='text' class='custom-input' name='conductor_vehiculo' size='50' id="conductor_vehiculo">
+		Conductor:<input type='text' class='custom-input' name='conductor_vehiculo' size='40' id="conductor_vehiculo">
 		<div id="suggestions-container1"></div>
 	</th>
 	<th width="5%">
-		Modelo:<input type='text' class='custom-input' name='modelo_vehiculo' id="modelo_vehiculo">
-		<div id="suggestions-container2"></div>
-		Placa:<input type='text' class='custom-input' name='placa_vehiculo' id="placa_vehiculo">
+		Placa: <br>
+		<input type='text' class='custom-input' name='placa_vehiculo' id="placa_vehiculo">
 		<div id="suggestions-container3"></div>
+	</th>
+	<th width="5%">
+		Modelo: <br>
+		<input type='text' class='custom-input' name='modelo_vehiculo' id="modelo_vehiculo">
+		<div id="suggestions-container3"></div>
+	</th>
+	<th width="20%" colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='40'>
 	</th>
 
 </tr>

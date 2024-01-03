@@ -421,7 +421,7 @@ $consulta = "
     s.cod_chofer, s.cod_tipopago, s.monto_final, s.idTransaccion_siat
     FROM salida_almacenes s, tipos_salida ts 
     WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
-
+// echo $consulta;
 if($txtnroingreso!="")
    {$consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
    }

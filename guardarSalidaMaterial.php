@@ -53,29 +53,35 @@ if($descuentoVenta=="" || $descuentoVenta==0){
 
 $vehiculo="";
 //SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$tipoDocDefault=mysqli_result($respConf,0,0);
+// $sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
+// $respConf=mysqli_query($enlaceCon,$sqlConf);
+// $tipoDocDefault=mysqli_result($respConf,0,0);
+$tipoDocDefault = obtenerValorConfiguracion(1);
 
 //SACAMOS LA CONFIGURACION PARA EL CLIENTE POR DEFECTO
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=2";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$clienteDefault=mysqli_result($respConf,0,0);
+// $sqlConf="select valor_configuracion from configuraciones where id_configuracion=2";
+// $respConf=mysqli_query($enlaceCon,$sqlConf);
+// $clienteDefault=mysqli_result($respConf,0,0);
+$clienteDefault=obtenerValorConfiguracion(2);
 
 //SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$facturacionActivada=mysqli_result($respConf,0,0);
+// $sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
+// $respConf=mysqli_query($enlaceCon,$sqlConf);
+// $facturacionActivada=mysqli_result($respConf,0,0);
+$facturacionActivada=obtenerValorConfiguracion(3);
 
 //SACAMOS LA CONFIGURACION PARA LA VALIDACION DE STOCKS
-$sqlConf="select valor_configuracion from configuraciones where id_configuracion=4";
-$respConf=mysqli_query($enlaceCon,$sqlConf);
-$datConf=mysqli_fetch_array($respConf);
-$banderaValidacionStock=$datConf[0];
+// $sqlConf="select valor_configuracion from configuraciones where id_configuracion=4";
+// $respConf=mysqli_query($enlaceCon,$sqlConf);
+// $datConf=mysqli_fetch_array($respConf);
+// $banderaValidacionStock=$datConf[0];
+$banderaValidacionStock=obtenerValorConfiguracion(4);
 
-$sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
+$sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) as codigo FROM salida_almacenes";
 $resp=mysqli_query($enlaceCon,$sql);
-$codigo=mysqli_result($resp,0,0);
+// $codigo=mysqli_result($resp,0,0);
+$data	 = mysqli_fetch_array($resp);
+$codigo = empty($data['codigo'])?'':$data['codigo'];
 
 
 /*VALIDACION MANUAL CASOS ESPECIALES*/
@@ -122,7 +128,7 @@ $nro_factura_siat   = 0;
 $input_nro_tarjeta  = empty($_POST['nroTarjeta_form']) ? '' : $_POST['nroTarjeta_form'];
 $nroTarjeta 		= str_replace('*', '0', $input_nro_tarjeta);
 //====================================================//
-$url_config = valorConfig(7);
+$url_config = obtenerValorConfiguracion(7);
 
 
 // Tipo de emisión de factura = 2
@@ -253,9 +259,8 @@ $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almace
 
 // echo $sql_inserta;
 // exit;
-
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
-exit;
+
 if($sql_inserta==1){
 	
 	$montoTotalVentaDetalle=0;

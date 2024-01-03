@@ -18,6 +18,7 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 	
 	//echo $sqlExistencias."<br>";
 	$respExistencias=mysqli_query($enlaceCon,$sqlExistencias);
+	$codMaterial = 0;
 	while($datExistencias=mysqli_fetch_array($respExistencias)){
 		if($cantidadPivote>0){
 			$codMaterial=$datExistencias[0];

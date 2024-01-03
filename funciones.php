@@ -161,7 +161,9 @@ function numeroCorrelativo($tipoDoc){
 	//SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
 	$sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
 	$respConf=mysqli_query($enlaceCon,$sqlConf);
-	$facturacionActivada=mysqli_result($respConf,0,0);
+	// $facturacionActivada=mysqli_result($respConf,0,0);
+	$facturacionActivada = ($respConf && $fila = mysqli_fetch_assoc($respConf)) ? $fila['valor_configuracion'] : null;
+
 
 	$fechaActual=date("Y-m-d");
 	$globalAgencia=$_COOKIE['global_agencia'];
