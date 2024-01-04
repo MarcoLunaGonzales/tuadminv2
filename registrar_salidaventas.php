@@ -1156,18 +1156,18 @@ if($tipoDocDefault==2){
 		</select>
 	</th>
 	<th width="20%">
-		Conductor:<input type='text' class='custom-input' name='conductor_vehiculo' size='40' id="conductor_vehiculo">
-		<div id="suggestions-container1"></div>
-	</th>
-	<th width="5%">
 		Placa: <br>
-		<input type='text' class='custom-input' name='placa_vehiculo' id="placa_vehiculo">
+		<input type='text' class='custom-input' name='placa_vehiculo' id="placa_vehiculo" oninput="this.value = this.value.replace(/\s/g, '');">
 		<div id="suggestions-container3"></div>
 	</th>
 	<th width="5%">
 		Modelo: <br>
 		<input type='text' class='custom-input' name='modelo_vehiculo' id="modelo_vehiculo">
 		<div id="suggestions-container3"></div>
+	</th>
+	<th width="5%">
+		Conductor:<input type='text' class='custom-input' name='conductor_vehiculo' size='40' id="conductor_vehiculo">
+		<div id="suggestions-container1"></div>
 	</th>
 	<th width="20%" colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='40'>
 	</th>
