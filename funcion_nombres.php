@@ -143,4 +143,15 @@ function nombreLineaProveedor($codigo){
 	return($nombre);
 }
 
+function obtenerNombreSucursalAgrupado($sucursales){
+	require("conexionmysqlipdf.inc");
+	$sql="select GROUP_CONCAT(descripcion) AS descripcion from ciudades where cod_ciudad in ($sucursales)";
+	$resp=mysqli_query($enlaceCon,$sql);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+	$nombre.=$dat[0];
+	}
+	return($nombre);
+}
+
 ?>

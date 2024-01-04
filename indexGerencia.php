@@ -164,7 +164,8 @@ include("datosUsuario.php");
 							<li><a href="rptOpUtilidadesDocumentoServiteca.php" target="contenedorPrincipal">Utilidades x Documento Serviteca</a></li>
 							<li><a href="rptOpUtilidadesxItem.php" target="contenedorPrincipal">Ranking de Utilidades x Linea e Item</a></li>
 							<li><a href="rptOpUtilidadesDocItem.php" target="contenedorPrincipal">Utilidades x Documento e Item</a></li>
-							<li><a href="rptOpUtilidadesNetas.php" target="contenedorPrincipal">Utilidad Neta x Periodo</a></li>
+							<li><a href="rptOpUtilidadesNetas.php" target="contenedorPrincipal">Utilidad Neta x Periodo</a></li>							
+							<li><a href="rptOpUtilidadesSucursal.php" target="contenedorPrincipal">Utilidad x Sucursal x Periodo</a></li>
 						</ul>	
 					</li>
 					<!--li><span>Cobranzas</span>

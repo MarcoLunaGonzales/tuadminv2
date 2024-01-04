@@ -371,4 +371,35 @@ function montoVentaDocumento($codVenta){
 	}
 	return($totalVenta);	
 }
+
+function obtenerUtilidadSucursal($rpt_territorio, $fecha_ini, $fecha_fin){
+	require("conexionmysqlipdf.inc");
+	$sql="SELECT sum( (sd.monto_unitario-sd.descuento_unitario) - (((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento))montoVenta, sum(sd.cantidad_unitaria*sd.costo_almacen)costo 
+	from `salida_almacenes` s, `salida_detalle_almacenes` sd 
+	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.`fecha` BETWEEN '$fecha_ini' and '$fecha_fin' 
+	and s.`salida_anulada`=0 and s.`cod_tiposalida`=1001 and
+	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio')";
+	$resp=mysqli_query($enlaceCon, $sql);
+	$totalVenta=0;
+	$totalCosto=0;
+	$utilidad=0;
+	while($datos=mysqli_fetch_array($resp)){	
+		$totalVenta=$datos[0];
+		$totalCosto=$datos[1];
+		$utilidad=$totalVenta-$totalCosto;
+	}
+	return($utilidad);		
+}
+
+function obtenerGastosSucursal($rpt_territorio, $fecha_ini, $fecha_fin){
+	require("conexionmysqlipdf.inc");
+	$sql="SELECT sum(monto)monto from gastos g where fecha_gasto between '$fecha_ini' and '$fecha_fin' and g.estado=1 and g.cod_ciudad='$rpt_territorio'";
+	$resp=mysqli_query($enlaceCon, $sql);
+	$totalGasto=0;
+	while($datos=mysqli_fetch_array($resp)){	
+		$totalGasto=$datos[0];
+	}
+	return($totalGasto);		
+}
+
 ?>
