@@ -1420,13 +1420,13 @@ if($banderaErrorFacturacion==0){
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-2 col-form-label text-white">Contacto/Cel (*)</label>
+                    <label class="col-sm-2 col-form-label text-white">Contacto/Cel</label>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <input class="form-control" style="color:black;background: #fff;" type="text" id="cont" value="" required placeholder="Ingrese contacto Celular"/>
                         </div>
                     </div>
-                    <label class="col-sm-1 col-form-label text-white">Contacto/Telf (*)</label>
+                    <label class="col-sm-1 col-form-label text-white">Contacto/Telf</label>
                     <div class="col-sm-5">
                         <div class="form-group">
                             <input class="form-control" style="color:black;background: #fff;" type="text" id="tel2" value="" required placeholder="Ingrese contacto Telefono"/>
