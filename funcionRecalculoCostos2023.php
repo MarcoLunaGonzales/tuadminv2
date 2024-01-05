@@ -133,6 +133,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 						if($cantidad_kardex>0){
 							$nuevoCostoPromedio=($valorNetoIngreso+$valor_kardex)/$cantidad_kardex;
 							//echo "neto: ".$valorNetoIngreso." valorkardex:".$valor_kardex." cantidad_kardex:".$cantidad_kardex."<br>";
+							//echo "NUEVO COSTO PROMEDIO: ".$nuevoCostoPromedio."<br>";
 						}
 						$sqlUpdCosto="update ingreso_detalle_almacenes set costo_almacen=precio_bruto  where 
 							cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$codigoItem'";
@@ -150,7 +151,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 
 						$sqlUpdCosto="UPDATE ingreso_detalle_almacenes set costo_almacen='$costoSalidaTraspaso',costo_promedio='$costoSalidaTraspaso' where cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$codigoItem'";
 						$respUpdCosto=mysql_query($sqlUpdCosto);
-						echo $sqlUpdCosto."<br>";
+						//echo $sqlUpdCosto."<br>";
 						$valorNetoIngreso=$costoSalidaTraspaso*$cantidad_ingreso;						
 						if($cantidad_kardex>0){
 							$nuevoCostoPromedio=($valorNetoIngreso+$valor_kardex)/$cantidad_kardex;
@@ -175,6 +176,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 						//echo "NO ENTRO<br>";
 					
 					$valor_kardex=$valor_kardex+$valorNetoIngreso;
+					//echo "*****   VALOR KARDEX   *****".$valor_kardex."<br>";
 				}
 				
 				
@@ -199,14 +201,14 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 					
 					
 					$valor_kardex=$valor_kardex-($cantidad_salida*$nuevoCostoPromedio);
-					echo "valor_kardex: ".$valor_kardex."<br>";
+					//echo "valor_kardex: ".$valor_kardex."<br>";
 					$costoPeps=0;
 
 					$sqlUpd="update salida_detalle_almacenes set costo_almacen='$nuevoCostoPromedio' where 
 					cod_salida_almacen='$cod_salida' and cod_material='$codigoItem'"; 
 					$respUpd=mysql_query($sqlUpd);
 
-					echo $sqlUpd."<br>";
+					//echo $sqlUpd."<br>";
 				}
 			}
 			$suma_saldo_final=$suma_ingresos-$suma_salidas+$cantidad_inicial_kardex;	
