@@ -375,4 +375,17 @@ function actualizarPrecios($enlaceCon, $codProducto, $arrayPrecios){
 	return(1);
 }
 
+function obtenerAlmacenesDeCiudadString($subGrupo){
+	$estilosVenta=1;
+	require("conexionmysqlipdf.inc");
+	$sql="SELECT GROUP_CONCAT(cod_almacen) from almacenes where cod_ciudad in ($subGrupo) GROUP BY cod_ciudad;";
+    $resp=mysqli_query($enlaceCon,$sql);
+    $datos=[];$index=0;				
+    while($detalle=mysqli_fetch_array($resp)){
+       $datos[$index]=$detalle[0];
+       $index++;		 		
+    }  
+    return implode(",", $datos);
+}
+
 ?>

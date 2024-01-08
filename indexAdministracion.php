@@ -172,7 +172,7 @@ include("datosUsuario.php");
 							<li><a href="rptOpVentasxPersona.php" target="contenedorPrincipal">Ventas x Vendedor Resumido</a></li>
 							<li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor Detallado</a></li>
 							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li>
-
+							<li><a href="rptOpVentasPorClientes.php" target="contenedorPrincipal">Ventas x Cliente</a></li>
 							<li><a href="rptOpVentasDetallado.php" target="contenedorPrincipal">Detallado por Item y Linea ** </a></li>
 						</ul>	
 					</li>
