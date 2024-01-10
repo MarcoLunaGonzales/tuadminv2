@@ -4,6 +4,9 @@ require('function_formatofecha.php');
 require('conexion.inc');
 require('funcion_nombres.php');
 
+ error_reporting(E_ALL);
+ ini_set('display_errors', '1');
+
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
 $rpt_ver=$_GET['rpt_ver'];
@@ -28,7 +31,7 @@ $sql="SELECT
  s.nro_correlativo, s.fecha, s.hora_salida, m.cod_linea_proveedor,
  (select pl.abreviatura_linea_proveedor from proveedores_lineas pl where pl.cod_linea_proveedor=m.cod_linea_proveedor) as lineaproveedor,
  m.codigo_anterior, m.descripcion_material, 
- sd.cantidad_unitaria, sd.precio_unitario, sd.descuento_unitario, sd.monto_unitario, s.descuento
+ sd.cantidad_unitaria, sd.precio_unitario, sd.descuento_unitario, sd.monto_unitario, s.descuento, ((sd.monto_unitario/s.monto_total)*s.descuento)as descuentocabecera
 from salida_almacenes s, salida_detalle_almacenes sd, material_apoyo m
 where s.cod_salida_almacenes=sd.cod_salida_almacen and  sd.cod_material=m.codigo_material and 
 s.cod_almacen in (select a.cod_almacen from almacenes a where a.cod_ciudad='$rpt_territorio') and s.fecha BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' and s.salida_anulada=0 
@@ -47,6 +50,8 @@ echo "<br><table align='center' class='texto' width='100%'>
 <th>Monto Venta</th>
 <th>Precio</th>
 <th>Subtotal</th>
+<th>DescuentoCabecera</th>
+<th>MontoProducto</th>
 </tr>";
 
 $totalVenta=0;
@@ -61,11 +66,14 @@ while($datos=mysql_fetch_array($resp)){
 	$precioItem=$datos[9];
 	$descuentoVenta=$datos[10];
 	$montoItem=$datos[11];
+	$descuentoCabecera=$datos[12];
+	$descuentoCabeceraAplicadoProducto=$datos[13];
 	
-	$montoPtr=number_format($montoVenta,2,".",",");
+	$montoItem2=$montoItem-$descuentoCabeceraAplicadoProducto;
+
 	$cantidadFormat=number_format($cantidad,0,".",",");
 	
-	$totalVenta=$totalVenta+$montoVenta;
+	$totalVenta=$totalVenta+$montoItem2;
 	echo "<tr>
 	<td>$numeroDoc</td>
 	<td>$fechaHora</td>
@@ -76,14 +84,15 @@ while($datos=mysql_fetch_array($resp)){
 	<td>$precioItem</td>
 	<td>$descuentoVenta</td>
 	<td>$montoItem</td>
-	
+	<td>$descuentoCabeceraAplicadoProducto</td>
+	<td>$montoItem2</td>	
 	</tr>";
 }
 echo "<tr>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>Total:</td>
-	<td>$totalPtr</td>
+	<td>$totalVenta</td>
 <tr>";
 
 echo "</table>";

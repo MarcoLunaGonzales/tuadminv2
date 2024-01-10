@@ -2,8 +2,8 @@
 require('conexion.inc');
 $codTerritorio=$_GET['codTerritorio'];
 $sql_visitador="select distinct(f.codigo_funcionario), f.paterno, f.materno, f.nombres
-	from funcionarios f, cargos c
-	where f.cod_cargo=c.cod_cargo and f.estado=1 and f.cod_ciudad in ($codTerritorio) 
+	from funcionarios f, cargos c, funcionarios_agencias fa
+	where f.cod_cargo=c.cod_cargo and f.estado=1 and fa.cod_ciudad in ($codTerritorio) and fa.codigo_funcionario=f.codigo_funcionario
 	order by f.paterno";
 $resp_visitador=mysql_query($sql_visitador);
 echo "<select name='rpt_persona' id='rpt_persona' class='texto' size='10' multiple>";

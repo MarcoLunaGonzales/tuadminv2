@@ -3,6 +3,10 @@ require("fpdf.php");
 require("conexion.inc");
 require("funciones.php");
 
+/* error_reporting(E_ALL);
+ ini_set('display_errors', '1');*/
+
+
 date_default_timezone_set('America/La_Paz');
 $codVenta=$_POST["cod_venta"];
 $razonSocial=$_POST["razon_social_convertir"];

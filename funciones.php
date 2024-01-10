@@ -27,6 +27,11 @@ function formatonumeroDec($valor) {
    return $float_redondeado; 
 }
 
+function formatNumberInt($valor) { 
+   $float_redondeado=number_format($valor, 0); 
+   return $float_redondeado; 
+}
+
 function formateaFechaVista($cadena_fecha)
 {	$cadena_formatonuevo=$cadena_fecha[6].$cadena_fecha[7].$cadena_fecha[8].$cadena_fecha[9]."-".$cadena_fecha[3].$cadena_fecha[4]."-".$cadena_fecha[0].$cadena_fecha[1];
 	return($cadena_formatonuevo);
@@ -191,7 +196,7 @@ function numeroCorrelativo($tipoDoc){
 			return $vectorCodigo;
 		}
 	}
-	if(($facturacionActivada==1 && $tipoDoc==2) || $facturacionActivada!=1){
+	if( ( $facturacionActivada==1 && ($tipoDoc==2 || $tipoDoc==3) ) || $facturacionActivada!=1){
 		$sql="select IFNULL(max(nro_correlativo)+1,1) from salida_almacenes where cod_tipo_doc='$tipoDoc' and cod_almacen='$globalAlmacen'";
 		$resp=mysql_query($sql);
 		while($dat=mysql_fetch_array($resp)){
@@ -239,8 +244,8 @@ function precioVenta($codigo,$agencia){
 	return $precioVenta;
 }
 function precioVentaN($enlaceCon,$codigo,$agencia){
-	
-	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and p.cod_ciudad='$agencia'";
+	$agenciaDefecto=1;
+	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and p.cod_ciudad='$agenciaDefecto'";
 	//echo $consulta;
 	$rs=mysqli_query($enlaceCon,$consulta);
 	$registro=mysqli_fetch_array($rs);
@@ -366,4 +371,35 @@ function montoVentaDocumento($codVenta){
 	}
 	return($totalVenta);	
 }
+
+function obtenerUtilidadSucursal($rpt_territorio, $fecha_ini, $fecha_fin){
+	require("conexionmysqlipdf.inc");
+	$sql="SELECT sum( (sd.monto_unitario-sd.descuento_unitario) - (((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento))montoVenta, sum(sd.cantidad_unitaria*sd.costo_almacen)costo 
+	from `salida_almacenes` s, `salida_detalle_almacenes` sd 
+	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.`fecha` BETWEEN '$fecha_ini' and '$fecha_fin' 
+	and s.`salida_anulada`=0 and s.`cod_tiposalida`=1001 and
+	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio')";
+	$resp=mysqli_query($enlaceCon, $sql);
+	$totalVenta=0;
+	$totalCosto=0;
+	$utilidad=0;
+	while($datos=mysqli_fetch_array($resp)){	
+		$totalVenta=$datos[0];
+		$totalCosto=$datos[1];
+		$utilidad=$totalVenta-$totalCosto;
+	}
+	return($utilidad);		
+}
+
+function obtenerGastosSucursal($rpt_territorio, $fecha_ini, $fecha_fin){
+	require("conexionmysqlipdf.inc");
+	$sql="SELECT sum(monto)monto from gastos g where fecha_gasto between '$fecha_ini' and '$fecha_fin' and g.estado=1 and g.cod_ciudad='$rpt_territorio'";
+	$resp=mysqli_query($enlaceCon, $sql);
+	$totalGasto=0;
+	while($datos=mysqli_fetch_array($resp)){	
+		$totalGasto=$datos[0];
+	}
+	return($totalGasto);		
+}
+
 ?>

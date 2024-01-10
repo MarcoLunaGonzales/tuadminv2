@@ -11,7 +11,7 @@ $sql = "
     SELECT f.cod_cargo, f.cod_ciudad
     FROM funcionarios f, usuarios_sistema u
     WHERE u.codigo_funcionario=f.codigo_funcionario AND u.codigo_funcionario='$usuario' AND u.contrasena='$contrasena' ";
-	echo $sql;
+//	echo $sql;
 $resp = mysql_query($sql);
 $num_filas = mysql_num_rows($resp);
 if ($num_filas != 0) {
@@ -38,13 +38,21 @@ if ($num_filas != 0) {
 	setcookie("global_almacen",$global_almacen);
 	setcookie("globalGestion", $globalGestion);
 	
-	if($cod_cargo==1000 || $cod_cargo==1001 || $cod_cargo==1002){//ADMINISTRADORES
+	if($cod_cargo==1000){//ADMINISTRADORES
+		header("location:indexGerencia.php");
+	}elseif($cod_cargo==1002){
 		header("location:indexAlmacenSup.php");
 	}elseif($cod_cargo==1019){//CAJA
 		header("location:indexAlmacenReg.php");
 	}elseif($cod_cargo==1016){//VENDEDOR
 		header("location:indexAlmacenCaja.php");
+	}elseif ($cod_cargo==1020){
+		header("location:indexServiteca.php");
+	}elseif ($cod_cargo==1030){
+		header("location:indexExterno.php");
 	}
+
+
 	$stringGlobalAdmins=obtenerValorConfiguracion(0);
 	$posBuscada = strpos($stringGlobalAdmins, $usuario);
 	if ($posBuscada === true) {

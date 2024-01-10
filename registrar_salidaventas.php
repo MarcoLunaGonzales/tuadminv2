@@ -465,7 +465,6 @@ function validar(f, ventaDebajoCosto){
 	var cantidadItems=num;
 	console.log("numero de items: "+cantidadItems);
 	if(cantidadItems>0){
-		
 		var item="";
 		var cantidad="";
 		var stock="";
@@ -514,6 +513,12 @@ function validar(f, ventaDebajoCosto){
 		}
 	}else{
 		alert("El ingreso debe tener al menos 1 item.");
+		return(false);
+	}
+  	/**************** Validar Efectivo y Total Final ****************/
+  	var totalFinalVenta = parseFloat($("#totalFinal").val());
+	if(totalFinalVenta<=0){
+		alert("El Monto Final del documento no puede ser 0");
 		return(false);
 	}
 }

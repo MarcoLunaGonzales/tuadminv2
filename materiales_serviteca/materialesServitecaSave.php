@@ -34,7 +34,7 @@ for ($i = 1; $i <= $totalCampos; $i++) {
 
 echo "<script language='Javascript'>
 			alert('Los datos fueron insertados correctamente.');
-			location.href='../navegadorVentas.php';
+			location.href='../navegadorVentasServiteca.php';
 			</script>";
 
 ?>

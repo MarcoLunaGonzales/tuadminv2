@@ -11,10 +11,8 @@ if(!function_exists('register_globals')){
 //$conexion=mysql_connect("www.minkasoftware.com","minkauserbd","4868422Marco$");
 //$bd=mysql_select_db("tuadmintecniplast");
 
-
-
-$conexion=mysql_connect("localhost","root","123456789");
-$bd=mysql_select_db("maitkava290423");
+$conexion=mysql_connect("www.minkasoftware.com","minkatotal","4868422Marco$");
+$bd=mysql_select_db("maitkava");
 //$bd=mysql_select_db("tiendatest");
 
 ?>

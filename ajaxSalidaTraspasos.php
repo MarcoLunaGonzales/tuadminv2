@@ -50,6 +50,9 @@ while ($dat = mysql_fetch_array($resp)) {
 	$codTipoDoc=$dat[11];
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
     $estado_preparado = 0;
+
+    $color_fondo="";
+    
     if ($estado_almacen == 0) {
         $color_fondo = "";
         $chk = "<input type='checkbox' name='codigo' value='$codigo'>";
@@ -86,14 +89,14 @@ while ($dat = mysql_fetch_array($resp)) {
     }
     echo "<input type='hidden' name='estado_preparado' value='$estado_preparado'>";
     //echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>$nombre_almacen</td><td>$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>$txt_detalle</td></tr>";
-    echo "<tr bgcolor='$color_fondo'>";
+    echo "<tr>";
     echo "<td align='center'>&nbsp;$chk</td>";
     echo "<td align='center'>$nro_correlativo</td>";
     echo "<td align='center'>$fecha_salida_mostrar $hora_salida</td>";
     echo "<td>$nombre_tiposalida</td><td>&nbsp;$nombre_almacen</td>";
     echo "<td>&nbsp;$nombreCliente</td><td>&nbsp;$obs_salida</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
-    echo "<td><a href='javascript:llamar_preparado(this.form, $estado_preparado, $codigo)'>
+    echo "<td bgcolor='$color_fondo'><a href='javascript:llamar_preparado(this.form, $estado_preparado, $codigo)'>
 		<img src='imagenes/detalles.png' border='0' alt='Detalle' width='40'></a></td>";
 	/*if($codTipoDoc==1){
 		echo "<td><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'>Ver F.P.</a></td>";

@@ -8,7 +8,7 @@ if(!function_exists('register_globals')){
 }else{
 }
 
-$enlaceCon=mysqli_connect("localhost","root","123456789","maitkava290423");
+$enlaceCon=mysqli_connect("www.minkasoftware.com","minkatotal","4868422Marco$","maitkava");
 
 if (mysqli_connect_errno())
 {

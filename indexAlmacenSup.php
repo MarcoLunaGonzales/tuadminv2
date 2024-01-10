@@ -41,7 +41,7 @@ include("datosUsuario.php");
 	
 	<nav id="menu">
 		<ul>
-			<li><span>Datos Generales</span>
+			<!--li><span>Datos Generales</span>
 				<ul>
 					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Proveedores</a></li>
 
@@ -59,8 +59,6 @@ include("datosUsuario.php");
 					</li>
 					<li><a href="navegador_funcionarios1.php" target="contenedorPrincipal">Funcionarios</a></li>
 					<li><a href="programas/clientes/inicioClientes.php" target="contenedorPrincipal">Clientes</a></li>
-					<li><a href="navegador_dosificaciones.php" target="contenedorPrincipal">Dosificaciones de Facturas</a></li>
-					<!--li><a href="navegador_vehiculos.php" target="contenedorPrincipal">Vehiculos</a></li-->
 					<li><span>Gestion de Almacenes</span>
 						<ul>
 							<li><a href="navegador_almacenes.php" target="contenedorPrincipal">Almacenes</a></li>
@@ -70,7 +68,7 @@ include("datosUsuario.php");
 						</ul>	
 					</li>					
 				</ul>	
-			</li>
+			</li-->
 
 			<!--li><span>Ordenes de Compra</span>
 				<ul>
@@ -91,6 +89,7 @@ include("datosUsuario.php");
 				<ul>
 					<li><a href="navegador_salidamateriales.php" target="contenedorPrincipal">Listado de Traspasos</a></li>
 					<li><a href="navegadorVentas.php" target="contenedorPrincipal">Listado de Ventas</a></li>
+					<li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li>
 				</ul>	
 			</li>
 			<!--li><span>Listado de Cobranzas</span>
@@ -110,6 +109,7 @@ include("datosUsuario.php");
 						<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li>
 						<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
 						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
+						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>
 						
 
 			<li><span>Reportes</span>
@@ -127,7 +127,8 @@ include("datosUsuario.php");
 							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias con Precio de Venta</a></li>
 							<li><a href="rpt_op_inv_ingresos.php" target="contenedorPrincipal">Ingresos</a></li>
 							<li><a href="rpt_op_inv_salidas.php" target="contenedorPrincipal">Salidas</a></li>
-							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
+							<li><a href="rpt_op_inv_traspasos.php" target="contenedorPrincipal">Seguimiento Traspasos</a></li>
+							<li><a href="rpt_op_inv_ingresossalidas.php" target="contenedorPrincipal">Ingresos Vs. Salidas</a></li>											<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
 					</li>	
 					<li><span>Costos</span>
@@ -155,14 +156,15 @@ include("datosUsuario.php");
 							<!--li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li-->
 						</ul>	
 					</li>
-					<li><span>Utilidades</span>
+					<!--li><span>Utilidades</span>
 						<ul>
 							<li><a href="rptOpUtilidadesDocumento.php" target="contenedorPrincipal">Utilidades x Documento</a></li>
+							<li><a href="rptOpUtilidadesDocumentoServiteca.php" target="contenedorPrincipal">Utilidades x Documento Serviteca</a></li>
 							<li><a href="rptOpUtilidadesxItem.php" target="contenedorPrincipal">Ranking de Utilidades x Linea e Item</a></li>
 							<li><a href="rptOpUtilidadesDocItem.php" target="contenedorPrincipal">Utilidades x Documento e Item</a></li>
 							<li><a href="rptOpUtilidadesNetas.php" target="contenedorPrincipal">Utilidad Neta x Periodo</a></li>
 						</ul>	
-					</li>
+					</li-->
 					<!--li><span>Cobranzas</span>
 						<ul>
 							<li><a href="rptOpCobranzas.php" target="contenedorPrincipal">Cobranzas</a></li>
@@ -174,6 +176,7 @@ include("datosUsuario.php");
 			<li><span>Utilitarios</span>
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>
+					<li><a href="reprocesarcostos.php" target="_blank">Reprocesar Costos</a></li>
 				</ul>
 			</li>		
 	</nav>

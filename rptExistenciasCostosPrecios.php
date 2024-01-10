@@ -58,7 +58,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 			<thead>
 			<tr><th>&nbsp;</th><th>Codigo</th><th>Linea Proveedor</th><th>Material</th>
-			<th>CantidadPresentacion</th><th>Cajas</th><th>Unidades</th><th>PrecioVenta</th></tr>
+			<th>CantidadPresentacion</th><th>Cajas</th><th>Unidades</th><th>PrecioVenta</th><th>Monto</th></tr>
 			</thead>";
 		}
 
@@ -130,7 +130,8 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 				$costoItemF=formatonumeroDec($costoItem);
 				/*FIN COSTO*/
 		
-				$cadena_mostrar.="<td align='center'>$stockCajas</td><td align='center'>$stockUnidades</td><td align='center'>$costoItemF</td></tr>";
+				$cadena_mostrar.="<td align='center'>$stockCajas</td><td align='center'>$stockUnidades</td>
+				<td align='center'>$precioUnitario</td><td align='center'>$costoItemF</td></tr>";
 			}
 
 			$totalCosto=$totalCosto+$costoItem;
