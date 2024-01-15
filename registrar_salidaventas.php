@@ -493,7 +493,26 @@ function verificarDeudaCliente(cod_cliente) {
 	});
 }
 
-async function validar(f, ventaDebajoCosto){
+function validar(f, ventaDebajoCosto){
+
+	/**
+	 * Validación de Descuento 15%
+	 */
+	let final_monto_total = parseFloat(document.getElementById("totalVenta").value);
+	let final_descuento   = parseFloat(document.getElementById("descuentoVenta").value);
+	// Calcular el 15% del monto total
+	let limiteDescuento = 0.15 * final_monto_total;
+	if (final_descuento > limiteDescuento) {
+    	// Mostrar mensaje de error para descuentos mayores al 15%
+		alert("El descuento no puede ser mayor al 15%. Por favor, ingresa un descuento válido.");
+		return false;
+	}
+	if (final_descuento < 0) {
+		// Mostrar mensaje de error para descuentos menores al 0%
+		alert("El descuento no puede ser menor al 0%. Por favor, ingresa un descuento válido.");
+		return false;
+	}
+	
 	// Si el tipo pago es CREDITO y no se seleccionó clietne no se termina el proceso
 	let tipo_pago = $('#tipoVenta').val();
 	if(tipo_pago == 4 && ($('#cliente').val() == 146 || $('#cliente').val() == '')){
