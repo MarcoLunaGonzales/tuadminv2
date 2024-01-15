@@ -451,7 +451,7 @@ function validar(f, ventaDebajoCosto){
 	let limiteDescuento = 0.15 * final_monto_total;
 	if (final_descuento > limiteDescuento) {
     	// Mostrar mensaje de error para descuentos mayores al 15%
-		alert("El descuento no puede ser mayor al 15%. Por favor, ingresa un descuento válido.");
+		alert("El descuento no puede ser mayor al 15%.");
 		return false;
 	}
 	if (final_descuento < 0) {
