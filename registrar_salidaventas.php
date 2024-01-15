@@ -1065,7 +1065,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 <input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
 <th width="20%">
 	<div class="dropdown bootstrap-select form-control show">
-		<select name="tipo_documento" class="selectpicker form-control" data-live-search="true" id="tipo_documento" required="" data-style="btn btn-rose" onChange='mostrarComplemento(form1);'>
+		<select name="tipo_documento" class="selectpicker form-control" data-live-search="true" id="tipo_documento" required="" data-style="btn btn-success" onChange='mostrarComplemento(form1);'>
 		<!-- Tipo de Documento por Defecto => NIT -->
 		<?php
 			$sql2="SELECT codigoClasificador,descripcion FROM siat_sincronizarparametricatipodocumentoidentidad;";
@@ -1096,7 +1096,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 </th>
 
 <th align='center' id='divCliente' width="20%">		
-	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-rose">
+	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-success">
 		<option value='146'>NO REGISTRADO</option>
 	</select>
 </th>
@@ -1122,7 +1122,7 @@ if($tipoDocDefault==2){
 			<?php
 				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
 				$resp1=mysqli_query($enlaceCon,$sql1);
-				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-rose' data-live-search='true' id='tipoVenta'>";
+				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-warning' data-live-search='true' id='tipoVenta'>";
 				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
@@ -1137,7 +1137,7 @@ if($tipoDocDefault==2){
 	</th>
 	<th width="20%">
 		Vendedor
-		<select class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
+		<select class='selectpicker form-control' data-style='btn btn-warning' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
 			<option value=''>----</option>
 			<?php
 			$sql2="select f.`codigo_funcionario`,
@@ -1326,7 +1326,7 @@ if($tipoDocDefault==2){
 
 if($banderaErrorFacturacion==0){
 	echo "<div class='divBotones2' style='display:none;'>
-	        <input type='submit' class='boton-verde' value='Guardar Venta' id='btsubmit' name='btsubmit' onclick='return validar(this.form, $ventaDebajoCosto)' style='z-index:0;'>
+	        <input type='submit' class='boton-rojo' value='Guardar Venta' id='btsubmit' name='btsubmit' onclick='return validar(this.form, $ventaDebajoCosto)' style='z-index:0;'>
 			
 		
             <table style='width:330px;padding:0 !important;margin:1 !important;bottom:25px;position:fixed;left:100px;'>
