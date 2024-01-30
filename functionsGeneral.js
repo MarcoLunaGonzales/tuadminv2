@@ -314,20 +314,18 @@ function cargarDatosExcelIngresosSave(){
 
 function cambiarNotaRemision(){
 	if($("#boton_nota_remision").length>0){
-		var tipo=$("#tipoDoc").val();
-		if(tipo==2){
-			$("#tipoDoc").val(1);	
-			$("#boton_nota_remision").addClass("boton-plomo-osc");
-			if($("#boton_nota_remision").hasClass("boton-plomo")){
-              $("#boton_nota_remision").removeClass("boton-plomo");  
-			}
-		}else{
-			$("#tipoDoc").val(2);
-			$("#boton_nota_remision").addClass("boton-plomo");
-			if($("#boton_nota_remision").hasClass("boton-plomo-osc")){
-              $("#boton_nota_remision").removeClass("boton-plomo-osc");  
-			}
-		}
+		var tipo=$("body #tipoDoc").val();
+
+
+        if (tipo == 2) {
+            $("#tipoDoc, #tipoDoc_extra").val(1);
+            $("#boton_nota_remision").addClass("boton-plomo-osc").removeClass("boton-plomo");
+        } else {
+            $("#tipoDoc, #tipoDoc_extra").val(2);
+            $("#boton_nota_remision").addClass("boton-plomo").removeClass("boton-plomo-osc");
+        }
+
+		$('body #tipoDoc_extra').trigger('change').val(2);
 
 		$("#nitCliente").val(0);
 		$("#razonSocial").val(0);

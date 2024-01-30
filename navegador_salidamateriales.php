@@ -260,6 +260,7 @@ require("estilos_almacenes.inc");
 $txtnroingreso = "";
 $fecha1 = "";
 $fecha2 = "";
+$fecha_sistema = date('Y-m-d');
 if(isset($_GET["nroCorrelativoBusqueda"])){
     $txtnroingreso = $_GET["nroCorrelativoBusqueda"];
 }

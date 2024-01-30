@@ -264,7 +264,7 @@ require("conexion.inc");
 require("estilos_almacenes.inc");
 
 $global_almacen=$_COOKIE['global_almacen'];
-
+$fecha="";
 if($fecha=="")
 {   $fecha=date("Y-m-d");
 }

@@ -15,7 +15,7 @@ $globalAlmacen=$_COOKIE['global_almacen'];
 $itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $globalAgencia=$_COOKIE["global_agencia"];
 
-$soloStock = $_GET["stock"];
+$soloStock = $_GET["stock"] ?? '';
 
 
 	$sql="select m.codigo_material, m.descripcion_material,

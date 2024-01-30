@@ -36,7 +36,7 @@ $monto_ingreso   = $_POST['totalCompraSD'];
 $monto_cancelado = 0;
 $fecha_factura_proveedor = empty($_POST['fecha_factura_proveedor']) ? '' : $_POST['fecha_factura_proveedor']; // Tipo de pago "CREDITO"
 
-
+$codSalida = '';
 if($tipo_ingreso==1002){
 	$codSalida=$_POST['cod_salida'];
 	$estadoSalida=4;//recepcionado

@@ -1032,7 +1032,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 <table class='texto' align='center' width='100%'>
 <tr>
 <th align='center' width="10%">
-	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
+	<input type="hideen" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
 
 		if($facturacionActivada==1){
@@ -1110,11 +1110,13 @@ if($tipoDocDefault==2){
 }
 ?>
 <tr>
+	<!-- <th id="divNroDoc">
+	</th> -->
 	<th>
 		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" size="10" readonly><img id="imagenFecha" src="imagenes/fecha.bmp"> 
 	</th>
-	<th>Tipo Pago</th>
 	<th>
+		Tipo Pago
 		<div id='divTipoVenta'>
 			<?php
 				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
@@ -1152,7 +1154,7 @@ if($tipoDocDefault==2){
 			?>
 		</select>
 	</th>
-	<th colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='50' rows="3">
+	<th colspan="3">Observaciones:<input type='text' class='custom-input' name='observaciones' size='50' rows="3">
 	</th>
 
 </tr>
@@ -1416,6 +1418,8 @@ if($banderaErrorFacturacion==0){
         </div>
     </div>
 </div>
-
+<script>
+	$('body #tipoDoc_extra').trigger('change').val(<?=$tipoDocDefault?>);
+</script>
 </body>
 </html>
