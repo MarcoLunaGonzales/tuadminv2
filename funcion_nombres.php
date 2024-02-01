@@ -109,8 +109,10 @@ function nombreGrupo($codigo){
 	while($dat=mysqli_fetch_array($resp)){
 		$nombre.=$dat[0]."-";
 	}
-	$nombre=substr($nombre,0,100);
-	$nombre=$nombre."...";
+	if(strlen($nombre)>200){
+		$nombre=substr($nombre,0,100);
+		$nombre=$nombre."...";
+	}
 	return($nombre);
 }
 function nombreLineaProveedor($codigo){

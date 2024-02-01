@@ -138,7 +138,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 						$sqlUpdCosto="update ingreso_detalle_almacenes set costo_almacen=precio_bruto  where 
 							cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$codigoItem'";
 						$respUpdCosto=mysql_query($sqlUpdCosto);
-						//echo $sqlUpdCosto."<br>";
+						echo $sqlUpdCosto."<br>";
 					}elseif ( $codTipoIngreso==1002 && $codSalidaAlmacenTraspaso>0 ) {
 						// Cuando es ingreso por traspaso sacamos el costo de la salida.
 						$sqlCostoSalida="SELECT IFNULL(sd.costo_almacen,0) from salida_almacenes s, salida_detalle_almacenes sd where s.cod_salida_almacenes=sd.cod_salida_almacen and sd.cod_material='$codigoItem' and s.cod_salida_almacenes='$codSalidaAlmacenTraspaso'";
@@ -151,7 +151,9 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 
 						$sqlUpdCosto="UPDATE ingreso_detalle_almacenes set costo_almacen='$costoSalidaTraspaso',costo_promedio='$costoSalidaTraspaso' where cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$codigoItem'";
 						$respUpdCosto=mysql_query($sqlUpdCosto);
-						//echo $sqlUpdCosto."<br>";
+						
+						echo $sqlUpdCosto."<br>";
+						
 						$valorNetoIngreso=$costoSalidaTraspaso*$cantidad_ingreso;						
 						if($cantidad_kardex>0){
 							$nuevoCostoPromedio=($valorNetoIngreso+$valor_kardex)/$cantidad_kardex;
@@ -169,7 +171,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 						$sqlUpdCosto="update ingreso_detalle_almacenes set costo_promedio='$nuevoCostoPromedio', costo_almacen='$nuevoCostoPromedio' where 
 							cod_ingreso_almacen='$codIngresoAlmacen' and cod_material='$codigoItem'";
 						$respUpdCosto=mysql_query($sqlUpdCosto);
-						//echo $sqlUpdCosto."<br>";
+						echo $sqlUpdCosto."<br>";
 					}
 						
 						//echo $sqlUpdCosto."<br>";
@@ -208,7 +210,7 @@ function recalculaCostos($codigoItem, $rpt_almacen){
 					cod_salida_almacen='$cod_salida' and cod_material='$codigoItem'"; 
 					$respUpd=mysql_query($sqlUpd);
 
-					//echo $sqlUpd."<br>";
+					echo $sqlUpd."<br>";
 				}
 			}
 			$suma_saldo_final=$suma_ingresos-$suma_salidas+$cantidad_inicial_kardex;	

@@ -1,36 +1,15 @@
 <?php
-echo "<script language='JavaScript'>
-		function envia_formulario(f)
-		{	var rpt_territorio;
-			rpt_territorio=f.rpt_territorio.value;
-			var rpt_grupo=new Array();	
-			var j=0;
-			for(i=0;i<=f.rpt_grupo.options.length-1;i++)
-			{	if(f.rpt_grupo.options[i].selected)
-				{	rpt_grupo[j]=f.rpt_grupo.options[i].value;
-					j++;
-				}
-			}			window.open('rptPrecios.php?rpt_territorio='+rpt_territorio+'&rpt_grupo='+rpt_grupo,'','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
-			return(true);
-		}
-		function envia_select(form){
-			form.submit();
-			return(true);
-		}
-		</script>";
+
 require("conexion.inc");
 require("estilos_almacenes.inc");
 $fecha_rptdefault=date("d/m/Y");
 echo "<table align='center' class='textotit'><tr><th>Reporte Precios</th></tr></table><br>";
-echo"<form method='post' action=''>";
+echo"<form method='post' action='rptPrecios.php' target='_blank'>";
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
 	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto'>";
-	if($global_tipoalmacen==1)
-	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
-	}
-	else
-	{	$sql="select cod_ciudad, descripcion from ciudades where cod_ciudad='$global_agencia' order by descripcion";
-	}
+
+	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
+
 	$resp=mysql_query($sql);
 	echo "<option value=''></option>";
 	while($dat=mysql_fetch_array($resp))
@@ -45,7 +24,7 @@ echo"<form method='post' action=''>";
 	}
 	echo "</select></td></tr>";
 	
-	echo "<tr><th align='left'>Grupo</th><td><select name='rpt_grupo' class='texto' size='10' multiple>";
+	echo "<tr><th align='left'>Grupo</th><td><select name='rpt_grupo[]' class='texto' size='10' multiple>";
 	$sql="select cod_grupo, nombre_grupo from grupos where estado=1 order by 2";
 	$resp=mysql_query($sql);
 	while($dat=mysql_fetch_array($resp))
@@ -54,13 +33,19 @@ echo"<form method='post' action=''>";
 		echo "<option value='$codigo' selected>$nombre</option>";
 	}
 	echo "</select></td></tr>";
+
+	echo "<tr><th align='left'>Ver:</th>";
+	echo "<td><select name='rpt_ver' class='texto'>";
+	echo "<option value='1'>Todo</option>";
+	echo "<option value='2'>Con Existencia</option>";
+	echo "<option value='3'>Sin existencia</option>";
+	echo "</tr>";
 	
 	echo"\n </table><br>";
 
-	echo "<center><input type='button' name='reporte' value='Ver Reporte' onClick='envia_formulario(this.form)' class='boton'>
+	echo "<center><input type='submit' name='reporte' value='Ver Reporte' class='boton'>
 	</center><br>";
 	echo"</form>";
 	echo "</div>";
-	echo"<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
 
 ?>
