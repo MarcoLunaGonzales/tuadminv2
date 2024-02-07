@@ -60,9 +60,11 @@ if ($num_filas != 0) {
 	setcookie("global_almacen",$global_almacen);
 	setcookie("globalGestion", $globalGestion);
 	
-	if($cod_cargo==1000){//ADMINISTRADORES
+	//echo $cod_cargo;
+
+	if($cod_cargo==1000 || $cod_cargo==1002){//ADMINISTRADORES Y PROPIETARIOS
 		header("location:indexGerencia.php");
-	}elseif($cod_cargo==1002){
+	}elseif($cod_cargo==1001){
 		header("location:indexAlmacenSup.php");
 	}elseif($cod_cargo==1019){//CAJA
 		header("location:indexAlmacenReg.php");

@@ -64,6 +64,9 @@ require_once('register_globals.php');
 
 $enlaceCon=mysqli_connect(DATABASE_HOST,DATABASE_USER,DATABASE_PASSWORD,DATABASE_NAME);
 
+$enlaceConSiat=mysqli_connect(SIAT_DATABASE_HOST,SIAT_DATABASE_USER,SIAT_DATABASE_PASSWORD,SIAT_DATABASE_NAME);
+
+
 
 if (mysqli_connect_errno())
 {

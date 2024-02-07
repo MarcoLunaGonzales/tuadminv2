@@ -57,6 +57,8 @@ function listaMateriales(f){
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText
+		}else{
+			contenedor.innerHTML = "Cargando Datos ...";
 		}
 	}
 	ajax.send(null)
@@ -85,7 +87,7 @@ function ajaxNroDoc(f){
 	ajax.open("GET", "ajaxNroDoc.php?codTipoDoc="+codTipoDoc,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
-			contenedor.innerHTML = ajax.responseText
+			//contenedor.innerHTML = ajax.responseText
 		}
 	}
 	ajax.send(null);
@@ -173,6 +175,28 @@ function ajaxRazonSocial(f){
 
 function calculaMontoMaterial(indice){
 
+	console.log("function calculaMontoMaterial");
+	var cantidadUnitaria=document.getElementById("cantidad_unitaria"+indice).value;
+	if(cantidadUnitaria==""){
+		cantidadUnitaria=0;
+	}
+	var precioUnitario=document.getElementById("precio_unitario"+indice).value;
+	var porcentajeDescuentoUnitario=document.getElementById("tipoPrecio"+indice).value;
+	
+	console.log("Variables entrada porcentaje: "+porcentajeDescuentoUnitario);
+
+	descuentoUnitario=(parseFloat(cantidadUnitaria)*parseFloat(precioUnitario)) * (parseFloat(porcentajeDescuentoUnitario)/100);
+	descuentoUnitario=Math.round(descuentoUnitario*100)/100;
+	console.log("calculo: CU: "+cantidadUnitaria+" PU: "+precioUnitario+" DUPorc: "+porcentajeDescuentoUnitario+" DU:"+descuentoUnitario);
+	var montoUnitario=(parseFloat(cantidadUnitaria)*parseFloat(precioUnitario)) - (parseFloat(descuentoUnitario));
+	montoUnitario=Math.round(montoUnitario*100)/100;
+	document.getElementById("descuentoProducto"+indice).value=descuentoUnitario;
+	document.getElementById("montoMaterial"+indice).value=montoUnitario;
+	
+	totales();
+
+	/*
+
 	var cantidadUnitaria=document.getElementById("cantidad_unitaria"+indice).value;
 	var precioUnitario=document.getElementById("precio_unitario"+indice).value;
 	var descuentoUnitario=document.getElementById("descuentoProducto"+indice).value;
@@ -180,6 +204,29 @@ function calculaMontoMaterial(indice){
 	var montoUnitario=(parseFloat(cantidadUnitaria)*parseFloat(precioUnitario)) - (parseFloat(descuentoUnitario));
 	montoUnitario=Math.round(montoUnitario*100)/100
 		
+	document.getElementById("montoMaterial"+indice).value=montoUnitario;
+	
+	totales();*/
+}
+
+function calculaMontoMaterial_bs(indice){
+	console.log("function calculaMontoMaterialBolivianos");
+	var cantidadUnitaria=document.getElementById("cantidad_unitaria"+indice).value;
+	if(cantidadUnitaria==""){
+		cantidadUnitaria=0;
+	}
+	var precioUnitario=document.getElementById("precio_unitario"+indice).value;
+	
+	var descuentoUnitarioBS=document.getElementById("descuentoProducto"+indice).value;
+	
+	console.log("Variables entrada porcentajeDescuentoUnitarioBS: "+descuentoUnitarioBS);
+
+	porcentajeDescuentoUnitario = ((parseFloat(descuentoUnitarioBS)) / (parseFloat(cantidadUnitaria)*parseFloat(precioUnitario))*100);
+	porcentajeDescuentoUnitario=Math.round(porcentajeDescuentoUnitario*100)/100;
+	console.log("calculo: CU: "+cantidadUnitaria+" PU: "+precioUnitario+" DUPorc: "+porcentajeDescuentoUnitario+" DU:"+descuentoUnitario);
+	var montoUnitario=(parseFloat(cantidadUnitaria)*parseFloat(precioUnitario)) - (parseFloat(descuentoUnitarioBS));
+	montoUnitario=Math.round(montoUnitario*100)/100;
+	document.getElementById("tipoPrecio"+indice).value=porcentajeDescuentoUnitario;
 	document.getElementById("montoMaterial"+indice).value=montoUnitario;
 	
 	totales();
@@ -368,12 +415,20 @@ function Hidden(){
 	document.getElementById('divboton').style.visibility='hidden';
 
 }
-function setMateriales(f, cod, nombreMat){
+function setMateriales(f, cod, nombreMat, stockproducto, precioproducto, descuentomaximoproducto){
 	var numRegistro=f.materialActivo.value;
 	
 	document.getElementById('materiales'+numRegistro).value=cod;
 	document.getElementById('cod_material'+numRegistro).innerHTML=nombreMat;
-	
+
+	document.getElementById('stock'+numRegistro).value=parseInt(stockproducto);
+	document.getElementById('precio_unitario'+numRegistro).value=parseFloat(precioproducto);
+
+	var valorDescuentoMaximoBs = parseFloat(precioproducto*(descuentomaximoproducto/100));
+	console.log("valormaxbs: "+valorDescuentoMaximoBs);
+	document.getElementById('tipoPrecio'+numRegistro).max=parseFloat(descuentomaximoproducto);
+	document.getElementById('descuentoProducto'+numRegistro).max=parseFloat(valorDescuentoMaximoBs);
+
 	document.getElementById('divRecuadroExt').style.visibility='hidden';
 	document.getElementById('divProfileData').style.visibility='hidden';
 	document.getElementById('divProfileDetail').style.visibility='hidden';
@@ -381,7 +436,8 @@ function setMateriales(f, cod, nombreMat){
 	
 	document.getElementById("cantidad_unitaria"+numRegistro).focus();
 
-	actStock(numRegistro);
+	calculaMontoMaterial(numRegistro);
+	//actStock(numRegistro);
 }
 		
 function precioNeto(fila){
@@ -539,27 +595,17 @@ function validar(f, ventaDebajoCosto){
 				cantidad=parseFloat(document.getElementById("cantidad_unitaria"+i).value);
 				
 				//VALIDACION DE VARIABLE DE STOCK QUE NO SE VALIDA
-				stock=document.getElementById("stock"+i).value;
-				if(stock=="-"){
-					stock=10000;
-				}else{
-					stock=parseFloat(document.getElementById("stock"+i).value);
-				}
+				stock=parseFloat(document.getElementById("stock"+i).value);
 				
 				descuento=parseFloat(document.getElementById("descuentoProducto"+i).value);
 				precioUnit=parseFloat(document.getElementById("precio_unitario"+i).value);				
-				var costoUnit=parseFloat(document.getElementById("costoUnit"+i).value);
+				//var costoUnit=parseFloat(document.getElementById("costoUnit"+i).value);
 		
 				console.log("materiales"+i+" valor: "+item);
 				console.log("stock: "+stock+" cantidad: "+cantidad+ "precio: "+precioUnit);
 
 				if(item==0){
 					alert("Debe escoger un item en la fila "+i);
-					return(false);
-				}
-				//alert(costoUnit+" "+precioUnit);
-				if(costoUnit>precioUnit && ventaDebajoCosto==0){
-					alert('No puede registrar una venta a perdida!!!!');
 					return(false);
 				}
 				if(stock<cantidad){
@@ -1032,7 +1078,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 <table class='texto' align='center' width='100%'>
 <tr>
 <th align='center' width="10%">
-	<input type="hideen" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
+	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
 	<?php
 
 		if($facturacionActivada==1){
@@ -1042,7 +1088,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		}
 		$resp=mysqli_query($enlaceCon,$sql);
 
-		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' onChange='ajaxNroDoc(form1)' disabled class='selectpicker form-control' data-style='btn btn-rose'>";
+		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' onChange='ajaxNroDoc(form1)' disabled class='selectpicker form-control' data-style='btn btn-primary'>";
 		echo "<option value=''>-</option>";
 		while($dat=mysqli_fetch_array($resp)){
 			$codigo=$dat[0];
@@ -1085,12 +1131,12 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 
 <th width="20%">
 	<div id='divRazonSocial'>
-		<input type='text' name='razonSocial' id='razonSocial' value='<?php echo $razonSocialDefault;?>'style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' placeholder="NOMBRE / RAZON SOCIAL" required class="custom-input">
+		<input type='text' name='razonSocial' id='razonSocial' value='<?php echo $razonSocialDefault;?>' style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' placeholder="NOMBRE / RAZON SOCIAL" required class="custom-input">
 	</div>
 </th>
 
 <th align='center' id='divCliente' width="25%">		
-	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-rose">
+	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-success">
 		<option value='146'>NO REGISTRADO</option>
 	</select>
 </th>
@@ -1102,8 +1148,8 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 </tr>
 <?php
 if($tipoDocDefault==2){
-	$razonSocialDefault="-";
-	$nitDefault="0";
+	$razonSocialDefault="SN";
+	$nitDefault="123";
 }else{
 	$razonSocialDefault="";
 	$nitDefault="";
@@ -1121,7 +1167,7 @@ if($tipoDocDefault==2){
 			<?php
 				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
 				$resp1=mysqli_query($enlaceCon,$sql1);
-				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-rose' data-live-search='true' id='tipoVenta'>";
+				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-warning' data-live-search='true' id='tipoVenta'>";
 				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
@@ -1136,7 +1182,7 @@ if($tipoDocDefault==2){
 	</th>
 	<th>
 		Vendedor
-		<select class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
+		<select class='selectpicker form-control' data-style='btn btn-warning' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
 			<option value=''>----</option>
 			<?php
 			$sql2="select f.`codigo_funcionario`,
@@ -1207,7 +1253,7 @@ if($tipoDocDefault==2){
 			<tr>
 			<td>
 				<div class="custom-control" style="padding-left: 0px;">
-					<input type="checkbox" class="" id="solo_stock" value="1">
+					<input type="checkbox" class="" id="solo_stock" value="1" checked>
 					<label class="text-dark font-weight-bold" for="solo_stock">Solo Productos con Stock</label>
 				</div>
 			</td>
@@ -1258,11 +1304,15 @@ if($tipoDocDefault==2){
 			<td align='center' width='90%' style="color:#777B77;font-size:12px;"><b style="font-size:12px;color:#0691CD;">Efectivo Recibido</b></td>
 		</tr>
 		<tr>
-			<td align='right' width='90%' style="font-weight:bold;color:red;font-size:12px;">Descuento</td><td><input type='number' name='descuentoVenta' id='descuentoVenta' onChange='aplicarDescuento(form1);' style="height:20px;font-size:19px;width:120px;color:red;" onkeyup='aplicarDescuento(form1);' onkeydown='aplicarDescuento(form1);' value="0" step='0.01' required></td>
-			<td><input type='number' style="background:#B0B4B3; width:120px;" name='efectivoRecibido' id='efectivoRecibido' readonly step="any" onChange='aplicarCambioEfectivo(form1);' onkeyup='aplicarCambioEfectivo(form1);' onkeydown='aplicarCambioEfectivo(form1);'></td>		
+			<td align='right' width='90%' style="font-weight:bold;color:red;font-size:12px;">Descuento</td>
+			<td><input type='number' name='descuentoVenta' id='descuentoVenta' onChange='aplicarDescuento(form1);' style="height:20px;font-size:19px;width:120px;color:red;" onkeyup='aplicarDescuento(form1);' onkeydown='aplicarDescuento(form1);' value="0" step='0.01' required readonly></td>
+			<td>
+			<input type='number' style="background:#B0B4B3; width:120px;" name='efectivoRecibido' id='efectivoRecibido' readonly step="any" onChange='aplicarCambioEfectivo(form1);' onkeyup='aplicarCambioEfectivo(form1);' onkeydown='aplicarCambioEfectivo(form1);'></td>		
 		</tr>
 		<tr>
-			<td align='right' width='90%' style="font-weight:bold;color:red;font-size:12px;">Descuento %</td><td><input type='number' name='descuentoVentaPorcentaje' id='descuentoVentaPorcentaje' style="height:20px;font-size:19px;width:120px;color:red;" onChange='aplicarDescuentoPorcentaje(form1);' onkeyup='aplicarDescuentoPorcentaje(form1);' onkeydown='aplicarDescuentoPorcentaje(form1);' value="0" step='0.01'></td>
+			<td align='right' width='90%' style="font-weight:bold;color:red;font-size:12px;">Descuento %</td>
+			<td>
+				<input type='number' name='descuentoVentaPorcentaje' id='descuentoVentaPorcentaje' style="height:20px;font-size:19px;width:120px;color:red;" onChange='aplicarDescuentoPorcentaje(form1);' onkeyup='aplicarDescuentoPorcentaje(form1);' onkeydown='aplicarDescuentoPorcentaje(form1);' value="0" step='0.01' readonly></td>
 			<td align='center' width='90%' style="color:#777B77;font-size:12px;"><b style="font-size:12px;color:#0691CD;">Cambio</b></td>
 		</tr>
 		<tr>
@@ -1284,12 +1334,12 @@ if($tipoDocDefault==2){
 		</tr>
 		<tr>
 			<td align='right' width='90%' style="font-weight:bold;color:red;font-size:12px;">Descuento</td>
-			<td><input type='number' name='descuentoVentaUSD' id='descuentoVentaUSD' style="height:20px;font-size:19px;width:120px;color:red;" onChange='aplicarDescuentoUSD(form1);' onkeyup='aplicarDescuentoUSD(form1);' onkeydown='aplicarDescuentoUSD(form1);' value="0" step='0.01' required></td>
+			<td><input type='number' name='descuentoVentaUSD' id='descuentoVentaUSD' style="height:20px;font-size:19px;width:120px;color:red;" onChange='aplicarDescuentoUSD(form1);' onkeyup='aplicarDescuentoUSD(form1);' onkeydown='aplicarDescuentoUSD(form1);' value="0" step='0.01' required readonly></td>
 			<td><input type='number' name='efectivoRecibidoUSD' id='efectivoRecibidoUSD' style="background:#B0B4B3; width:120px;" step="any" readonly onChange='aplicarCambioEfectivoUSD(form1);' onkeyup='aplicarCambioEfectivoUSD(form1);' onkeydown='aplicarCambioEfectivoUSD(form1);'></td>
 		</tr>
 		<tr>
 			<td align='right' width='90%' style="font-weight:bold;color:red;font-size:12px;">Descuento %</td>
-			<td><input type='number' name='descuentoVentaUSDPorcentaje' id='descuentoVentaUSDPorcentaje' style="height:20px;font-size:19px;width:120px;color:red;" onChange='aplicarDescuentoUSDPorcentaje(form1);' onkeyup='aplicarDescuentoUSDPorcentaje(form1);' onkeydown='aplicarDescuentoUSDPorcentaje(form1);' value="0" step='0.01'></td>
+			<td><input type='number' name='descuentoVentaUSDPorcentaje' id='descuentoVentaUSDPorcentaje' style="height:20px;font-size:19px;width:120px;color:red;" onChange='aplicarDescuentoUSDPorcentaje(form1);' onkeyup='aplicarDescuentoUSDPorcentaje(form1);' onkeydown='aplicarDescuentoUSDPorcentaje(form1);' value="0" step='0.01' readonly></td>
 			<td align='right' width='90%' style="color:#777B77;font-size:12px;"><b style="font-size:12px;color:#189B22;">Cambio</b></td>
 		</tr>
 		<tr>

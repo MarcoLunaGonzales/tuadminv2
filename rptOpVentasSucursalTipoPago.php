@@ -25,7 +25,7 @@ echo"<form method='post' action='rptVentasSucursalTipoPago.php' target='_blank'>
 
 	$globalAgencia=$_COOKIE["global_agencia"];
    
-   	$sql="select c.cod_ciudad, c.descripcion from ciudades c order by 2;";
+   	$sql="select c.cod_ciudad, c.descripcion from ciudades c where cod_estado=1 order by 2;";
 	$resp=mysqli_query($enlaceCon,$sql);
 	while($dat=mysqli_fetch_array($resp))
 	{	$codigoCiudad=$dat[0];

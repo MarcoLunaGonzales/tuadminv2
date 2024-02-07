@@ -320,6 +320,8 @@ function cambiarNotaRemision(){
         if (tipo == 2) {
             $("#tipoDoc, #tipoDoc_extra").val(1);
             $("#boton_nota_remision").addClass("boton-plomo-osc").removeClass("boton-plomo");
+            $("#nitCliente").val(123);
+						$("#razonSocial").val("SN");
         } else {
             $("#tipoDoc, #tipoDoc_extra").val(2);
             $("#boton_nota_remision").addClass("boton-plomo").removeClass("boton-plomo-osc");
@@ -327,9 +329,9 @@ function cambiarNotaRemision(){
 
 		$('body #tipoDoc_extra').trigger('change').val(2);
 
-		$("#nitCliente").val(0);
-		$("#razonSocial").val(0);
-		ajaxNroDoc(form1);
+		//$("#nitCliente").val(0);
+		//$("#razonSocial").val(0);
+		//ajaxNroDoc(form1);
 	}
 }
 

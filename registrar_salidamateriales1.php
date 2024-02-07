@@ -1,3 +1,9 @@
+<?php
+
+require("conexionmysqli.inc");
+require("estilos_almacenes.inc");
+
+?>
 <html>
     <head>
         <title>Busqueda</title>
@@ -260,8 +266,6 @@ function validar(f){
 		
 <?php
 echo "<body>";
-require("conexion.inc");
-require("estilos_almacenes.inc");
 
 $global_almacen=$_COOKIE['global_almacen'];
 $fecha="";
@@ -321,15 +325,18 @@ else
 </td>
 
 <td align='center'>
+<?php
+	$sql3="SELECT cod_almacen, nombre_almacen from almacenes where cod_almacen not in ($global_almacen) and cod_estado=1 order by nombre_almacen";
+	//echo $sql3;
+	$resp3=mysqli_query($enlaceCon,$sql3);
+?>
 	<select name='almacen' id='almacen' required class='selectpicker form-control' data-style='btn btn-rose'>
 		<option value=''>-----</option>
 <?php
-	$sql3="select cod_almacen, nombre_almacen from almacenes where cod_almacen not in ($global_almacen) order by nombre_almacen";
-	$resp3=mysqli_query($enlaceCon,$sql3);
 	while($dat3=mysqli_fetch_array($resp3)){
 		$cod_almacen=$dat3[0];
-		$nombre_almacen="$dat3[1] $dat3[2] $dat3[3]";
-?>
+		$nombre_almacen=$dat3[1];
+?>		
 		<option value="<?php echo $cod_almacen?>"><?php echo $nombre_almacen?></option>
 <?php		
 	}
@@ -373,8 +380,6 @@ echo "<div class='divBotones'>
 </div>";
 
 echo "</div>";
-echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
-
 ?>
 
 

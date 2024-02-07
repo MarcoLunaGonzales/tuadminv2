@@ -1,8 +1,10 @@
+
 <?php
 require("conexion.inc");
-require('funciones.php');
+require("funciones.php");
 require('function_formatofecha.php');
 require("estilos_almacenes.inc");
+
 ?>
 <html>
     <head>
@@ -10,6 +12,7 @@ require("estilos_almacenes.inc");
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="lib/externos/jquery/jquery-ui/completo/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>
         <link href="lib/css/paneles.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="lib/externos/jquery/jquery-1.4.4.min.js"></script>
         <script type="text/javascript" src="lib/externos/jquery/jquery-ui/minimo/jquery.ui.core.min.js"></script>
         <script type="text/javascript" src="lib/externos/jquery/jquery-ui/minimo/jquery.ui.widget.min.js"></script>
@@ -21,8 +24,13 @@ require("estilos_almacenes.inc");
         <script type="text/javascript" src="lib/externos/jquery/jquery-ui/minimo/jquery.ui.dialog.min.js"></script>
         <script type="text/javascript" src="lib/externos/jquery/jquery-ui/minimo/jquery.ui.datepicker.min.js"></script>
         <script type="text/javascript" src="lib/js/xlibPrototipo-v0.1.js"></script>
+        <style>
+            .txt_anulado {
+                text-decoration: line-through;
+                color: red;
+            }
+        </style>
         <script type='text/javascript' language='javascript'>
-
 function nuevoAjax()
 {   var xmlhttp=false;
     try {
@@ -69,7 +77,7 @@ function funOk(codReg,funOkConfirm)
                     }
                 });
             } else {
-                dlgA("#pnldlgA3","Informe","<div class='pnlalertar'>Introdusca el codigo de confirmacion.</div>",function(){},function(){});
+                dlgA("#pnldlgA3","Informe","<div class='pnlalertar'>Introduzca el codigo de confirmacion.</div>",function(){},function(){});
             }
         },function(){});
     });
@@ -86,19 +94,18 @@ function ajaxBuscarVentas(f){
     var contenedor;
     contenedor = document.getElementById('divCuerpo');
     ajax=nuevoAjax();
-    
-    location.href="navegadorVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda;
-    /*ajax.open("GET", "ajaxSalidaVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda,true);
+
+    ajax.open("GET", "ajaxSalidaVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda,true);
     ajax.onreadystatechange=function() {
         if (ajax.readyState==4) {
             contenedor.innerHTML = ajax.responseText;
             HiddenBuscar();
         }
     }
-    ajax.send(null)*/
+    ajax.send(null)
 }
 
-function enviar_nav(cod_venta=0)
+function enviar_nav()
 {   location.href='registrar_salidaventas.php';
 }
 function editar_salida(f)
@@ -168,7 +175,7 @@ function anular_salida(f)
     }
 }
 
-function cambiarCancelado(f)
+function editarTipoPago(f)
 {   var i;
     var j=0;
     var j_cod_registro, estado_preparado;
@@ -190,237 +197,87 @@ function cambiarCancelado(f)
     {   if(j==0)
         {   alert('Debe seleccionar un registro.');
         }
-        else
-        {      
+        else{   
             funOk(j_cod_registro,function() {
-                location.href='cambiarEstadoCancelado.php?codigo_registro='+j_cod_registro+'';
-            });            
-        }
-    }
-}
-
-function cambiarNoEntregado(f)
-{   var i;
-    var j=0;
-    var j_cod_registro;
-    for(i=0;i<=f.length-1;i++)
-    {   if(f.elements[i].type=='checkbox')
-        {   if(f.elements[i].checked==true)
-            {   j_cod_registro=f.elements[i].value;
-                j=j+1;
-            }
-        }
-    }
-    if(j>1)
-    {   alert('Debe seleccionar solamente una Salida.');
-    }
-    else
-    {   if(j==0)
-        {   alert('Debe seleccionar una Salida.');
-        }
-        else
-        {   location.href='cambiarEstadoNoEntregado.php?codigo_registro='+j_cod_registro+'';
-        }
-    }
-}
-function cambiarNoCancelado(f)
-{   var i;
-    var j=0;
-    var j_cod_registro;
-    for(i=0;i<=f.length-1;i++)
-    {   if(f.elements[i].type=='checkbox')
-        {   if(f.elements[i].checked==true)
-            {   j_cod_registro=f.elements[i].value;
-                j=j+1;
-            }
-        }
-    }
-    if(j>1)
-    {   alert('Debe seleccionar solamente una Salida.');
-    }
-    else
-    {   if(j==0)
-        {   alert('Debe seleccionar una Salida.');
-        }
-        else
-        {   location.href='cambiarEstadoNoCancelado.php?codigo_registro='+j_cod_registro+'';
-        }
-    }
-}
-
-function imprimirNotas(f)
-{   var i;
-    var j=0;
-    datos=new Array();
-    for(i=0;i<=f.length-1;i++)
-    {   if(f.elements[i].type=='checkbox')
-        {   if(f.elements[i].checked==true)
-            {   datos[j]=f.elements[i].value;
-                j=j+1;
-            }
-        }
-    }
-    if(j==0)
-    {   alert('Debe seleccionar al menos una salida para imprimir la Nota.');
-    }
-    else
-    {   window.open('navegador_detallesalidamaterialResumen.php?codigo_salida='+datos+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');
-    }
-}
-function preparar_despacho(f)
-{   var i;
-    var j=0;
-    datos=new Array();
-    for(i=0;i<=f.length-1;i++)
-    {   if(f.elements[i].type=='checkbox')
-        {   if(f.elements[i].checked==true)
-            {   datos[j]=f.elements[i].value;
-                j=j+1;
-            }
-        }
-    }
-    if(j==0)
-    {   alert('Debe seleccionar al menos una salida para proceder a su preparado.');
-    }
-    else
-    {   location.href='preparar_despacho.php?datos='+datos+'&tipo_material=1&grupo_salida=2';
-    }
-}
-function enviar_datosdespacho(f)
-{   var i;
-    var j=0;
-    datos=new Array();
-    for(i=0;i<=f.length-1;i++)
-    {   if(f.elements[i].type=='checkbox')
-        {   if(f.elements[i].checked==true)
-            {   datos[j]=f.elements[i].value;
-                j=j+1;
-            }
-        }
-    }
-    if(j==0)
-    {   alert('Debe seleccionar al menos una salida para proceder al registro del despacho.');
-    }
-    else
-    {   location.href='registrar_datosdespacho.php?datos='+datos+'&tipo_material=1&grupo_salida=2';
-    }
-}
-function llamar_preparado(f, estado_preparado, codigo_salida){   
-    window.open('navegador_detallesalidamateriales.php?codigo_salida='+codigo_salida,'popup','');
-}
-
-
-function ShowFacturar(codVenta,numCorrelativo){
-    document.getElementById("cod_venta").value=codVenta;
-    document.getElementById("nro_correlativo").value=numCorrelativo;
-    
-    document.getElementById('divRecuadroExt2').style.visibility='visible';
-    document.getElementById('divProfileData2').style.visibility='visible';
-    document.getElementById('divProfileDetail2').style.visibility='visible';
-}
-
-function HiddenFacturar(){
-    document.getElementById('divRecuadroExt2').style.visibility='hidden';
-    document.getElementById('divProfileData2').style.visibility='hidden';
-    document.getElementById('divProfileDetail2').style.visibility='hidden';
-}
-
-// EDITAR DATOS
-function ShowFacturarEditar(codVenta,numCorrelativo, codVendedor, codTipoPago){
-    document.getElementById("cod_venta_edit").value=codVenta;
-    document.getElementById("nro_correlativo_edit").value=numCorrelativo;
-    
-    document.getElementById('divRecuadroExt2_edit').style.visibility='visible';
-    document.getElementById('divProfileData2_edit').style.visibility='visible';
-    document.getElementById('divProfileDetail2_edit').style.visibility='visible';
-
-    $('#edit_cod_vendedor').val(codVendedor).trigger('click');
-    $('#edit_cod_tipopago').val(codTipoPago).trigger('click');
-}
-function HiddenFacturarEditar(){
-    document.getElementById('divRecuadroExt2_edit').style.visibility='hidden';
-    document.getElementById('divProfileData2_edit').style.visibility='hidden';
-    document.getElementById('divProfileDetail2_edit').style.visibility='hidden';
-}
-
-        // ACTUALIZACIÒN DE DATOS
-        function UpdateFacturarEditar(){
-            let formData = new FormData();
-            formData.append('cod_venta_edit', $('#cod_venta_edit').val());
-            formData.append('edit_cod_vendedor', $('#edit_cod_vendedor').val());
-            formData.append('edit_cod_tipopago', $('#edit_cod_tipopago').val());
-            $.ajax({
-                url:"actualizarFactura.php?cod_venta_edit="+$('#cod_venta_edit').val()+"&edit_cod_vendedor="+$('#edit_cod_vendedor').val()+"&edit_cod_tipopago="+$('#edit_cod_tipopago').val(),
-                type:"POST",
-                contentType: false,
-                processData: false,
-                data: formData,
-                success:function(response){
-                    let resp = JSON.parse(response);
-                    console.log(resp)
-                    location.href="navegadorVentas.php";
-                }
+                        location.href='editarTipoPago.php?codigo_registro='+j_cod_registro;
             });
-            HiddenFacturarEditar();
         }
-        </script>
+    }
+}
+
+
+    </script>
     </head>
     <body>
-<?php
-$estado_preparado=0;
 
-$txtnroingreso = "";
-$fecha1 = "";
-$fecha2 = "";
-if(isset($_GET["nroCorrelativoBusqueda"])){
-    $txtnroingreso = $_GET["nroCorrelativoBusqueda"];
+<?php
+$txtnroingreso="";
+$fecha1="";
+$fecha2="";
+
+if(isset($_GET["txtnroingreso"])){
+    $txtnroingreso = $_GET["txtnroingreso"];    
+}else{
+    $txtnroingreso = "";
 }
-if(isset($_GET["fechaIniBusqueda"])){
-    $fecha1 = $_GET["fechaIniBusqueda"];
+if(isset($_GET["fecha1"])){
+    $fecha1 = $_GET["fecha1"];
+}else{
+    $fecha1 = "";
 }
-if(isset($_GET["fechaFinBusqueda"])){
-    $fecha2 = $_GET["fechaFinBusqueda"];
+if(isset($_GET["fecha2"])){
+    $fecha2 = $_GET["fecha2"];
+}else{
+    $fecha2="";
 }
+
+$fecha_sistema=date("Y-m-d");
+
+$globalAdmin = $_COOKIE["global_admin_cargo"];
 
 $BDSiat=obtenerValorConfiguracion(8);
 
-$fecha_sistema = date('Y-m-d');
 echo "<form method='post' action=''>";
+
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
-echo "<h1>Listado de Ventas</h1>";
+echo "<h1>Listado de Ventas &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='navegadorVentas2.php'><img src='imagenes/go2.png' width='15'></a>
+</h1>";
 echo "<table class='texto' cellspacing='0' width='90%'>
 <tr><th>Leyenda:</th>
+<th>Ventas Registradas</th><td bgcolor='#f9e79f' width='5%'></td>
+<th>Ventas Entregadas</th><td bgcolor='#1abc9c' width='5%'></td>
 <th>Ventas Anuladas</th><td bgcolor='#e74c3c' width='5%'></td>
 <td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
 //
 echo "<div class='divBotones'>
         <input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
         <input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'></td>      
-        <input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>
-    </div>";
+        <input type='button' value='Editar TipoPago/Cliente' class='boton' onclick='editarTipoPago(this.form)'></td>";
         
-echo "<center><table class='texto'>";
-echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
-    <th>Razon Social</th><th>NIT</th><th>Monto</th><th>Observaciones</th><th>Imprimir FP</th>";
+if($globalAdmin==1){
+    echo "<input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>";
+}
+echo "</div>";
 
-echo "<th class='text-center'>Documento SIAT</th>";
-echo "</tr>";
+echo "<br>";
+        
+echo "<div id='divCuerpo'>";
+echo "<center><table class='texto'>";
+echo "<tr><th>&nbsp;</th><th>Tipo Documento</th><th>Nro.</th><th>Fecha/hora<br>Registro Salida</th><th>Codigo</th>
+    <th>Razon Social</th><th>NIT</th><th>TipoPago</th><th>Monto</th><th>Observaciones</th><th>&nbsp;</th><th class='text-center'>Documento SIAT</th><th class='text-center'>Estado SIAT</th></tr>";
     
 echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='global_almacen'>";
-
-echo "<div id='divCuerpo'>";
 
 $consulta = "
     SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
     (select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
     s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
     (select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
-    (select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
-    (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
-    s.cod_chofer, s.cod_tipopago, s.monto_final, s.idTransaccion_siat
+    (select abreviatura from tipos_docs where codigo=s.cod_tipo_doc),
+    (select t.nombre_tipopago from tipos_pago t where t.cod_tipopago=s.cod_tipopago)as tipopago, s.idTransaccion_siat, s.monto_final
     FROM salida_almacenes s, tipos_salida ts 
-    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
+    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 and s.cod_tipo_doc in (1,4)";
 
 if($txtnroingreso!="")
    {$consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
@@ -428,7 +285,7 @@ if($txtnroingreso!="")
 if($fecha1!="" && $fecha2!="")
    {$consulta = $consulta."AND '$fecha1'<=s.fecha AND s.fecha<='$fecha2' ";
    }
-$consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc limit 0, 50 ";
+$consulta = $consulta."ORDER BY s.fecha desc, s.cod_tipo_doc, s.nro_correlativo DESC limit 0, 250 ";
 
 //
 $resp = mysqli_query($enlaceCon,$consulta);
@@ -448,88 +305,103 @@ while ($dat = mysqli_fetch_array($resp)) {
     $cod_almacen_destino = $dat[9];
     $nombreCliente=$dat[10];
     $codTipoDoc=$dat[11];
-    $nombreTipoDoc=nombreTipoDoc($codTipoDoc);
     $razonSocial=$dat[12];
     $nitCli=$dat[13];
-    $vendedor=$dat[14];
-    $tipoPago=$dat[15];
-
-    $codVendedor = $dat[16];
-    $codTipoPago = $dat[17];
-
-    $montoVenta=$dat[18];
-    $montoVentaFormat=formatonumeroDec($montoVenta);    
+    $nombreTipoDoc=$dat[14];
+    $nombreTipoPago=$dat[15];
+    $idTransaccion = $dat[16];
+    $montoVenta = $dat[17];
+    $montoVentaFormat=formatonumeroDec($montoVenta);
     
-    $idTransaccion = $dat[19];
-
+    // Estado de Factura SIAT
+    $consultaSiat = "SELECT sa.cod_salida_almacenes, es.cod_estado, es.nombre_estado, es.color
+                    FROM salida_almacenes sa
+                    LEFT JOIN estados_salida es ON es.cod_estado = sa.estado_salida
+                    WHERE sa.cod_salida_almacenes = '$idTransaccion'";
+    $respSiat     = mysqli_query($enlaceConSiat, $consultaSiat);
+    
+    $siat_estado_nombre = "";
+    $siat_estado_color  = "black";
+    if ($row_siat = mysqli_fetch_assoc($respSiat)) {
+        $siat_estado_nombre = $row_siat['nombre_estado'];
+        $siat_estado_color  = $row_siat['color'];
+    }
+    $siat_estado_color  = "black";
     
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
     
     $sqlEstadoColor="select color from estados_salida where cod_estado='$estado_almacen'";
     $respEstadoColor=mysqli_query($enlaceCon,$sqlEstadoColor);
     $numFilasEstado=mysqli_num_rows($respEstadoColor);
+
+    $txtAnulado = "";
+    if($estado_almacen == 3){
+        $txtAnulado  = "txt_anulado";
+    }
     if($numFilasEstado>0){
-        $color_fondo=mysqli_result($respEstadoColor,0,0);
+        $color_fondo = mysqli_result($respEstadoColor,0,0);
     }else{
         $color_fondo="#ffffff";
     }
+    $chk = "<input type='checkbox' name='codigo' value='$codigo' ".(empty($txtAnulado) ? '' : 'hidden').">";
 
-    $strikei = "";
-    $strikef = "";
-    $chk = "<input type='checkbox' name='codigo' value='$codigo'>";
-
-    if($salida_anulada==1){
-        $strikei = "<strike class='text-danger'>";        
-        $strikef = " (ANULADO)</strike>";
-        $chk = "";        
-    }
-
-    $sqlAnuladoSiat="SELECT s.estado_salida, s.salida_anulada from $BDSiat.salida_almacenes s where s.cod_salida_almacenes='$idTransaccion'";
-    // echo $sqlAnuladoSiat;
-    $respAnuladoSiat=mysqli_query($enlaceCon, $sqlAnuladoSiat);
+    /****** ANULACION SIAT *******/
+    $sqlAnuladoSiat="SELECT s.estado_salida, s.salida_anulada from salida_almacenes s where s.cod_salida_almacenes='$idTransaccion'";
+    $respAnuladoSiat=mysqli_query($enlaceConSiat, $sqlAnuladoSiat);
     if($datAnuladoSiat=mysqli_fetch_array($respAnuladoSiat)){
         $estadoSalidaAnuladaSiat=$datAnuladoSiat[0];
         $salidaAnuladaSiat=$datAnuladoSiat[1];
     }
+    //echo "idTrans: ".$idTransaccion." estado salida ".$estadoSalidaAnuladaSiat." salida anulada".$salidaAnuladaSiat."<br>"; 
+
     $colorDocumentoSIAT="";
     if($estadoSalidaAnuladaSiat==3 && $salidaAnuladaSiat==1){
         $colorDocumentoSIAT="red";
     }
-    
-    echo "<input type='hidden' name='estado_preparado' value='$estado_preparado'>";
+
     //echo "<tr><td><input type='checkbox' name='codigo' value='$codigo'></td><td align='center'>$fecha_salida_mostrar</td><td>$nombre_tiposalida</td><td>$nombre_ciudad</td><td>$nombre_almacen</td><td>$nombre_funcionario</td><td>&nbsp;$obs_salida</td><td>$txt_detalle</td></tr>";
     echo "<tr>";
-    echo "<td align='center'>&nbsp;$chk</td>";
-    echo "<td align='center'>$strikei $nombreTipoDoc-$nro_correlativo $strikef</td>";
-    echo "<td align='center'>$strikei $fecha_salida_mostrar $hora_salida $strikef</td>";
-    echo "<td>$strikei $vendedor $strikef</td>";
-    echo "<td>$strikei $tipoPago $strikef</td>";
-    echo "<td>$strikei $razonSocial $strikef</td>
-    <td>$strikei $nitCli $strikef</td>
-    <td>$strikei $montoVentaFormat $strikef</td>
-    <td>$strikei $obs_salida $strikef</td>";
+    echo "<td align='center' class='$txtAnulado'>&nbsp;$chk</td>";
+    echo "<td align='center' class='$txtAnulado'>$nombreTipoDoc</td>";
+    echo "<td align='center' class='$txtAnulado'>$nro_correlativo</td>";
+    echo "<td align='center' class='$txtAnulado'>$fecha_salida_mostrar $hora_salida</td>";
+    echo "<td class='$txtAnulado'>$codigo</td>";
+    echo "<td class='$txtAnulado'>&nbsp;$razonSocial</td>
+    <td class='$txtAnulado'>&nbsp;$nitCli</td>
+    <td class='$txtAnulado'>$nombreTipoPago</td>
+    <td class='$txtAnulado'>$montoVentaFormat</td>
+    <td class='$txtAnulado'>&nbsp;$obs_salida</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
-   
+    
+
     // Editar Datos
     $url_siat   = valorConfig(7);
-    $urlDetalle = $url_siat."formatoFacturaTicketsOnline.php";
-    echo "<td  bgcolor='' class='text-center'> <a href='$urlDetalle?codVenta=$idTransaccion' target='_BLANK' title='Imprimir Factura'  class='text-dark'><i class='material-icons'>description</i></a>";
+    $urlDetalle = $url_siat."formatoFacturaTickets.php";
+    echo "<td style='background-color: $colorDocumentoSIAT' class='text-center'>
+        <a href='$urlDetalle?codVenta=$idTransaccion' target='_BLANK' title='Imprimir Factura' class='text-dark'><i class='material-icons'>description</i></a>";
     echo "</td>";
 
     $urlDetalle = $url_siat."dFacturaElectronica.php";
-    echo "<td  bgcolor='$colorDocumentoSIAT' class='text-center'> <a href='$urlDetalle?admin=1&codigo_salida=$idTransaccion' target='_BLANK' title='Documento SIAT'  class='text-dark'><i class='material-icons'>description</i></a>";
+    echo "<td  bgcolor='$colorDocumentoSIAT' class='text-center'> <a href='$urlDetalle?admin=1&codigo_salida=$idTransaccion' target='_BLANK' title='Documento SIAT'  class='text-dark'><i class='material-icons' style='color: $siat_estado_color;'>description</i></a>";
+    echo "</td>";
+
+    echo "<td align='center' bgcolor='$colorDocumentoSIAT'>$siat_estado_nombre</td>";
 
     echo "</tr>";
 }
 echo "</table></center><br>";
-
 echo "</div>";
 
 echo "<div class='divBotones'>
         <input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
         <input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'></td>      
-        <input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>
-    </div>";
+        <input type='button' value='Editar TipoPago/Cliente' class='boton' onclick='editarTipoPago(this.form)'></td>";
+        
+if($globalAdmin==1){
+    echo "<input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>";
+}
+echo "</div>";
+
     
 echo "</form>";
 
@@ -543,13 +415,13 @@ echo "</form>";
         <h2 align='center' class='texto'>Buscar Ventas</h2>
         <table align='center' class='texto'>
             <tr>
-                <td>Fecha Ini(aaaa-mm-dd)</td>
+                <td>Fecha Ini(dd/mm/aaaa)</td>
                 <td>
                 <input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
                 </td>
             </tr>
             <tr>
-                <td>Fecha Fin(aaaa-mm-dd)</td>
+                <td>Fecha Fin(dd/mm/aaaa)</td>
                 <td>
                 <input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
                 </td>
@@ -593,118 +465,12 @@ echo "</form>";
             </tr>           
         </table>    
         <center>
-            <input type='button' value='Buscar' onClick="ajaxBuscarVentas(this.form)">
-            <input type='button' value='Cancelar' onClick="HiddenBuscar()">
+            <input type='button' class="boton" value='Buscar' onClick="ajaxBuscarVentas(this.form)">
+            <input type='button' class="boton2" value='Cancelar' onClick="HiddenBuscar()">
             
         </center>
     </div>
 </div>
-
-
-<div id="divRecuadroExt2" style="background-color:#666; position:absolute; width:800px; height: 350px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2;">
-</div>
-<div id="divProfileData2" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px;    -moz-border-radius: 20px; visibility: hidden; z-index:2;">
-    <div id="divProfileDetail2" style="visibility:hidden; text-align:center">
-        <h2 align='center' class='texto'>Convertir a Factura</h2>
-        <form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
-        <table align='center' class='texto'>
-            <tr>
-                <input type="hidden" name="cod_venta" id="cod_venta" value="0">
-                <td>Nro.</td>
-                <td>
-                <input type='text' name='nro_correlativo' id="nro_correlativo" class='texto' disabled>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>Razon Social</td>
-                <td>
-                <input type='text' name='razon_social_convertir' id="razon_social_convertir" class='texto' required>
-                </td>
-            </tr>
-            <tr>
-                <td>NIT</td>
-                <td>
-                <input type='number' name='nit_convertir' id="nit_convertir" class='texto' required>
-                </td>
-            </tr>
-        </table>    
-        <center>
-            <input type='submit' value='Convertir' class='boton' >
-            <input type='button' value='Cancelar' class='boton2' onClick="HiddenFacturar()">
-            
-        </center>
-        </form>
-    </div>
-</div>
-
-
-<!-- EDITAR DATOS -->
-<div id="divRecuadroExt2_edit" style="background-color:#666; position:absolute; width:800px; height: 350px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2;">
-</div>
-<div id="divProfileData2_edit" style="background-color:#FFF; width:750px; height:300px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px;   -moz-border-radius: 20px; visibility: hidden; z-index:2;">
-    <div id="divProfileDetail2_edit" style="visibility:hidden; text-align:center">
-        <h2 align='center' class='texto'>Cambiar Datos de Venta</h2>
-        <form name="form1" id="form1" action="convertNRToFactura.php" method="POST">
-        <table align='center' class='texto'>
-            <tr>
-                <input type="hidden" name="cod_venta_edit" id="cod_venta_edit" value="0">
-                <td>Nro.</td>
-                <td>
-                <input type='text' name='nro_correlativo_edit' id="nro_correlativo_edit" class='texto' disabled>
-                </td>
-            </tr>
-            
-            <tr>
-                <td>Vendedor</td>
-                <td>
-            <?php $sql1="SELECT codigo_funcionario, UPPER(CONCAT(nombres, ' ', paterno, ' ', materno)) as nombre_funcionario
-                        FROM funcionarios f ";
-                    $resp1=mysqli_query($enlaceCon,$sql1);
-            ?>
-            <select name='cod_vendedor' id='edit_cod_vendedor' required>
-                <?php while($dat1=mysqli_fetch_array($resp1))
-                    {   
-                        $codLinea=$dat1[0];
-                        $nombreLinea=$dat1[1];
-                ?>
-                <option value="<?=$codLinea;?>"><?=$nombreLinea;?></option>
-                <?php } ?>
-            </select>
-                </td>
-            </tr>
-
-            
-            <tr>
-                <td>Tipo Pago</td>
-                <td>
-            <?php $sql1="SELECT cod_tipopago, nombre_tipopago
-                        FROM tipos_pago";
-                    $resp1=mysqli_query($enlaceCon,$sql1);
-            ?>
-            <select name='cod_tipopago' id='edit_cod_tipopago' required>
-                <?php while($dat1=mysqli_fetch_array($resp1))
-                    {   
-                        $codLinea=$dat1[0];
-                        $nombreLinea=$dat1[1];
-                ?>
-                <option value="<?=$codLinea;?>"><?=$nombreLinea;?></option>
-                <?php } ?>
-            </select>
-                </td>
-            </tr>
-
-        </table>    
-        <center>
-            <input type='button' value='Actualizar' class='boton' onClick="UpdateFacturarEditar()">
-            <input type='button' value='Cancelar' class='boton2' onClick="HiddenFacturarEditar()">
-            
-        </center>
-        </form>
-    </div>
-</div>
-
-
 
         <script type='text/javascript' language='javascript'>
         </script>

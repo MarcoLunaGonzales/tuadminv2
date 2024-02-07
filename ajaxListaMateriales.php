@@ -18,11 +18,13 @@ $globalAgencia=$_COOKIE["global_agencia"];
 $soloStock = $_GET["stock"] ?? '';
 
 
-	$sql="select m.codigo_material, m.descripcion_material,
-	(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor) 
-	, m.codigo_anterior  from material_apoyo m where estado=1 and m.codigo_material not in ($itemsNoUtilizar)";
+	$sql="select m.codigo_material, m.descripcion_material, 
+			concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor)as nombreproveedor, m.codigo_anterior, pl.descuento_maximo  
+			from material_apoyo m, proveedores p, proveedores_lineas pl 
+		where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor and 
+		m.estado=1 and m.codigo_material not in ($itemsNoUtilizar)";
 	if($nombreItem!=""){
-		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
+		$sql=$sql. " and m.descripcion_material like '%$nombreItem%'";
 	}
 	if($codTipo!=0){
 		$sql=$sql. " and m.cod_grupo='$codTipo' ";
@@ -31,7 +33,9 @@ $soloStock = $_GET["stock"] ?? '';
 		$sql=$sql. " and m.codigo_anterior like '%$codInterno%' ";
 	}
 	$sql=$sql." order by 2";
+	
 	//echo $sql;
+	
 	$resp=mysqli_query($enlaceCon,$sql);
 
 	$numFilas=mysqli_num_rows($resp);
@@ -42,6 +46,7 @@ $soloStock = $_GET["stock"] ?? '';
 			$nombre=addslashes($nombre);
 			$linea=$dat[2];
 			$codigoInterno=$dat[3];
+			$descuentoMaximoProducto=$dat[4];
 			
 			$nombreCompletoProducto=$linea."-".$nombre;
 			$nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
@@ -63,18 +68,18 @@ $soloStock = $_GET["stock"] ?? '';
 				{   $precioProducto=0;
 				}
 				$precioProducto=redondear2($precioProducto);
-				
+
 				echo "<tr>
 				<td>$linea</td>
 				<td>$codigoInterno</td>
-				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\")'>$nombre</a></div></td>
+				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\",$stockProducto,$precioProducto,$descuentoMaximoProducto)'>$nombre</a></div></td>
 				<td>$stockProducto</td>
 				<td>$precioProducto</td>
 				</tr>";
 			}
 		}
 	}else{
-		echo "<tr><td colspan='3'>Sin Resultados en la busqueda.</td></tr>";
+		echo "<tr><td colspan='5'>Sin Resultados en la busqueda.</td></tr>";
 	}
 	
 ?>

@@ -1,9 +1,19 @@
 <?php
 require('fpdf.php');
-require('conexion.inc');
-require('funciones.php');
+require('conexionmysqlipdf.inc');
+//require('funciones.php');
 require('NumeroALetras.php');
 
+
+function redondear2($valor) { 
+   $float_redondeado=round($valor * 100) / 100; 
+   return $float_redondeado; 
+}
+
+
+
+// error_reporting(E_ALL);
+// ini_set('display_errors', '1');
 
 $codigoVenta=$_GET["codVenta"];
 
@@ -68,6 +78,7 @@ s.`nro_correlativo`, s.razon_social, s.observaciones, s.descuento, (select tp.no
 		from `salida_almacenes` s, `tipos_docs` t
 		where s.`cod_salida_almacenes`='$codigoVenta'  and
 		s.`cod_tipo_doc`=t.`codigo`";
+
 $respDatosVenta=mysqli_query($enlaceCon,$sqlDatosVenta);
 while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$fechaVenta=$datDatosVenta[0];
@@ -81,6 +92,9 @@ while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$tipoPago=$datDatosVenta[7];
 	$nombreVendedor=$datDatosVenta[8];
 }
+
+$nombre1="";
+$nombre2="";
 
 $pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,$nombre1,0,0,"C");
 $pdf->SetXY(0,$y+6);		$pdf->Cell(0,0,$nombre2,0,0,"C");
@@ -109,6 +123,9 @@ $sqlDetalle="select m.codigo_material, sum(s.`cantidad_unitaria`), m.`descripcio
 		m.`codigo_material`=s.`cod_material` and s.`cod_salida_almacen`=$codigoVenta 
 		group by s.cod_material
 		order by s.orden_detalle";
+
+//		echo $sqlDetalle;
+
 $respDetalle=mysqli_query($enlaceCon,$sqlDetalle);
 
 $yyy=55;
@@ -164,6 +181,7 @@ $pdf->SetFont('Arial','',7);
 $txtMonto=NumeroALetras::convertir($montoEntero);
 $pdf->SetXY(5,$y+$yyy+15);		$pdf->MultiCell(0,3,"Son:  $txtMonto"." ".$montoDecimal."/100 Bolivianos",0,"L");
 $pdf->SetXY(0,$y+$yyy+21);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
+
 
 $pdf->Output();
 ?>

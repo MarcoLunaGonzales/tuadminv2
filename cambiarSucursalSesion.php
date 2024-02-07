@@ -31,7 +31,7 @@ $global_agencia=$_COOKIE['global_agencia'];
 
                               <option disabled selected value="">--SELECCIONE UNA SUCURSAL--</option>
                               <?php
-                               $sql="select cod_ciudad,descripcion from ciudades order by 1";
+                               $sql="select cod_ciudad,descripcion from ciudades where cod_estado=1 order by 1";
                                $resp=mysqli_query($enlaceCon,$sql);
                                while($dat=mysqli_fetch_array($resp)){
                                  $codigo=$dat[0];
