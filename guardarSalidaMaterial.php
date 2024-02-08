@@ -41,7 +41,7 @@ $totalFinalRedondeado=round($totalFinal);
 $fecha=$_POST["fecha"];
 $cantidad_material=$_POST["cantidad_material"];
 
-$nroCorrelativo=empty($_POST["nroCorrelativo"])?'':$_POST["nroCorrelativo"];
+// $nroCorrelativo=empty($_POST["nroCorrelativo"])?'':$_POST["nroCorrelativo"];
 
 if($descuentoVenta=="" || $descuentoVenta==0){
 	$descuentoVenta=0;
@@ -130,7 +130,7 @@ if($tipoDoc == 1){ // Tipo de Emisión Factura
 		"accion" 			=> "generarFacturaElectronica",
 		"idEmpresa" 		=> $globalEmpresa,
 		"sucursal" 			=> $globalSucursal,
-		"idRecibo"			=> $nroCorrelativo,
+		"idRecibo"			=> 0,
 		"fecha" 			=> $fecha,
 		"idPersona" 		=> $codCliente,
 		"monto_total" 		=> $totalVenta,
