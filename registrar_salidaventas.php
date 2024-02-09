@@ -1123,7 +1123,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 <table class='texto' align='center' width='100%'>
 <tr>
 <th align='center' width="10%">
-	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc" onChange='ajaxNroDoc(form1)'>
+	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc">
 	<?php
 
 		if($facturacionActivada==1){
@@ -1133,7 +1133,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		}
 		$resp=mysqli_query($enlaceCon,$sql);
 
-		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' onChange='ajaxNroDoc(form1)' disabled class='selectpicker form-control' data-style='btn btn-rose'>";
+		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' disabled class='selectpicker form-control' data-style='btn btn-primary'>";
 		echo "<option value=''>-</option>";
 		while($dat=mysqli_fetch_array($resp)){
 			$codigo=$dat[0];
@@ -1531,5 +1531,8 @@ if($banderaErrorFacturacion==0){
     </div>
 </div>
 
+<script>
+	$('body #tipoDoc_extra').trigger('change').val(<?=$tipoDocDefault?>);
+</script>
 </body>
 </html>

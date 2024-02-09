@@ -228,8 +228,8 @@ if($tipoDoc == 1){ // Tipo de Emisión Factura
 	/* actualizamos el campo que sirve para la facturacion */
 	$nro_correlativo=$nro_factura_siat;
 	
-	//print_r($decodedData); // Visualización de datos SIAT
-	//exit;
+	print_r($decodedData); // Visualización de datos SIAT
+	exit;
 }
 
 //$fecha=date("Y-m-d");
