@@ -43,7 +43,8 @@ $totalFinalRedondeado=round($totalFinal);
 $fecha=$_POST["fecha"];
 $cantidad_material=$_POST["cantidad_material"];
 
-$nroCorrelativo=empty($_POST["nroCorrelativo"])?'':$_POST["nroCorrelativo"];
+/*ENVIAMOS 0 EN NRO CORRELATIVO PORQUE LO RECIBIMOS DESDE EL SIAT*/
+$nroCorrelativo=0;
 
 if($descuentoVenta=="" || $descuentoVenta==0){
 	$descuentoVenta=0;
