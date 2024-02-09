@@ -513,7 +513,7 @@ while ($dat = mysqli_fetch_array($resp)) {
    
     // Editar Datos
     $url_siat   = valorConfig(7);
-    $urlDetalle = $url_siat."formatoFacturaTicketsOnline.php";
+    $urlDetalle = $url_siat."formatoFacturaOnLine.php";
     echo "<td  bgcolor='' class='text-center'> <a href='$urlDetalle?codVenta=$idTransaccion' target='_BLANK' title='Imprimir Factura'  class='text-dark'><i class='material-icons'>description</i></a>";
     echo "</td>";
 
