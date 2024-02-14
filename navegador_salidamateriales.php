@@ -1,3 +1,11 @@
+<?php
+
+require("conexionmysqli.inc");
+require('function_formatofecha.php');
+require("estilos_almacenes.inc");
+
+?>
+
 <html>
     <head>
         <title>Busqueda</title>
@@ -84,7 +92,7 @@ function funOk(codReg,funOkConfirm)
                     }
                 });
             } else {
-                dlgA("#pnldlgA3","Informe","<div class='pnlalertar'>Introdusca el codigo de confirmacion.</div>",function(){},function(){});
+                dlgA("#pnldlgA3","Informe","<div class='pnlalertar'>Introduzca el codigo de confirmacion.</div>",function(){},function(){});
             }
         },function(){});
     });
@@ -252,10 +260,6 @@ function llamar_preparado(f, estado_preparado, codigo_salida)
     </head>
     <body>
 <?php
-
-require("conexion.inc");
-require('function_formatofecha.php');
-require("estilos_almacenes.inc");
 
 $txtnroingreso = "";
 $fecha1 = "";

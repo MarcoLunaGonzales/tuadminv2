@@ -45,9 +45,10 @@ require('home_almacen.php');
 require('funciones.php');
 
 $globalCiudad=$_COOKIE["global_agencia"];
-
+$globalUsuario=$_COOKIE["global_usuario"];
 
 $stringAdminGastos=obtenerValorConfiguracion(9);
+
 $arrayStrings = explode(",", $stringAdminGastos);
 $posicion = array_search($globalUsuario, $arrayStrings);
 if ($posicion !== false) {

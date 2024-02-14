@@ -1,13 +1,17 @@
 <?php
-require("conexion.inc");
-require("estilos.inc");
+
+require("conexionmysqli.inc");
+require("estilos_almacenes.inc");
+
+
 ?>
 
 <html>
     <head>
         <title>Busqueda</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="lib/js/xlibPrototipoSimple-v0.1.js"></script>
         <script type="text/javascript" src="lib/externos/jquery/jquery-1.4.4.min.js"></script>
-        <script type="text/javascript" src="dlcalendar.js"></script>
 <script>
 function nuevoAjax()
 {	var xmlhttp=false;
@@ -256,9 +260,9 @@ echo "<tr>
 	<th>Nro. Ingreso: <b>$nro_correlativo<b></th>";
 echo"<th><input type='text' disabled='true' class='texto' value='$fecha' id='fecha' size='10' name='fecha'></th>
 	<th>Tipo de Ingreso: </td><th>";
-$sql1="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso where cod_tipoingreso='1000' order by nombre_tipoingreso";
+$sql1="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso where cod_tipoingreso<>'1002' order by nombre_tipoingreso";
 $resp1=mysqli_query($enlaceCon,$sql1);
-echo "<select name='tipo_ingreso' id='tipo_ingreso' class='texto'>";
+echo "<select name='tipo_ingreso' id='tipo_ingreso' class='texto' class='selectpicker' data-style='btn btn-warning'>";
 while($dat1=mysqli_fetch_array($resp1))
 {   $cod_tipoingreso=$dat1[0];
     $nombre_tipoingreso=$dat1[1];
@@ -365,7 +369,8 @@ echo "<div class='divBotones'>
 </div>";
 
 echo "</div>";
-echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
+
+//echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
 
 ?>
 

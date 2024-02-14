@@ -41,7 +41,7 @@ require("conexion.inc");
 
 <td align="center" width="10%">
 	<div id='idprecio<?php echo $num;?>'>
-		<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" required <?php echo ($globalSucursalPrecio!=3)?"readonly":""; ?> >
+		<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" required <?php echo ($globalSucursalPrecio!=30)?"":"readonly"; ?> >
 		<input type='hidden' id='costoUnit<?php echo $num;?>' value='0' name='costoUnit<?php echo $num;?>'>
 	</div>
 </td>
