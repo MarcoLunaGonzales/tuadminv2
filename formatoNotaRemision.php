@@ -1,9 +1,18 @@
 <?php
 require('fpdf.php');
-require('conexion.inc');
-require('funciones.php');
+require('conexionmysqlipdf.inc');
+//require('funciones.php');
 require('NumeroALetras.php');
 
+
+function formatonumeroDec($valor) { 
+   $float_redondeado=number_format($valor, 2); 
+   return $float_redondeado; 
+}
+function redondear2($valor) { 
+   $float_redondeado=round($valor * 100) / 100; 
+   return $float_redondeado; 
+}
 
 $codigoVenta=$_GET["codVenta"];
 
@@ -82,6 +91,9 @@ while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$nombreVendedor=$datDatosVenta[8];
 }
 
+$nombre1="";
+$nombre2="";
+
 $pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,$nombre1,0,0,"C");
 $pdf->SetXY(0,$y+6);		$pdf->Cell(0,0,$nombre2,0,0,"C");
 
@@ -153,6 +165,9 @@ $pdf->SetXY(45,$y+$yyy+4);		$pdf->Cell(20,5,$descuentoVenta,0,0,"R");
 
 $pdf->SetXY(25,$y+$yyy+8);		$pdf->Cell(25,5,"Total Final:",0,0,"R");
 $pdf->SetXY(45,$y+$yyy+8);		$pdf->Cell(20,5,$montoFinal,0,0,"R");
+
+
+$montoFinal=formatonumeroDec($montoFinal);
 
 list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
 if($montoDecimal==""){

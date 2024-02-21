@@ -388,6 +388,8 @@ function setMateriales(f, cod, nombreMat, precioVentaArray, stockProducto, preci
 
 	document.getElementById('stock'+numRegistro).value=stockProducto;
 	// actStock(numRegistro);
+	
+	calculaMontoMaterial(numRegistro);
 }
 
 /**

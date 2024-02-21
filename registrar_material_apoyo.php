@@ -2,7 +2,7 @@
 
 </head>
 <?php
-require("conexion.inc");
+require("conexionmysqli.inc");
 require('estilos.inc');
 require('funciones.php');
 
@@ -38,7 +38,9 @@ echo "<tr hidden><th>Tipo</th>";
 $sql1="select f.cod_tipomaterial, f.nombre_tipomaterial from tipos_material f where f.cod_tipomaterial in (1,2) order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_tipo' id='cod_tipo' required>";
+			<select name='cod_tipo' id='cod_tipo' required>
+				<option value=''>-</option>";
+				
 			while($dat1=mysqli_fetch_array($resp1))
 			{	$codTipo=$dat1[0];
 				$nombreTipo=$dat1[1];
