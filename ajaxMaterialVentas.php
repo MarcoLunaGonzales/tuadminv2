@@ -30,18 +30,18 @@ require("conexion.inc");
 <td width="10%" align="center">
 	<div id='idstock<?php echo $num;?>'>
 		<!-- <input type='hidden' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' value=''> -->
-		<input type='number' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' readonly>
+		<input type='number' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' style="height:20px;font-size:19px;width:80px;color:red;" readonly>
 	</div>
 </td>
 
 <td align="center" width="10%">
-	<input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" required> 
+	<input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" style="height:20px;font-size:19px;width:100px;color:black;" required> 
 </td>
 
 
 <td align="center" width="15%">
 	<div id='idprecio<?php echo $num;?>'>
-		<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" required>
+		<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" style="height:20px;font-size:19px;width:100px;color:blue;" required>
 	</div>
 </td>
 
@@ -66,7 +66,7 @@ require("conexion.inc");
 </td>
 
 <td align="center" width="10%">
-	<input class="inputnumber" type="number" value="0" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01"  required readonly> 
+	<input class="inputnumber" type="number" value="0" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01" style="height:20px;font-size:20px;width:120px;color:red;" required readonly> 
 </td>
 
 <td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
