@@ -15,7 +15,7 @@ $codProducto=$_GET['cod_material'];
 $globalAgencia=$_COOKIE['global_agencia'];
 
 $sqlEdit="SELECT m.codigo_material, m.descripcion_material, m.estado, m.cod_linea_proveedor, m.cod_grupo, m.cod_tipomaterial, 
-	m.observaciones, m.cod_unidad, m.modelo, m.medida, m.capacidad_carga_velocidad, m.cod_pais_procedencia, m.stock_minimo
+	m.observaciones, m.cod_unidad, m.modelo, m.medida, m.capacidad_carga_velocidad, m.cod_pais_procedencia, m.stock_minimo, m.cod_tipoaro
 	FROM material_apoyo m 
 	WHERE m.codigo_material='$codProducto'";
 $respEdit=mysqli_query($enlaceCon,$sqlEdit);
@@ -32,6 +32,7 @@ while($datEdit=mysqli_fetch_array($respEdit)){
 	$capacidad_carga_velocidadX = $datEdit[10];
 	$cod_pais_procedenciaX 		= $datEdit[11];
 	$stockMinimo 				= $datEdit[12];
+	$cod_tipoaro 				= $datEdit[13];
 }
 
 $sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`='$codProducto' and p.cod_ciudad='$globalAgencia'";
@@ -124,6 +125,25 @@ echo "<td>
 			echo "</select>
 	</div>
 	</div>
+</td>";
+echo "</tr>";
+
+echo "<tr><th>Tipo Aro</th>";
+$sql1="SELECT ta.codigo, ta.nombre, ta.abreviatura
+		FROM tipos_aro ta
+		WHERE ta.estado = 1
+		ORDER BY ta.codigo ASC";
+$resp1=mysqli_query($enlaceCon,$sql1);
+echo "<td>
+		<select name='cod_tipoaro' id='cod_tipoaro' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
+			<option value=''></option>";
+			while($dat1=mysqli_fetch_array($resp1))
+			{	$codigo = $dat1[0];
+				$nombre = $dat1[1];
+				$select = $cod_tipoaro == $codigo ? 'selected' : '';
+				echo "<option value='$codigo' $select>$nombre</option>";
+			}
+			echo "</select>
 </td>";
 echo "</tr>";
 

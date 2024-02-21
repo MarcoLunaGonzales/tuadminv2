@@ -4,6 +4,7 @@
 <?php
 require("conexion.inc");
 require('estilos.inc');
+require('funciones.php');
 
 echo "<form enctype='multipart/form-data' action='guarda_material_apoyo.php' method='post' name='form1'>";
 
@@ -58,6 +59,24 @@ echo "<td>
 			{	$codGrupo=$dat1[0];
 				$nombreGrupo=$dat1[1];
 				echo "<option value='$codGrupo'>$nombreGrupo</option>";
+			}
+			echo "</select>
+</td>";
+echo "</tr>";
+
+echo "<tr><th>Tipo Aro</th>";
+$sql1="SELECT ta.codigo, ta.nombre, ta.abreviatura
+		FROM tipos_aro ta
+		WHERE ta.estado = 1
+		ORDER BY ta.codigo ASC";
+$resp1=mysqli_query($enlaceCon,$sql1);
+echo "<td>
+		<select name='cod_tipoaro' id='cod_tipoaro' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
+			<option value=''></option>";
+			while($dat1=mysqli_fetch_array($resp1))
+			{	$codigo = $dat1[0];
+				$nombre = $dat1[1];
+				echo "<option value='$codigo'>$nombre</option>";
 			}
 			echo "</select>
 </td>";
@@ -232,19 +251,36 @@ echo "</form>";
 		});
 
 		// Detectar cambios en el select mediante change
-		$('#cod_pais_procedencia').on('change', function() {
+		$('#cod_pais_procedencia, #codLinea, #cod_grupo, #cod_tipoaro').on('change', function() {
 			actualizarMaterial();
 		});
 
+		/* Variable de configuración - Arma Nombre */
+		var config_nombre = <?=obtenerValorConfiguracion(9) ?? 1?>;
 		function actualizarMaterial() {
 			// Obtener los valores de los campos
-			var medida = $('#medida').val();
-			var modelo = $('#modelo').val();
-			var capacidad = $('#capacidad_carga_velocidad').val();
-			var pais = $('#cod_pais_procedencia option:selected').data('abrev'); // Obtener el texto seleccionado del select
+			var marca 	  = $('#codLinea option:selected').text();
+			var grupo 	  = $('#cod_grupo option:selected').text();
+			var tipoAro   = $('#cod_tipoaro option:selected').text();
+			var medida 	  = $('#medida').val() || '';
+			var modelo	  = $('#modelo').val() || '';
+			var capacidad = $('#capacidad_carga_velocidad').val() || '';
+			var pais 	  = $('#cod_pais_procedencia option:selected').data('abrev') || ''; // Obtener el texto seleccionado del select
 
 			// Concatenar los valores
-			var nuevoMaterial = medida + ' ' + modelo + ' ' + capacidad + ' ' + pais;
+			// var nuevoMaterial = medida + ' ' + modelo + ' ' + capacidad + ' ' + pais;
+
+			var nuevoMaterial = '';
+			switch (config_nombre) {
+				case 1:
+					nuevoMaterial = medida + ' ' + modelo + ' ' + capacidad + ' ' + pais;
+					break;
+				case 2:
+					nuevoMaterial = grupo + ' ' + medida + ' ' + marca;
+					break;
+				default:
+					break;
+			}
 
 			// Actualizar el valor del campo "material"
 			$('[name="material"]').val(nuevoMaterial);

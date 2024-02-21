@@ -9,8 +9,9 @@ $nombreProducto=$_POST['material'];
 $nombreProducto = strtoupper($nombreProducto);
 $codLinea=$_POST['codLinea'];
 $codGrupo=$_POST['cod_grupo'];
+$codTipoAro=$_POST['cod_tipoaro'];
 $codTipo=$_POST['cod_tipo'];
-$precioProducto=$_POST['precio_producto'];
+$precioProducto=$_POST['precio_producto']??'';
 $codigoBarras=$_POST['codigo_barras'];
 
 // $costoProducto=$_POST['costo_producto'];
@@ -44,7 +45,7 @@ $resp=mysqli_query($enlaceCon,$sql);
 $codigo=mysqli_result($resp,0,0);
 
 $sql_inserta="INSERT INTO material_apoyo(codigo_material, descripcion_material, estado, cod_linea_proveedor, cod_grupo, cod_tipomaterial,
-cantidad_presentacion, observaciones, imagen, cod_unidad, codigo_anterior, codigo_barras, modelo, medida, capacidad_carga_velocidad, cod_pais_procedencia,stock_minimo) values ($codigo,'$nombreProducto','1','$codLinea','$codGrupo','$codTipo','1','$observaciones','$archivoName','$codUnidad','$codigoInterno','$codigoBarras','$modelo','$medida','$capacidad_carga_velocidad', '$cod_pais_procedencia', '$stock_minimo')";
+cantidad_presentacion, observaciones, imagen, cod_unidad, codigo_anterior, codigo_barras, modelo, medida, capacidad_carga_velocidad, cod_pais_procedencia,stock_minimo, cod_tipoaro) values ($codigo,'$nombreProducto','1','$codLinea','$codGrupo','$codTipo','1','$observaciones','$archivoName','$codUnidad','$codigoInterno','$codigoBarras','$modelo','$medida','$capacidad_carga_velocidad', '$cod_pais_procedencia', '$stock_minimo', '$codTipoAro')";
 
 //echo $sql_inserta;
 
@@ -75,7 +76,6 @@ for ($i = 0; $i < count($_POST['precio']); $i++) {
 // $respInsertPrecio=mysqli_query($enlaceCon,$sqlInsertPrecio);
 // $sqlInsertPrecio="insert into precios values($codigo, 1,$precioProducto,'$globalAgencia')";
 // $respInsertPrecio=mysqli_query($enlaceCon,$sqlInsertPrecio);
-
 
 if($resp_inserta){
 		echo "<script language='Javascript'>
