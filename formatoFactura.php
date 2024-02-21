@@ -1,14 +1,38 @@
 <?php
 require('fpdf.php');
-require('conexion.inc');
-require('funciones.php');
+require('conexionmysqlipdf.inc');
+//require('funciones.php');
 require('NumeroALetras.php');
 include('phpqrcode/qrlib.php'); 
+
+/* error_reporting(E_ALL);
+ ini_set('display_errors', '1');
+*/
+
+function redondear2($valor) { 
+   $float_redondeado=round($valor * 100) / 100; 
+   return $float_redondeado; 
+}
+function formatonumeroDec($valor) { 
+   $float_redondeado=number_format($valor, 2); 
+   return $float_redondeado; 
+}
+
+
 
 $codigoVenta=$_GET["codVenta"];
 
 $almacenVenta=$_COOKIE["global_almacen"];
-$codSucursalVenta=obtenerCodigoSucursal($almacenVenta);
+
+$cod_respuesta=0;
+$consulta="select cod_ciudad from almacenes where cod_almacen='$almacenVenta'";
+$rs=mysqli_query($enlaceCon,$consulta);
+$registro=mysqli_fetch_array($rs);
+$cod_respuesta=$registro[0];
+if($cod_respuesta=="")
+{   $cod_respuesta=0;
+}
+$codSucursalVenta=$cod_respuesta;
 
 //consulta cuantos items tiene el detalle
 $sqlNro="select count(*) from `salida_detalle_almacenes` s where s.`cod_salida_almacen`=$codigoVenta";
@@ -82,6 +106,7 @@ while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$descuentoVenta=redondear2($descuentoVenta);
 }
 
+
 $y=5;
 $incremento=3;
 
@@ -122,6 +147,9 @@ $sqlDetalle="select m.codigo_material, sum(s.`cantidad_unitaria`), m.`descripcio
 		m.`codigo_material`=s.`cod_material` and s.`cod_salida_almacen`=$codigoVenta 
 		group by s.cod_material
 		order by 3";
+
+//echo $sqlDetalle;
+
 $respDetalle=mysqli_query($enlaceCon,$sqlDetalle);
 
 $yyy=55;
@@ -149,6 +177,8 @@ while($datDetalle=mysqli_fetch_array($respDetalle)){
 	
 	$yyy=$yyy+6;
 }
+
+//echo "parte 2";
 $pdf->SetXY(0,$y+$yyy+2);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");		
 $yyy=$yyy+5;
 
@@ -158,6 +188,8 @@ $pdf->SetXY(42,$y+$yyy);		$pdf->Cell(0,0,"Total Venta:  $montoTotal",0,0);
 $pdf->SetXY(44,$y+$yyy+4);		$pdf->Cell(0,0,"Descuento:  $descuentoVenta",0,0);
 $pdf->SetXY(43,$y+$yyy+8);		$pdf->Cell(0,0,"Total Final:  $montoFinal",0,0);
 
+
+$montoFinal=formatonumeroDec($montoFinal);
 list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
 if($montoDecimal==""){
 	$montoDecimal="00";
@@ -171,6 +203,7 @@ $pdf->SetXY(5,$y+$yyy+16);		$pdf->Cell(0,0,"CODIGO DE CONTROL: $codigoControl",0
 $pdf->SetXY(5,$y+$yyy+20);		$pdf->Cell(0,0,"FECHA LIMITE DE EMISION: $fechaLimiteEmision",0,0,"C");
 $pdf->SetXY(5,$y+$yyy+23);		$pdf->Cell(0,0,"-------------------------------------------------------------------------------",0,0,"C");
 
+//echo "parte 3";
 
 $pdf->SetXY(10,$y+$yyy+25);		$pdf->MultiCell(60,3,$txt2,0,"C");
 
@@ -188,4 +221,6 @@ $pdf->Image($fileName , 23 ,$y+$yyy+38, 30, 30,'PNG');
 $pdf->SetXY(5,$y+$yyy+68);		$pdf->MultiCell(60,3,$txt3,0,"C");
 
 $pdf->Output();
+
+
 ?>

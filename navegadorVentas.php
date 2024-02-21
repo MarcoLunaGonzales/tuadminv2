@@ -377,9 +377,16 @@ while ($dat = mysqli_fetch_array($resp)) {
     // Editar Datos
     $url_siat   = valorConfig(7);
     $urlDetalle = $url_siat."formatoFacturaTickets.php";
-    echo "<td style='background-color: $colorDocumentoSIAT' class='text-center'>
-        <a href='$urlDetalle?codVenta=$idTransaccion' target='_BLANK' title='Imprimir Factura' class='text-dark'><i class='material-icons'>description</i></a>";
-    echo "</td>";
+    if($idTransaccion>0){
+        echo "<td style='background-color: $colorDocumentoSIAT' class='text-center'>
+            <a href='$urlDetalle?codVenta=$idTransaccion&codProceso=$codigo' target='_BLANK' title='Imprimir Factura' class='text-dark'><i class='material-icons'>description</i></a>";
+        echo "</td>";        
+    }else{
+        echo "<td style='background-color: $colorDocumentoSIAT' class='text-center'>
+            <a href='formatoFactura.php?codVenta=$codigo' target='_BLANK' title='Imprimir Factura' class='text-dark'><i class='material-icons'>description</i></a>";
+        echo "</td>";        
+    }
+
 
     $urlDetalle = $url_siat."dFacturaElectronica.php";
     echo "<td  bgcolor='$colorDocumentoSIAT' class='text-center'> <a href='$urlDetalle?admin=1&codigo_salida=$idTransaccion' target='_BLANK' title='Documento SIAT'  class='text-dark'><i class='material-icons' style='color: $siat_estado_color;'>description</i></a>";

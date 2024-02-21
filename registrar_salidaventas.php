@@ -527,7 +527,7 @@ function pressEnter(e, f){
 
 // Función para verificar deuda de cliente
 function verificarDeudaCliente(cod_cliente) {
-    $.ajax({
+    /*$.ajax({
 		type: "POST",
 		url: "ajaxVerificarDeudaCliente.php",
 		data: {
@@ -546,7 +546,8 @@ function verificarDeudaCliente(cod_cliente) {
 			// Manejar errores de la solicitud AJAX
 			alert("Error en la solicitud AJAX: " + error);
 		}
-	});
+	});*/
+	return true;
 }
 
 function validar(f, ventaDebajoCosto){
