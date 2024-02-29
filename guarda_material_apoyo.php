@@ -34,6 +34,10 @@ $codigo=mysql_result($resp,0,0);
 //el codigo interno es el mismo codigo
 $codigoInterno=$codigo;
 
+//Ponemos el codigo de barras con el codigo interno y el codigo de material
+$codigoBarras=$codigo;
+
+
 
 $sql_inserta="insert into material_apoyo(codigo_material, descripcion_material, estado, cod_linea_proveedor, cod_grupo, cod_tipomaterial,
 cantidad_presentacion, observaciones, imagen, cod_unidad, codigo_anterior, codigo_barras) values ($codigo,'$nombreProducto','1','$codLinea','$codGrupo','$codTipo','1','$observaciones','$archivoName','$codUnidad','$codigoInterno','$codigoBarras')";

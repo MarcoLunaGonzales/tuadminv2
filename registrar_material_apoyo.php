@@ -91,7 +91,7 @@ echo "</tr>";
 
 echo "<tr><th align='left'>Codigo Barras</th>";
 echo "<td align='left'>
-	<input type='text' class='texto' name='codigo_barras' id='codigo_barras'>
+	<input type='text' class='texto' name='codigo_barras' id='codigo_barras' readonly>
 	</td></tr>";
 
 

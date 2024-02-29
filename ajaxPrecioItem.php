@@ -23,6 +23,8 @@ if($cadRespuesta=="")
 {   $cadRespuesta=0;
 }
 
+//redondear a 2 decimales
+$cadRespuesta=round($cadRespuesta,2);
 
 if($banderaBajarPrecio==0){
 	$valorPrecioMinimo=$cadRespuesta;
@@ -52,7 +54,7 @@ while($datCosto=mysql_fetch_array($respCosto)){
 //$costoString = str_pad($costoMaterialii, 3, "0", STR_PAD_LEFT );
 $costoString=$costoMaterialii;
 
-echo "<input type='number' id='precio_unitario$indice' name='precio_unitario$indice' value='$cadRespuesta' min='$valorPrecioMinimo' class='inputnumber' onKeyUp='calculaMontoMaterial($indice);' step='0.01'>";
+echo "<input type='number' id='precio_unitario$indice' name='precio_unitario$indice' value='$cadRespuesta' min='$valorPrecioMinimo' class='inputnumber' onKeyUp='calculaMontoMaterial($indice);' step='0.01' style='height:20px;font-size:19px;width:100px;color:blue;'>";
 echo "<input type='hidden' id='costoUnit$indice' value='$costoMaterialii' name='costoUnit$indice'>";
 
 /*Esta parte la control en el Registrar Venta el metodo AjaxPrecioItem*/
