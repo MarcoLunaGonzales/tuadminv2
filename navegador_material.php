@@ -270,6 +270,11 @@ echo "<script language='Javascript'>
 			<td align='center'><img src='imagenesprod/$imagen' width='$tamanioImagen'></td>
 			<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a>
 				<a href='ticketMaterial.php?cod_material=$codigo' target='_blank'><img src='imagenes/icono-barra.png' width='25'></a>
+				<button type='button'}
+					onclick='abreModal(\"$codigo\")'
+					style='background-color: #ffcccc;padding: 5px;border-radius: 5px; cursor:pointer;' title='Codigo de Barra 2'>
+					<img src='imagenes/icono-barra.png' width='25'>
+				</button>
 			</td>
 			</tr>";
 		}
@@ -386,3 +391,41 @@ function Hidden(){
 </div>
 
 </form>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="cantidadCodigo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Generador de Código de Barras</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-body">
+				<form id="tagForm">
+					<div class="form-group">
+						<label for="cantidad">Cantidad de etiquetas:</label>
+						<input type="number" class="form-control" id="cantidad" name="cantidad" min="1" required>
+					</div>
+					<button type="submit" class="btn btn-primary">Generar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var url_barra = "ticketMaterial.php?cod_material=";
+	// Abre modal de cantidad de Codigo de Barra
+	function abreModal(codigo){
+        // Muestra un confirm alert
+        var cantidad = prompt("Ingrese la cantidad de código de barras que desea generar:");
+        if (cantidad !== null && cantidad !== "") {
+			// Redirige a la página con la cantidad ingresada
+			location.href = "ticketMaterial_newv2.php?cod_material=" + codigo + "&cantidad_tickets=" + cantidad;
+        }
+    }
+</script>
