@@ -311,11 +311,11 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
 			if($tipoDocumento==1){
               $nro_salida="F-".$nro_salida;
-              $obs_salida=$razon_social;
+              $obs_salida=$razon_social." / ".$obs_salida;
 			}else{
 				if($tipoDocumento==4){
                   $nro_salida="M-".$nro_salida;
-                  $obs_salida=$razon_social;
+                  $obs_salida=$razon_social."  / ".$obs_salida;
 			    }else{
 			       if($tipoDocumento==3){
                      $nro_salida="T-".$nro_salida;
@@ -323,7 +323,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			       }else{
 			    					 $nro_salida="NR-".$nro_salida;
                      //$nro_facturaProveedor="";
-                     $obs_salida=$razon_social;
+                     $obs_salida=$razon_social." / ".$obs_salida;
 			       }	
 			    }
 			}

@@ -5,6 +5,7 @@
 	require("funciones.php");
 	require("funcion_nombres.php");
 
+
 	$sqlEmpresa="select nombre, nit, direccion from datos_empresa";
 	$respEmpresa=mysql_query($sqlEmpresa);
 	$nombreEmpresa=mysql_result($respEmpresa,0,0);
@@ -99,7 +100,7 @@
 	}
 	$costoTotalF=redondear2($costoTotal);
 	
-	echo "<tr><th>-</th><th>-</th><th>Costo Total</th><th>$costoTotalF</th></tr>";
+	echo "<tr><th>-</th><th>-</th><th>-</th><th>Costo Total</th><th>$costoTotalF</th></tr>";
 	echo "</table><br><br><br><br><br>";
 	echo "<div><table width='90%'>
 	<tr class='bordeNegroTdMod'><td width='33%' align='center'>Despachado</td><td width='33%' align='center'>Entregue Conforme</td><td width='33%' align='center'>Recibi Conforme</td></tr>

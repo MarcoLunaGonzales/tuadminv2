@@ -1,81 +1,3 @@
-<script language='JavaScript'>
-
-function nuevoAjax()
-{	var xmlhttp=false;
-	try {
-			xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
-	} catch (e) {
-	try {
-		xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
-	} catch (E) {
-		xmlhttp = false;
-	}
-	}
-	if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
- 	xmlhttp = new XMLHttpRequest();
-	}
-	return xmlhttp;
-}	
-
-function cambiaPrecio(f, id, codigo, precio, tipoPrecio){
-	var contenedor;
-	contenedor = document.getElementById(id);
-	ajax=nuevoAjax();
-	ajax.open('GET', 'ajaxCambiaPrecio.php?codigo='+codigo+'&precio='+precio+'&id='+id+'&tipoPrecio='+tipoPrecio,true);
-	ajax.onreadystatechange=function() {
-		if (ajax.readyState==4) {
-			contenedor.innerHTML = ajax.responseText
-		}
-	}
-	ajax.send(null)
-}
-
-function guardaAjaxPrecio(combo, codigo, id, tipoPrecio){
-	var contenedor;
-	var precio=combo.value;
-	contenedor = document.getElementById(id);
-	ajax=nuevoAjax();
-	ajax.open('GET', 'ajaxGuardaPrecio.php?codigo='+codigo+'&precio='+precio+'&tipoPrecio='+tipoPrecio,true);
-	ajax.onreadystatechange=function() {
-		if (ajax.readyState==4) {
-			contenedor.innerHTML = ajax.responseText
-		}
-	}
-	ajax.send(null)
-}
-
-function ShowBuscar(){
-	document.getElementById('divRecuadroExt').style.visibility='visible';
-	document.getElementById('divProfileData').style.visibility='visible';
-	document.getElementById('divProfileDetail').style.visibility='visible';
-}
-
-function HiddenBuscar(){
-	document.getElementById('divRecuadroExt').style.visibility='hidden';
-	document.getElementById('divProfileData').style.visibility='hidden';
-	document.getElementById('divProfileDetail').style.visibility='hidden';
-}		
-
-function ajaxBuscarItems(f){
-	var nombreItem, tipoItem;
-	nombreItem=document.getElementById("nombreItem").value;
-	tipoItem=document.getElementById("tipo_material").value;
-
-	var contenedor;
-	contenedor = document.getElementById('divCuerpo');
-	ajax=nuevoAjax();
-
-	ajax.open("GET", "ajaxBuscarItems.php?nombreItem="+nombreItem+"&tipoItem="+tipoItem,true);
-	ajax.onreadystatechange=function() {
-		if (ajax.readyState==4) {
-			contenedor.innerHTML = ajax.responseText;
-			HiddenBuscar();
-		}
-	}
-	ajax.send(null)
-}
-
-</script>
 <?php
 
 	require("conexion.inc");
@@ -85,18 +7,24 @@ function ajaxBuscarItems(f){
 	
 	$global_almacen=$_COOKIE["global_almacen"];
 	
-	$global_agencia=$_GET['rpt_territorio'];
-	$rpt_grupo=$_GET['rpt_grupo'];
+	$global_agencia=$_POST['rpt_territorio'];
+	$rpt_grupo=$_POST['rpt_grupo'];
+
+	$rptVer=$_POST['rpt_ver'];
+
+	$rptGrupoX=implode(",", $rpt_grupo);
 	
 	$nombreAgencia=nombreTerritorio($global_agencia);
+	$nombreGrupoX=nombreGrupo($rptGrupoX);
 
 	echo "<h1>Reporte de Precios</h1>";
 	echo "<h2>Agencia: $nombreAgencia</h2>";
+	echo "<h2>Grupo: $nombreGrupoX</h2>";
 	
 	
 	echo "<div id='divCuerpo'>";
 	$sql="select codigo_material, descripcion_material, (select g.nombre_grupo from grupos g where g.cod_grupo=ma.cod_grupo)grupo from material_apoyo ma
-			where ma.estado=1 and ma.cod_grupo in ($rpt_grupo) order by 3,2";
+			where ma.estado=1 and ma.cod_grupo in ($rptGrupoX) order by 3,2";
 	$resp=mysql_query($sql);
 	
 	echo "<center><table class='texto'>";
@@ -104,10 +32,7 @@ function ajaxBuscarItems(f){
 	<th>Grupo</th>
 	<th>Existencias</th>
 	<th>Costo</th>
-	<th>Precio A</th>
-	<th>Precio B</th>
-	<th>Precio C</th>
-	<th>Precio Factura</th>
+	<th>Precio</th>
 	</tr>";
 	$indice=1;
 	while($dat=mysql_fetch_array($resp))
@@ -132,20 +57,8 @@ function ajaxBuscarItems(f){
 		$cant_salidas=$dat_salidas[0];
 		$stock2=$cant_ingresos-$cant_salidas;
 
-		
-		echo "<tr><td>$nombreMaterial </td><td>$nombreGrupo</td>";
-		echo "<td align='center'>$stock2</td>";
-
-		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`=$codigo and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
-		if($numFilas==1){
-			$precio0=mysql_result($respPrecio,0,0);
-			$precio0=redondear2($precio0);
-		}else{
-			$precio0=0;
-			$precio0=redondear2($precio0);
-		}
+		//COSTO DEL ITEM
+		$precio0=costoVenta($codigo,$global_agencia);	
 		
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=1 and p.`codigo_material`=$codigo and p.cod_ciudad='$global_agencia'";
 		$respPrecio=mysql_query($sqlPrecio);
@@ -158,46 +71,28 @@ function ajaxBuscarItems(f){
 			$precio1=redondear2($precio1);
 		}
 
-		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=2 and p.`codigo_material`=$codigo  and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
-		if($numFilas==1){
-			$precio2=mysql_result($respPrecio,0,0);
-			$precio2=redondear2($precio2);
-		}else{
-			$precio2=0;
-			$precio2=redondear2($precio2);
-		}
-
-		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=3 and p.`codigo_material`=$codigo  and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
-		if($numFilas==1){
-			$precio3=mysql_result($respPrecio,0,0);
-			$precio3=redondear2($precio3);
-		}else{
-			$precio3=0;
-			$precio3=redondear2($precio3);
-		}
-
-		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=4 and p.`codigo_material`=$codigo  and p.cod_ciudad='$global_agencia'";
-		$respPrecio=mysql_query($sqlPrecio);
-		$numFilas=mysql_num_rows($respPrecio);
-		if($numFilas==1){
-			$precio4=mysql_result($respPrecio,0,0);
-			$precio4=redondear2($precio4);
-		}else{
-			$precio4=0;
-			$precio4=redondear2($precio4);
-		}
-
 		$indice++;
-		echo "<td align='center'>$precio0</td>";
-		echo "<td align='center'><div id='1$codigo' onDblClick='cambiaPrecio(this.form, this.id, $codigo, $precio1, 1)';>$precio1</div></td>";
-		echo "<td align='center'><div id='2$codigo' onDblClick='cambiaPrecio(this.form, this.id, $codigo, $precio2, 2)';>$precio2</div></td>";
-		echo "<td align='center'><div id='3$codigo' onDblClick='cambiaPrecio(this.form, this.id, $codigo, $precio3, 3)';>$precio3</div></td>";
-		echo "<td align='center'><div id='4$codigo' onDblClick='cambiaPrecio(this.form, this.id, $codigo, $precio4, 4)';>$precio4</div></td>";
-		echo "</tr>";
+
+		if($rptVer==1){	
+			echo "<tr><td>$nombreMaterial </td><td>$nombreGrupo</td>";
+			echo "<td align='center'>$stock2</td>";
+			echo "<td align='center'>$precio0</td>";		
+			echo "<td align='center'><div id='1$codigo' onDblClick='cambiaPrecio(this.form, this.id, $codigo, $precio1, 1)';>$precio1</div></td>";
+			echo "</tr>";		
+		}if($rptVer==2 and $stock2>0){	
+			echo "<tr><td>$nombreMaterial </td><td>$nombreGrupo</td>";
+			echo "<td align='center'>$stock2</td>";
+			echo "<td align='center'>$precio0</td>";		
+			echo "<td align='center'><div id='1$codigo' onDblClick='cambiaPrecio(this.form, this.id, $codigo, $precio1, 1)';>$precio1</div></td>";
+			echo "</tr>";			
+		}if($rptVer==3 and $stock2==0){	
+			echo "<tr><td>$nombreMaterial </td><td>$nombreGrupo</td>";
+			echo "<td align='center'>$stock2</td>";
+			echo "<td align='center'>$precio0</td>";		
+			echo "<td align='center'><div id='1$codigo' onDblClick='cambiaPrecio(this.form, this.id, $codigo, $precio1, 1)';>$precio1</div></td>";
+			echo "</tr>";
+		}
+
 	}
 	echo "</table></center><br>";
 	echo "</div>";

@@ -58,8 +58,10 @@ if ($num_filas != 0) {
 	}elseif($cod_cargo==1016){//VENDEDOR
 		header("location:indexAlmacenCaja.php");
 		setcookie("global_admin_cargo", 0);		
-	}
-	elseif($cod_cargo==1030){//AUDITOR
+	}elseif($cod_cargo==1020){//VENDEDOR
+		header("location:indexSupVentas.php");
+		setcookie("global_admin_cargo", 0);		
+	}elseif($cod_cargo==1030){//AUDITOR
 		header("location:indexExterno.php");
 		setcookie("global_admin_cargo", 0);		
 	}

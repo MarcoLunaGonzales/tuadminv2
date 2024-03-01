@@ -1,12 +1,16 @@
 <?php
 require("conexion.inc");
 require("funciones.php");
+
+
 $codigoItem=$_GET['codigo'];
 $globalAlmacen=$_COOKIE['global_almacen'];
 $globalAgencia=$_COOKIE['global_agencia'];
 
 	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion, 
-		(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)
+		(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl 
+		where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
+		(select g.nombre_grupo from grupos g where g.cod_grupo=m.cod_grupo ) as grupo  
 		from material_apoyo m where estado=1 
 		and m.codigo_barras = '$codigoItem'";
 	$sql=$sql." limit 1";
@@ -17,8 +21,9 @@ $globalAgencia=$_COOKIE['global_agencia'];
 			$codigo=$dat[0];
 			$nombre=$dat[1];
 			$lineaProducto=$dat[3];
+			$nombreGrupo=$dat[4];
 			$nombre=addslashes($nombre);
-			$nombreCompletoProducto=$lineaProducto."-".$nombre;
+			$nombreCompletoProducto=$nombreGrupo."-".$nombre;
 			$nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
 			
 			$cantidadPresentacion=$dat[2];			

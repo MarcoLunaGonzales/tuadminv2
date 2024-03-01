@@ -88,6 +88,7 @@ require("funcion_nombres.php");
 $globalCiudad=$_COOKIE["global_agencia"];
 $nombreTerritorio=nombreTerritorio($globalCiudad);
 
+$globalAdmin=$_COOKIE["global_admin_cargo"];
 
 ?>
 
@@ -112,7 +113,13 @@ while($dat1=mysql_fetch_array($resp1))
 	<option value="<?php echo $codigo; ?>"><?php echo $nombre; ?></option>
 <?php	
 }
+
+$fechaIni=date('Y-m-d');
+if($globalAdmin==1){
+	$fechaIni=date('Y-m-d',strtotime($fecha.'-90 days'));
+}
 $fecha=date("Y-m-d");
+
 ?>
 </select>
 </td>

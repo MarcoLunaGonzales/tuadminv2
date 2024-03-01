@@ -6,8 +6,10 @@ $clave = $_GET["clave"];
 
 //
 $nroDigitos = strlen("".$codigo);
-$nroDigitos--;//total digitos
+//$nroDigitos--;//total digitos
+$nroDigitos++;//total digitos
 //
+
 $cadAux = strrev($codigo);
 $ultimoCar="".$cadAux[0];//ultimo digito
 //
@@ -19,10 +21,12 @@ $cadAux="".$codigo;//echo "_$cadAux<br>";
 for($i=0;$i<=$nroDigitos;$i++)
    {$acumulador+=$cadAux[$i];//echo "_$cadAux[$i]-----$i";
    }
-$acumulador=$acumulador+100;//suma de digitos mas 100
+//$acumulador=$acumulador+100;//suma de digitos mas 100
+$acumulador=$acumulador+10;//suma de digitos mas 100
 //
 //clave generada
-$claveGenerada="".$nroDigitos.$ultimoCar.$primerCar.$acumulador;
+//$claveGenerada="".$nroDigitos.$ultimoCar.$primerCar.$acumulador;
+$claveGenerada="".$acumulador.$primerCar.$ultimoCar.$nroDigitos;
 //
 //comparacion final
 if($clave==$claveGenerada)

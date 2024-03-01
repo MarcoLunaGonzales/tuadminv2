@@ -26,6 +26,11 @@ $numFilas=mysqli_num_rows($resp);
 echo "<input type='hidden' name='nroFilas' id='nroFilas' value='$numFilas'>";
 
 $i=1;
+
+$totalVentas=0;
+$totalCobros=0;
+$totalxCobrar=0;
+
 while($dat=mysqli_fetch_array($resp)){
 	$codigo=$dat[0];
 	$numero=$dat[1];
@@ -35,18 +40,23 @@ while($dat=mysqli_fetch_array($resp)){
 	$montoCancelado=$dat[5];
 	$saldo=$monto-$montoCancelado;
 	
-	$montoV=redondear2($monto);
-	$montoCanceladoV=redondear2($montoCancelado);
-	$saldoV=redondear2($saldo);
+	$montoV=formatonumeroDec($monto);
+	$montoCanceladoV=formatonumeroDec($montoCancelado);
+	$saldoV=formatonumeroDec($saldo);
+
+	$totalxCobrar=$totalxCobrar+$saldo;
+	$totalVentas=$totalVentas+$monto;
+	$totalCobros=$totalCobros+$montoCancelado;
+
 	
 	echo "<tr>
 		<input type='hidden' value='$codigo' name='codCobro$i' id='codCobro$i'>
 		<td>$nombreDoc</td>
 		<td>$numero</td>
 		<td>$fecha</td>
-		<td>$montoV</td>
-		<td>$montoCanceladoV</td>
-		<td>$saldoV</td>
+		<td align='right'>$montoV</td>
+		<td align='right'>$montoCanceladoV</td>
+		<td align='right'>$saldoV</td>
 		<input type='hidden' value='$saldo' name='saldo$i' id='saldo$i'>
 		<td align='center'><input type='number' class='texto' name='montoPago$i' id='montoPago$i' size='10' onKeyPress='javascript:return solonumeros(event)' value='0' max='$saldo'></td>
 		<td align='center'><input type='text' class='texto' name='nroDoc$i' id='nroDoc$i' size='10' onKeyPress='javascript:return solonumeros(event)' value='0'></td>
@@ -54,8 +64,22 @@ while($dat=mysqli_fetch_array($resp)){
 	$i++;
 }
 
+$totalVentas=formatonumeroDec($totalVentas);
+$totalCobros=formatonumeroDec($totalCobros);
+$totalxCobrar=formatonumeroDec($totalxCobrar);
+
+echo "<tr class='textopequenosangre'>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td align='right'>$totalVentas</td>
+	<td align='right'>$totalCobros</td>
+	<td align='right'>$totalxCobrar</td>
+	<td align='center'>-</td>
+	<td align='center'>-</td>
+	</tr>";
 ?>
 </table>
-
+<br>
 </body>
 </html>

@@ -323,7 +323,7 @@ if($edit_tipo == 0){
 					// Nuevo
 					$consulta = "SELECT ma.codigo_material, ma.descripcion_material, 0 AS cantidad_entrega, 0 AS cantidad_venta, 0 AS cantidad_devolucion, 0 AS monto_venta, 0 AS precio_producto
 								FROM material_apoyo ma
-								WHERE ma.codigo_material IN ($busca_items)";
+								WHERE ma.cod_grupo IN (1029)";
 				}else{
 					// Editar
 					$consulta = "SELECT ma.codigo_material, ma.descripcion_material, dpd.cantidad_entrega, dpd.cantidad_venta, dpd.cantidad_devolucion, dpd.monto_venta, dpd.precio_producto

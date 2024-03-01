@@ -273,7 +273,7 @@ function costoVenta($codigo,$agencia){
 	$consulta="select id.costo_almacen from ingreso_almacenes i, ingreso_detalle_almacenes id where 
 	i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen in  
 			(select a.cod_almacen from almacenes a where a.cod_ciudad='$agencia') and i.ingreso_anulado=0 
-	and id.cod_material='$codigo' order by i.cod_ingreso_almacen desc limit 0,1";
+	and id.cod_material='$codigo' and id.costo_almacen>0 order by i.cod_ingreso_almacen desc limit 0,1";
 	$rs=mysql_query($consulta);
 	$registro=mysql_fetch_array($rs);
 	$costoVenta=$registro[0];
@@ -373,6 +373,19 @@ function actualizarPrecios($enlaceCon, $codProducto, $arrayPrecios){
 	    $respPrecio=mysqli_query($enlaceCon,$sqlActPrecio);
 	}
 	return(1);
+}
+
+function obtenerAlmacenesDeCiudadString($subGrupo){
+	$estilosVenta=1;
+	require("conexionmysqlipdf.inc");
+	$sql="SELECT GROUP_CONCAT(cod_almacen) from almacenes where cod_ciudad in ($subGrupo) GROUP BY cod_ciudad;";
+    $resp=mysqli_query($enlaceCon,$sql);
+    $datos=[];$index=0;				
+    while($detalle=mysqli_fetch_array($resp)){
+       $datos[$index]=$detalle[0];
+       $index++;		 		
+    }  
+    return implode(",", $datos);
 }
 
 ?>

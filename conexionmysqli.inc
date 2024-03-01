@@ -4,6 +4,15 @@ date_default_timezone_set('America/La_Paz');
 
 require_once 'config.php';
 
+if(!isset($_COOKIE["global_usuario"])){
+?>
+  	<script type="text/javascript">
+    	$( document ).ready(function() {Swal.fire("ERROR!", "Inicie Sesion!", "error");
+      		location.href="index.html";
+    	});
+    </script>
+<?php
+}
 
 if(!function_exists('register_globals')){
 	include('register_globals.php');

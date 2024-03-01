@@ -199,7 +199,7 @@ font-family: sans-serif, Arial;
 }
 
 .texto th {
-    text-align: left;
+    text-align: center;
     text-shadow: 0 1px 0 rgba(255,255,255,.5); 
     border-bottom: 1px solid #ccc;
     background-color: #eee;
@@ -334,7 +334,12 @@ a:active {
 .textopequenorojo {
     font-family: Verdana;
     font-size: 10pt;
-    color: #CD5C5C;
+    color: #FF0000;
+}
+.textopequenosangre {
+    font-family: Verdana;
+    font-size: 10pt;
+    color: #FF0000;
 }
 .boton
 {

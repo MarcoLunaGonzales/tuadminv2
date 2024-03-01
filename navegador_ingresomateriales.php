@@ -214,7 +214,7 @@ echo "<div id='divCuerpo'>";
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nro.Factura</th><th>Fecha</th><th>Tipo de Ingreso</th>
 <th>Proveedor</th>
-<th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+<th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 while ($dat = mysql_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
@@ -259,8 +259,8 @@ while ($dat = mysql_fetch_array($resp)) {
 		<a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
 			<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
 		</a>
-	</td>
-		<td align='center'>
+	</td></tr>";
+	/*echo "<td align='center'>
 		<a  href='costosImportacionIngreso.php?codigo_ingreso=$codigo'>
 			<img src='imagenes/imp9.jpg' border='0' width='50' heigth='50' title='Asociar Costos de Importacion'>
 		</a>
@@ -272,8 +272,7 @@ while ($dat = mysql_fetch_array($resp)) {
 	<td align='center'>
 		<a target='_BLANK' href='navegadorDetalleIngresoImpUtilidad.php?codigo_ingreso=$codigo'>
 		<img src='imagenes/procesar.png' border='0' width='30' heigth='30' title='Configurar Utilidades'></a>
-	</td>
-	</tr>";
+	</td>";*/
 }
 echo "</table></center><br>";
 echo "</div>";

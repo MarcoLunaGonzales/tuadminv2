@@ -40,7 +40,7 @@ function nombreVisitador($codigo)
 	return($nombre);
 }
 
-function nombreTerritorio($enlaceCon, $codigo)
+function nombreTerritorio($codigo)
 {	require 'conexionmysqli.inc';
 	$sql="SELECT descripcion from ciudades where cod_ciudad='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);
@@ -71,7 +71,10 @@ function nombreCliente($codigo)
 {	require 'conexionmysqli.inc';
 	$sql="select nombre_cliente from clientes where cod_cliente='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);
-	$nombre=mysqli_result($resp,0,0);
+	$nombre="";
+	if($dat=mysqli_fetch_array($resp)){
+		$nombre=$dat[0];
+	}
 	return($nombre);
 }
 
@@ -79,7 +82,10 @@ function nombreProveedor($codigo){
 	require 'conexionmysqli.inc';
 	$sql="select nombre_proveedor from proveedores where cod_proveedor='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);
-	$nombre=mysqli_result($resp,0,0);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+		$nombre=$dat[0];
+	}
 	return($nombre);
 }
 
@@ -87,11 +93,10 @@ function nombreAlmacen($codigo){
 	require 'conexionmysqli.inc';
 	$sql="select nombre_almacen from almacenes where cod_almacen='$codigo'";
 	$resp=mysqli_query($enlaceCon, $sql);
+	$nombre="";
 	$numFilas=mysqli_num_rows($resp);
-	if($numFilas>0){
-		$nombre=mysqli_result($resp,0,0);		
-	}else{
-		$nombre="-";
+	if($dat=mysqli_fetch_array($resp)){
+		$nombre=$dat[0];
 	}
 	return($nombre);
 }
@@ -104,8 +109,10 @@ function nombreGrupo($codigo){
 	while($dat=mysqli_fetch_array($resp)){
 		$nombre.=$dat[0]."-";
 	}
-	$nombre=substr($nombre,0,100);
-	$nombre=$nombre."...";
+	if(strlen($nombre)>200){
+		$nombre=substr($nombre,0,100);
+		$nombre=$nombre."...";
+	}
 	return($nombre);
 }
 function nombreLineaProveedor($codigo){
@@ -128,5 +135,18 @@ function nombreTipoPago($codigo){
 	}
 	return($nombre);
 }
+
+function obtenerNombreSucursalAgrupado($sucursales){
+	require 'conexionmysqli.inc';
+	$sql="select GROUP_CONCAT(descripcion) AS descripcion from ciudades where cod_ciudad in ($sucursales)";
+	$resp=mysqli_query($enlaceCon,$sql);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+	$nombre.=$dat[0];
+	}
+	return($nombre);
+}
+
+
 
 ?>

@@ -5,29 +5,26 @@ require('function_formatofecha.php');
 require('function_comparafechas.php');
 require('funciones.php');
 
+set_time_limit(0);
+
 $fecha_reporte=date("d/m/Y");
 $fecha_ini=$_GET["fecha_ini"];
 $fecha_fin=$_GET["fecha_fin"];
 
 $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
-	$sql_nombre_territorio="select descripcion from ciudades where cod_ciudad='$rpt_territorio'";
-	$resp_territorio=mysql_query($sql_nombre_territorio);
-	$dat_territorio=mysql_fetch_array($resp_territorio);
-	$nombre_territorio=$dat_territorio[0];
+
 	$sql_nombre_almacen="select nombre_almacen from almacenes where cod_almacen='$rpt_almacen'";
 	$resp_nombre_almacen=mysql_query($sql_nombre_almacen);
 	$dat_almacen=mysql_fetch_array($resp_nombre_almacen);
 	$nombre_almacen=$dat_almacen[0];
 	
-	$nombre_tipoitem="Material de Apoyo";
-		$sql_item="select descripcion_material from material_apoyo where codigo_material='$rpt_item'";
+	$sql_item="select descripcion_material from material_apoyo where codigo_material='$rpt_item'";
 
 	$resp_item=mysql_query($sql_item);
 	$dat_item=mysql_fetch_array($resp_item);
 	$nombre_item="$dat_item[0] $dat_item[1]";
 	echo "<h1>Reporte Kardex de Existencia Fisica</h1>
-	<h2>Territorio: 
-	<strong>$nombre_territorio</strong> Almacen: <strong>$nombre_almacen</strong> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: 
+	<h2>Almacen: <strong>$nombre_almacen</strong> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: 
 	<strong>$fecha_fin</strong>Item: <strong>$nombre_item</strong><br>$txt_reporte</h2>";
 
 	$fecha_iniconsulta=$fecha_ini;
@@ -134,10 +131,11 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	for($indice=1;$indice<=$zz;$indice++)
 	{	$fecha_consulta=$vector_final_fechas[$indice];
 		//hacemos la consulta para ingresos
-		$sql_ingresos="select i.nro_correlativo, id.cantidad_unitaria, i.observaciones, ti.nombre_tipoingreso, id.costo_almacen
+		$sql_ingresos="select i.nro_correlativo, id.cantidad_unitaria, i.observaciones, ti.nombre_tipoingreso, id.costo_almacen, i.cod_ingreso_almacen, 
+		(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen)
 		from ingreso_almacenes i, ingreso_detalle_almacenes id, tipos_ingreso ti
 		where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
-		i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha='$fecha_consulta'";
+		i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha='$fecha_consulta' order by i.nro_correlativo";
 		$resp_ingresos=mysql_query($sql_ingresos);
 		while($dat_ingresos=mysql_fetch_array($resp_ingresos))
 		{	$nro_ingreso=$dat_ingresos[0];
@@ -145,6 +143,9 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$obs_ingreso=$dat_ingresos[2];
 			$nombre_ingreso=$dat_ingresos[3];
 			$costoIngreso=$dat_ingresos[4];
+			$codIngresoX=$dat_ingresos[5];
+			$almacenOrigenTraspaso=$dat_ingresos[6];
+
 			$suma_ingresos=$suma_ingresos+$cantidad_ingreso;
 			$cantidad_kardex=$cantidad_kardex+$cantidad_ingreso;
 			$valorIngreso=$cantidad_ingreso*$costoIngreso;
@@ -169,8 +170,8 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			<td align='right' bgcolor='$coloresValores'>0</td>
 			<td align='right' bgcolor='$coloresValores'>$valorKardexX</td>
 			<td align='left' bgcolor='#F1C40F'>$nombre_ingreso</td>
-			<td bgcolor='#F1C40F'>&nbsp;</td>
-			<td bgcolor='#F1C40F'>&nbsp;$obs_ingreso</td>
+			<td bgcolor='#F1C40F'>&nbsp;$almacenOrigenTraspaso</td>
+			<td bgcolor='#F1C40F'>&nbsp;$obs_ingreso ($codIngresoX)</td>
 			</tr>";
 		}
 		//hacemos la consulta para salidas
@@ -178,7 +179,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		s.observaciones, s.territorio_destino, s.cod_salida_almacenes, sd.costo_almacen
 		from salida_almacenes s, salida_detalle_almacenes sd, tipos_salida ts
 		where s.cod_tiposalida=ts.cod_tiposalida and s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
-		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta'";
+		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta' order by s.nro_correlativo";
 		$resp_salidas=mysql_query($sql_salidas);
 		while($dat_salidas=mysql_fetch_array($resp_salidas))
 		{	$nro_salida=$dat_salidas[0];
@@ -217,7 +218,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			<td align='right' bgcolor='$coloresValores'>$valorKardexX</td>
 			<td align='left'>$nombre_salida</td>
 			<td align='left'>&nbsp;$nombre_territorio_destino</td>
-			<td>&nbsp;$obs_salida</td></tr>";
+			<td>&nbsp;$obs_salida ($cod_salida)</td></tr>";
 		}
 	}
 	$suma_saldo_final=$suma_ingresos-$suma_salidas+$cantidad_inicial_kardex;

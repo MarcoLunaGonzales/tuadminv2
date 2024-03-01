@@ -33,7 +33,7 @@ else
 	$codigo++;
 }
 
-$sqlNro="select max(nro_cobro)+1 from cobros_cab";
+$sqlNro="SELECT IFNULL((max(nro_cobro)),1)+1 as correlativo from cobros_cab";
 $resp=mysqli_query($enlaceCon, $sqlNro);
 $dat=mysqli_fetch_array($resp);
 $num_filas=mysqli_num_rows($resp);

@@ -2,6 +2,9 @@
 require("conexion.inc");
 require("estilos_almacenes.inc");
 
+
+$fechaActual=date("Y-m-d H:i:s");
+
 $global_almacen=$_COOKIE["global_almacen"];
 		
 $sql_detalle="select cod_salida_almacen, cod_material, cantidad_unitaria, lote, fecha_vencimiento, cod_ingreso_almacen
@@ -48,7 +51,7 @@ while($dat_detalle=mysql_fetch_array($resp_detalle))
 	}
 }
 
-$sql="update salida_almacenes set salida_anulada=1, estado_salida=3 where cod_salida_almacenes='$codigo_registro'";
+$sql="update salida_almacenes set salida_anulada=1, estado_salida=3, fecha_anulacion='$fechaActual' where cod_salida_almacenes='$codigo_registro'";
 $resp=mysql_query($sql);
 
 $sql="update facturas_venta set cod_estado=2 where cod_venta='$codigo_registro'";

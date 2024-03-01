@@ -4,6 +4,8 @@ echo "</head><body onLoad='funcionInicio();'>";
 require("conexion.inc");
 require("estilos_almacenes.inc");
 require("funciones.php");
+
+
 ?>
 <html>
     <head>
@@ -630,7 +632,7 @@ $ventaDebajoCosto=mysql_result($respConf,0,0);
 	<select name='cliente' class='texto' id='cliente' required>
 		<option value=''>----</option>
 <?php
-$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c where c.cod_area_empresa='$globalAgencia' order by 2";
+$sql2="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
 $resp2=mysql_query($sql2);
 while($dat2=mysql_fetch_array($resp2)){
    $codCliente=$dat2[0];

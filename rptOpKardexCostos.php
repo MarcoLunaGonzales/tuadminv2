@@ -2,12 +2,11 @@
 echo "<script language='JavaScript'>
 		function envia_formulario(f)
 		{	var rpt_territorio, rpt_almacen,tipo_ingreso,fecha_ini, fecha_fin, tipo_item, rpt_item;
-			rpt_territorio=f.rpt_territorio.value;
 			rpt_almacen=f.rpt_almacen.value;
 			fecha_ini=f.exafinicial.value;
 			fecha_fin=f.exaffinal.value;
 			rpt_item=f.rpt_item.value;
-			window.open('rptKardexCostos.php?rpt_territorio='+rpt_territorio+'&rpt_almacen='+rpt_almacen+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&rpt_item='+rpt_item+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
+			window.open('rptKardexCostos.php?rpt_almacen='+rpt_almacen+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&rpt_item='+rpt_item+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
 			return(true);
 		}
 
@@ -55,28 +54,8 @@ echo "<h1>Reporte Kardex de Movimiento Costos</h1>";
 echo"<form method='post' action='rptOpKardexCostos.php'>";
 
 	echo"<center><table class='texto'>";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
-	if($global_tipoalmacen==1)
-	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
-	}
-	else
-	{	$sql="select cod_ciudad, descripcion from ciudades where cod_ciudad='$global_agencia' order by descripcion";
-	}
-	$resp=mysql_query($sql);
-	echo "<option value=''></option>";
-	while($dat=mysql_fetch_array($resp))
-	{	$codigo_ciudad=$dat[0];
-		$nombre_ciudad=$dat[1];
-		if($rpt_territorio==$codigo_ciudad)
-		{	echo "<option value='$codigo_ciudad' selected>$nombre_ciudad</option>";
-		}
-		else
-		{	echo "<option value='$codigo_ciudad'>$nombre_ciudad</option>";
-		}
-	}
-	echo "</select></td></tr>";
 	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_almacen' class='texto'>";
-	$sql="select cod_almacen, nombre_almacen from almacenes where cod_ciudad='$rpt_territorio'";
+	$sql="select cod_almacen, nombre_almacen from almacenes order by 2";
 	$resp=mysql_query($sql);
 	while($dat=mysql_fetch_array($resp))
 	{	$codigo_almacen=$dat[0];
