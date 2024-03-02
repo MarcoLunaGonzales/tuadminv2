@@ -94,10 +94,11 @@ $pdf->SetXY(0,$y+15);		$pdf->Cell(0,0,"FECHA: $fechaVenta",0,0,"C");
 $pdf->SetXY(0,$y+20);		$pdf->Cell(0,0,"Nombre / RazonSocial: $razonSocial",0,0,"C");
 $pdf->SetXY(0,$y+25);		$pdf->Cell(0,0,"Tipo Pago: $tipoPago",0,0,"C");
 $pdf->SetXY(0,$y+30);		$pdf->Cell(0,0,"Vendedor: $nombreVendedor",0,0,"C");
+$pdf->SetXY(0,$y+35);		$pdf->Cell(0,0, "Dir.: ".$direccionEmpresa." Telf.: ".$telefonoTxt,0,0,"C");
 
 
 
-$y=$y-10;
+$y=$y-5;
 
 $pdf->SetXY(0,$y+45);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
 $pdf->SetXY(10,$y+48);		$pdf->Cell(0,0,"ITEM");
