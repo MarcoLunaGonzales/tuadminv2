@@ -23,10 +23,17 @@ echo "<h3>Periodo Año: $codAnio  Mes: $codMes</h3>";
 echo "<h3>Nombre o Razon Social: $nombreTxt  NIT: $nitTxt</h3>";
 
 
-$sql="select f.nro_factura, DATE_FORMAT(f.fecha, '%d/%m/%Y'), f.importe, f.razon_social, f.nit, d.nro_autorizacion, e.nombre_estado, f.codigo_control
-	from facturas_venta f, dosificaciones d, estados_factura e
-	where f.cod_dosificacion=d.cod_dosificacion and e.cod_estado=f.cod_estado
-	and YEAR(f.fecha)=$codAnio and MONTH(f.fecha)=$codMes order by f.fecha";
+// $sql="select f.nro_factura, DATE_FORMAT(f.fecha, '%d/%m/%Y'), f.importe, f.razon_social, f.nit, d.nro_autorizacion, e.nombre_estado, f.codigo_control
+// 	from facturas_venta f, dosificaciones d, estados_factura e
+// 	where f.cod_dosificacion=d.cod_dosificacion
+// 	and YEAR(f.fecha)=$codAnio and MONTH(f.fecha)=$codMes order by f.fecha";
+$sql="SELECT f.nro_factura, DATE_FORMAT(f.fecha, '%d/%m/%Y'), f.importe, f.razon_social, f.nit, d.nro_autorizacion, e.nombre_estado, f.codigo_control, c.descripcion 
+FROM facturas_venta f 
+INNER JOIN dosificaciones d ON d.cod_dosificacion=f.cod_dosificacion 
+INNER JOIN estados_factura e ON e.cod_estado=f.cod_estado
+INNER JOIN ciudades c ON c.cod_ciudad=f.cod_sucursal
+WHERE YEAR(f.fecha)='$codAnio' and MONTH(f.fecha)='$codMes' 
+order by c.descripcion, f.fecha, f.nro_factura";
 	
 //echo $sql;
 $resp=mysqli_query($enlaceCon,$sql);
@@ -34,6 +41,7 @@ $resp=mysqli_query($enlaceCon,$sql);
 echo "<br><table align='center' class='texto' width='70%'>
 <tr>
 <th>Nro.</th>
+<th>SUCURSAL</th>
 <th>FECHA FACTURA</th>
 <th>NRO. FACTURA</th>
 <th>NRO. AUTORIZACION</th>
@@ -54,6 +62,7 @@ echo "<br><table align='center' class='texto' width='70%'>
 </tr>";
 
 $indice=1;
+$sumaFacturas=0;
 while($datos=mysqli_fetch_array($resp)){	
 	$nroFactura=$datos[0];
 	$fecha=$datos[1];
@@ -63,12 +72,19 @@ while($datos=mysqli_fetch_array($resp)){
 	$nroAutorizacion=$datos[5];
 	$nombreEstado=$datos[6];
 	$codigoControl=$datos[7];
+	$nombreSucursal=$datos[8];
 	
 	$montoVentaFormat=number_format($importe,2,".",",");
 	$montoIVA=$importe*0.13;
 	$montoIVAFormat=number_format($montoIVA,2,".",",");
+	
+	if($nombreEstado=="Valida"){
+		$sumaFacturas+=$importe;
+	}
+
 	echo "<tr>
 	<td>$indice</td>
+	<td>$nombreSucursal</td>
 	<td>$fecha</td>
 	<td>$nroFactura</td>
 	<td>$nroAutorizacion</td>
@@ -86,5 +102,27 @@ while($datos=mysqli_fetch_array($resp)){
 	<td>$codigoControl</td>
 	</tr>";
 }
+
+	$sumaFacturasF=number_format($sumaFacturas,2,".",",");
+	echo "<tr>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>$sumaFacturasF</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+	</tr>";
+
 echo "</table></br>";
 ?>

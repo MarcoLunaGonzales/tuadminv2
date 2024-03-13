@@ -391,4 +391,25 @@ function valorConfig($id_configuracion){
 	return $response;
 }
 
+
+function obtenerCantidadVentasGeneradas($desde,$hasta,$sucursal,$codProducto){
+	$estilosVenta=1;
+	require("conexionmysqli2.inc");
+	$sql="select sum(sd.cantidad_unitaria) as cantidad 
+		from salida_almacenes s, salida_detalle_almacenes sd
+		where s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_tiposalida=1001 and s.salida_anulada=0 and 
+		s.cod_almacen in (select a.cod_almacen from almacenes a where a.cod_ciudad in ($sucursal)) 
+		and s.fecha BETWEEN '$desde' and '$hasta' and sd.cod_material in ($codProducto)";
+  
+  //echo $sql;	
+  
+  $resp=mysqli_query($enlaceCon,$sql);
+  $monto=0;				
+  while($detalle=mysqli_fetch_array($resp)){	
+       $monto+=$detalle[0];   		
+  }  
+  mysqli_close($enlaceCon);
+  return $monto;
+}
+
 ?>
