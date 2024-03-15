@@ -6,6 +6,8 @@
 <?php 
 
 require("conexion.inc");
+require("funciones.php");
+
 	$num=$_GET['codigo'];
 	$cod_precio=0;
 	if(isset($_GET["cod_precio"])){
@@ -13,6 +15,9 @@ require("conexion.inc");
 	}
 
 	/*SACAMOS A LA SUCURSAL SERVITECA Y OTROS PARA ABRIR EL PRECIO*/
+	$banderaPrecioAbierto=obtenerValorConfiguracion(10);
+	$banderaSucursalPrecioAbierto=3; //serviteca
+
 	$globalSucursalPrecio=$_COOKIE['global_agencia'];
 ?>
 
@@ -41,7 +46,7 @@ require("conexion.inc");
 
 <td align="center" width="10%">
 	<div id='idprecio<?php echo $num;?>'>
-		<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" required <?php echo ($globalSucursalPrecio!=30)?"":"readonly"; ?> >
+		<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" required <?=($globalSucursalPrecio==$banderaSucursalPrecioAbierto || $banderaPrecioAbierto==1)?"":"readonly"; ?> >
 		<input type='hidden' id='costoUnit<?php echo $num;?>' value='0' name='costoUnit<?php echo $num;?>'>
 	</div>
 </td>
@@ -64,7 +69,7 @@ require("conexion.inc");
 			echo "</select>";
 			*/
 			?>
-	<input class="inputnumber" type="number" min="0" max="15" step="0.01" value="0" id="tipoPrecio<?php echo $num;?>" name="tipoPrecio<?php echo $num;?>" style="background:#ADF8FA;" onkeyup='calculaMontoMaterial(<?php echo $num;?>);' onchange='calculaMontoMaterial(<?php echo $num;?>);' >%
+	<input class="inputnumber" type="number" min="0" max="0" step="0.01" value="0" id="tipoPrecio<?php echo $num;?>" name="tipoPrecio<?php echo $num;?>" style="background:#ADF8FA;" onkeyup='calculaMontoMaterial(<?php echo $num;?>);' onchange='calculaMontoMaterial(<?php echo $num;?>);' >%
 	
 	<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial_bs(<?php echo $num;?>);' onChange='calculaMontoMaterial_bs(<?php echo $num;?>);'  value="0" style="background:#ADF8FA;" step="0.01">
 </td>

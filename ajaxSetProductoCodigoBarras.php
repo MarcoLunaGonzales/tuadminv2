@@ -5,11 +5,14 @@ $codigoItem=$_GET['codigo'];
 $globalAlmacen=$_COOKIE['global_almacen'];
 $globalAgencia=$_COOKIE['global_agencia'];
 
-	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion, 
-		(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)
-		from material_apoyo m where estado=1 
-		and m.codigo_barras = '$codigoItem'";
+	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion,
+		concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor),m.codigo_anterior, pl.descuento_maximo
+		from material_apoyo m
+		LEFT JOIN proveedores_lineas pl ON pl.cod_linea_proveedor=m.cod_linea_proveedor
+		LEFT JOIN proveedores p ON p.cod_proveedor=pl.cod_proveedor
+		 where m.estado=1 and m.codigo_barras = '$codigoItem'";
 	$sql=$sql." limit 1";
+	//echo $sql;
 	$resp=mysqli_query($enlaceCon,$sql);
 	$numFilas=mysqli_num_rows($resp);
 	if($numFilas>0){
@@ -20,6 +23,9 @@ $globalAgencia=$_COOKIE['global_agencia'];
 			$nombre=addslashes($nombre);
 			$nombreCompletoProducto=$lineaProducto."-".$nombre;
 			$nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
+
+			$codigoInterno=$dat[4];
+			$descuentoMaximoProducto=$dat[5];
 			
 			$cantidadPresentacion=$dat[2];			
 			//SACAMOS EL PRECIO
@@ -41,7 +47,12 @@ $globalAgencia=$_COOKIE['global_agencia'];
 					$costoItem=mysqli_result($respCosto,0,0);
 				}
 			}
-			echo "1#####".$codigo."#####".$nombreCompletoProducto."#####".$cantidadPresentacion."#####".$costoItem."#####-#####-#####-#####-";
+
+			$precioProducto=precioVenta($codigo,1);
+			$stockProducto=stockProducto($globalAlmacen, $codigo);
+
+
+			echo "1#####".$codigo."#####".$nombreCompletoProducto."#####".$cantidadPresentacion."#####".$costoItem."#####".$codigoInterno."#####".$precioProducto."#####".$descuentoMaximoProducto."#####".$stockProducto;
 		}
 	}else{
 		echo "0#####_#####_#####_#####_#####_#####_#####_#####_";

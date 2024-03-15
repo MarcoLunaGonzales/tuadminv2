@@ -111,7 +111,8 @@ function soloMasVentas(obj){
 			ajax.onreadystatechange=function(){
 				if (ajax.readyState==4) {
 					div_material.innerHTML=ajax.responseText;
-					setMaterialesSoloVentas(obj[1],obj[2]+"(<small>"+obj[6]+" "+obj[8]+" "+obj[7]+"</small>)");
+					console.log(" obj1:"+obj[1]+" obj2:"+obj[2]+" obj3:"+obj[3]+" obj4:"+obj[4]+" obj5:"+obj[5]+" obj6:"+obj[6]+" obj7:"+obj[7]+" obj8:"+obj[8])
+					setMaterialesSoloVentas(obj[1],obj[2]+"(<small>"+obj[5]+"</small>)",obj[6],obj[7],obj[8]);
 				}
 			}		
 			ajax.send(null);
@@ -198,7 +199,7 @@ function setMaterialesSoloSalidas(cod, nombreMat){
 
 function setMaterialesSolo(cod, nombreMat, cantidadPresentacion,costoItem){	
 	var numRegistro=$('input[name=materialActivo]').val();
-	console.log(numRegistro);
+	console.log("SETMATERIALESSOLO: "+numRegistro);
 	$('#material'+numRegistro).val(cod);
 	$('#cod_material'+numRegistro).html(nombreMat);
 	$('#ultimoCosto'+numRegistro).val(costoItem);
@@ -210,13 +211,23 @@ function setMaterialesSolo(cod, nombreMat, cantidadPresentacion,costoItem){
 
 }
 
-function setMaterialesSoloVentas(cod, nombreMat){
+function setMaterialesSoloVentas(cod, nombreMat, precioproducto, descuentomaximoproducto, stockproducto){
 	var numRegistro=$('input[name=materialActivo]').val();
-	console.log("fila:"+numRegistro);
+	console.log("SETMATERIALESSOLOVENTAS FILA: "+numRegistro);
 	$('#materiales'+numRegistro).val(cod);
 	$('#cod_material'+numRegistro).html(nombreMat);
+
+	document.getElementById('stock'+numRegistro).value=parseInt(stockproducto);
+	document.getElementById('precio_unitario'+numRegistro).value=parseFloat(precioproducto);
+
+	var valorDescuentoMaximoBs = parseFloat(precioproducto*(descuentomaximoproducto/100));
+	console.log("valormaxbs: "+valorDescuentoMaximoBs);
+	document.getElementById('tipoPrecio'+numRegistro).max=parseFloat(descuentomaximoproducto);
+	document.getElementById('descuentoProducto'+numRegistro).max=parseFloat(valorDescuentoMaximoBs);
+
 	$("#input_codigo_barras").focus();
-	actStock(numRegistro);
+	//actStock(numRegistro);
+	calculaMontoMaterial(numRegistro);
 	$("#fiel").animate({ scrollTop: $("#fiel")[0].scrollHeight}, 1000);
 	$("#fiel").scrollTop( $("#fiel").prop('scrollHeight') );
 }

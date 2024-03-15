@@ -17,6 +17,9 @@ $globalAgencia=$_COOKIE["global_agencia"];
 
 $soloStock = $_GET["stock"] ?? '';
 
+if($itemsNoUtilizar==""){
+	$itemsNoUtilizar=-1;
+}
 
 	$sql="select m.codigo_material, m.descripcion_material, 
 			concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor)as nombreproveedor, m.codigo_anterior, pl.descuento_maximo  

@@ -418,6 +418,8 @@ function Hidden(){
 function setMateriales(f, cod, nombreMat, stockproducto, precioproducto, descuentomaximoproducto){
 	var numRegistro=f.materialActivo.value;
 	
+	console.log("ingresoSetMateriales_XXXXXXX");
+
 	document.getElementById('materiales'+numRegistro).value=cod;
 	document.getElementById('cod_material'+numRegistro).innerHTML=nombreMat;
 
