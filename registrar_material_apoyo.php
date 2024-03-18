@@ -259,6 +259,7 @@ echo "</form>";
 
 		/* Variable de configuración - Arma Nombre */
 		var config_nombre = <?=obtenerValorConfiguracion(9) ?? 1?>;
+		
 		function actualizarMaterial() {
 			// Obtener los valores de los campos
 			var marca 	  = $('#codLinea option:selected').text();
