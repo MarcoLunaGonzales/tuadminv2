@@ -15,7 +15,7 @@ $codProducto=$_GET['cod_material'];
 $globalAgencia=$_COOKIE['global_agencia'];
 
 $sqlEdit="SELECT m.codigo_material, m.descripcion_material, m.estado, m.cod_linea_proveedor, m.cod_grupo, m.cod_tipomaterial, 
-	m.observaciones, m.cod_unidad, m.modelo, m.medida, m.capacidad_carga_velocidad, m.cod_pais_procedencia, m.stock_minimo, m.cod_tipoaro
+	m.observaciones, m.cod_unidad, m.modelo, m.medida, m.capacidad_carga_velocidad, m.cod_pais_procedencia, m.stock_minimo, m.cod_tipoaro, m.cod_tipopliegue
 	FROM material_apoyo m 
 	WHERE m.codigo_material='$codProducto'";
 $respEdit=mysqli_query($enlaceCon,$sqlEdit);
@@ -33,6 +33,7 @@ while($datEdit=mysqli_fetch_array($respEdit)){
 	$cod_pais_procedenciaX 		= $datEdit[11];
 	$stockMinimo 				= $datEdit[12];
 	$cod_tipoaro 				= $datEdit[13];
+	$cod_tipopliegueX 			= $datEdit[14];
 }
 
 $sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`='$codProducto' and p.cod_ciudad='$globalAgencia'";
@@ -221,6 +222,24 @@ echo "<tr><th>Stock Mínimo</th>";
 echo "<td><input type='number' class='texto' name='stock_minimo' id='stock_minimo' value='$stockMinimo'></td>";
 echo "</tr>";
 
+echo "<tr><th>Tipo Pliegue</th>";
+$sql1="SELECT t.codigo, t.nombre, t.abreviatura
+		FROM tipos_pliegue t
+		WHERE t.estado = 1
+		ORDER BY t.codigo ASC";
+$resp1=mysqli_query($enlaceCon,$sql1);
+echo "<td>
+		<select name='cod_tipopliegue' id='cod_tipopliegue' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
+			<option value=''></option>";
+			while($dat1=mysqli_fetch_array($resp1))
+			{	$codigo = $dat1[0];
+				$nombre = $dat1[1];
+				$select = $cod_tipopliegueX == $codigo ? 'selected' : '';
+				echo "<option value='$codigo' $select>$nombre</option>";
+			}
+			echo "</select>
+</td>";
+echo "</tr>";
 
 ?>
 	<tr>

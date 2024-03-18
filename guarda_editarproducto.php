@@ -13,6 +13,7 @@ $codGrupo=$_POST['cod_grupo'];
 $codTipoAro=$_POST['cod_tipoaro'];
 $codTipo=$_POST['cod_tipo'];
 $precioProducto=$_POST['precio_producto'];
+$cod_tipopliegue=$_POST['cod_tipopliegue'];
 
 
 // $costoProducto=$_POST['costo_producto'];
@@ -30,7 +31,7 @@ $stock_minimo = $_POST['stock_minimo'];
 
 $sql_inserta="UPDATE material_apoyo set descripcion_material='$nombreProducto', cod_linea_proveedor='$codLinea', 
 cod_grupo='$codGrupo', cod_tipomaterial='$codTipo', observaciones='$observaciones', 
-cod_unidad='$codUnidad', modelo='$modelo', medida='$medida', capacidad_carga_velocidad='$capacidad_carga_velocidad', cod_pais_procedencia='$cod_pais_procedencia', stock_minimo='$stock_minimo', cod_tipoaro = '$codTipoAro'
+cod_unidad='$codUnidad', modelo='$modelo', medida='$medida', capacidad_carga_velocidad='$capacidad_carga_velocidad', cod_pais_procedencia='$cod_pais_procedencia', stock_minimo='$stock_minimo', cod_tipoaro = '$codTipoAro', cod_tipopliegue = '$cod_tipopliegue'
 WHERE codigo_material='$codProducto'";
 $resp_inserta=mysqli_query($enlaceCon,$sql_inserta);
 

@@ -38,7 +38,7 @@ echo "<tr hidden><th>Tipo</th>";
 $sql1="select f.cod_tipomaterial, f.nombre_tipomaterial from tipos_material f where f.cod_tipomaterial in (1,2) order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
-			<select name='cod_tipo' id='cod_tipo' required>
+			<select name='cod_tipo' id='cod_tipo'>
 				<option value=''>-</option>";
 				
 			while($dat1=mysqli_fetch_array($resp1))
@@ -152,6 +152,24 @@ echo "<tr><th align='left'>Codigo Barras</th>";
 echo "<td align='left'>
 	<input type='text' class='texto' name='codigo_barras' id='codigo_barras'>
 	</td></tr>";
+
+echo "<tr><th>Tipo Pliegue</th>";
+$sql1="SELECT t.codigo, t.nombre, t.abreviatura
+		FROM tipos_pliegue t
+		WHERE t.estado = 1
+		ORDER BY t.codigo ASC";
+$resp1=mysqli_query($enlaceCon,$sql1);
+echo "<td>
+		<select name='cod_tipopliegue' id='cod_tipopliegue' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
+			<option value=''></option>";
+			while($dat1=mysqli_fetch_array($resp1))
+			{	$codigo = $dat1[0];
+				$nombre = $dat1[1];
+				echo "<option value='$codigo'>$nombre</option>";
+			}
+			echo "</select>
+</td>";
+echo "</tr>";
 
 // echo "<tr><th align='left'>Codigo Interno</th>";
 // echo "<td align='left'>
