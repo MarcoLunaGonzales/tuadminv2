@@ -192,10 +192,12 @@ for($i = 0; $i < $cantidad_tickets; $i++){
     $pdf->Ln();
     /*****************************************************************************/
     /*###########################################################################*/
-
+    if ($i < $cantidad_tickets - 1) {
+        $pdf->AddPage();
+    }
     // Siguiente ticket
-    $margen_y  += $card_height + 2 + $config_margen_y;
-    $margen_y2 += $card_height + 2 + $config_margen_y2;
+    // $margen_y  += $card_height + 2 + $config_margen_y;
+    // $margen_y2 += $card_height + 2 + $config_margen_y2;
 }
 
 // $pdf->Output('F', 'mi_pdf_con_codigo_de_barras.pdf'); // Guardar el PDF en el servidor con el nombre "mi_pdf_con_codigo_de_barras.pdf"
