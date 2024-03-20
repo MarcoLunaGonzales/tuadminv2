@@ -425,7 +425,7 @@ function Hidden(){
         var cantidad = prompt("Ingrese la cantidad de código de barras que desea generar:");
         if (cantidad !== null && cantidad !== "") {
 			// Redirige a la página con la cantidad ingresada
-			location.href = "ticketMaterial_newv2.php?cod_material=" + codigo + "&cantidad_tickets=" + cantidad;
+			window.open("ticketMaterial_newv2.php?cod_material=" + codigo + "&cantidad_tickets=" + cantidad, '_blank');
         }
     }
 </script>

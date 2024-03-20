@@ -109,7 +109,9 @@ $costo           = $_GET['costo'];
 // Cantidad de Tickets
 $cantidad_tickets = isset($_GET['cantidad_tickets']) ? $_GET['cantidad_tickets'] : 1;
 
+$numero = 0;
 for($i = 0; $i < $cantidad_tickets; $i++){
+    $numero = $numero + 1;
     // Dibujamos la primera card
     $pdf->RoundedRect($margen_x, $margen_y, $card_width, $card_height, $radio_borde);
     // Dibujamos la segunda card
@@ -140,7 +142,7 @@ for($i = 0; $i < $cantidad_tickets; $i++){
     // COSTO FALSE
     $pdf->setY($margen_seg_y + $card_height-7);
     $pdf->setX($card_width - 12);
-    $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo), 0, 'L');
+    $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
     $pdf->Ln();
 
 
@@ -161,6 +163,7 @@ for($i = 0; $i < $cantidad_tickets; $i++){
     /*****************************************************************************/
     // TEXTO SEGUNDA COLUMNA
     /*****************************************************************************/
+    $numero = $numero + 1;
     $margen_seg_x = $margen_x + $card_width + $margen_x2;
     $pdf->setY($margen_seg_y);
     $pdf->setX($margen_seg_x);
@@ -180,7 +183,7 @@ for($i = 0; $i < $cantidad_tickets; $i++){
     // COSTO FALSE
     $pdf->setY($margen_seg_y + $card_height-7);
     $pdf->setX($margen_seg_x + $card_width - 14);
-    $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo), 0, 'L');
+    $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
     $pdf->Ln();
 
     // CODIGO
