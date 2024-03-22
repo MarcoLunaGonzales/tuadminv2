@@ -19,7 +19,7 @@ echo "<td align='left'>
 	</td></tr>";
 	
 echo "<tr><th align='left'>Marca</th>";
-$sql1="select pl.cod_linea_proveedor, CONCAT(p.nombre_proveedor,' - ',pl.nombre_linea_proveedor) from proveedores p, proveedores_lineas pl 
+$sql1="select pl.cod_linea_proveedor, pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl 
 where p.cod_proveedor=pl.cod_proveedor and pl.estado=1 order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>

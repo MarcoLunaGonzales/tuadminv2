@@ -122,7 +122,7 @@ echo "<script language='Javascript'>
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor), m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre
 		from material_apoyo m
 		LEFT JOIN pais_procedencia pp ON pp.codigo = m.cod_pais_procedencia
-		where m.estado='1' and m.cod_tipomaterial in (1,2)";
+		where m.estado='1' ";
 	if($vista==1)
 	{	$sql="select m.codigo_material, m.descripcion_material, m.estado, 
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
@@ -130,7 +130,7 @@ echo "<script language='Javascript'>
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
 		m.observaciones, imagen
 		from material_apoyo m
-		where m.estado='0' and m.cod_tipomaterial in (1,2)";
+		where m.estado='0' ";
 	}
 	if($grupo!=0){
 		$sql.=" and m.cod_grupo in ($grupo) ";
@@ -147,6 +147,7 @@ echo "<script language='Javascript'>
 	
 	
 	//echo $sql;
+	
 	$resp=mysqli_query($enlaceCon,$sql);
 	
 	echo "<table align='center' class='texto'><tr><th>Ver Productos:
