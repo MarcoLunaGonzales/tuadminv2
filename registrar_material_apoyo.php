@@ -5,6 +5,8 @@
 require("conexionmysqli.inc");
 require('estilos.inc');
 require('funciones.php');
+// Configuración | Tipo de Moneda => 1:Bs 2:$us
+$tipoMonedaConfig = obtenerValorConfiguracion(10);
 
 echo "<form enctype='multipart/form-data' action='guarda_material_apoyo.php' method='post' name='form1'>";
 
@@ -192,7 +194,7 @@ echo "</tr>";
 			<table width='100%'>
 				<thead>
 					<tr>
-						<th colspan="5">Detalles de Precios</th>
+						<th colspan="5">Detalles de Precio <strong class="text-danger" title="Tipo de Moneda Actual">(<?=$tipoMonedaConfig==1 ? 'Bs' : '$us'?>)</strong></th>
 					</tr>
 					<tr>
 						<th style="text-align: left;">Descripción</th>

@@ -1,6 +1,10 @@
 <?php
 require("conexion.inc");
 require("estilos.inc");
+require('funciones.php');
+
+// Configuración | Tipo de Moneda => 1:Bs 2:$us
+$cod_moneda = obtenerValorConfiguracion(10);
 
 //recogemos variables
 $globalAgencia=$_COOKIE['global_agencia'];
@@ -36,7 +40,7 @@ WHERE codigo_material='$codProducto'";
 $resp_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 //insertamos los precios
-$sqlDel="delete from precios where codigo_material=$codProducto";
+$sqlDel="DELETE from precios where codigo_material=$codProducto";
 $respDel=mysqli_query($enlaceCon,$sqlDel);
 
 // $sqlInsertPrecio="insert into precios values($codProducto, 0,$costoProducto,'$globalAgencia')";
@@ -59,8 +63,8 @@ for ($i = 0; $i < count($_POST['precio']); $i++) {
     $cantidad_inicio = $_POST['cantidad_inicio'][$i];
     $cantidad_final  = $_POST['cantidad_final'][$i];
 
-    $sql_inserta_precio = "INSERT INTO precios (codigo_material, cod_precio, precio, cod_ciudad, cod_tipoventa, cantidad_inicio, cantidad_final) 
-							VALUES ('$codigo_material','$cod_precio','$precio','$cod_ciudad','$cod_tipoventa','$cantidad_inicio','$cantidad_final')";
+    $sql_inserta_precio = "INSERT INTO precios (codigo_material, cod_precio, precio, cod_ciudad, cod_tipoventa, cantidad_inicio, cantidad_final, cod_moneda) 
+							VALUES ('$codigo_material','$cod_precio','$precio','$cod_ciudad','$cod_tipoventa','$cantidad_inicio','$cantidad_final','$cod_moneda')";
     mysqli_query($enlaceCon, $sql_inserta_precio);
 }
 

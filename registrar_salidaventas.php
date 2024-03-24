@@ -4,6 +4,10 @@ echo "</head><body onLoad='funcionInicio();'>";
 require("conexion.inc");
 require("estilos.inc");
 require("funciones.php");
+
+// Configuración | Tipo de Moneda => 1:Bs 2:$us
+$tipoMonedaConfig 	= obtenerValorConfiguracion(10);
+$verificaConversion = obtieneValorConversionActual($tipoMonedaConfig);
 ?>
 <html>
     <head>
@@ -409,11 +413,17 @@ function obtienePrecioProducto(index){
 	// Precio de Producto Final
 	let precioProducto = 0;
 	// console.log(precios)
+	let moneda_abreviatura = '';
+	let cambio_valor = 0;
     for (let i = 0; i < precios.length; i++) {
         let codTipoVenta   = parseFloat(precios[i][0]);
         let cantidadInicio = parseFloat(precios[i][1]);
         let cantidadFinal  = parseFloat(precios[i][2]);
         let precio  	   = parseFloat(precios[i][3]);
+		// Tipo Moneda Abreviatura
+        moneda_abreviatura = precios[i][4];
+		// valor de Conversión
+        cambio_valor = precios[i][5] ? parseFloat(precios[i][5]) : 1;
 		
 		 // Verifica si la cantidad está en el rango y coincide con el tipo de venta
 		 if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal && codTipoVenta == tipo_venta) {
@@ -427,7 +437,11 @@ function obtienePrecioProducto(index){
             precioProducto = precio;
         }
     }
-	document.getElementById("precio_unitario" + index).value = precioProducto;
+	// CONVERSIÓN
+	let precio_final = precioProducto * cambio_valor;
+	console.log(precioProducto+" "+cambio_valor)
+	document.getElementById("precio_unitario" + index).value = precio_final;
+	document.getElementById("precio_of" + index).innerHTML 	 = precioProducto + ' ' + moneda_abreviatura;
 }
 
 		
@@ -1120,6 +1134,30 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 </style>
 <form action='guardarSalidaMaterial.php' method='POST' name='form1' id="guardarSalidaVenta" ><!--onsubmit='return checkSubmit();'-->
 
+<div class="row justify-content-center">
+    <div class="col-md-4">
+		<?php
+			if($verificaConversion[0] > 0){
+		?>
+			<div class="text-center p-1" role="alert" style="background-color: #d4edda; border-color: #c3e6cb; color: #155724;">
+				<b>
+				<small>Los precios oficiales están en dólares ($). Se realizará la conversión.</small>
+				</b>
+			</div>
+		<?php
+			}else{
+		?>
+			<div class="text-center p-1" role="alert" style="background-color: #f8d7da; border-color: #f5c6cb; color: #721c24;">
+				<b>
+					¡Alerta! Debe ingresar el tipo de cambio para la fecha actual.
+				</b>
+			</div>
+		<?php
+			}
+		?>
+	</div>
+</div>
+
 <!--h1>Registrar Venta</h1-->
 
 <table class='texto' align='center' width='100%'>
@@ -1271,11 +1309,17 @@ if($tipoDocDefault==2){
 </table>
 <input type="hidden" id="ventas_codigo"><!--para validar la funcion mas desde ventas-->
 
+<?php
+	if($verificaConversion[0] > 0){
+?>
 <div class="codigo-barras div-center">
 		<input class="btn btn-blue" type="button" value="Nuevo Producto(+)" onclick="mas(this)" accesskey="a"/>
         <input type="text" class="form-codigo-barras" id="input_codigo_barras" placeholder="Ingrese el código de barras." autofocus autocomplete="off">
 
 </div>
+<?php
+	}
+?>
 
 
 <fieldset id="fiel" style="width:100%;border:0;">
@@ -1291,7 +1335,7 @@ if($tipoDocDefault==2){
 		<td width="30%">Material</td>
 		<td width="10%">Stock</td>
 		<td width="10%">Cantidad</td>
-		<td width="10%">Precio </td>
+		<td width="10%">Precio (Bs.)</td>
 		<td width="15%">Desc.</td>
 		<td width="10%">Monto</td>
 		<td width="10%">&nbsp;</td>

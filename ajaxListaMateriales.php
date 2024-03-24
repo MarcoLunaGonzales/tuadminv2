@@ -53,12 +53,31 @@ $soloStock = $_GET["stock"];
 			
 			// Obtiene precios de la tabla PRECIOS
 			$arrayPrecios = [];
-			$sqlPrecio = "SELECT p.cod_tipoventa, p.cantidad_inicio, p.cantidad_final, p.precio
+
+			$fecha_actual = date('Y-m-d');
+			$sqlPrecio = "SELECT p.cod_tipoventa, 
+								p.cantidad_inicio, 
+								p.cantidad_final, 
+								p.precio, 
+								m.abreviatura as moneda_abreviatura, 
+								tm.valor as cambio_valor
 							FROM precios p
-							WHERE p.codigo_material = '$codigo'";
+							LEFT JOIN monedas m ON m.codigo = p.cod_moneda
+							LEFT JOIN tipo_cambiomonedas tm ON tm.cod_moneda = p.cod_moneda
+							WHERE p.codigo_material = '$codigo'
+							AND p.cod_ciudad='$globalAgencia'
+							AND tm.fecha = '$fecha_actual'
+							LIMIT 1";
+			// echo $sqlPrecio;
 			$respPrecios = mysqli_query($enlaceCon,$sqlPrecio);
 			while($dataPrecio=mysqli_fetch_array($respPrecios)){
-				$arrayPrecios[] = [$dataPrecio['cod_tipoventa'], $dataPrecio['cantidad_inicio'], $dataPrecio['cantidad_final'], $dataPrecio['precio']];
+				$arrayPrecios[] = [
+					$dataPrecio['cod_tipoventa'], 
+					$dataPrecio['cantidad_inicio'], 
+					$dataPrecio['cantidad_final'], 
+					$dataPrecio['precio'], 
+					$dataPrecio['moneda_abreviatura'], 
+					$dataPrecio['cambio_valor']];
 			}
 			$arrayPrecios = json_encode($arrayPrecios);
 			// Reemplazar comillas dobles por comillas simples
@@ -76,13 +95,17 @@ $soloStock = $_GET["stock"];
 			}
 			
 			if($mostrarFila == 1){
-				$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and cod_ciudad='$globalAgencia'";
+
+				$consulta="SELECT p.`precio`, m.abreviatura as moneda_abreviatura 
+						FROM precios p 
+						LEFT JOIN monedas m ON m.codigo = p.cod_moneda
+						WHERE p.`codigo_material`='$codigo' 
+						AND p.`cod_precio`='1' 
+						AND cod_ciudad='$globalAgencia'";
 				$rs=mysqli_query($enlaceCon,$consulta);
 				$registro=mysqli_fetch_array($rs);
-				$precioProducto=empty($registro[0]) ? '' : $registro[0];
-				if($precioProducto=="")
-				{   $precioProducto=0;
-				}
+				$precioProducto=empty($registro[0]) ? 0 : $registro[0];
+				$monetaProducto=empty($registro[1]) ? '' : $registro[1];
 				$precioProducto=redondear2($precioProducto);
 				
 				echo "<tr>
@@ -90,7 +113,7 @@ $soloStock = $_GET["stock"];
 				<td>$nombreProcedencia</td>
 				<td><div class='textomedianonegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombreCompletoProducto\", \"" . htmlspecialchars($jsonPrecios, ENT_QUOTES, 'UTF-8') . "\", $stockProducto, $precioProducto)'>$nombre</a></div></td>
 				<td>$stockProducto</td>
-				<td>$precioProducto</td>
+				<td>$precioProducto $monetaProducto</td>
 				</tr>";
 			}
 		}

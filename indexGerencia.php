@@ -109,7 +109,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="navegador_tipossalida.php" target="contenedorPrincipal">Tipos de Salida</a></li>
 							
 						</ul>	
-					</li>					
+					</li>	
+					<li><a href="tipos_cambios/list.php" target="contenedorPrincipal">Tipo de Cambio</a></li>				
 				</ul>	
 			</li>
 

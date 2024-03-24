@@ -10,6 +10,8 @@
 require("conexion.inc");
 require('estilos.inc');
 require('funciones.php');
+// Configuración | Tipo de Moneda => 1:Bs 2:$us
+$tipoMonedaConfig = obtenerValorConfiguracion(10);
 
 $codProducto=$_GET['cod_material'];
 $globalAgencia=$_COOKIE['global_agencia'];
@@ -247,7 +249,7 @@ echo "</tr>";
 			<table width='100%'>
 				<thead>
 					<tr>
-						<th colspan="5">Detalles de Precios</th>
+						<th colspan="5">Detalles de Precio <strong class="text-danger" title="Tipo de Moneda Actual">(<?=$tipoMonedaConfig==1 ? 'Bs' : '$us'?>)</strong></th>
 					</tr>
 					<tr>
 						<th style="text-align: left;">Descripción</th>
@@ -255,6 +257,7 @@ echo "</tr>";
 						<th style="text-align: left;">Cantidad Inicio</th>
 						<th style="text-align: left;">Cantidad Final</th>
 						<th style="text-align: left;">Precio</th>
+						<th style="text-align: left;">Moneda</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -270,11 +273,14 @@ echo "</tr>";
 										WHEN tp.cod_tipoventa = 0 THEN 'CONTADO/CREDITO'
 										ELSE tv.nombre_tipoventa
 									END AS nombre_tipoventa,
-									COALESCE(p.precio, 0) as precio
+									COALESCE(p.precio, 0) as precio,
+									p.cod_moneda,
+									m.abreviatura as moneda_abreviatura
 								FROM 
 									tipos_precio tp 
 								LEFT JOIN tipos_venta tv ON tv.cod_tipoventa = tp.cod_tipoventa
 								LEFT JOIN precios p ON p.cod_precio = tp.codigo AND p.codigo_material = '$codProducto'
+								LEFT JOIN monedas m ON m.codigo = p.cod_moneda
 								WHERE tp.estado = 1
 								ORDER BY tp.codigo";
 						$resp1=mysqli_query($enlaceCon,$sql1);
@@ -294,6 +300,18 @@ echo "</tr>";
 							<?= $dat1['cantidad_final'] ?>
 							<input type='hidden' name='cantidad_final[]' step='0.02' value="<?= $dat1['cantidad_final'] ?>"></td>
 						<td><input type='number' name='precio[]' step='0.02' value="<?= $dat1['precio'] ?>"></td>
+						<td>
+							<strong>
+								<?= $dat1['moneda_abreviatura'] ?>
+							</strong>
+							<strong>
+								<?php if ($dat1['cod_moneda'] != $tipoMonedaConfig): ?>
+									<i class="material-icons text-warning" style="margin: 0px;" title="Actualizar el precio a la moneda oficial">warning</i>
+								<?php else: ?>
+									<i class="material-icons text-success" title="El precio está conforme con la moneda oficial">check_circle</i>
+								<?php endif; ?>
+							</strong>
+						</td>
 					</tr>
 					<?php
 						}

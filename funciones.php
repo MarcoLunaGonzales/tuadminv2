@@ -391,4 +391,58 @@ function valorConfig($id_configuracion){
 	return $response;
 }
 
+
+//funcion nueva obtener tipo cambio monedas
+function obtenerValorTipoCambio($codigo,$fecha){
+	require("conexionmysqli.php");
+	$valor=0;
+	$sql="SELECT valor from tipo_cambiomonedas where cod_moneda=$codigo and fecha = '$fecha'";
+	$resp = mysqli_query($enlaceCon, $sql);
+	if ($data = mysqli_fetch_array($resp)) {
+		$valor = $data['valor'];
+	} 
+	return $valor;
+}
+ 
+//funcion nueva obtener moneda
+function obtenerMoneda($codigo){
+	require("conexionmysqli.php");
+	$sql="";
+	$sql="SELECT m.codigo,m.nombre,m.estado,m.abreviatura from monedas m where m.estado=1 and m.codigo='$codigo'";
+	return mysqli_query($enlaceCon, $sql);
+}
+ 
+//funcion nueva obtener tipo cambio monedas
+function obtenerTipoCambio($codigo,$fi,$fa){
+	require("conexionmysqli.php");
+	$sql="";
+	$sql="SELECT id,cod_moneda,fecha,valor from tipo_cambiomonedas where cod_moneda=$codigo and fecha between '$fi' and '$fa' order by fecha";
+	return mysqli_query($enlaceCon, $sql);
+}
+
+/**
+ * Verifica si existe valor de Conversión de la moneda configruada
+ * ? De acuerdo a la fecha actual
+ * ! Es importante tomar en cuenta la Moneda de cambio ACTUAL
+ */
+function obtieneValorConversionActual($cod_moneda_actual){
+	require("conexionmysqli.php");
+	setlocale(LC_TIME, "Spanish");
+
+	$fecha_actual = date("Y-m-d");
+
+	$sql="SELECT valor 
+		FROM tipo_cambiomonedas 
+		WHERE cod_moneda = '$cod_moneda_actual' 
+		AND fecha = '$fecha_actual'";
+	$resp = mysqli_query($enlaceCon, $sql);
+
+	$fila  = 0;
+	$valor = '';
+	if ($data = mysqli_fetch_array($resp)) {
+		$fila  = 1;
+		$valor = $data['valor'];
+	} 
+	return [$fila, $valor];
+}
 ?>
