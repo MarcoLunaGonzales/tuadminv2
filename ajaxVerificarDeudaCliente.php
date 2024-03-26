@@ -30,8 +30,8 @@
         $credito_pendiente = $registro['credito_pendiente'];
 
         echo json_encode(array(
-            'status'  => $credito_pendiente == 1 ? true : false,
-            'message' => $credito_pendiente == 1 ? 'El cliente tiene deuda una pendiente' : 'El cliente NO tiene deuda pendiente'
+            'status'  => $credito_pendiente > 0 ? true : false,
+            'message' => $credito_pendiente > 0 ? 'El cliente tiene deuda una pendiente' : 'El cliente NO tiene deuda pendiente'
         ));
     } catch (Exception $e) {
         echo json_encode(array(
