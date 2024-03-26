@@ -124,7 +124,7 @@ echo "<script language='Javascript'>
 		LEFT JOIN pais_procedencia pp ON pp.codigo = m.cod_pais_procedencia
 		where m.estado='1' ";
 	if($vista==1)
-	{	$sql="select m.codigo_material, m.descripcion_material, m.estado, 
+	{	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
 		(select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
@@ -135,6 +135,25 @@ echo "<script language='Javascript'>
 	if($grupo!=0){
 		$sql.=" and m.cod_grupo in ($grupo) ";
 	}
+	// Filtro
+	$filtro_nombre_producto = empty($_GET['filtro_nombre_producto']) ? '' : $_GET['filtro_nombre_producto'];
+	if(!empty($filtro_nombre_producto)){
+		$sql.=" AND m.descripcion_material LIKE '%$filtro_nombre_producto%' ";
+	}
+	$filtro_codLinea = empty($_GET['filtro_codLinea']) ? '' : $_GET['filtro_codLinea'];
+	if(!empty($filtro_codLinea)){
+		$sql.=" AND m.cod_linea_proveedor = '$filtro_codLinea' ";
+	}
+	$filtro_medida = empty($_GET['filtro_medida']) ? '' : $_GET['filtro_medida'];
+	if(!empty($filtro_medida)){
+		$sql.=" AND m.medida = '$filtro_medida' ";
+	}
+	$filtro_modelo = empty($_GET['filtro_modelo']) ? '' : $_GET['filtro_modelo'];
+	if(!empty($filtro_modelo)){
+		$sql.=" AND m.modelo = '$filtro_modelo' ";
+	}
+
+	// Orden
 	if($vista_ordenar==0){
 		$sql=$sql." order by 4,2";
 	}
@@ -192,10 +211,11 @@ echo "<script language='Javascript'>
 		<input type='button' value='Editar' name='Editar' class='boton' onclick='editar_nav(this.form)'>
 		<input type='button' value='Eliminar' name='eliminar' class='boton2' onclick='eliminar_nav(this.form)'>
 		<input type='button' value='Duplicar' name='Duplicar' class='boton' onclick='duplicar(this.form)'>
+		<input type='button' value='Filtrar' name='abrirModalFiltro' class='boton' id='abrirModalFiltro'>
 		</div>";
 	
 	echo "<center><table class='texto'>";
-	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Proveedor</th><th>Medida</th><th>Modelo</th><th>Capacidad de Carga y<br>Código de Velocidad</th><th>País Origen</th><th>Imagen</th><th>Acciones</th></tr>";
+	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Marca</th><th>Medida</th><th>Modelo</th><th>Capacidad de Carga y<br>Código de Velocidad</th><th>País Origen</th><th>Imagen</th><th>Acciones</th></tr>";
 	
 	$indice_tabla=1;
 	while($dat=mysqli_fetch_array($resp))
@@ -247,3 +267,76 @@ echo "<script language='Javascript'>
 		
 	echo "</form>";
 ?>
+
+<!-- MODAL FILTRO -->
+<div class="modal fade" id="modalControlVersion" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEditarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTituloCambio">Filtro de Productos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<form id="formularioRegistro" method="GET" action="navegador_material.php">
+					<input type="hidden" name="vista" value="<?=$_GET['vista']?>">
+					<input type="hidden" name="vista_ordenar" value="<?=$_GET['vista_ordenar']?>">
+					<input type="hidden" name="grupo" value="<?=$_GET['grupo']?>">
+                    <div class="row pb-2">
+                        <label class="col-sm-3"><span class="text-danger">*</span> Nombre Producto :</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="filtro_nombre_producto" id="filtro_nombre_producto" placeholder="Agregar nombre del producto"/>
+                        </div>
+                    </div>
+                    <div class="row pb-2">
+                        <label class="col-sm-3"><span class="text-danger">*</span> Marca :</label>
+                        <div class="col-sm-9">
+							<select name='filtro_codLinea' id='filtro_codLinea' class="selectpicker" data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
+								<option value='' selected>Seleccione una Marca</option>
+								<?php
+									$sql1="SELECT pl.cod_linea_proveedor, pl.nombre_linea_proveedor 
+											FROM proveedores p, proveedores_lineas pl 
+											WHERE p.cod_proveedor = pl.cod_proveedor 
+											AND pl.estado = 1 
+											ORDER BY 2";
+									$resp1=mysqli_query($enlaceCon,$sql1);
+									while($dat1=mysqli_fetch_array($resp1))
+									{	$codTipo	= $dat1[0];
+										$nombreTipo = $dat1[1];
+										echo "<option value='$codTipo'>$nombreTipo</option>";
+									}
+								?>
+							</select>
+                        </div>
+                    </div>
+                    <div class="row pb-2">
+                        <label class="col-sm-3"><span class="text-danger">*</span> Medida :</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="filtro_medida" id="filtro_medida" placeholder="Agregar medida"/>
+                        </div>
+                    </div>
+                    <div class="row pb-2">
+                        <label class="col-sm-3"><span class="text-danger">*</span> Modelo :</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="filtro_modelo" id="filtro_modelo" placeholder="Agregar modelo"/>
+                        </div>
+                    </div>
+					<div class="modal-footer p-0 pt-2">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+						<button type="submit" id="formGuardarControl" class="btn btn-primary">Filtrar</button>
+					</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	$(document).ready(function(){
+		// Agregar evento click al botón para abrir el modal
+		$('#abrirModalFiltro').click(function(){
+			// Mostrar el modal
+			$('#modalControlVersion').modal('show');
+		});
+	});
+</script>
