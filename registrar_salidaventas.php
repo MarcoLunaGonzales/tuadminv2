@@ -426,8 +426,8 @@ function obtienePrecioProducto(index){
 		// valor de Conversión
         cambio_valor = precios[i][5] ? parseFloat(precios[i][5]) : 1;
 		
-		console.log("Ctrl codTipoVenta"+codTipoVenta);
-		console.log("cantidadInicio: "+cantidadInicio+" | cantidadFinal:"+cantidadFinal+" | codTipoVenta:"+tipo_venta);
+		// console.log("Ctrl codTipoVenta"+codTipoVenta);
+		// console.log("cantidadInicio: "+cantidadInicio+" | cantidadFinal:"+cantidadFinal+" | codTipoVenta:"+tipo_venta);
 
         // Si no se encontró una coincidencia por tipo de venta, verifica solo la cantidad
         if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal) {
