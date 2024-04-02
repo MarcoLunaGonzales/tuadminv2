@@ -484,6 +484,7 @@ while ($dat = mysqli_fetch_array($resp)) {
         $strikef = " (ANULADO)</strike>";
         $chk = "";        
     }
+    $estadoSalidaAnuladaSiat=0;
 
     $sqlAnuladoSiat="SELECT s.estado_salida, s.salida_anulada from $BDSiat.salida_almacenes s where s.cod_salida_almacenes='$idTransaccion'";
     // echo $sqlAnuladoSiat;
