@@ -415,6 +415,7 @@ function obtienePrecioProducto(index){
 	// console.log(precios)
 	let moneda_abreviatura = '';
 	let cambio_valor = 0;
+	console.log(precios)
     for (let i = 0; i < precios.length; i++) {
         let codTipoVenta   = parseFloat(precios[i][0]);
         let cantidadInicio = parseFloat(precios[i][1]);
@@ -425,16 +426,18 @@ function obtienePrecioProducto(index){
 		// valor de Conversión
         cambio_valor = precios[i][5] ? parseFloat(precios[i][5]) : 1;
 		
-		 // Verifica si la cantidad está en el rango y coincide con el tipo de venta
-		 if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal && codTipoVenta == tipo_venta) {
-            precioProducto = precio;
-            break; // Sal del bucle si encuentras una coincidencia
-        }
+		// console.log("Ctrl codTipoVenta"+codTipoVenta);
+		// console.log("cantidadInicio: "+cantidadInicio+" | cantidadFinal:"+cantidadFinal+" | codTipoVenta:"+tipo_venta);
 
         // Si no se encontró una coincidencia por tipo de venta, verifica solo la cantidad
         if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal) {
 			// console.log('Entroooooo')
             precioProducto = precio;
+        }
+		// Verifica si la cantidad está en el rango y coincide con el tipo de venta
+		if (cantidad_unitaria >= cantidadInicio && cantidad_unitaria <= cantidadFinal && codTipoVenta == tipo_venta) {
+            precioProducto = precio;
+            break; // Sal del bucle si encuentras una coincidencia
         }
     }
 	// CONVERSIÓN
