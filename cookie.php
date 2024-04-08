@@ -56,8 +56,10 @@ if ($num_filas != 0) {
 	$resp_almacen=mysqli_query($enlaceCon,$sql_almacen);
 	$dat_almacen=mysqli_fetch_array($resp_almacen);
 	$global_almacen=$dat_almacen[0];
+	$global_almacen_nombre=$dat_almacen[1];
 
 	setcookie("global_almacen",$global_almacen);
+	setcookie("global_almacen_nombre",$global_almacen_nombre);
 	setcookie("globalGestion", $globalGestion);
 	
 	if($cod_cargo==1000){//ADMINISTRADORES

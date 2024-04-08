@@ -12,18 +12,26 @@ require("conexion.inc");
 		$cod_precio=$_GET["cod_precio"];
 	}
 
+	$globalAlmacen 	 = $_COOKIE['global_almacen'];
+	$globalAlmacenNombre 	 = $_COOKIE['global_almacen_nombre'];
 ?>
 <table border="0" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
 <tr bgcolor="#FFFFFF">
 
 <td width="5%" align="center">
 	<a href="javascript:buscarMaterial(form1, <?php echo $num;?>)"><img src='imagenes/buscar2.png' title="Buscar Producto" width="30"></a>
+	<a href="javascript:encontrarMaterial(<?php echo $num;?>)" class="btn btn-primary btn-sm btn-fab"><i class='material-icons float-left' title="Ver en otras Sucursales">place</i></a>
 </td>
 
 <td width="30%" align="center">
 	<input type="hidden" class="formIndex" value="<?php echo $num;?>">
 	<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="[]">
+	<!-- Codigo de Material -->
 	<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="0">
+	<!-- Codigo de Sucursal -->
+	<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$globalAlmacen?>">
+
+	<strong id="nombreSucursal<?php echo $num;?>"><?=$globalAlmacenNombre?></strong>
 	<div id="cod_material<?php echo $num;?>" class='textomedianonegro'>-</div>
 </td>
 

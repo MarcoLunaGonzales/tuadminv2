@@ -8,14 +8,14 @@
 require("conexion.inc");
 require("funciones.php");
 
-$codMarca=$_GET['codMarca'];
+$codMarca=$_GET['codMarca'] ?? '';
 $nombreItem=$_GET['nombreItem'];
 $codInterno=$_GET['codInterno'];
 $globalAlmacen=$_COOKIE['global_almacen'];
 $itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $globalAgencia=$_COOKIE["global_agencia"];
 
-$soloStock = $_GET["stock"];
+$soloStock = $_GET["stock"] ?? '';
 
 
 	$sql="SELECT m.codigo_material, 

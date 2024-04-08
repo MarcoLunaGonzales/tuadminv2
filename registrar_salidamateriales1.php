@@ -265,7 +265,7 @@ require("estilos_almacenes.inc");
 
 $global_almacen=$_COOKIE['global_almacen'];
 
-if($fecha=="")
+if(empty($fecha))
 {   $fecha=date("Y-m-d");
 }
 

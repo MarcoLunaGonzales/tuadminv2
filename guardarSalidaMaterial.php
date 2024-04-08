@@ -32,7 +32,7 @@ $observaciones=empty($_POST["observaciones"])?'':$_POST["observaciones"];
 $tipoVenta = empty($_POST["tipo"])?'':$_POST["tipo"]; 			// Tipo de Venta
 $tipoPago  = empty($_POST["tipoVenta"])?'':$_POST["tipoVenta"]; // Tipo de Pago
 
-$almacenOrigen=$global_almacen;
+$almacenOrigen = $_COOKIE['global_almacen'];
 
 $totalVenta=empty($_POST["totalVenta"])?'':$_POST["totalVenta"];
 $descuentoVenta=empty($_POST["descuentoVenta"])?'':$_POST["descuentoVenta"];
@@ -71,10 +71,6 @@ $sqlConf="select valor_configuracion from configuraciones where id_configuracion
 $respConf=mysqli_query($enlaceCon,$sqlConf);
 $datConf=mysqli_fetch_array($respConf);
 $banderaValidacionStock=$datConf[0];
-
-$sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
-$resp=mysqli_query($enlaceCon,$sql);
-$codigo=mysqli_result($resp,0,0);
 
 
 /*VALIDACION MANUAL CASOS ESPECIALES*/
@@ -121,6 +117,22 @@ $nroTarjeta 		= str_replace('*', '0', $input_nro_tarjeta);
 //====================================================//
 $url_config = valorConfig(7);
 
+
+
+/************************************************************
+ * ? Si se factura se verifica si hay items de otra sucursal
+ ************************************************************/
+if($tipoDoc == 1){
+	for($i=1; $i<=$cantidad_material; $i++){
+		$ajuste_cod_sucursales = $_POST["cod_sucursales$i"]; // Item obtenida de otra sucursal
+		if($almacenOrigen != $ajuste_cod_sucursales){
+			$ajuste_codMaterial 	 = $_POST["materiales$i"];
+			$ajuste_cantidadUnitaria = $_POST["cantidad_unitaria$i"];
+			registroMaterialTraspaso($enlaceCon, $almacenOrigen, $ajuste_cod_sucursales, $ajuste_codMaterial, $ajuste_cantidadUnitaria);
+		}
+	}
+}
+// ***********************************************************
 
 // Tipo de emisión de factura = 2
 if($tipoDoc == 1){ // Tipo de Emisión Factura
@@ -241,22 +253,21 @@ if($tipoDoc <> 1){
 	$nro_correlativo=$vectorNroCorrelativo[0];
 	$cod_dosificacion=$vectorNroCorrelativo[2];
 }
+$sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
+$resp=mysqli_query($enlaceCon,$sql);
+$codigo=mysqli_result($resp,0,0);
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
 		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
 		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta')";
-
-//echo $sql_inserta;
-
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 if($sql_inserta==1){
 	
 	$montoTotalVentaDetalle=0;
-	for($i=1;$i<=$cantidad_material;$i++)
-	{   	
+	for($i=1;$i<=$cantidad_material;$i++){   	
 		$codMaterial=$_POST["materiales$i"];
 		if($codMaterial!=0){
 			$cantidadUnitaria	= empty($_POST["cantidad_unitaria$i"]) ? 0 : $_POST["cantidad_unitaria$i"];

@@ -143,4 +143,14 @@ function nombreLineaProveedor($codigo){
 	return($nombre);
 }
 
+function obtenerNombreProductoSimple($enlaceCon, $codigo){
+	require("conexion.inc");
+	$sql="select descripcion_material from material_apoyo where codigo_material=$codigo";
+	$resp=mysqli_query($enlaceCon,$sql);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+		$nombre=$dat[0];
+	}
+	return($nombre);
+}
 ?>

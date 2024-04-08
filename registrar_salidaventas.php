@@ -8,6 +8,8 @@ require("funciones.php");
 // Configuración | Tipo de Moneda => 1:Bs 2:$us
 $tipoMonedaConfig 	= obtenerValorConfiguracion(10);
 $verificaConversion = obtieneValorConversionActual($tipoMonedaConfig);
+// Configuración | Valida Pago de Credido Pendiente |(1) Contado y Credito | (2) Credito
+$validacionCreditoConfig = obtenerValorConfiguracion(11);
 ?>
 <html>
     <head>
@@ -16,6 +18,9 @@ $verificaConversion = obtieneValorConversionActual($tipoMonedaConfig);
         <script type="text/javascript" src="lib/js/xlibPrototipoSimple-v0.1.js"></script>
 		<script type="text/javascript" src="functionsGeneral.js"></script>
 <script type='text/javascript' language='javascript'>
+
+var validacionCreditoConfig = <?=empty($validacionCreditoConfig) ? 1 : $validacionCreditoConfig ?>;
+
 function funcionInicio(){
 	//document.getElementById('nitCliente').focus();
 }
@@ -38,6 +43,7 @@ function nuevoAjax()
 	return xmlhttp;
 }
 
+let cod_sucursal_actual = <?=$_COOKIE['global_almacen']?>;
 function listaMateriales(f){
 	var contenedor;
 	var codMarca=f.itemMarca.value;
@@ -51,10 +57,13 @@ function listaMateriales(f){
 	for(var j=1; j<=num; j++){
 		if(document.getElementById('materiales'+j)!=null){
 			console.log("codmaterial: "+document.getElementById('materiales'+j).value);
-			arrayItemsUtilizados[i]=document.getElementById('materiales'+j).value;
-			i++;
+			if(document.getElementById('cod_sucursales'+j).value == cod_sucursal_actual){
+				arrayItemsUtilizados[i]=document.getElementById('materiales'+j).value;
+				i++;
+			}
 		}
 	}
+	console.log("arrayItemsUtilizados"+arrayItemsUtilizados);
 	
 	ajax=nuevoAjax();
 	ajax.open("GET", "ajaxListaMateriales.php?codMarca="+codMarca+"&nombreItem="+nombreItem+"&stock="+stock+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
@@ -167,6 +176,11 @@ function ajaxRazonSocial(f){
 			ajaxRazonSocialCliente(document.getElementById('form1'));
 			$("#cliente").selectpicker('refresh');
 
+			// Pago de Credito Pendiente, valida el tipo de venta de: | (1) Contado y Credito | (2) Credito
+			if(validacionCreditoConfig == 1){
+				verificarDeudaCliente($('#cliente').val());
+			}
+			
 			// Verificación de Deudas del Cliente
 			if($('#tipoVenta').val() == 4){
 				verificarDeudaCliente($('#cliente').val());
@@ -544,11 +558,15 @@ function verificarDeudaCliente(cod_cliente) {
 		dataType: "json",
 		success: function (response) {
 			// Manejar la respuesta del backend
-			if (response.status) {
+			if (response.status) { // Si tiene Deuda
 				alert(response.message);
 				$('#tipoVenta').trigger('change').val(1);
 				$('#tipo').trigger('change').val(1);
-				// console.log(response)
+				
+				// Pago de Credito Pendiente, valida el tipo de venta de: | (1) Contado y Credito | (2) Credito
+				if(validacionCreditoConfig == 1){
+					$('#nitCliente').val('').trigger('change');
+				}
 			}
 		},
 		error: function (xhr, status, error) {
@@ -1049,7 +1067,7 @@ $(document).ready(function() {
 		// });
 	});
 
-	// Cambio total de la lista
+	// De acuerdo al TIPO se verifica la Deuda de Credito
 	$('body').on('change', '#tipo', function(){
 		$('.formIndex').each(function(index, element) {
 			var index = $(element).val();
@@ -1057,9 +1075,9 @@ $(document).ready(function() {
 		});
 		totales();
 		// TipoVenta
-		if($(this).val() == 1){
+		if($(this).val() == 1){ // CONTADO
 			$('#tipoVenta').trigger('change').val(1);
-		}else if($(this).val() == 2){
+		}else if($(this).val() == 2){ // CREDITO
 			console.log('credito')
 			$('#tipoVenta').trigger('change').val(4);
 			verificarDeudaCliente($('#cliente').val());
@@ -1068,6 +1086,24 @@ $(document).ready(function() {
 	});
 
 
+	var tablaBuscadorSucursales=null;
+	function encontrarMaterial(numMaterial){
+		fila_seleccionada = numMaterial;
+
+		var cod_material  = $("#materiales"+numMaterial).val();
+		var parametros={"cod_material":cod_material};
+		$.ajax({
+			type: "GET",
+			dataType: 'html',
+			url: "ajax_encontrar_productos.php",
+			data: parametros,
+			success:  function (resp) { 
+			// alert(resp);           
+				$("#modalProductosCercanos").modal("show");
+				$("#tabla_datosE").html(resp);   
+			}
+		});	
+	}
 </script>
 
 
@@ -1580,8 +1616,53 @@ if($banderaErrorFacturacion==0){
     </div>
 </div>
 
+<!-- Modal Ver Productos de otras Sucursales -->
+<div class="modal fade modal-primary" id="modalProductosCercanos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content card">
+                <div class="card-header card-header-primary card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">place</i>
+                  </div>
+                  <h4 class="card-title text-primary font-weight-bold">Stock de Productos en Sucursales</h4>
+                  <button type="button" class="btn btn-danger btn-sm btn-fab float-right" data-dismiss="modal" aria-hidden="true" style="position:absolute;top:0px;right:0;">
+                    <i class="material-icons">close</i>
+                  </button>
+                </div>
+                <div class="card-body">
+                	<div class="form-group">
+												 <input type="text" class="form-control pull-right" style="width:20%" id="busqueda_sucursal" placeholder="Buscar Sucursal">
+									</div>
+									<br>
+                  <table class="table table-sm table-bordered" id='tabla_sucursal'>
+                    <thead>
+                      <tr style='background: #ADADAD;color:#000;'>
+                      	<th width='10%'>-</th>
+                    	</tr>
+                    </thead>
+                    <tbody id="tabla_datosE">
+                    </tbody>
+                  </table>
+                  <br><br>
+                </div>
+      </div>  
+    </div>
+  </div>
 <script>
 	$('body #tipoDoc_extra').trigger('change').val(<?=$tipoDocDefault?>);
+
+	// Modificación de Sucursal en lista de ITEMS
+	let fila_seleccionada = 0;
+	$('body').on('click', '.nueva_sucursal', function(){
+		let cod_sucursal = $(this).data('cod_sucursal');
+		let nombre 		 = $(this).data('nombre');
+		let stock 		 = $(this).data('stock');
+		
+		$('#cod_sucursales'+fila_seleccionada).val(cod_sucursal);
+		$('#nombreSucursal'+fila_seleccionada).html(nombre);
+		$('#stock'+fila_seleccionada).val(stock);
+		$('#modalProductosCercanos').modal('toggle');
+	});
 </script>
 </body>
 </html>

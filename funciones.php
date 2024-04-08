@@ -445,4 +445,3 @@ function obtieneValorConversionActual($cod_moneda_actual){
 	} 
 	return [$fila, $valor];
 }
-?>
