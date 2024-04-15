@@ -1,8 +1,15 @@
 <?php
 require('fpdf.php');
-require('conexion.inc');
-require('funciones.php');
+require('conexionmysqlipdf.inc');
+//require('funciones.php');
 require('NumeroALetras.php');
+
+
+
+function redondear2($valor) { 
+   $float_redondeado=round($valor * 100) / 100; 
+   return $float_redondeado; 
+}
 
 
 $codigoIngreso=$_GET["codigo_ingreso"];
@@ -25,7 +32,8 @@ $incremento=3;
 	
 $sqlDatosIngreso="select i.cod_ingreso_almacen, i.fecha, ti.nombre_tipoingreso, i.observaciones, i.nro_correlativo,
 (select s.nro_correlativo from salida_almacenes s where s.cod_salida_almacenes=i.cod_salida_almacen) as salida,
-(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen) as almacenorigen
+(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen) as almacenorigen,
+(select a.nombre_almacen from almacenes a where a.cod_almacen=i.cod_almacen)as almacen
 	FROM ingreso_almacenes i, tipos_ingreso ti
 	where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen='$codigoIngreso'";
 $respDatosIngreso=mysqli_query($enlaceCon,$sqlDatosIngreso);
@@ -36,19 +44,23 @@ while($datDatosIngreso=mysqli_fetch_array($respDatosIngreso)){
 	$obsIngreso=$datDatosIngreso[3];
 	$nroSalidaTraspaso=$datDatosIngreso[5];
 	$almacenOrigen=$datDatosIngreso[6];
+
+	$almacenTrabajo=$datDatosIngreso[7];
 }
 
 $pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,"NOTA DE INGRESO",0,0,"C");
 
-$pdf->SetXY(0,$y+9);		$pdf->Cell(0,0,"$nombreTipoDoc Nro. $nroDocIngreso", 0,0,"C");
-$pdf->SetXY(0,$y+12);		$pdf->Cell(0,0,"-------------------------------------------------------------------------------", 0,0,"C");
+$pdf->SetXY(0,$y+8);		$pdf->Cell(0,0,"Suc. $almacenTrabajo",0,0,"C");
+
+$pdf->SetXY(0,$y+13);		$pdf->Cell(0,0,"$nombreTipoDoc Nro. $nroDocIngreso", 0,0,"C");
+$pdf->SetXY(0,$y+15);		$pdf->Cell(0,0,"-------------------------------------------------------------------------------", 0,0,"C");
 
 
-$pdf->SetXY(0,$y+15);		$pdf->Cell(0,0,"FECHA: $fecha",0,0,"C");
-$pdf->SetXY(0,$y+19);		$pdf->Cell(0,0,"Almacen Origen: $almacenOrigen",0,0,"C");
-$pdf->SetXY(0,$y+23);		$pdf->Cell(0,0,"Nro. Salida Origen: $nroSalidaTraspaso",0,0,"C");
+$pdf->SetXY(0,$y+18);		$pdf->Cell(0,0,"FECHA: $fecha",0,0,"C");
+$pdf->SetXY(0,$y+22);		$pdf->Cell(0,0,"Almacen Origen: $almacenOrigen",0,0,"C");
+$pdf->SetXY(0,$y+25);		$pdf->Cell(0,0,"Nro. Salida Origen: $nroSalidaTraspaso",0,0,"C");
 
-$y=$y-18;
+$y=$y-16;
 
 $pdf->SetXY(0,$y+45);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
 $pdf->SetXY(10,$y+48);		$pdf->Cell(0,0,"Producto");

@@ -1,9 +1,15 @@
 <?php
-require('estilos_reportes_almacencentral.php');
+require('conexionmysqlipdf.inc');
+require('estilos.inc');
 require('function_formatofecha.php');
-require('conexion.inc');
 require('funcion_nombres.php');
-require('funciones.php');
+//require('funciones.php');
+
+function redondear2($valor) { 
+   $float_redondeado=round($valor * 100) / 100; 
+   return $float_redondeado; 
+}
+
 
 $fecha_ini=$_GET['fecha_ini'];
 $rpt_territorio=$_GET['rpt_territorio'];
@@ -34,6 +40,7 @@ echo "<tr><th colspan='2'>Saldo Inicial Caja Chica</th></tr>
 $consulta = "select DATE_FORMAT(c.fecha_cajachica, '%d/%m/%Y'), c.monto, c.fecha_cajachica from cajachica_inicio c where 
 c.fecha_cajachica='$fecha_iniconsulta'";
 //echo $consulta;
+$montoCajaChica=0;
 $resp = mysqli_query($enlaceCon,$consulta);
 while ($dat = mysqli_fetch_array($resp)) {
 	$fechaCajaChica = $dat[0];

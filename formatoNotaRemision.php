@@ -74,10 +74,13 @@ $nitEmpresa=mysqli_result($respConf,0,1);
 $sqlDatosVenta="select concat(s.fecha,' ',s.hora_salida) as fecha, t.`nombre`, 
 (select c.nombre_cliente from clientes c where c.cod_cliente=s.cod_cliente) as nombreCliente, 
 s.`nro_correlativo`, s.razon_social, s.observaciones, s.descuento, (select tp.nombre_tipopago from tipos_pago tp where tp.cod_tipopago=s.cod_tipopago),
-(select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor 
+(select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
+(select a.nombre_almacen from almacenes a where a.cod_almacen=s.cod_salida_almacenes)as almacen
 		from `salida_almacenes` s, `tipos_docs` t
 		where s.`cod_salida_almacenes`='$codigoVenta'  and
 		s.`cod_tipo_doc`=t.`codigo`";
+
+//echo $sqlDatosVenta;
 
 $respDatosVenta=mysqli_query($enlaceCon,$sqlDatosVenta);
 while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
@@ -91,6 +94,7 @@ while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$descuentoVenta=redondear2($descuentoVenta);
 	$tipoPago=$datDatosVenta[7];
 	$nombreVendedor=$datDatosVenta[8];
+	$nombreAlmacen=$datDatosVenta[9];
 }
 
 $nombre1="";
