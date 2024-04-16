@@ -13,9 +13,10 @@ else
 {	$codigo=$dat[0];
 	$codigo++;
 }
+$cod_moneda = $_POST['cod_moneda'];
 
-$sql_inserta=mysqli_query($enlaceCon,"insert into grupos (cod_grupo, nombre_grupo, estado) 
-values($codigo,'$nombre_grupo','1')");
+$sql_inserta=mysqli_query($enlaceCon,"insert into grupos (cod_grupo, nombre_grupo, cod_moneda, estado) 
+values($codigo,'$nombre_grupo','$cod_moneda','1')");
 
 echo "<script language='Javascript'>
 			alert('Los datos fueron insertados correctamente.');

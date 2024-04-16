@@ -4,7 +4,8 @@ require("estilos.inc");
 require('funciones.php');
 
 // Configuración | Tipo de Moneda => 1:Bs 2:$us
-$cod_moneda = obtenerValorConfiguracion(10);
+// $cod_moneda = obtenerValorConfiguracion(10);
+$cod_moneda = $_POST['cod_moneda'];
 
 //recogemos variables
 $globalAgencia=$_COOKIE['global_agencia'];

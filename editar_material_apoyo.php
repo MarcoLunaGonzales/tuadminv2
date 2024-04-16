@@ -111,23 +111,32 @@ echo "<td>
 echo "</tr>";
 
 echo "<tr><th>Grupo</th>";
-$sql1="select f.cod_grupo, f.nombre_grupo from grupos f  where f.estado=1 order by 2;";
+$sql1="SELECT f.cod_grupo, f.nombre_grupo, m.abreviatura as abre_moneda, m.codigo as cod_moneda
+		FROM grupos f 
+		LEFT JOIN monedas m ON m.codigo = f.cod_moneda
+		WHERE f.estado = 1 
+		ORDER BY 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
+$tipoMonedaConfig = 1;
+$abrev_moneda 	  = $tipoMonedaConfig==1 ? 'Bs' : '$us';
 echo "<td>
 		<select name='cod_grupo' id='cod_grupo' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 			<option value=''></option>";
 			while($dat1=mysqli_fetch_array($resp1))
-			{	$codigo=$dat1[0];
-				$nombre=$dat1[1];
+			{	$codGrupoX	 = $dat1[0];
+				$nombreGrupo = $dat1[1];
+				$abreMoneda	 = $dat1[2];
+				$codMoneda 	 = $dat1[3];
+				
+				$tipoMonedaConfig = $codMoneda;
+				$abrev_moneda 	  = $abreMoneda;
 				if($codigo==$codGrupoX){
-					echo "<option value='$codigo' selected>$nombre</option>";
+					echo "<option value='$codigo' selected data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo ($abreMoneda)</option>";
 				}else{
-					echo "<option value='$codigo'>$nombre</option>";
+					echo "<option value='$codigo' data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo ($abreMoneda)</option>";
 				}
 			}
 			echo "</select>
-	</div>
-	</div>
 </td>";
 echo "</tr>";
 
@@ -192,6 +201,25 @@ echo "<tr><th align='left'>Medida</th>";
 echo "<td align='left'>
 	<input type='text' class='texto' name='medida' id='medida' value='$medidaX'>
 	</td></tr>";
+echo "<tr><th>Tipo Pliegue</th>";
+$sql1="SELECT t.codigo, t.nombre, t.abreviatura
+		FROM tipos_pliegue t
+		WHERE t.estado = 1
+		ORDER BY t.codigo ASC";
+$resp1=mysqli_query($enlaceCon,$sql1);
+echo "<td>
+		<select name='cod_tipopliegue' id='cod_tipopliegue' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
+			<option value=''></option>";
+			while($dat1=mysqli_fetch_array($resp1))
+			{	$codigo = $dat1[0];
+				$nombre = $dat1[1];
+				$select = $cod_tipopliegueX == $codigo ? 'selected' : '';
+				echo "<option value='$codigo' $select data-nombre='$nombre'>$nombre</option>";
+			}
+			echo "</select>
+</td>";
+echo "</tr>";
+
 
 echo "<tr><th align='left'>Modelo</th>";
 echo "<td align='left'>
@@ -214,7 +242,7 @@ echo "<td>
 				$nombrePaisProcedencia=$dat1[1];
 				$abreviaturaPaisProcedencia=$dat1[2];
 				$select = $codPaisProcedencia == $cod_pais_procedenciaX ? 'selected' : '';
-				echo "<option value='$codPaisProcedencia' $select data-abrev='$abreviaturaPaisProcedencia'>$nombrePaisProcedencia $abreviaturaPaisProcedencia</option>";
+				echo "<option value='$codPaisProcedencia' $select data-abrev='$abreviaturaPaisProcedencia' data-nombre='$nombrePaisProcedencia'>$nombrePaisProcedencia $abreviaturaPaisProcedencia</option>";
 			}
 			echo "</select>
 </td>";
@@ -224,32 +252,15 @@ echo "<tr><th>Stock Mínimo</th>";
 echo "<td><input type='number' class='texto' name='stock_minimo' id='stock_minimo' value='$stockMinimo'></td>";
 echo "</tr>";
 
-echo "<tr><th>Tipo Pliegue</th>";
-$sql1="SELECT t.codigo, t.nombre, t.abreviatura
-		FROM tipos_pliegue t
-		WHERE t.estado = 1
-		ORDER BY t.codigo ASC";
-$resp1=mysqli_query($enlaceCon,$sql1);
-echo "<td>
-		<select name='cod_tipopliegue' id='cod_tipopliegue' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
-			<option value=''></option>";
-			while($dat1=mysqli_fetch_array($resp1))
-			{	$codigo = $dat1[0];
-				$nombre = $dat1[1];
-				$select = $cod_tipopliegueX == $codigo ? 'selected' : '';
-				echo "<option value='$codigo' $select>$nombre</option>";
-			}
-			echo "</select>
-</td>";
-echo "</tr>";
-
 ?>
 	<tr>
 		<td colspan='2'>
 			<table width='100%'>
 				<thead>
 					<tr>
-						<th colspan="5">Detalles de Precio <strong class="text-danger" title="Tipo de Moneda Actual">(<?=$tipoMonedaConfig==1 ? 'Bs' : '$us'?>)</strong></th>
+						<th colspan="5">Detalles de Precio <strong class="text-danger" title="Tipo de Moneda Actual" id="abre_moneda">(<?=$abrev_moneda?>)</strong></th>
+						<!-- Tipo de Moneda -->
+						<input type="hidden" name="cod_moneda" id="cod_moneda" value="<?=$tipoMonedaConfig?>">
 					</tr>
 					<tr>
 						<th style="text-align: left;">Descripción</th>
@@ -257,7 +268,7 @@ echo "</tr>";
 						<th style="text-align: left;">Cantidad Inicio</th>
 						<th style="text-align: left;">Cantidad Final</th>
 						<th style="text-align: left;">Precio</th>
-						<th style="text-align: left;">Moneda</th>
+						<!-- <th style="text-align: left;">Moneda</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -300,7 +311,7 @@ echo "</tr>";
 							<?= $dat1['cantidad_final'] ?>
 							<input type='hidden' name='cantidad_final[]' step='0.02' value="<?= $dat1['cantidad_final'] ?>"></td>
 						<td><input type='number' name='precio[]' step='0.02' value="<?= $dat1['precio'] ?>"></td>
-						<td>
+						<!-- <td>
 							<strong>
 								<?= $dat1['moneda_abreviatura'] ?>
 							</strong>
@@ -311,7 +322,7 @@ echo "</tr>";
 									<i class="material-icons text-success" title="El precio está conforme con la moneda oficial">check_circle</i>
 								<?php endif; ?>
 							</strong>
-						</td>
+						</td> -->
 					</tr>
 					<?php
 						}
@@ -338,9 +349,12 @@ echo "</form>";
 		});
 
 		// Detectar cambios en el select mediante change
-		$('#cod_pais_procedencia').on('change', function() {
+		$('#cod_pais_procedencia, #cod_tipopliegue, #codLinea, #cod_grupo, #cod_tipoaro').on('change', function() {
 			actualizarMaterial();
 		});
+
+		/* Variable de configuración - Arma Nombre */
+		var config_nombre = <?=obtenerValorConfiguracion(9) ?? 1?>;
 
 		function actualizarMaterial() {
 			// Obtener los valores de los campos
@@ -348,13 +362,30 @@ echo "</form>";
 			var modelo = $('#modelo').val();
 			var capacidad = $('#capacidad_carga_velocidad').val();
 			// var pais = $('#cod_pais_procedencia option:selected').text(); // Obtener el texto seleccionado del select
-			var pais = $('#cod_pais_procedencia option:selected').data('abrev'); // Obtener el texto seleccionado del select
+			var cod_tipopliegue = $('#cod_tipopliegue option:selected').data('nombre') || '';
+			var pais = $('#cod_pais_procedencia option:selected').data('nombre'); // Obtener el texto seleccionado del select
 
 			// Concatenar los valores
-			var nuevoMaterial = medida + ' ' + modelo + ' ' + capacidad + ' ' + pais;
-
+			var nuevoMaterial = '';
+			switch (config_nombre) {
+				case 1:
+					nuevoMaterial = medida + ' ' + cod_tipopliegue + ' ' + modelo + ' ' + marca + ' ' + capacidad + ' ' + pais;
+					break;
+				case 2:
+					nuevoMaterial = grupo + ' ' + medida + ' ' + marca;
+					break;
+				default:
+					break;
+			}
 			// Actualizar el valor del campo "material"
 			$('[name="material"]').val(nuevoMaterial);
 		}
 	});
+	// Selección de tpo de moneda
+	$('#cod_grupo').change(function(){
+        var codMoneda 	= $(this).find(':selected').data('cod_moneda');
+        var abrevMoneda = $(this).find(':selected').data('abre_moneda');
+        $('#cod_moneda').val(codMoneda);
+        $('#abre_moneda').html('('+abrevMoneda+')');
+    });
 </script>
