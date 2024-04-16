@@ -1352,7 +1352,7 @@ if($tipoDocDefault==2){
 	if($verificaConversion[0] > 0){
 ?>
 <div class="codigo-barras div-center">
-		<input class="btn btn-blue" type="button" value="Nuevo Producto(+)" onclick="mas(this)" accesskey="a"/>
+		<input class="btn btn-blue" type="button" value="Nuevo Producto(+)" onclick="mas(this);" accesskey="a"/>
         <input type="text" class="form-codigo-barras" id="input_codigo_barras" placeholder="Ingrese el código de barras." autofocus autocomplete="off">
 
 </div>

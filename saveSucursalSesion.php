@@ -5,17 +5,20 @@ require("conexionmysqli.inc");
 
 $cod_ciudad=$_POST['cod_ciudad'];
 
-   $sql="SELECT cod_almacen FROM almacenes where cod_ciudad='$cod_ciudad'";
+   $sql="SELECT cod_almacen, nombre_almacen FROM almacenes where cod_ciudad='$cod_ciudad'";
    $resp=mysqli_query($enlaceCon,$sql);
-   //echo $sql;
+   // echo $sql;
+   // exit;
    $codigo_funcionario=$_COOKIE["global_usuario"];
    //$sqlFun="UPDATE funcionarios SET cod_ciudad='$cod_ciudad' where codigo_funcionario='$codigo_funcionario'";
    //mysqli_query($enlaceCon,$sqlFun);
    while($dat=mysqli_fetch_array($resp)){
       $codigo=$dat[0];
+      $global_almacen_nombre=$dat[1];
    }
    setcookie("global_agencia",$cod_ciudad);
    setcookie("global_almacen",$codigo);
+	setcookie("global_almacen_nombre",$global_almacen_nombre);
    if(isset($_POST["url"])){
    	$url=$_POST["url"];
     ?>
