@@ -246,7 +246,9 @@ echo "</tr>";
 						<td>
 							<?= $dat1['cantidad_final'] ?>
 							<input type='hidden' name='cantidad_final[]' step='0.02' value="<?= $dat1['cantidad_final'] ?>"></td>
-						<td><input type='number' name='precio[]' step='0.02'></td>
+						<td>
+							<input type='number' name='precio[]' step='any'>
+						</td>
 					</tr>
 					<?php
 						}

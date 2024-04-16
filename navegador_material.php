@@ -259,9 +259,9 @@ echo "<script language='Javascript'>
 		}else{
 			$tamanioImagen=100;
 		}
-		echo "<tr><td align='center'>$indice_tabla</td><td align='center'>
+		echo "<tr><td align='center'>$codigo</td><td align='center'>
 		<input type='checkbox' name='codigo' value='$codigo'></td>
-		<td>$nombreProd</td>
+		<td class='modalUpdNombre' data-codigo='$codigo' data-nombre_prod='$nombreProd'>$nombreProd</td>
 		<td>$nombreLinea</td>
 		<td>$medida</td>
 		<td>$modelo</td>
@@ -367,6 +367,37 @@ echo "<script language='Javascript'>
         </div>
     </div>
 </div>
+
+
+<!-- MODAL FILTRO -->
+<div class="modal fade" id="modalActualizaNombre" tabindex="-1" role="dialog" aria-labelledby="modalAgregarEditarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTituloCambio">Filtro de Productos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+				<form method="GET" action="actualiza_nombre_material.php">
+					<input type="hidden" name="upd_cod_material" id="upd_cod_material">
+                    <div class="row pb-2">
+                        <label class="col-sm-3"><span class="text-danger">*</span> Nombre Producto :</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="upd_nombre" id="upd_nombre" placeholder="Agregar nombre del producto" autocomplete="off"/>
+                        </div>
+                    </div>
+					<div class="modal-footer p-0 pt-2">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+						<button type="submit" id="formGuardarControl" class="btn btn-primary">Actualizar</button>
+					</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 	$(document).ready(function(){
 		// Agregar evento click al botón para abrir el modal
@@ -375,4 +406,22 @@ echo "<script language='Javascript'>
 			$('#modalControlVersion').modal('show');
 		});
 	});
+
+	// Abre modal para modificar Nombre de ITEM
+	$('body').on('click', '.modalUpdNombre', function(){
+		let codigo	   = $(this).data('codigo');
+		let nombreProd = $(this).data('nombre_prod');
+		$('#upd_cod_material').val(codigo);
+		$('#upd_nombre').val(nombreProd);
+		$('#modalActualizaNombre').modal('show');
+	});
 </script>
+<style>
+	.modalUpdNombre {
+		cursor: pointer;
+	}
+	.modalUpdNombre:hover {
+		background-color: #007bff;
+		color: white;
+	}
+</style>

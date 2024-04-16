@@ -65,8 +65,8 @@ $soloStock = $_GET["stock"] ?? '';
 							LEFT JOIN monedas m ON m.codigo = p.cod_moneda
 							LEFT JOIN tipo_cambiomonedas tm ON tm.cod_moneda = p.cod_moneda
 							WHERE p.codigo_material = '$codigo'
-							-- AND p.cod_ciudad='$globalAgencia'
-							AND tm.fecha = '$fecha_actual'";
+							-- AND tm.fecha = '$fecha_actual'
+							";
 			// echo $sqlPrecio;
 			$respPrecios = mysqli_query($enlaceCon,$sqlPrecio);
 			while($dataPrecio=mysqli_fetch_array($respPrecios)){
