@@ -119,16 +119,20 @@ echo "<script language='Javascript'>
 	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
 		(select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
-		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor), m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre
+		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor), 
+		m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre, g.nombre_grupo
 		from material_apoyo m
 		LEFT JOIN pais_procedencia pp ON pp.codigo = m.cod_pais_procedencia
+		LEFT JOIN grupos g ON g.cod_grupo = m.cod_grupo
 		where m.estado='1' ";
 	if($vista==1)
 	{	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
 		(select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
-		m.observaciones, imagen
+		m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre, g.nombre_grupo
+		LEFT JOIN pais_procedencia pp ON pp.codigo = m.cod_pais_procedencia
+		LEFT JOIN grupos g ON g.cod_grupo = m.cod_grupo
 		from material_apoyo m
 		where m.estado='0' ";
 	}
@@ -143,6 +147,10 @@ echo "<script language='Javascript'>
 	$filtro_codLinea = empty($_GET['filtro_codLinea']) ? '' : $_GET['filtro_codLinea'];
 	if(!empty($filtro_codLinea)){
 		$sql.=" AND m.cod_linea_proveedor = '$filtro_codLinea' ";
+	}
+	$filtro_codGrupo = empty($_GET['filtro_codGrupo']) ? '' : $_GET['filtro_codGrupo'];
+	if(!empty($filtro_codGrupo)){
+		$sql.=" AND m.cod_grupo = '$filtro_codGrupo' ";
 	}
 	$filtro_medida = empty($_GET['filtro_medida']) ? '' : $_GET['filtro_medida'];
 	if(!empty($filtro_medida)){
@@ -163,6 +171,8 @@ echo "<script language='Javascript'>
 	if($vista_ordenar==2){
 		$sql=$sql." order by 6,2";	
 	}
+	
+	$sql=$sql." limit 0,200";
 	
 	
 	//echo $sql;
@@ -205,17 +215,24 @@ echo "<script language='Javascript'>
 	
 	echo "<center><table border='0' class='textomini'><tr><th>Leyenda:</th><th>Productos Retirados</th><td bgcolor='#ff6666' width='30%'></td></tr></table></center><br>";
 	
-	
 	echo "<div class='divBotones'>
-		<input type='button' value='Adicionar' name='adicionar' class='boton' onclick='enviar_nav()'>
-		<input type='button' value='Editar' name='Editar' class='boton' onclick='editar_nav(this.form)'>
-		<input type='button' value='Eliminar' name='eliminar' class='boton2' onclick='eliminar_nav(this.form)'>
-		<input type='button' value='Duplicar' name='Duplicar' class='boton' onclick='duplicar(this.form)'>
-		<input type='button' value='Filtrar' name='abrirModalFiltro' class='boton' id='abrirModalFiltro'>
+		<input type='button' value='Adicionar' name='adicionar' class='boton-verde' onclick='enviar_nav()'>
+		<input type='button' value='Editar' name='Editar' class='boton-verde' onclick='editar_nav(this.form)'>
+		<input type='button' value='Eliminar' name='Eliminar' class='boton2' onclick='eliminar_nav(this.form)'>
+		<input type='button' value='Duplicar' name='Duplicar' class='boton-verde' onclick='duplicar(this.form)'>
+		<type='button' name='abrirModalFiltro' class='boton-image' id='abrirModalFiltro'><i class='material-icons'>manage_search</i></button>
 		</div>";
 	
 	echo "<center><table class='texto'>";
-	echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Marca</th><th>Medida</th><th>Modelo</th><th>Capacidad de Carga y<br>Código de Velocidad</th><th>País Origen</th><th>Imagen</th><th>Acciones</th></tr>";
+	echo "<tr><th>Indice</th><th>&nbsp;</th>
+	<th>Nombre Producto</th>
+	<th>Marca</th>
+	<th>Medida</th>
+	<th>Modelo</th>
+	<th>Grupo</th>
+	<th>Capacidad de Carga y<br>Código de Velocidad</th>
+	<th>País Origen</th>
+	</tr>";
 	
 	$indice_tabla=1;
 	while($dat=mysqli_fetch_array($resp))
@@ -235,6 +252,7 @@ echo "<script language='Javascript'>
 		$medida=$dat[9];
 		$capacidad_carga_velocidad=$dat[10];
 		$pais_procedencia=$dat[11];
+		$nombreGrupo=$dat[12];
 
 		if($imagen=='default.png'){
 			$tamanioImagen=80;
@@ -247,22 +265,20 @@ echo "<script language='Javascript'>
 		<td>$nombreLinea</td>
 		<td>$medida</td>
 		<td>$modelo</td>
+		<td>$nombreGrupo</td>
 		<td>$capacidad_carga_velocidad</td>
 		<td>$pais_procedencia</td>
-		<td align='center'><img src='imagenesprod/$imagen' width='$tamanioImagen'></td>
-		<td><a href='reemplazarImagen.php?codigo=$codigo&nombre=$nombreProd'><img src='imagenes/change.png' width='40' title='Reemplazar Imagen'></a>
-		<a href='ticketMaterial.php?cod_material=$codigo' target='_blank'><img src='imagenes/icono-barra.png' width='25'></a>
-		</td>
 		</tr>";
 		$indice_tabla++;
 	}
 	echo "</table></center><br>";
 	
 		echo "<div class='divBotones'>
-		<input type='button' value='Adicionar' name='adicionar' class='boton' onclick='enviar_nav()'>
-		<input type='button' value='Editar' name='Editar' class='boton' onclick='editar_nav(this.form)'>
-		<input type='button' value='Eliminar' name='eliminar' class='boton2' onclick='eliminar_nav(this.form)'>
-		<input type='button' value='Duplicar' name='Duplicar' class='boton' onclick='duplicar(this.form)'>
+		<input type='button' value='Adicionar' name='adicionar' class='boton-verde' onclick='enviar_nav()'>
+		<input type='button' value='Editar' name='Editar' class='boton-verde' onclick='editar_nav(this.form)'>
+		<input type='button' value='Eliminar' name='Eliminar' class='boton2' onclick='eliminar_nav(this.form)'>
+		<input type='button' value='Duplicar' name='Duplicar' class='boton-verde' onclick='duplicar(this.form)'>
+		<type='button' name='abrirModalFiltro' class='boton-image' id='abrirModalFiltro'><i class='material-icons'>manage_search</i></button>
 		</div>";
 		
 	echo "</form>";
@@ -310,6 +326,26 @@ echo "<script language='Javascript'>
 							</select>
                         </div>
                     </div>
+                    <div class="row pb-2">
+                        <label class="col-sm-3"><span class="text-danger">*</span> Grupo :</label>
+                        <div class="col-sm-9">
+							<select name='filtro_codGrupo' id='filtro_codGrupo' class="selectpicker" data-style='btn btn-danger' data-show-subtext='true' data-live-search='true'>
+								<option value='' selected>Seleccione una Marca</option>
+								<?php
+									$sql1="SELECT g.cod_grupo, g.nombre_grupo 
+											FROM grupos g 
+											WHERE g.estado = 1 
+											ORDER BY 2";
+									$resp1=mysqli_query($enlaceCon,$sql1);
+									while($dat1=mysqli_fetch_array($resp1))
+									{	$codigo	= $dat1[0];
+										$nombre = $dat1[1];
+										echo "<option value='$codigo'>$nombre</option>";
+									}
+								?>
+							</select>
+                        </div>
+                    </div>					
                     <div class="row pb-2">
                         <label class="col-sm-3"><span class="text-danger">*</span> Medida :</label>
                         <div class="col-sm-9">
