@@ -287,11 +287,12 @@ else
 <form action='guardarSalidaMaterial.php' method='POST' name='form1'>
 <h1>Registrar Salida de Almacen</h1>
 
+<input type="hidden" name='global_almacen' id='global_almacen' value='<?=$global_almacen;?>'>
 <table class='texto' align='center' width='90%'>
 <tr><th>Tipo de Salida</th><th>Tipo de Documento</th><th>Nro. Salida</th><th>Fecha</th><th>Almacen Destino</th></tr>
 <tr>
 <td align='center'>
-	<select name='tipoSalida' id='tipoSalida' onChange='ajaxTipoDoc(form1)' required class='selectpicker form-control' data-style='btn btn-rose'>
+	<select name='tipoSalida' id='tipoSalida' onChange='ajaxTipoDoc(form1)' required class='selectpicker form-control' data-style='btn btn-success'>
 		<option value="">--------</option>
 <?php
 	$sqlTipo="select cod_tiposalida, nombre_tiposalida from tipos_salida where cod_tiposalida<>1001 order by 2";
@@ -308,7 +309,7 @@ else
 </td>
 <td align='center'>
 	<div id='divTipoDoc'>
-		<select name='tipoDoc' id='tipoDoc' class='selectpicker form-control' data-style='btn btn-rose'><option value="0"></select>
+		<select name='tipoDoc' id='tipoDoc' class='selectpicker form-control' data-style='btn btn-warning'><option value="0"></select>
 	</div>
 </td>
 <td align='center'>
@@ -373,7 +374,6 @@ echo "<div class='divBotones'>
 </div>";
 
 echo "</div>";
-echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
 
 ?>
 

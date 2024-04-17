@@ -270,6 +270,7 @@ if(isset($_GET["fechaFinBusqueda"])){
     $fecha2 = $_GET["fechaFinBusqueda"];
 }
 
+$fecha_sistema=date("Y-m-d");
 
 echo "<form method='post' action=''>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
