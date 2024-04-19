@@ -1,5 +1,5 @@
 <?php
-require("conexion.inc");
+require("conexionmysqlipdf.inc");
 $codTipoSalida=$_GET['codTipoSalida'];
 
 if($codTipoSalida==1001){

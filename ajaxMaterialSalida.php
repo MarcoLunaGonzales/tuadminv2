@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <?php 
 
-require("conexion.inc");
+require("conexionmysqlipdf.inc");
 	$num=$_GET['codigo'];
 ?>
 
