@@ -43,7 +43,19 @@ require("conexion.inc");
 </td>
 
 <td align="center" width="10%">
-	<input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" style="height:20px;font-size:19px;width:100px;color:black;" required> 
+	<!-- <input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" style="height:20px;font-size:19px;width:100px;color:black;" required>  -->
+	<input class="inputnumber cantidad_upd" 
+			data-index="<?php echo $num;?>" 
+			type="number" 
+			min="1" 
+			id="cantidad_unitaria<?php echo $num;?>"  
+			name="cantidad_unitaria<?php echo $num;?>" 
+			oninput='calculaMontoMaterial(<?php echo $num;?>);' 
+			onchange='calculaMontoMaterial(<?php echo $num;?>);' 
+			step="1" 
+			value="1" 
+			style="height:20px;font-size:19px;width:100px;color:black;" 
+			required> 
 </td>
 
 
