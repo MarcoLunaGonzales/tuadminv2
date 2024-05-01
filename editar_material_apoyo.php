@@ -93,7 +93,7 @@ echo "<td>
 echo "</tr>";
 
 echo "<tr hidden><th>Tipo</th>";
-$sql1="select e.cod_tipomaterial, e.nombre_tipomaterial from tipos_material e order by 2;";
+$sql1="SELECT e.cod_tipomaterial, e.nombre_tipomaterial from tipos_material e order by 2;";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td>
 			<select name='cod_tipo' id='cod_tipo' required>";
@@ -122,8 +122,8 @@ $abrev_moneda 	  = $tipoMonedaConfig==1 ? 'Bs' : '$us';
 echo "<td>
 		<select name='cod_grupo' id='cod_grupo' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
 			<option value=''></option>";
-			while($dat1=mysqli_fetch_array($resp1))
-			{	$codGrupoX	 = $dat1[0];
+			while($dat1=mysqli_fetch_array($resp1)){
+				$codigo 	 = $dat1[0];
 				$nombreGrupo = $dat1[1];
 				$abreMoneda	 = $dat1[2];
 				$codMoneda 	 = $dat1[3];

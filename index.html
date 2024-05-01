@@ -49,7 +49,12 @@
                       <input type="text" class="form-control form-control-user" name="usuario" id="usuario" aria-describedby="emailHelp" placeholder="Ingrese su usuario..." required>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" name="contrasena" id="contrasena" placeholder="Clave" required>
+                      <div class="input-group">
+                          <input type="password" class="form-control form-control-user" name="contrasena" id="contrasena" placeholder="Clave" required>
+                          <div class="input-group-append">
+                              <button type="button" id="togglePassword" class="btn btn-outline-secondary"><i class="fa fa-eye"></i></button>
+                          </div>
+                      </div>
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -83,7 +88,22 @@
 
   <!-- Custom scripts for all pages-->
   <script src="modulos/assets/vendor/js/sb-admin-2.min.js"></script>
+  <script>
+    document.getElementById("togglePassword").addEventListener("click", function() {
+        var passwordField = document.getElementById("contrasena");
+        var icon = this.querySelector("i");
 
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    });
+  </script>
 </body>
 
 </html>

@@ -82,8 +82,9 @@ $soloStock = $_GET["stock"] ?? '';
 			// Reemplazar comillas dobles por comillas simples
 			$jsonPrecios = str_replace('"', "'", $arrayPrecios);
 			
-			$nombreCompletoProducto=$linea."-".$nombre;
-			$nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
+			// $nombreCompletoProducto=$linea."-".$nombre;
+			// $nombreCompletoProducto=substr($nombreCompletoProducto,0,90);
+			$nombreCompletoProducto = $nombre;
 
 			$stockProducto=stockProducto($globalAlmacen, $codigo);
 			
