@@ -64,7 +64,10 @@ if ($num_filas != 0) {
 	
 	if($cod_cargo==1000){//ADMINISTRADORES
 		header("location:indexGerencia.php");
-	}elseif($cod_cargo==1002){
+	}elseif($cod_cargo==1001){
+		header("location:indexSupervision.php");
+	}
+	elseif($cod_cargo==1002){
 		header("location:indexAlmacenSup.php");
 	}elseif($cod_cargo==1019){//CAJA
 		header("location:indexAlmacenReg.php");
