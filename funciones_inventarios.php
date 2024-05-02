@@ -103,7 +103,7 @@ function insertar_detalleSalidaVenta($enlaceCon,$cod_salida, $cod_almacen, $cod_
 	$fecha 		= date('Y-m-d');
 	$hora 		= date('H:i:s');
 	$createdDate = date('Y-m-d H:i:s');
-	$observaciones = 'SALIDA AUTOMÁTICA';
+	$observaciones = 'SALIDA AUTOMÁTICA PARA VENTA';
 	
 	$vectorNroCorrelativo 	= numeroCorrelativo($tipoDoc);
 	$nro_correlativo_salida	= $vectorNroCorrelativo[0];
@@ -152,7 +152,7 @@ function insertar_detalleSalidaVenta($enlaceCon,$cod_salida, $cod_almacen, $cod_
 	$nro_correlativo_ingreso = mysqli_result($resp,0,0);
 	
 	$tipo_ingreso 	  = 1002;
-	$observaciones 	  = 'INGRESO AUTOMÁTICO';
+	$observaciones 	  = 'INGRESO AUTOMÁTICO PARA VENTA';
 	$codSalida 		  = $cod_salida_almacenes;
 	$nota_entrega 	  = '';
 	$nro_factura 	  = 0;
