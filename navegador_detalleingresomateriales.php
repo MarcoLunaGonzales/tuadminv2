@@ -1,17 +1,22 @@
 <?php
-	require("conexion.inc");
-	require('estilos_almacenes_central_sincab.php');
+	require("conexionmysqli2.inc");
+	//require('estilos_almacenes_central_sincab.php');
 	require("funciones.php");
 	require("funcion_nombres.php");
+	
+	error_reporting(E_ALL);
+	ini_set('display_errors', '1');
+
+	$global_almacen=$_COOKIE["global_almacen"];
+	$codigo_ingreso=$_GET["codigo_ingreso"];
+
 	echo "<form method='post' action=''>";
 	$sql="select i.cod_ingreso_almacen, i.fecha, ti.nombre_tipoingreso, i.observaciones, i.nro_correlativo, i.cod_almacen
 	FROM ingreso_almacenes i, tipos_ingreso ti
 	where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_almacen='$global_almacen' and i.cod_ingreso_almacen='$codigo_ingreso'";
-	
-	//echo $sql;
-	
+	//echo $sql;	
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<center><table border='0' class='textotit'><tr><th>Detalle de Ingreso</th></tr></table></center><br>";
+	echo "<h2>Detalle de Ingreso</h2><br>";
 	
 	echo "<table border='0' class='texto' align='center'>";
 	echo "<tr><th>Nro. de Ingreso</th><th>Sucursal</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Observaciones</th></tr>";
@@ -47,7 +52,7 @@
 		$cantidad_unitaria=redondear2($cantidad_unitaria);
 		echo "<tr><td align='center'>$indice</td>
 		<td>$cod_material</td>
-		<td align='center'>$nombre_material</td>
+		<td align='left'>$nombre_material</td>
 		<td align='center'>$cantidad_unitaria</td>
 		<td align='center'>$loteProducto</td>
 		<td align='center'>$precioNeto</td><td align='center'>$totalValorItem</td></tr>";

@@ -14,6 +14,7 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 		where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$cod_almacen' and i.ingreso_anulado=0 
 		and id.cod_material='$cod_material' and id.cantidad_restante>0 order by id.lote, id.fecha_vencimiento asc";
 	
+	//echo $sqlExistencias;
 	//AQUI SE DEBE CORREGIR EL DATO DE CANTIDAD RESTANTE >0 OJO
 	
 	//echo $sqlExistencias."<br>";
@@ -26,7 +27,7 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			$fechaVencProducto=$datExistencias[3];
 			$codIngreso=$datExistencias[4];
 			
-			//echo $codMaterial." ".$cantidadRestante." ".$loteProducto." ".$fechaVencProducto."<br>";
+			echo $codMaterial." ".$cantidadRestante." ".$loteProducto." ".$fechaVencProducto."<br>";
 			
 			if($cantidadPivote<=$cantidadRestante){
 				$cantidadInsert=$cantidadPivote;
@@ -42,6 +43,7 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			'$precio','$descuento','$montoparcial','$codIngreso','$orden')";
 			$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 			
+			//echo $sqlInsert;
 			//AQUI DAMOS DE BAJA EL DESCUENTO POR SI HUBIERAN DOS REGISTROS O MAS
 			$descuento=0;
 
@@ -54,13 +56,14 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			cod_ingreso_almacen='$codIngreso' and lote='$loteProducto' and cod_material='$codMaterial'";
 			$respUpd=mysqli_query($enlaceCon,$sqlUpd);
 			
+			//echo $sqlUpd;
+
 			if($respUpd!=1){
 				$banderaError=3;
 			}
 		}
 	}
-	recalculaCostos($codMaterial, $cod_almacen);
-	
+	//recalculaCostos($codMaterial, $cod_almacen);
 	return($banderaError);
 }
 

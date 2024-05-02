@@ -173,7 +173,7 @@ if($fecha=="")
 }
 
 echo "<form action='guarda_ingresomateriales.php' method='post' name='form1'>";
-echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Ingreso de Materiales</th></tr></table><br>";
+echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Ingreso de Productos</th></tr></table><br>";
 echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
 echo "<tr><th>Numero de Ingreso</th><th>Fecha</th><th>Tipo de Ingreso</th><th>Factura</th></tr>";
 echo "<tr>";

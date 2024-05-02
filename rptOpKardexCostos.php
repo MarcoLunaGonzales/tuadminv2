@@ -61,7 +61,7 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 	echo "<tr><th align='left'>Tipo de Item:</th>";
 	echo "<td><select name='tipo_item' class='texto' onChange='envia_select(this.form)'>";
 	
-	echo "<option value='2'>Materiales</option>";
+	echo "<option value='2'>Productos</option>";
 	
 	echo "</tr>";
 	echo "<tr><th align='left'>Material</th><td><select name='rpt_item' class='texto'>";

@@ -200,7 +200,7 @@ if($fecha=="")
 ?>
 <form action='guarda_editaringresomateriales.php' method='post' name='form1'>
 <input type="hidden" name="codIngreso" value="<?php echo $codIngresoEditar;?>" id="codIngreso">
-<table border='0' class='textotit' align='center'><tr><th>Editar Ingreso de Materiales</th></tr></table><br>
+<table border='0' class='textotit' align='center'><tr><th>Editar Ingreso de Productos</th></tr></table><br>
 
 <?php
 

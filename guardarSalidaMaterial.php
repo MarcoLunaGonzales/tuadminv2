@@ -264,8 +264,9 @@ $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almace
 		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta')";
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
+//echo $sql_inserta;
+
 if($sql_inserta==1){
-	
 	$montoTotalVentaDetalle=0;
 	for($i=1;$i<=$cantidad_material;$i++){   	
 		$codMaterial=$_POST["materiales$i"];
@@ -305,30 +306,14 @@ if($sql_inserta==1){
 		$respUpdMonto=mysqli_query($enlaceCon,$sqlUpdMonto);
 	}
 	if($tipoSalida==1001){
-		/*if($tipoDoc==1){
-			echo "<script type='text/javascript' language='javascript'>	
-			location.href='formatoFactura.php?codVenta=$codigo';
-			</script>";	
-			//window.open('formatoFactura.php?codVenta=$codigo','','scrollbars=yes,width=1000,height=800');	
-		}
-		if($tipoDoc==2){
-			echo "<script type='text/javascript' language='javascript'>
-			location.href='formatoNotaRemision.php?codVenta=$codigo';
-			</script>";	
-		}*/		
 		echo "<script type='text/javascript' language='javascript'>
 			location.href='navegadorVentas.php';
 			</script>";
 	}else{
-		/*echo "<script type='text/javascript' language='javascript'>
-		location.href='navegador_detallesalidamateriales.php?codigo_salida=$codigo';
-		</script>";*/
 		echo "<script type='text/javascript' language='javascript'>
 			location.href='navegador_salidamateriales.php';
 			</script>";
-	}
-
-	
+	}	
 }else{
 		echo "<script type='text/javascript' language='javascript'>
 		alert('Ocurrio un error en la transaccion. Contacte con el administrador del sistema.');
@@ -337,6 +322,3 @@ if($sql_inserta==1){
 }
 
 ?>
-
-
-

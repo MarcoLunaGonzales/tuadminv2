@@ -8,7 +8,7 @@ echo "<script language='Javascript'>
 			return(false);
 		}
 		if(f.presentacion.value=='')
-		{	alert('El campo Presentación esta vacio.');
+		{	alert('El campo Presentaciï¿½n esta vacio.');
 			f.presentacion.focus();
 			return(false);
 		}
@@ -25,7 +25,7 @@ $codproducto=$dat[3];
 $codforma=$dat[4];
 $presentacion=$dat[5];
 echo "<form action='guarda_modi_materiales.php' method='post'>";
-echo "<center><table border='0' class='textotit'><tr><td>Editar Materiales<td></tr></table></center><br>";
+echo "<center><table border='0' class='textotit'><tr><td>Editar Productos<td></tr></table></center><br>";
 echo "<center><table border='1' class='texto' cellspacing='0'>";
 echo "<input type='hidden' name='codigo' value='$codigo_registro'>";
 echo "<tr><th align='left'>Tipo de Material</th>";
@@ -80,7 +80,7 @@ while($dat3=mysqli_fetch_array($resp3))
 echo "</select></td>";
 echo "</tr>";
 echo "</tr>";
-echo "<tr><th align='left'>Presentación</th>";
+echo "<tr><th align='left'>Presentaciï¿½n</th>";
 echo "<td align='center'><input type='text' class='texto' name='presentacion' value='$presentacion' size='40' onKeyUp='javascript:this.value=this.value.toUpperCase();'></td>";
 echo "</tr>";
 echo "</table><br>";

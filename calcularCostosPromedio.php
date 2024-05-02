@@ -6,7 +6,7 @@ require('function_comparafechas.php');
 
 $fecha_reporte=date("d/m/Y");
 
-echo "<table align='center' class='textotit'><tr><th>Proceso de Costeo de Materiales</th></tr></table>";
+echo "<table align='center' class='textotit'><tr><th>Proceso de Costeo de Productos</th></tr></table>";
 
 //desde esta parte viene el reporte en si
 $fecha_iniconsulta=cambia_formatofecha($fecha_ini);

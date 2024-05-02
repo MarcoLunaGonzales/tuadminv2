@@ -63,7 +63,7 @@ function validar(f)
             }
         }
         if(cant_buscado>1)
-        {   alert('Los Materiales no pueden repetirse.');
+        {   alert('Los Productos no pueden repetirse.');
             return(false);
         }
     }*/
@@ -136,7 +136,7 @@ echo "<tr><th colspan='3'>Observaciones</th></tr>";
 echo "<tr><td colspan='3' align='center'><input type='text' class='texto' name='observaciones' value='$observaciones' size='100'></td></tr>";
 echo "</table><br>";
 echo "<table border=1 class='texto' width='100%' align='center' cellspacing='0'>";
-echo "<tr><th colspan='5'>Cantidad de Materiales a registrar: <select name='cantidad_material' OnChange='enviar_form(this.form)' class='texto'>";
+echo "<tr><th colspan='5'>Cantidad de Productos a registrar: <select name='cantidad_material' OnChange='enviar_form(this.form)' class='texto'>";
 for($i=0;$i<=15;$i++)
 {   if($i==$cantidad_material)
     {   echo "<option value='$i' selected>$i</option>";

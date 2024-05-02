@@ -90,7 +90,7 @@ setlocale(LC_TIME, "Spanish");
               if($cont>0){
       				?><div class="card-footer fixed-bottom">
                 <input type="hidden" value="<?=$cont?>" id="numeroMoneda">
-                <a href="#" onclick="guardarValoresMoneda()" class="btn btn-info">Guardar Valores</a>
+                <a href="#" onclick="guardarValoresMoneda();" class="btn btn-info">Guardar Valores</a>
               </div><?php		  
               }
               ?>

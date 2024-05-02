@@ -21,7 +21,7 @@ require("conexion.inc");
 require("estilos_administracion.inc");
 
 $fecha_rptdefault=date("d/m/Y");
-echo "<table align='center' class='textotit'><tr><th>Calcular Costos de Materiales PEPS</th></tr></table><br>";
+echo "<table align='center' class='textotit'><tr><th>Calcular Costos de Productos PEPS</th></tr></table><br>";
 
 echo"<form method='post' action='navegadorCalcularCostosPEPS.php'>";
 

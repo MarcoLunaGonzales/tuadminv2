@@ -2,7 +2,7 @@
 /**
  * Desarrollado por Datanet-Bolivia.
  * @autor: Marco Antonio Luna Gonzales
- * Sistema de Visita Médica
+ * Sistema de Visita Mï¿½dica
  * * @copyright 2005
 */
 echo "<script language='Javascript'>
@@ -24,7 +24,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un Material para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un Material para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -77,9 +77,9 @@ echo "<script language='Javascript'>
 	m.cod_tipomaterial=tm.cod_tipomaterial AND p.cod_producto=m.cod_producto and f.cod_forma=m.cod_forma
 	order by tm.nombre_tipomaterial, m.nombre_material";
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<center><table border='0' class='textotit'><tr><td>Registro de Materiales</td></tr></table></center><br>";
+	echo "<center><table border='0' class='textotit'><tr><td>Registro de Productos</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='90%'>";
-	echo "<tr><th>&nbsp;</th><th>Tipo de Material</th><th>Nombre Material</th><th>Producto</th><th>Forma Farmaceutica</th><th>Presentación</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Tipo de Material</th><th>Nombre Material</th><th>Producto</th><th>Forma Farmaceutica</th><th>Presentaciï¿½n</th></tr>";
 	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];

@@ -19,7 +19,7 @@ if($mesAnteriorCosto==0){
 	$anioAnteriorCosto=$anioCosto-1;
 }
 
-echo "<table align='center' class='textotit'><tr><th>Proceso de Costeo de Materiales UEPS</th></tr></table>";
+echo "<table align='center' class='textotit'><tr><th>Proceso de Costeo de Productos UEPS</th></tr></table>";
 
 
 $sqlMateriales="select m.`codigo_material`, m.`descripcion_material` from `material_apoyo` m where m.`codigo_material`=96";

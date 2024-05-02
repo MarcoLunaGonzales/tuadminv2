@@ -86,7 +86,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				<ul>
 					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Fabricantes</a></li>
 
-					<!--li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Materiales Serviteca</a></li-->
+					<!--li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Productos Serviteca</a></li-->
 
 					<li><span>Gestion de Productos</span>
 						<ul>
@@ -124,8 +124,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			</li-->
 			<li><span>Ingresos</span>
 				<ul>
-					<li><a href="navegador_ingresomateriales.php"  target='_blank'>Ingreso de Materiales</a></li>
-					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Materiales en Transito</a></li>
+					<li><a href="navegador_ingresomateriales.php"  target='_blank'>Ingreso de Productos</a></li>
+					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Productos en Transito</a></li>
 					<!--li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li-->
 				</ul>	
 			</li>

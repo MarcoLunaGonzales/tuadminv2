@@ -13,7 +13,7 @@ echo "<script language='Javascript'>
 require("conexion.inc");
 require("estilos_administracion.inc");
 echo "<form action='guarda_materiales.php' method='post'>";
-echo "<center><table border='0' class='textotit'><tr><td>Adicionar Materiales</td></tr></table></center><br>";
+echo "<center><table border='0' class='textotit'><tr><td>Adicionar Productos</td></tr></table></center><br>";
 echo "<center><table border='1' class='texto' cellspacing='0'>";
 echo "<tr><th align='left'>Tipo de Material</th>";
 $sql1="select * from tipos_material order by nombre_tipomaterial";
@@ -53,7 +53,7 @@ while($dat3=mysqli_fetch_array($resp3))
 echo "</select></td>";
 echo "</tr>";
 echo "</tr>";
-echo "<tr><th align='left'>Presentación</th>";
+echo "<tr><th align='left'>Presentaciï¿½n</th>";
 echo "<td align='center'><input type='text' class='texto' name='presentacion' size='40' onKeyUp='javascript:this.value=this.value.toUpperCase();'></td>";
 echo "</tr>";
 echo "</table><br>";

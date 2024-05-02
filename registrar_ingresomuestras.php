@@ -167,7 +167,7 @@ echo "<tr><th colspan='5'>Observaciones</th></tr>";
 echo "<tr><td colspan='5' align='center'><input type='text' class='texto' name='observaciones' value='$observaciones' size='100'></td></tr>";
 echo "</table><br>";
 echo "<table border=1 class='texto' width='100%' align='center'>";
-echo "<tr><th colspan='5'>Cantidad de Materiales a ingresar: <select name='cantidad_material' OnChange='enviar_form(this.form)' class='texto'>";
+echo "<tr><th colspan='5'>Cantidad de Productos a ingresar: <select name='cantidad_material' OnChange='enviar_form(this.form)' class='texto'>";
 for($i=0;$i<=50;$i++)
 {   if($i==$cantidad_material)
     {   echo "<option value='$i' selected>$i</option>";
