@@ -131,9 +131,9 @@ echo "<td>
 				$tipoMonedaConfig = $codMoneda;
 				$abrev_moneda 	  = $abreMoneda;
 				if($codigo==$codGrupoX){
-					echo "<option value='$codigo' selected data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo ($abreMoneda)</option>";
+					echo "<option value='$codigo' selected data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo</option>";
 				}else{
-					echo "<option value='$codigo' data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo ($abreMoneda)</option>";
+					echo "<option value='$codigo' data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo</option>";
 				}
 			}
 			echo "</select>

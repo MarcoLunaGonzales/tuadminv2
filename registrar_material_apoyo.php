@@ -67,7 +67,7 @@ echo "<td>
 				$nombreGrupo = $dat1[1];
 				$abreMoneda	 = $dat1[2];
 				$codMoneda 	 = $dat1[3];
-				echo "<option value='$codGrupo' data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo ($abreMoneda)</option>";
+				echo "<option value='$codGrupo' data-cod_moneda='$codMoneda' data-abre_moneda='$abreMoneda'>$nombreGrupo</option>";
 			}
 			echo "</select>
 </td>";
