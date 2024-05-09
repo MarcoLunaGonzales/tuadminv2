@@ -54,6 +54,7 @@ echo "<table align='center' class='textotit' width='100%'><tr><td align='center'
 	AND ia.cod_tipopago = 4
 	AND ia.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
 	ORDER BY p.nombre_proveedor, ia.fecha";	  
+
 // echo $sql;
 
 $resp=mysqli_query($enlaceCon, $sql);

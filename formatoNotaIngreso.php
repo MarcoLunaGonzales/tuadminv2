@@ -1,9 +1,13 @@
 <?php
 require('fpdf.php');
-require('conexion.inc');
-require('funciones.php');
+require('conexionmysqlipdf.inc');
+//require('funciones.php');
 require('NumeroALetras.php');
 
+function redondear2($valor) { 
+	$float_redondeado=round($valor * 100) / 100; 
+	return $float_redondeado; 
+ }
 
 $codigoIngreso=$_GET["codigo_ingreso"];
 

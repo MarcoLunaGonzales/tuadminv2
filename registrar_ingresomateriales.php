@@ -7,7 +7,6 @@ require("estilos.inc");
     <head>
         <title>Busqueda</title>
         <script type="text/javascript" src="lib/externos/jquery/jquery-1.4.4.min.js"></script>
-        <script type="text/javascript" src="dlcalendar.js"></script>
 <script>
 function nuevoAjax()
 {	var xmlhttp=false;
@@ -367,7 +366,6 @@ echo "<div class='divBotones'>
 </div>";
 
 echo "</div>";
-echo "<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
 
 ?>
 
