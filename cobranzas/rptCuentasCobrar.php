@@ -30,7 +30,7 @@ echo "<table align='center' class='textotit' width='100%'><tr><td align='center'
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
-$sql="SELECT s.`cod_salida_almacenes`, s.`nro_correlativo`, s.`fecha`, concat(c.`nombre_cliente`,' ',c.paterno), s.`monto_final`,
+$sql="SELECT s.`cod_salida_almacenes`, s.`nro_correlativo`, s.`fecha`, concat(c.`nombre_cliente`), s.`monto_final`,
        (
          select COALESCE(sum(cbd.monto_detalle), 0)
          from `cobros_cab` cb, `cobros_detalle` cbd
@@ -53,8 +53,7 @@ from `salida_almacenes` s, clientes c where s.`monto_final` >
 order by c.nombre_cliente,
          s.fecha";	  
 
-
-// echo $sql;
+//echo $sql;
 
 
 

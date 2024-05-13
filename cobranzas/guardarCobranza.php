@@ -19,7 +19,6 @@ $observaciones=$_POST["observaciones"];
 
 
 
-
 $sql="SELECT cod_cobro FROM cobros_cab ORDER BY cod_cobro DESC";
 //echo $sql;
 $resp=mysqli_query($enlaceCon, $sql);
@@ -60,7 +59,9 @@ for($i=1;$i<=$nroFilas;$i++)
 	if($montoPago>0){
 		$sql_inserta="INSERT INTO `cobros_detalle` (`cod_cobro`,`cod_venta`,`monto_detalle`,`nro_doc`) 
 			VALUE ('$codigo','$codVenta','$montoPago','$nroDoc')";
-		//echo $sql_inserta;
+		
+		echo $sql_inserta;
+		
 		$sql_inserta=mysqli_query($enlaceCon, $sql_inserta);
 	}
 	
@@ -74,7 +75,7 @@ for($i=1;$i<=$nroFilas;$i++)
 $sqlInsertC="INSERT INTO `cobros_cab` (`cod_cobro`,`fecha_cobro`,`monto_cobro`,`observaciones`,`cod_cliente`,`cod_estado`,`cod_gestion`,`nro_cobro`) 
 	VALUE ('$codigo','$fecha','$montoTotal','$observaciones','$cliente','1','$globalGestion','$nroCobranza')";
 
-//echo $sqlInsertC;
+echo $sqlInsertC;
 
 $respInsertC=mysqli_query($enlaceCon, $sqlInsertC);
 
@@ -82,6 +83,8 @@ echo "<script type='text/javascript' language='javascript'>";
 echo "    alert('Los datos fueron insertados correctamente.');";
 echo "    location.href='navegadorCobranzas.php';";
 echo "</script>";
+
+
 ?>
 
 

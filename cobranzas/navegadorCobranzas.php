@@ -101,7 +101,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 
 	echo "<br><center><table class='texto'>";
 
-	echo "<tr><th>&nbsp;</th><th>Nro. Cobro</th><th>Gestion</th><th>Cliente</th>
+	echo "<tr><th>&nbsp;</th><th>Nro. Cobro</th><th>Cliente</th>
 		<th>Fecha</th><th>Monto</th><th>Observaciones</th><th>&nbsp;</th></tr>";
 	
 	$consulta = "select c.`cod_cobro`,
@@ -109,7 +109,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
        c.`observaciones`,
        c.`monto_cobro`,
        (
-         select concat(cl.`nombre_cliente`, ' ',cl.paterno)
+         select concat(cl.`nombre_cliente`)
          from clientes cl
          where c.`cod_cliente` = cl.`cod_cliente`
        ), c.nro_cobro, (select g.nombre_gestion from gestiones g where g.cod_gestion=c.cod_gestion), c.cod_estado
@@ -145,7 +145,6 @@ order by c.`cod_cobro` desc limit 0, 100";
 		echo "<tr style='$estilo_texto'>
 		<td align='center'>$chkbox</td>
 		<td align='center'>$nroCobranza</td>
-		<td align='center'>$nombreGestion</td>
 		<td align='center'>$nombreProveedor</td>
 		<td align='center'>$fechaPago</td>
 		<td align='center'>$montoPago</td>

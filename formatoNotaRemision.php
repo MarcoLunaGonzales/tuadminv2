@@ -1,9 +1,14 @@
 <?php
 require('fpdf.php');
-require('conexion.inc');
-require('funciones.php');
+require('conexionmysqlipdf.inc');
+//require('funciones.php');
 require('NumeroALetras.php');
 
+
+function redondear2($valor) { 
+	$float_redondeado=round($valor * 100) / 100; 
+	return $float_redondeado; 
+ }
 
 $codigoVenta=$_GET["codVenta"];
 
@@ -82,8 +87,8 @@ while($datDatosVenta=mysqli_fetch_array($respDatosVenta)){
 	$nombreVendedor=$datDatosVenta[8];
 }
 
-$pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,$nombre1,0,0,"C");
-$pdf->SetXY(0,$y+6);		$pdf->Cell(0,0,$nombre2,0,0,"C");
+//$pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,$nombre1,0,0,"C");
+//$pdf->SetXY(0,$y+6);		$pdf->Cell(0,0,$nombre2,0,0,"C");
 
 $pdf->SetXY(0,$y+9);		$pdf->Cell(0,0,"$nombreTipoDoc Nro. $nroDocVenta", 0,0,"C");
 $pdf->SetXY(0,$y+12);		$pdf->Cell(0,0,"-------------------------------------------------------------------------------", 0,0,"C");
@@ -154,7 +159,7 @@ $pdf->SetXY(45,$y+$yyy+4);		$pdf->Cell(20,5,$descuentoVenta,0,0,"R");
 $pdf->SetXY(25,$y+$yyy+8);		$pdf->Cell(25,5,"Total Final:",0,0,"R");
 $pdf->SetXY(45,$y+$yyy+8);		$pdf->Cell(20,5,$montoFinal,0,0,"R");
 
-list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
+/*list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
 if($montoDecimal==""){
 	$montoDecimal="00";
 }
@@ -164,6 +169,6 @@ $pdf->SetFont('Arial','',7);
 $txtMonto=NumeroALetras::convertir($montoEntero);
 $pdf->SetXY(5,$y+$yyy+15);		$pdf->MultiCell(0,3,"Son:  $txtMonto"." ".$montoDecimal."/100 Bolivianos",0,"L");
 $pdf->SetXY(0,$y+$yyy+21);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
-
+*/
 $pdf->Output();
 ?>

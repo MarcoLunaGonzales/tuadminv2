@@ -388,7 +388,8 @@ $fecha_sistema = date('Y-m-d');
 echo "<form method='post' action=''>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
-echo "<h1>Listado de Ventas</h1>";
+echo "<h1>Listado de Ventas &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='navegadorVentas2.php'><img src='imagenes/go2.png' width='15'></a>
+</h1>";
 echo "<table class='texto' cellspacing='0' width='90%'>
 <tr><th>Leyenda:</th>
 <th>Ventas Anuladas</th><td bgcolor='#e74c3c' width='5%'></td>
@@ -420,8 +421,8 @@ $consulta = "
     (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
     s.cod_chofer, s.cod_tipopago, s.monto_final, s.idTransaccion_siat
     FROM salida_almacenes s, tipos_salida ts 
-    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
-// echo $consulta;
+    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 and s.cod_tipo_doc in (1,4)";
+
 if($txtnroingreso!="")
    {$consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
    }
@@ -483,6 +484,7 @@ while ($dat = mysqli_fetch_array($resp)) {
         $strikef = " (ANULADO)</strike>";
         $chk = "";        
     }
+    $estadoSalidaAnuladaSiat=0;
 
     $sqlAnuladoSiat="SELECT s.estado_salida, s.salida_anulada from $BDSiat.salida_almacenes s where s.cod_salida_almacenes='$idTransaccion'";
     // echo $sqlAnuladoSiat;
@@ -512,7 +514,7 @@ while ($dat = mysqli_fetch_array($resp)) {
    
     // Editar Datos
     $url_siat   = valorConfig(7);
-    $urlDetalle = $url_siat."formatoFacturaTicketsOnline.php";
+    $urlDetalle = $url_siat."formatoFacturaOnLine.php";
     echo "<td  bgcolor='' class='text-center'> <a href='$urlDetalle?codVenta=$idTransaccion' target='_BLANK' title='Imprimir Factura'  class='text-dark'><i class='material-icons'>description</i></a>";
     echo "</td>";
 

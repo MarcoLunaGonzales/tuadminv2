@@ -368,6 +368,13 @@ function HiddenFacturarEditar(){
     <body>
 <?php
 $estado_preparado=0;
+$nroCorrelativoBusqueda="";
+$fechaIniBusqueda="";
+$fechaFinBusqueda="";
+$vendedorBusqueda="";
+$tipoPagoBusqueda="";
+$fecha_sistema="";
+$estado_preparado="";
 
 $txtnroingreso = "";
 $fecha1 = "";
@@ -401,14 +408,9 @@ echo "<div class='divBotones'>
     </div>";
         
 echo "<center><table class='texto'>";
-echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
-    <th>Razon Social</th><th>NIT</th><th>Monto</th><th>Observaciones</th><th>Imprimir FG</th><th>Imprimir FP</th>";
 
-if($global_admin_cargo==1){
-    echo "<th>Convertir</th><th>Cambiar <br>Datos Venta</th>";
-}   
-echo "<th class='text-center'>Documento SIAT</th>";
-echo "</tr>";
+echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
+    <th>Razon Social</th><th>NIT</th><th>Monto</th><th>Observaciones</th><th>Imprimir</th><th>Editar</br>DatosVenta</th></tr>";
     
 echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='global_almacen'>";
 
@@ -423,7 +425,8 @@ $consulta = "
     (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
     s.cod_chofer, s.cod_tipopago, s.monto_final, s.idTransaccion_siat
     FROM salida_almacenes s, tipos_salida ts 
-    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 ";
+    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 and 
+    s.cod_tipo_doc not in (1,4)";
 
 if($txtnroingreso!="")
    {$consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
@@ -501,33 +504,29 @@ while ($dat = mysqli_fetch_array($resp)) {
     <td>$strikei $montoVentaFormat $strikef</td>
     <td>$strikei $obs_salida $strikef</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
-   
-    // Editar Datos
 
+    /*echo "<td bgcolor='$color_fondo'><a href='javascript:llamar_preparado(this.form, $estado_preparado, $codigo)'>
+        <img src='imagenes/icon_detail.png' width='30' border='0' title='Detalle'></a></td>";
+    */
     if($codTipoDoc==1){
         echo "<td  bgcolor='$color_fondo'><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
+        echo "<td  bgcolor='$color_fondo'><a href='notaSalida.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/detalle.png' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
     }
     else{
-        echo "<td  bgcolor='$color_fondo'><a href='notaSalida.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/detalle.png' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
-
-        echo "<td  bgcolor='$color_fondo'><a href='formatoNotaRemision.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
+        echo "<td  bgcolor='$color_fondo'><a href='formatoNotaRemision.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a>
+        </td>";
+        // Editar Datos
+        echo "<td bgcolor='$color_fondo'>
+            <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
+            <img src='imagenes/change.png' width='30' border='0' title='Cambiar Vendedor / Tipo Pago'></a>
+        </td>";
+        //echo "<td  bgcolor='$color_fondo'><a href='notaSalida.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/detalle.png' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
     }
     
-    if($global_admin_cargo==1 && $codTipoDoc==2){
-        echo "<td bgcolor='$color_fondo'>
-        <a href='#' onClick='ShowFacturar($codigo,$nro_correlativo);'>
-        <img src='imagenes/icon_detail.png' width='30' border='0' title='Convertir en Factura'></a></td>";
-    }   
-    echo "<td bgcolor='$color_fondo' align='center'>
-            <a href='#' onClick='ShowFacturarEditar($codigo,$nro_correlativo, $codVendedor, $codTipoPago);'>
-            <img src='imagenes/change.png' width='30' border='0' title='Editar'></a>
-        </td>";
-        
-	$url_siat   = valorConfig(7);
-    $urlDetalle = $url_siat."dFacturaElectronica.php";
-    echo "<td  bgcolor='#12A4DF' class='text-center'> <a href='$urlDetalle?codigo_salida=$idTransaccion' target='_BLANK' title='DOCUMENTO FACTURA'  class='text-dark'><i class='material-icons'>description</i></a>";
-
+    /*echo "<td  bgcolor='$color_fondo'><a href='notaSalida.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Grande'></a></td>";*/
+    
     echo "</tr>";
+
 }
 echo "</table></center><br>";
 
