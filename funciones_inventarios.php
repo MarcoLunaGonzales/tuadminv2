@@ -186,4 +186,16 @@ function insertar_detalleSalidaVenta($enlaceCon,$cod_salida, $cod_almacen, $cod_
 	$sql_inserta2 = mysqli_query($enlaceCon,$consulta);
 	return true;
 }
+
+function insertar_detalleCotizacion($enlaceCon,$cod_cotizacion, $cod_material, $cantidad_unitaria, $precio_unitario, $descuento_unitario, $monto_unitario, $orden){
+	$banderaError=1;	
+	$sqlInsert="INSERT INTO cotizaciones_detalle (cod_cotizacion, cod_material, cantidad_unitaria, precio_unitario,
+	descuento_unitario, monto_unitario, orden_detalle) VALUES ('$cod_cotizacion', '$cod_material', '$cantidad_unitaria',
+	'$precio_unitario','$descuento_unitario','$monto_unitario','$orden')";	
+	$respInsert=mysqli_query($enlaceCon,$sqlInsert);
+	if($respInsert!=1){
+		$banderaError=2;
+	}
+	return($banderaError);
+}
 ?>

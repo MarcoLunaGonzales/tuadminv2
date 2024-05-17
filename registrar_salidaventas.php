@@ -722,6 +722,130 @@ function validar(f){
   	return false;
 }
 
+function validarCotizacion(f){
+
+	document.getElementById('cantidad_material').value=num;
+	// Si el tipo pago es CREDITO y no se seleccionó clietne no se termina el proceso
+	let tipo_pago = $('#tipoVenta').val();
+	if(tipo_pago == 4 && ($('#cliente').val() == 146 || $('#cliente').val() == '')){
+		Swal.fire({
+			text: "Ups! Debe seleccionar un cliente",
+			type: "error",
+			position: "top",
+			toast:true,
+			showConfirmButton: false,
+			timer: 3000
+		});
+		return(false);
+	} 
+
+	/******** Validacion productos vacios ********/
+	var banderaValidacionDetalle=0;
+	var inputs = $('form input[name^="materiales"]');
+	inputs.each(function() {
+		var value = $(this).val();
+		if(value==0 || value==""){
+				banderaValidacionDetalle=1;
+		}
+	});
+	if(banderaValidacionDetalle==1){
+		Swal.fire("Productos!", "Debe seleccionar un producto para cada fila.", "info");
+		return(false);
+	}
+	/******** Fin validacion productos vacios ********/
+
+	/******** Validacion Cantidades ********/
+	var banderaValidacionDetalle=0;
+	var inputs = $('form input[name^="cantidad_unitaria"]');
+	inputs.each(function() {
+	var value = $(this).val();
+	if(value<=0 || value==""){
+			banderaValidacionDetalle=1;
+	}else{
+	}
+	});
+	if(banderaValidacionDetalle==1){
+		Swal.fire("Cantidades!", "Hay algún campo con la cantidad vacia o en cero.", "info");
+		return(false);
+	}
+	/******** Fin validacion Cantidades ********/
+
+	/******** Validacion Precios ********/
+	var banderaValidacionDetalle=0;
+	var inputs = $('form input[name^="precio_unitario"]');
+	inputs.each(function() {
+	var value = $(this).val();
+	if(value<=0 || value==""){
+			banderaValidacionDetalle=1;
+	}else{
+	}
+	});
+	if(banderaValidacionDetalle==1){
+		Swal.fire("Precios!", "No pueden existir precios menores o iguales a 0.", "info");
+		return(false);
+	}
+	/******** Fin Precios ********/
+
+	/******** Validacion Montos Productos ********/
+	var banderaValidacionDetalle=0;
+	var inputs = $('form input[name^="montoMaterial"]');
+	inputs.each(function() {
+	var value = $(this).val();
+	if(value==0 || value==""){
+			banderaValidacionDetalle=1;
+	}else{
+	}
+	});
+	if(banderaValidacionDetalle==1){
+		Swal.fire("Montos por Producto!", "No puede existir la venta de un producto en 0.", "info");
+		return(false);
+	}
+	/******** Fin Montos Productos ********/
+
+
+	// /**************************************************/
+	// /************ Validacion de Stocks ****************/
+	// /**************************************************/
+	// banderaValidacionDetalle=0;
+	// var inputs_stocks = $('form input[name^="stock"]');
+	// var inputs_cantidades = $('form input[name^="cantidad_unitaria"]');
+	// for (var i = 0; i < inputs_stocks.length; i++) {
+	// 	var cantidadFila = parseFloat(inputs_cantidades[i].value);
+	// 	var stockFila = parseFloat(inputs_stocks[i].value);
+	// 	if(cantidadFila>stockFila){
+	// 		banderaValidacionDetalle=1;
+	// 	}
+	// 	console.log("cantidadStock: "+stockFila);
+	// 	console.log( "cantidadFila: "+cantidadFila);
+	// }
+	// if(banderaValidacionDetalle==1){
+	// 	Swal.fire("Stocks!", "NO puede sacar cantidades mayores al stock.", "error");
+	// 	return(false);
+	// }
+	// /**************************************************/
+	// /************ Fin Validacion de Stocks ************/
+	// /**************************************************/
+
+	// /**************** Validar Efectivo y Total Final ****************/
+	// var efectivoRecibido = parseFloat($("#efectivoRecibido").val());
+	// var totalFinalVenta = parseFloat($("#totalFinal").val());
+	// if (isNaN(efectivoRecibido)) { efectivoRecibido = 0; }
+	// if (isNaN(totalFinalVenta)) { totalFinalVenta = 0; }
+	// console.log("efectivo: "+efectivoRecibido);
+	// if(efectivoRecibido < totalFinalVenta){
+	// 	Swal.fire("Error en Monto Recibido en Efectivo!", "<b>El monto en efectivo NO puede ser menor al monto total.</b>", "error");
+	// 	//document.getElementById('efectivoRecibidoUnido').focus();	
+	// 		return (false);
+	// }  	
+	// if(totalFinalVenta<=0){
+	// 	Swal.fire("Monto Final!", "El Monto Final del documento no puede ser 0", "info");
+	// 	return(false);
+	// }
+	// /**************** Fin Validar Efectivo y Total Final ****************/
+		
+	f.action="guardarCotizacion.php";
+	f.submit();
+}
 // function checkSubmit() {
 //     document.getElementById("btsubmit").value = "Enviando...";
 //     document.getElementById("btsubmit").disabled = true;
@@ -1582,12 +1706,16 @@ if($banderaErrorFacturacion==0){
 		
             <table style='width:330px;padding:0 !important;margin:1 !important;bottom:25px;position:fixed;left:100px;'>
             <tr>
-               <td style='font-size:12px;color:#0691CD; font-weight:bold;'>EFECTIVO Bs.</td>
-               <td style='font-size:12px;color:#189B22; font-weight:bold;'>EFECTIVO $ USD</td>
-             </tr>
-             <tr>
-               <td><input type='number' name='efectivoRecibidoUnido' onChange='aplicarMontoCombinadoEfectivo(form1);' onkeyup='aplicarMontoCombinadoEfectivo(form1);' onkeydown='aplicarMontoCombinadoEfectivo(form1);' id='efectivoRecibidoUnido' style='height:25px;font-size:18px;width:120px;' step='any'></td>
-               <td><input type='number' name='efectivoRecibidoUnidoUSD' onChange='aplicarMontoCombinadoEfectivo(form1);' onkeyup='aplicarMontoCombinadoEfectivo(form1);' onkeydown='aplicarMontoCombinadoEfectivo(form1);' id='efectivoRecibidoUnidoUSD' style='height:25px;font-size:18px;width:120px;' step='any'></td>
+				<td style='font-size:12px;color:#0691CD; font-weight:bold;'>EFECTIVO Bs.</td>
+				<td style='font-size:12px;color:#189B22; font-weight:bold;'>EFECTIVO $ USD</td>
+				<td></td>
+			</tr>
+			<tr>
+               	<td><input type='number' name='efectivoRecibidoUnido' onChange='aplicarMontoCombinadoEfectivo(form1);' onkeyup='aplicarMontoCombinadoEfectivo(form1);' onkeydown='aplicarMontoCombinadoEfectivo(form1);' id='efectivoRecibidoUnido' style='height:25px;font-size:18px;width:120px;' step='any'></td>
+				<td><input type='number' name='efectivoRecibidoUnidoUSD' onChange='aplicarMontoCombinadoEfectivo(form1);' onkeyup='aplicarMontoCombinadoEfectivo(form1);' onkeydown='aplicarMontoCombinadoEfectivo(form1);' id='efectivoRecibidoUnidoUSD' style='height:25px;font-size:18px;width:120px;' step='any'></td>
+				<td>
+				<a href='#' class='btn btn-default btn-sm btn-fab' style='background:#FF0000' onclick='validarCotizacion(form1); return false;' id='boton_cotizacion' data-toggle='tooltip' data-original-title='Guardar como Cotización'><i class='material-icons'>file_download</i></a>
+				</td>
              </tr>
             </table>
 
