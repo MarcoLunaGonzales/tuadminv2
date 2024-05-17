@@ -98,3 +98,37 @@ setlocale(LC_TIME, "Spanish");
           </div>  
         </div>
     </div>
+<script>
+        
+    function nuevoAjax(){
+         var xmlhttp=false;
+        try {
+            xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+        } catch (e) {
+            try {
+                xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+            } catch (E) {
+                xmlhttp = false;
+            }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+            xmlhttp = new XMLHttpRequest();
+        }
+        return xmlhttp;
+    }
+  function guardarValoresMoneda(){
+  var index=$("#numeroMoneda").val();
+    for (var i = 0; i < index; i++) {
+        var codigo  = $("#codigo"+(i+1)).val();
+        var valor   = $("#valor"+(i+1)).val();
+        ajax=nuevoAjax();
+        ajax.open('GET', 'ajaxSaveTipo.php?codigo='+codigo+'&valor='+valor,true);
+        ajax.onreadystatechange=function() {
+            if (ajax.readyState==4) {
+                // location.href="list.php";
+            }
+        }
+        ajax.send(null)
+    };
+  }
+</script>

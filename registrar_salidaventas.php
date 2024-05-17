@@ -1395,7 +1395,37 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 </div>
 
 <!--h1>Registrar Venta</h1-->
-
+<?php
+	// CODIGO DE COTIZACIÓN
+	$cod_cotizacion = empty($_GET['cod_cotizacion']) ? '' : $_GET['cod_cotizacion'];
+	$sqlCotizacion = "SELECT c.razon_social, 
+							c.nit, 
+							c.observaciones, 
+							c.descuento, 
+							c.cod_cliente, 
+							c.cod_tipoventa,
+							c.cod_tipopago
+						FROM cotizaciones c
+						WHERE c.codigo = '$cod_cotizacion'";
+	// echo $sqlCotizacion;
+	$respUsd=mysqli_query($enlaceCon,$sqlCotizacion);
+	$cab_razon_social = '';	
+	$cab_nit 		  = '';	
+	$cab_observacion  = '';	
+	$cab_descuento 	  = 0;	
+	$cab_cod_cliente  = 0;	
+	$cab_cod_tipoventa = '';
+	$cab_cod_tipopago  = '';
+	while($rowCot=mysqli_fetch_array($respUsd)){
+		$cab_razon_social = $rowCot['razon_social'];
+		$cab_nit 		  = $rowCot['nit'];	
+		$cab_observacion  = $rowCot['observaciones'];	
+		$cab_descuento    = $rowCot['descuento'];
+		$cab_cod_cliente  = $rowCot['cod_cliente'];	
+		$cab_cod_tipoventa = $rowCot['cod_tipoventa'];
+		$cab_cod_tipopago  = $rowCot['cod_tipopago'];
+	}
+?>
 <table class='texto' align='center' width='100%'>
 <tr>
 <th align='center' width="10%">
@@ -1445,20 +1475,32 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 </th>
 <th width="20%">
 	<div id='divNIT'>
-		<input type='text' value='<?php echo $nitDefault; ?>' name='nitCliente' id='nitCliente' onchange="ajaxRazonSocial(this.form);" onkeypress="return check(event)" placeholder="INGRESE EL CARNET o NIT" required class="custom-input" style="width: 100%;">
+		<input type='text' value='<?php echo empty($cod_cotizacion) ? $nitDefault : $cab_nit; ?>' name='nitCliente' id='nitCliente' onchange="ajaxRazonSocial(this.form);" onkeypress="return check(event)" placeholder="INGRESE EL CARNET o NIT" required class="custom-input" style="width: 100%;">
 	</div>
 	<input type="hidden" name="complemento" id="complemento" class="elegant-input" placeholder="COMPLEMENTO" onkeyup="javascript:this.value=this.value.toUpperCase();" style="width: 100%;">
 </th>
 
 <th width="20%">
 	<div id='divRazonSocial'>
-		<input type='text' name='razonSocial' id='razonSocial' value='<?php echo $razonSocialDefault;?>'style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' placeholder="NOMBRE / RAZON SOCIAL" required class="custom-input">
+		<input type='text' name='razonSocial' id='razonSocial' value='<?php echo empty($cab_razon_social) ? $razonSocialDefault : $cab_razon_social;?>'style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' placeholder="NOMBRE / RAZON SOCIAL" required class="custom-input">
 	</div>
 </th>
 
 <th align='center' id='divCliente' width="25%">		
 	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-secondary">
 		<option value='146'>NO REGISTRADO</option>
+		<?php
+			$sql = "SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente
+					FROM clientes c
+					WHERE c.cod_cliente != 146";
+			$resp=mysqli_query($enlaceCon,$sql);
+			while($rowCot=mysqli_fetch_array($resp)){
+				$selected = ($cab_cod_cliente = $rowCot['cod_cliente']) ? 'selected' : '';
+		?>
+		<option value='<?=$rowCot['cod_cliente']?>' $selected><?=$rowCot['nombre_cliente']?></option>
+		<?php
+			}
+		?>
 	</select>
 </th>
 <th width="5%">

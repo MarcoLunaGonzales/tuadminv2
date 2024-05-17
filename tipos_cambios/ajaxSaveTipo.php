@@ -1,15 +1,13 @@
 <?php
 session_start();
-require_once 'conexion.php';
-$dbh = new Conexion();
+require("../conexionmysqli.php");
 
 $fecha=date("Y-m-d");
 $codigo=$_GET["codigo"];
 $valor=$_GET['valor'];
-	if($valor!=0 || $valor!=""){
-     $sql="INSERT INTO tipo_cambiomonedas (cod_moneda,fecha,valor)VALUES ('$codigo','$fecha','$valor');";
-     $stmt = $dbh->prepare($sql);
-     $stmt->execute();    
+if($valor!=0 || $valor!=""){
+     $sql  = "INSERT INTO tipo_cambiomonedas (cod_moneda,fecha,valor)VALUES ('$codigo','$fecha','$valor');";
+     $resp = mysqli_query($enlaceCon,$sql);
 }
 
 ?>

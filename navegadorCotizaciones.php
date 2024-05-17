@@ -117,7 +117,7 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
                                 if($global_admin_cargo==1){
                                     if($dat['proceso_salida'] == 0 && $dat['estado'] == 1){
                                 ?>
-                                <a href="registrar_salidaventas_pedido.php?cod_cotizacion=<?=$dat['codigo']?>" class="btn btn-sm btn-info pt-4" title="Generar Venta">
+                                <a href="registrar_salidaventas.php?cod_cotizacion=<?=$dat['codigo']?>" class="btn btn-sm btn-info pt-4" title="Generar Venta">
                                     <i class="material-icons">description</i>
                                 </a>
                                     <?php

@@ -39,7 +39,8 @@ $sql="SELECT s.`cod_salida_almacenes`, s.`nro_correlativo`, s.`fecha`, concat(c.
        ) cobrado, 
 	   COALESCE(
 			(DATEDIFF(CURDATE(), DATE_ADD(s.fecha, INTERVAL c.dias_credito DAY)) > 0), 0
-		) AS credito_expirado
+		) AS credito_expirado,
+		(SELECT CONCAT(f.nombres, ' ', f.paterno) FROM funcionarios f WHERE f.codigo_funcionario = s.cod_chofer) as funcionario
 from `salida_almacenes` s, clientes c where s.`monto_final` >
       (
         select COALESCE(sum(cbd.monto_detalle), 0)
@@ -52,17 +53,14 @@ from `salida_almacenes` s, clientes c where s.`monto_final` >
       '$fecha_finconsulta'
 order by c.nombre_cliente,
          s.fecha";	  
-
-
 // echo $sql;
-
-
 
 $resp=mysqli_query($enlaceCon, $sql);
 
 echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='100%'>
 <tr>
 <th>N.R.</th>
+<th>Vendedor</th>
 <th>Fecha</th>
 <th>Cliente</th>
 <th>MontoVenta</th>
@@ -79,6 +77,7 @@ while($datos=mysqli_fetch_array($resp)){
 	$montoVenta=$datos[4];
 	$montoCobro=$datos[5];
 	$verificacionDeuda = $datos[6];
+	$funcionarioCobrar = $datos[7];
 	$montoxCobrar=$montoVenta-$montoCobro;
 	
 	
@@ -91,6 +90,7 @@ while($datos=mysqli_fetch_array($resp)){
 		$totalxCobrar=$totalxCobrar+$montoxCobrar;
 		echo "<tr>
 		<td align='center'>$nroVenta</td>
+		<td>$funcionarioCobrar</td>
 		<td align='center' ".($verificacionDeuda ? "style='background-color: #ffcccc;color: red; font-weight: bold; font-size: 16px;'" : "").">$fechaVenta</td>
 		<td>$nombreCliente</td>
 		<td align='right'>$montoVenta</td>
