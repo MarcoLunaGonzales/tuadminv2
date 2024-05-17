@@ -49,7 +49,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
 
 	if($tipo_item==1)
-	{	$nombre_tipoitem="Muestra Médica";
+	{	$nombre_tipoitem="Muestra Mï¿½dica";
 		$sql_item="select descripcion, presentacion from muestras_medicas where codigo='$rpt_item'";
 	}
 	else
@@ -104,7 +104,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	
 	
 	echo "<center><br><table class='texto' cellspacing='0' width='100%'>";
-	echo "<tr class='textomini'><th>Proceso</th><th>Tipo</th><th>Nro. Ingreso/Salida</th><th>Fecha</th><th>Factura</th><th>Observaciones<br>/ Razón Social</th><th>Entrada Cajas</th><th>Salida Cajas</th><th>Saldo Cajas</th><th class='bg-plomoclaro'>Entrada Sueltas</th><th class='bg-plomoclaro'>Salida Sueltas</th><th class='bg-plomoclaro'>Saldo Sueltas</th><th>Precio Venta</th><th>Tipo Ingreso/Salida</th><th>Sucursal<br>Origen/Destino</th><th>Nro<br>Ingreso/Salida<br>Destino/Origen</th><th>Responsable</th></tr>";
+	echo "<tr class='textomini'><th>Proceso</th><th>Tipo</th><th>Nro. Ingreso/Salida</th><th>Fecha</th><th>Factura</th><th>Observaciones<br>/ Razï¿½n Social</th><th>Entrada Cajas</th><th>Salida Cajas</th><th>Saldo Cajas</th><th class='bg-plomoclaro'>Entrada Sueltas</th><th class='bg-plomoclaro'>Salida Sueltas</th><th class='bg-plomoclaro'>Saldo Sueltas</th><th>Precio Venta</th><th>Tipo Ingreso/Salida</th><th>Sucursal<br>Origen/Destino</th><th>Nro<br>Ingreso/Salida<br>Destino/Origen</th><th>Responsable</th></tr>";
 	$sql_fechas_ingresos="select distinct(i.fecha) from ingreso_almacenes i, ingreso_detalle_almacenes id
 	where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 	i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha>='$fecha_iniconsulta' and i.fecha<='$fecha_finconsulta' order by i.fecha";
@@ -185,7 +185,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 		i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha='$fecha_consulta'";
 		
-		//echo $sql_ingresos;
+		echo $sql_ingresos;
 		
 		$resp_ingresos=mysqli_query($enlaceCon,$sql_ingresos);
 		while($dat_ingresos=mysqli_fetch_array($resp_ingresos))
