@@ -30,20 +30,13 @@
 	require('funciones.php');
 	require('funcion_nombres.php');
 	
-	echo "<h1>Listado de Productos Registrados</h1>";
-
-	$globalAlmacen=$_POST["rpt_almacen"];
-	$globalAgencia=$_COOKIE["global_agencia"];
-	
-	$nombreAlmacen=nombreAlmacen($globalAlmacen);
-	
-	echo "<h2>Almacen: $nombreAlmacen</h2>";
-
-	
+	echo "<h1>Listado de Productos con Stock Actual</h1>";
+				
 	echo "<form method='post' action=''>";
-	$sql="select m.codigo_material, m.descripcion_material, m.estado, 
+	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
 	(select g.nombre_grupo from grupos g where g.cod_grupo=m.cod_grupo)as grupo,
-		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)linea 
+		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)linea,
+		m.modelo, m.medida, m.capacidad_carga_velocidad
 		from material_apoyo m
 		where m.estado='1' order by grupo, m.descripcion_material";
 
@@ -51,11 +44,25 @@
 
 	echo "<center><table class='texto' id='myTable'>";
 	echo "<thead>";
-	echo "<tr><th>Indice</th><th>Grupo</th><th>Linea</th><th>Nombre Producto</th><th>Precio</th><th>
-	<table width='100%'><tr><th colspan='3' align='center'>Detalle de Costos</th></tr>
-		<tr><td width='40%'>Fecha</td><td width='30%' align='right'>Cantidad</td>
-			<td width='30%' align='right'>Costo</td></tr></table>
-	</th></tr>";
+	echo "<tr><th>Indice</th>
+	<th>Nombre Producto</th>
+	<th>Marca</th>
+	<th>Grupo</th>
+	<th>Modelo</th>
+	<th>Medida</th>
+	<th>Capacidad Carga<br>Velocidad</th>
+	<th>Precio</th>";
+
+	$sqlAlmacenes="SELECT a.cod_almacen, a.nombre_almacen from almacenes a order by 2 asc";
+	$respAlmacenes=mysqli_query($enlaceCon, $sqlAlmacenes);
+	while($datAlmacenes=mysqli_fetch_array($respAlmacenes)){
+		$codAlmacenX=$datAlmacenes[0];
+		$nombreAlmacenX=$datAlmacenes[1];
+		echo "<th>$nombreAlmacenX</th>";	
+	}
+
+
+	echo "</th></tr>";
 	echo "</thead>";
 	
 	echo "<tbody>";
@@ -69,36 +76,41 @@
 		$estado=$dat[2];
 		$nombreGrupo=$dat[3];
 		$nombreLinea=$dat[4];
+
+		$nombreModelo=$dat[5];
+		$nombreMedida=$dat[6];
+		$capacidadCargaVelocidad=$dat[7];
+
 		
-		$precioProducto=precioVenta($codigo,$globalAgencia);
+		$precioProducto=precioVentaN($enlaceCon, $codigo, $globalAgencia);
 		$precioF=formatonumeroDec($precioProducto);
 		//$stockProducto=stockProducto($globalAlmacen, $codigo);
-		
-		$detalleRestantes="";
-		$detalleRestantes.="<table border='1' class='texto' cellspacing='0' width='100%' align='center'>";
-		$sqlRestantes="select i.fecha, id.cantidad_unitaria, id.cantidad_restante, id.costo_almacen from ingreso_almacenes i, ingreso_detalle_almacenes id 
-		where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen=$globalAlmacen and 	
-			i.ingreso_anulado=0 and id.cod_material=$codigo and id.cantidad_restante>0.1;"; 
-		$respRestantes=mysqli_query($enlaceCon,$sqlRestantes);
-		while($datRestantes=mysqli_fetch_array($respRestantes)){
-			$fechaRest=$datRestantes[0];
-			$cantidadRest=$datRestantes[1];
-			$cantidadRest2=$datRestantes[2];
-			$cantidadRest2F=formatonumeroDec($cantidadRest2);
-			$costoAlmacenRest=$datRestantes[3];
-			$costoAlmacenRestF=formatonumeroDec($costoAlmacenRest);
-			$detalleRestantes.="<tr><td width='40%'>$fechaRest</td><td width='30%' align='right'>$cantidadRest2F</td>
-			<td width='30%' align='right'>$costoAlmacenRestF</td></tr>";
-		}
-		$detalleRestantes.="</table>";
-		
+
 		echo "<tr><td align='center'>$indice_tabla</td>
-		<td>$nombreGrupo</td>
-		<td>$nombreLinea</td>
 		<td><div class='textomedianorojo'>$nombreProd</div></td>
-		<td>$precioF</td>	
-		<td>$detalleRestantes</td>			
-		</tr>";
+		<td>$nombreLinea</td>
+		<td>$nombreGrupo</td>
+		<td>$nombreModelo</td>
+		<td>$nombreMedida</td>
+		<td>$capacidadCargaVelocidad</td>
+		<td align='right'>$precioF</td>";
+
+			
+		$sqlAlmacenes="SELECT a.cod_almacen, a.nombre_almacen from almacenes a order by 2 asc";
+		$respAlmacenes=mysqli_query($enlaceCon, $sqlAlmacenes);
+		while($datAlmacenes=mysqli_fetch_array($respAlmacenes)){
+			$codAlmacenX=$datAlmacenes[0];
+			$nombreAlmacenX=$datAlmacenes[1];
+			$stockProductoX=stockProducto($codAlmacenX,$codigo);
+			if($stockProductoX==0){
+				$stockProductoXF="-";
+			}else{
+				$stockProductoXF=formatonumero($stockProductoX);
+			}
+			echo "<td align='center'><span style='color:blue;font-size:20px;'>$stockProductoXF</span></td>";	
+		}
+
+		echo "</tr>";
 		$indice_tabla++;
 	}
 
