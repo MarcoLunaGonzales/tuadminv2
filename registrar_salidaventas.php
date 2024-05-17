@@ -1404,7 +1404,9 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 							c.descuento, 
 							c.cod_cliente, 
 							c.cod_tipoventa,
-							c.cod_tipopago
+							c.cod_tipopago,
+							c.cod_tipo_doc,
+							c.cod_chofer as cod_vendedor
 						FROM cotizaciones c
 						WHERE c.codigo = '$cod_cotizacion'";
 	// echo $sqlCotizacion;
@@ -1416,6 +1418,8 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 	$cab_cod_cliente  = 0;	
 	$cab_cod_tipoventa = '';
 	$cab_cod_tipopago  = '';
+	$cab_cod_tipo_doc  = '';
+	$cab_cod_vendedor  = '';
 	while($rowCot=mysqli_fetch_array($respUsd)){
 		$cab_razon_social = $rowCot['razon_social'];
 		$cab_nit 		  = $rowCot['nit'];	
@@ -1424,6 +1428,8 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		$cab_cod_cliente  = $rowCot['cod_cliente'];	
 		$cab_cod_tipoventa = $rowCot['cod_tipoventa'];
 		$cab_cod_tipopago  = $rowCot['cod_tipopago'];
+		$cab_cod_tipo_doc  = $rowCot['cod_tipo_doc'];
+		$cab_cod_vendedor  = $rowCot['cod_vendedor'];
 	}
 ?>
 <table class='texto' align='center' width='100%'>
@@ -1463,10 +1469,11 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 			$resp2=mysqli_query($enlaceCon,$sql2);
 
 			while($dat2=mysqli_fetch_array($resp2)){
-			$codCliente=$dat2[0];
-				$nombreCliente=$dat2[1]." ".$dat2[2];
+				$cod_tipodocumento = $dat2[0];
+				$nombreCliente	   = $dat2[1]." ".$dat2[2];
+				$select = ($cab_cod_tipo_doc == $cod_tipodocumento) ? 'selected' : '';
 		?>
-			<option value='<?php echo $codCliente?>' <?php echo $codCliente==5?'selected':''?>><?php echo $nombreCliente?></option>
+			<option value='<?php echo $cod_tipodocumento?>' <?= $select ?>><?php echo $nombreCliente?></option>
 		<?php
 			}
 		?>
@@ -1497,7 +1504,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 			while($rowCot=mysqli_fetch_array($resp)){
 				$selected = ($cab_cod_cliente = $rowCot['cod_cliente']) ? 'selected' : '';
 		?>
-		<option value='<?=$rowCot['cod_cliente']?>' $selected><?=$rowCot['nombre_cliente']?></option>
+		<option value='<?=$rowCot['cod_cliente']?>' <?=$selected?>><?=$rowCot['nombre_cliente']?></option>
 		<?php
 			}
 		?>
@@ -1534,7 +1541,8 @@ if($tipoDocDefault==2){
 				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
-					echo "<option value='$codigo'>$nombre</option>";
+					$selected = $cab_cod_tipoventa == $codigo ? 'selected' : '';
+					echo "<option value='$codigo' $selected>$nombre</option>";
 				}
 				echo "</select>";
 				?>
@@ -1551,7 +1559,8 @@ if($tipoDocDefault==2){
 				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
-					echo "<option value='$codigo'>$nombre</option>";
+					$selected = $cab_cod_tipopago == $codigo ? 'selected' : '';
+					echo "<option value='$codigo' $selected>$nombre</option>";
 				}
 				echo "</select>";
 				?>
@@ -1573,14 +1582,15 @@ if($tipoDocDefault==2){
 			while($dat2=mysqli_fetch_array($resp2)){
 				$codVendedor=$dat2[0];
 				$nombreVendedor=$dat2[1];
+				$selected = $cab_cod_vendedor == $codVendedor ? 'selected' : '';
 			?>		
-			<option value='<?php echo $codVendedor?>' <?=($codVendedor==$global_usuario)?"selected":"";?> ><?php echo $nombreVendedor?></option>
+			<option value='<?php echo $codVendedor?>' <?=empty($cod_cotizacion) ? (($codVendedor==$global_usuario)?"selected":"") : $selected;?> ><?php echo $nombreVendedor?></option>
 			<?php    
 			}
 			?>
 		</select>
 	</th>
-	<th colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='50' rows="3">
+	<th colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='50' rows="3" value="<?=$cab_observacion?>">
 	</th>
 
 </tr>
@@ -1618,6 +1628,160 @@ if($tipoDocDefault==2){
 		<td width="10%">Monto</td>
 		<td width="10%">&nbsp;</td>
 	</tr>
+	
+
+
+
+
+
+
+
+
+
+
+	<!-- ITEMS DE COTIZACIÓN -->
+	<?php
+	
+	$globalAlmacen 	 		= $_COOKIE['global_almacen'];
+	$globalAlmacenNombre 	= $_COOKIE['global_almacen_nombre'];
+	$nro_materialActivo 	= 0;
+	$cotizacion_total_final = 0;
+	if(!empty($cod_cotizacion)){
+		// Obtenemos control de fecha
+
+		$sql2="SELECT cd.cod_material, CONCAT(m.descripcion_material,' - ', (select concat(p.nombre_proveedor,'-',pl.nombre_linea_proveedor)as nombre_proveedor
+		from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor), ' (', cd.cod_material, ') - ', (SELECT concat(FORMAT(id.costo_almacen,1),'0',FORMAT((id.costo_almacen*1.25),1)) from ingreso_almacenes i, ingreso_detalle_almacenes id where i.cod_ingreso_almacen=id.cod_ingreso_almacen and 
+						i.ingreso_anulado=0 and i.cod_tipoingreso in (999,1000) and id.cod_material=cd.cod_material order by i.cod_ingreso_almacen desc limit 1)) as nombre_material, m.cantidad_presentacion, cd.cantidad_unitaria, cd.monto_unitario, cd.precio_unitario, cd.descuento_unitario
+				FROM cotizaciones_detalle cd
+				LEFT JOIN material_apoyo m ON m.codigo_material = cd.cod_material
+				WHERE cd.cod_salida_almacen = '$cod_cotizacion'";
+		// echo $sql2;
+		$resp2=mysqli_query($enlaceCon,$sql2);
+		while($rawCotizacion = mysqli_fetch_array($resp2)){
+			$nro_materialActivo++;
+			
+			$stockProducto 		  = stockProducto($enlaceCon,$globalAlmacen, $rawCotizacion['cod_material']);
+			$cantidadPresentacion = $rawCotizacion['cantidad_presentacion'];
+			$cotizacion_cantidad  = $rawCotizacion['cantidad_unitaria'];
+			$cotizacion_total  	  = $rawCotizacion['monto_unitario'];
+			$cotizacion_precio_unitario    = $rawCotizacion['precio_unitario'];
+			$cotizacion_descuento_unitario = $rawCotizacion['descuento_unitario'];
+
+			// Calcular monto final
+			$cotizacion_total_item 		 = round(($cotizacion_total - $cotizacion_descuento_unitario), 2);
+			// Calcular el porcentaje de descuento
+			$cotizacion_descuento_porcentaje = round((($cotizacion_descuento_unitario / $cotizacion_total) * 100), 2);
+
+			// Suma total FINAL
+			$cotizacion_total_final += $cotizacion_total_item;
+						
+			/* Se obtiene la diferencia de meses con la fecha actual */
+			$fechaVencimiento = obtenerFechaVencimiento($enlaceCon, $globalAlmacen, $rawCotizacion['cod_material']);
+			list($mes, $anio) = explode("/", $fechaVencimiento);
+			$hoy = date('m/Y');
+			list($mesHoy, $anioHoy) = explode("/", $hoy);
+			$mesesDiferencia = (($anio - $anioHoy) * 12) + ($mes - $mesHoy);
+
+
+			/* Fin diferencia de fecha */
+	?>
+<div id="div<?=$nro_materialActivo?>">
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<link rel="STYLESHEET" type="text/css" href="stilos.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<?php 
+
+	require("conexion.inc");
+		$num=$nro_materialActivo;
+		$cod_precio=0;
+		if(isset($_GET["cod_precio"])){
+			$cod_precio=$_GET["cod_precio"];
+		}
+
+	?>
+	<table border="0" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
+	<tr bgcolor="#FFFFFF">
+
+	<td width="5%" align="center">
+		<a href="javascript:buscarMaterial(form1, <?php echo $num;?>)"><img src='imagenes/buscar2.png' title="Buscar Producto" width="30"></a>
+		<a href="javascript:encontrarMaterial(<?php echo $num;?>)" class="btn btn-primary btn-sm btn-fab"><i class='material-icons float-left' title="Ver en otras Sucursales">place</i></a>
+	</td>
+
+	<td width="30%" align="center">
+		<input type="hidden" class="formIndex" value="<?php echo $num;?>">
+		<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="[]">
+		<!-- Codigo de Material -->
+		<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="0">
+		<!-- Codigo de Sucursal -->
+		<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$globalAlmacen?>">
+
+		<strong id="nombreSucursal<?php echo $num;?>"><?=$globalAlmacenNombre?></strong>
+		<div id="cod_material<?php echo $num;?>" class='textomedianonegro'>-</div>
+	</td>
+
+	<td width="10%" align="center">
+		<div id='idstock<?php echo $num;?>'>
+			<!-- <input type='hidden' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' value=''> -->
+			<input type='number' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' style="height:20px;font-size:19px;width:80px;color:red;" readonly>
+		</div>
+	</td>
+
+	<td align="center" width="10%">
+		<!-- <input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" style="height:20px;font-size:19px;width:100px;color:black;" required>  -->
+		<input class="inputnumber cantidad_upd" 
+				data-index="<?php echo $num;?>" 
+				type="number" 
+				min="1" 
+				id="cantidad_unitaria<?php echo $num;?>"  
+				name="cantidad_unitaria<?php echo $num;?>" 
+				oninput='calculaMontoMaterial(<?php echo $num;?>);' 
+				onchange='calculaMontoMaterial(<?php echo $num;?>);' 
+				step="1" 
+				value="1" 
+				style="height:20px;font-size:19px;width:100px;color:black;" 
+				required> 
+	</td>
+
+
+	<td align="center" width="15%">
+		<div id='idprecio<?php echo $num;?>'>
+			<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" style="height:20px;font-size:19px;width:100px;color:blue;" required><br>
+			<b id="precio_of<?php echo $num;?>" style="font-size:15px;color:red;">Of.</b>
+		</div>
+	</td>
+
+	<td align="center" width="15%">
+		<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01" readonly>
+	</td>
+
+	<td align="center" width="10%">
+		<input class="inputnumber" type="number" value="0" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01" style="height:20px;font-size:20px;width:120px;color:red;" required readonly> 
+	</td>
+
+	<td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
+
+	</tr>
+	</table>
+
+	</head>
+	</html>
+
+</div>
+
+<?php
+	}
+}
+?>
+
+
+
+
+
+
+
+
 	</table>
 </fieldset>
 
