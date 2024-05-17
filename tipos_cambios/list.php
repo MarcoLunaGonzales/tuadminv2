@@ -125,7 +125,7 @@ setlocale(LC_TIME, "Spanish");
         ajax.open('GET', 'ajaxSaveTipo.php?codigo='+codigo+'&valor='+valor,true);
         ajax.onreadystatechange=function() {
             if (ajax.readyState==4) {
-                // location.href="list.php";
+                location.href="list.php";
             }
         }
         ajax.send(null)
