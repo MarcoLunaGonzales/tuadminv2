@@ -104,7 +104,22 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	
 	
 	echo "<center><br><table class='texto' cellspacing='0' width='100%'>";
-	echo "<tr class='textomini'><th>Proceso</th><th>Tipo</th><th>Nro. Ingreso/Salida</th><th>Fecha</th><th>Factura</th><th>Observaciones<br>/ Raz�n Social</th><th>Entrada Cajas</th><th>Salida Cajas</th><th>Saldo Cajas</th><th class='bg-plomoclaro'>Entrada Sueltas</th><th class='bg-plomoclaro'>Salida Sueltas</th><th class='bg-plomoclaro'>Saldo Sueltas</th><th>Precio Venta</th><th>Tipo Ingreso/Salida</th><th>Sucursal<br>Origen/Destino</th><th>Nro<br>Ingreso/Salida<br>Destino/Origen</th><th>Responsable</th></tr>";
+	echo "<tr class='texto'>
+	<th>Proceso</th>
+	<th>Tipo</th>
+	<th>Nro. Ingreso/Salida</th>
+	<th>Fecha</th>
+	<th>Factura</th>
+	<th>Observaciones<br>/ R. Social</th>
+	<th>Entrada</th>
+	<th>Salida</th>
+	<th>Saldo</th>
+	<th>PrecioVenta</th>
+	<th>Tipo Ingreso/<br>Salida</th>
+	<th>Sucursal<br>Origen/Destino</th>
+	<th>Nro<br>Ingreso/Salida<br>Destino/Origen</th>
+	<th>Responsable</th>
+	</tr>";
 	$sql_fechas_ingresos="select distinct(i.fecha) from ingreso_almacenes i, ingreso_detalle_almacenes id
 	where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 	i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha>='$fecha_iniconsulta' and i.fecha<='$fecha_finconsulta' order by i.fecha";
@@ -185,7 +200,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$rpt_almacen' and
 		i.ingreso_anulado=0 and id.cod_material='$rpt_item' and i.fecha='$fecha_consulta'";
 		
-		echo $sql_ingresos;
+		//echo $sql_ingresos;
 		
 		$resp_ingresos=mysqli_query($enlaceCon,$sql_ingresos);
 		while($dat_ingresos=mysqli_fetch_array($resp_ingresos))
@@ -249,11 +264,12 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			<td>&nbsp;$obs_ingreso</td>
 			<td align='right'>$cantidad_ingresoCajaF</td>
 			<td align='right'>0</td>
-			<td align='right'class='bg-verde-claro'>$cantidad_kardexCajaF</td>
-			<td align='right'class=''>$cantidad_ingresoF</td>
-			<td align='right'class=''>0</td>
-			<td align='right'class='bg-verde-claro'>$cantidad_kardexF</td>
-			<td align='right'class='bg-secundario'>$precioVenta</td>
+			<td align='right'class='bg-verde-claro'>$cantidad_kardexCajaF</td>";
+			
+			// <td align='right'class=''>$cantidad_ingresoF</td>
+			// <td align='right'class=''>0</td>
+			// <td align='right'class='bg-verde-claro'>$cantidad_kardexF</td>
+			echo "<td align='right'class='bg-secundario'>$precioVenta</td>
 			<td align='left'>$nombre_ingreso</td><td>$nombre_territorio_origen</td><td>$nro_origenSalida</td>
 			<td align='left' class='bg-plomoclaro'>$nombre_responsable</td></tr>";
 		}
@@ -331,11 +347,12 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			   <td>&nbsp;$obs_salida</td>
 			   <td align='right'>0</td>
 			   <td align='right'>$cantidad_salidaCajaF</td>
-			   <td align='right'class='bg-verde-claro'>$cantidad_kardexCajaF</td>
-			   <td align='right'class=''>0</td>
-			   <td align='right'class=''>$cantidad_salidaF</td>			   
-			   <td align='right'class='bg-verde-claro'>$cantidad_kardexF</td>
-			   <td align='right'class='bg-secundario'>$precioVenta</td>
+			   <td align='right'class='bg-verde-claro'>$cantidad_kardexCajaF</td>";
+
+			//    <td align='right'class=''>0</td>
+			//    <td align='right'class=''>$cantidad_salidaF</td>			   
+			//    <td align='right'class='bg-verde-claro'>$cantidad_kardexF</td>
+			   echo "<td align='right'class='bg-secundario'>$precioVenta</td>
 			   <td align='left'>$nombre_salida</td>
 			   <td align='left'>$nombre_territorio_destino</td>
 			   <td align='left'>$nro_ingreso_destino</td><td align='left' class='bg-plomoclaro'>$nombre_responsable</td></tr>";
@@ -346,11 +363,12 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	echo "<tr class='titulos'><th colspan='6'>Sumas</th>
 	<th align='right' style='text-align:right'>$suma_ingresosCaja</td>
 	<th align='right' style='text-align:right'>$suma_salidasCaja</td>
-	<th align='right' style='text-align:right'>$suma_saldo_finalCaja</td>
-	<th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_ingresos</td>
-	<th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_salidas</td>
-	<th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_saldo_final</td>
-	<th align='left'>&nbsp;</th><th align='left'>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+	<th align='right' style='text-align:right'>$suma_saldo_finalCaja</td>";
+
+	// <th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_ingresos</td>
+	// <th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_salidas</td>
+	// <th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_saldo_final</td>
+	echo "<th align='left'>&nbsp;</th><th align='left'>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 	echo "</table></center><br>";
 	
 	include("imprimirInc.php");
