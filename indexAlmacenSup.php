@@ -119,7 +119,6 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				<ul>
 					<li><a href="navegador_salidamateriales.php" target="contenedorPrincipal">Listado de Traspasos</a></li>
 					<li><a href="navegadorVentas.php" target="contenedorPrincipal">Listado de Ventas</a></li>
-					<li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li>
 				</ul>	
 			</li>
 			<li><span>SIAT</span>
