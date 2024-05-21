@@ -280,10 +280,10 @@ if($sql_inserta==1){
 
 			$montoTotalVentaDetalle=$montoTotalVentaDetalle+$montoMaterialConDescuento;
 			if($banderaValidacionStock==1){
-				echo "descontar_inventarios";
+				// echo "descontar_inventarios";
 				$respuesta=descontar_inventarios($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i);
 			}else{
-				echo "insertar_detalleSalidaVenta";
+				// echo "insertar_detalleSalidaVenta";
 				$respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $i);
 			}
 			if($respuesta!=1){
@@ -308,7 +308,7 @@ if($sql_inserta==1){
 	}
 	if($tipoSalida==1001){
 		echo "<script type='text/javascript' language='javascript'>
-			location.href='navegadorVentas.php';
+			location.href='navegadorVentas2.php';
 			</script>";
 	}else{
 		echo "<script type='text/javascript' language='javascript'>

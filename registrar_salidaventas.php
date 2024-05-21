@@ -459,7 +459,7 @@ function obtienePrecioProducto(index){
 	// CONVERSIÓN
 	let precio_final = precioProducto * cambio_valor;
 	console.log(precioProducto+" "+cambio_valor)
-	document.getElementById("precio_unitario" + index).value = precio_final;
+	// document.getElementById("precio_unitario" + index).value = precio_final;
 	document.getElementById("precio_of" + index).innerHTML 	 = precioProducto + ' ' + moneda_abreviatura;
 }
 

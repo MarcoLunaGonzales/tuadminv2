@@ -18,7 +18,14 @@ echo "<div class='divBotones'>
 echo "<center>";
 echo "<table class='texto'>";
 echo "<tr>";
-echo "<th>&nbsp;</th><th>Cliente</th><th>NIT</th><th>Direccion</th><th>Ciudad</th>";
+
+echo '<th style="width: 5%;">&nbsp;</th>';
+echo '<th style="width: 30%;">Cliente</th>';
+echo '<th style="width: 15%;">NIT</th>';
+echo '<th style="width: 25%;">Dirección</th>';
+echo '<th style="width: 15%;">Ciudad</th>';
+echo '<th style="width: 5%;">Acciones</th>';
+
 echo "</tr>";
 $consulta="
     SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente, c.dir_cliente, c.cod_area_empresa, a.descripcion
@@ -27,8 +34,8 @@ $consulta="
 ";
 $rs=mysqli_query($enlaceCon,$consulta);
 $cont=0;
-while($reg=mysqli_fetch_array($rs))
-   {$cont++;
+while($reg=mysqli_fetch_array($rs)){
+    $cont++;
     $codCliente = $reg["cod_cliente"];
     $nomCliente = $reg["nombre_cliente"];
     $nitCliente = $reg["nit_cliente"];
@@ -36,9 +43,18 @@ while($reg=mysqli_fetch_array($rs))
     $codArea = $reg["cod_area_empresa"];
     $nomArea = $reg["descripcion"];
     echo "<tr>";
-    echo "<td><input type='checkbox' id='idchk$cont' value='$codCliente' ></td><td>$nomCliente</td><td>$nitCliente</td><td>$dirCliente</td><td>$nomArea</td>";
+    echo "<td><input type='checkbox' id='idchk$cont' value='$codCliente' ></td>
+            <td>$nomCliente</td>
+            <td>$nitCliente</td>
+            <td>$dirCliente</td>
+            <td>$nomArea</td>
+            <td>
+                <button class='btn btn-sm btn-info pt-4 editarCliente' data-cod_cliente='$codCliente' title='Editar' style='padding-left: 10px; padding-right: 10px;'>
+                    <i class='material-icons'>edit</i>
+                </button>
+            </td>";
     echo "</tr>";
-   }
+}
 echo "</table>";
 echo "<input type='hidden' id='idtotal' value='$cont' >";
 echo "</center>";

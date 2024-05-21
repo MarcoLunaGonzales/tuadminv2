@@ -34,9 +34,9 @@ function frmModificar() {
     if(c==1) {
         cargarPnl("#pnl00","frmClienteEditar.php","codcli="+cod);
     } else if(c>1) {
-        alert("Seleccione solo un elememnto para editar.");
+        alert("Seleccione solo un elemento para editar.");
     } else {
-        alert("Seleccione un elememnto para editar.");
+        alert("Seleccione un elemento para editar.");
     }
 }
 function frmEliminar() {
@@ -88,6 +88,14 @@ function eliminarCliente(cods) {
     var parms="codcli="+codcli+"";
     cargarPnl("#pnl00","prgClienteEliminar.php",parms);
 }
+
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.editarCliente')) {
+        let button = event.target.closest('.editarCliente');
+        let cod_cliente = button.dataset.cod_cliente;
+        cargarPnl("#pnl00", "frmClienteEditar.php", "codcli=" + cod_cliente);
+    }
+});
         </script>
     </head>
     <body>
