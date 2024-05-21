@@ -6,7 +6,7 @@ require("funciones_inventarios.php");
 ob_clean();
 
 error_reporting(E_ALL);
-ini_set('display_errors', '1');
+ini_set('display_errors', 1);
 
 $usuarioVendedor = empty($_POST['cod_vendedor']) ? '' : $_POST['cod_vendedor'];
 $globalUsuario 	 = $_COOKIE['global_usuario'];
@@ -280,11 +280,12 @@ if($sql_inserta==1){
 
 			$montoTotalVentaDetalle=$montoTotalVentaDetalle+$montoMaterialConDescuento;
 			if($banderaValidacionStock==1){
+				echo "descontar_inventarios";
 				$respuesta=descontar_inventarios($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i);
 			}else{
+				echo "insertar_detalleSalidaVenta";
 				$respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $i);
 			}
-
 			if($respuesta!=1){
 				echo "<script>
 					alert('Existio un error en el detalle. Contacte con el administrador del sistema.');
@@ -292,6 +293,8 @@ if($sql_inserta==1){
 			}
 		}			
 	}
+	// echo "cantidad_material".$cantidad_material;
+	// exit;
 	
 	$montoTotalConDescuento=$montoTotalVentaDetalle-$descuentoVenta;
 	//ACTUALIZAMOS EL PRECIO CON EL DETALLE

@@ -113,17 +113,29 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
                                 ?>
                             </td>
                             <td class="pt-2 pb-2">
+                                <a href="formatoHojaCotizacion.php?cod_cotizacion=<?=$dat['codigo']?>" 
+                                    class="btn btn-sm btn-warning pt-4" 
+                                    title="Imprimir cotización"
+                                    style="padding-left: 10px; padding-right: 10px;">
+                                    <i class="material-icons">print</i>
+                                </a>
                                 <?php
                                 if($global_admin_cargo==1){
                                     if($dat['proceso_salida'] == 0 && $dat['estado'] == 1){
                                 ?>
-                                <a href="registrar_salidaventas.php?cod_cotizacion=<?=$dat['codigo']?>" class="btn btn-sm btn-info pt-4" title="Generar Venta">
+                                <a href="registrar_salidaventas.php?cod_cotizacion=<?=$dat['codigo']?>" 
+                                    class="btn btn-sm btn-info pt-4" 
+                                    title="Generar Venta"
+                                    style="padding-left: 10px; padding-right: 10px;">
                                     <i class="material-icons">description</i>
                                 </a>
                                     <?php
                                         if($dat['estado'] == 1){
                                     ?>
-                                    <button class="btn btn-sm btn-danger pt-4 anular-pedido" data-cod-pedido="<?=$dat['codigo']?>" title="Anular Pedido">
+                                    <button class="btn btn-sm btn-danger pt-4 anular-pedido" 
+                                            data-cod-pedido="<?=$dat['codigo']?>" 
+                                            title="Anular Pedido"
+                                            style="padding-left: 10px; padding-right: 10px;">
                                         <i class="material-icons">cancel</i>
                                     </button>
                                     <?php

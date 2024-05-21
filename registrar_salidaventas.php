@@ -4,6 +4,8 @@ echo "</head><body onLoad='funcionInicio();'>";
 require("conexion.inc");
 require("estilos.inc");
 require("funciones.php");
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 // Configuración | Tipo de Moneda => 1:Bs 2:$us
 $tipoMonedaConfig 	= obtenerValorConfiguracion(10);
@@ -1305,10 +1307,8 @@ function validarCotizacion(f){
 
 
 <?php
-
-if($fecha==""){   
+ 
 	$fecha=date("Y-m-d");
-}
 
 	$sqlCambioUsd="select valor from cotizaciondolar order by 1 desc limit 1";
 	$respUsd=mysqli_query($enlaceCon,$sqlCambioUsd);
@@ -1633,12 +1633,6 @@ if($tipoDocDefault==2){
 
 
 
-
-
-
-
-
-
 	<!-- ITEMS DE COTIZACIÓN -->
 	<?php
 	
@@ -1649,19 +1643,57 @@ if($tipoDocDefault==2){
 	if(!empty($cod_cotizacion)){
 		// Obtenemos control de fecha
 
-		$sql2="SELECT cd.cod_material, CONCAT(m.descripcion_material,' - ', (select concat(p.nombre_proveedor,'-',pl.nombre_linea_proveedor)as nombre_proveedor
-		from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor), ' (', cd.cod_material, ') - ', (SELECT concat(FORMAT(id.costo_almacen,1),'0',FORMAT((id.costo_almacen*1.25),1)) from ingreso_almacenes i, ingreso_detalle_almacenes id where i.cod_ingreso_almacen=id.cod_ingreso_almacen and 
-						i.ingreso_anulado=0 and i.cod_tipoingreso in (999,1000) and id.cod_material=cd.cod_material order by i.cod_ingreso_almacen desc limit 1)) as nombre_material, m.cantidad_presentacion, cd.cantidad_unitaria, cd.monto_unitario, cd.precio_unitario, cd.descuento_unitario
+		$sql2="SELECT
+					m.codigo_material as cod_material,
+					cd.orden_detalle,
+					m.descripcion_material,
+					cd.precio_unitario,
+					cd.cantidad_unitaria,
+					cd.descuento_unitario,
+					cd.monto_unitario 
 				FROM cotizaciones_detalle cd
 				LEFT JOIN material_apoyo m ON m.codigo_material = cd.cod_material
-				WHERE cd.cod_salida_almacen = '$cod_cotizacion'";
+				WHERE m.codigo_material = cd.cod_material 
+				AND cd.cod_cotizacion = '$cod_cotizacion'
+				ORDER BY cd.orden_detalle DESC";
 		// echo $sql2;
 		$resp2=mysqli_query($enlaceCon,$sql2);
 		while($rawCotizacion = mysqli_fetch_array($resp2)){
 			$nro_materialActivo++;
+			$num = $nro_materialActivo;
+			$cod_material 		  = $rawCotizacion['cod_material'];
+			$descripcion_material = $rawCotizacion['descripcion_material'];
+
+			// Obtiene precios de la tabla PRECIOS
+			$arrayPrecios = [];
+			$sqlPrecio = "SELECT p.cod_tipoventa, 
+								p.cantidad_inicio, 
+								p.cantidad_final, 
+								p.precio, 
+								m.abreviatura as moneda_abreviatura, 
+								tm.valor as cambio_valor
+							FROM precios p
+							LEFT JOIN monedas m ON m.codigo = p.cod_moneda
+							LEFT JOIN tipo_cambiomonedas tm ON tm.cod_moneda = p.cod_moneda
+							WHERE p.codigo_material = '$cod_material'";
+			// echo $sqlPrecio;
+			$respPrecios = mysqli_query($enlaceCon,$sqlPrecio);
+			while($dataPrecio=mysqli_fetch_array($respPrecios)){
+				$arrayPrecios[] = [
+					$dataPrecio['cod_tipoventa'], 
+					$dataPrecio['cantidad_inicio'], 
+					$dataPrecio['cantidad_final'], 
+					$dataPrecio['precio'], 
+					$dataPrecio['moneda_abreviatura'], 
+					$dataPrecio['cambio_valor']];
+			}
+			$arrayPrecios = json_encode($arrayPrecios);
+			// Reemplazar comillas dobles por comillas simples
+			$jsonPrecios = str_replace('"', "'", $arrayPrecios);
+			$htmlPrecios = htmlspecialchars($jsonPrecios, ENT_QUOTES, 'UTF-8');
+
+			$stockProducto 		  = stockProducto($globalAlmacen, $cod_material);
 			
-			$stockProducto 		  = stockProducto($enlaceCon,$globalAlmacen, $rawCotizacion['cod_material']);
-			$cantidadPresentacion = $rawCotizacion['cantidad_presentacion'];
 			$cotizacion_cantidad  = $rawCotizacion['cantidad_unitaria'];
 			$cotizacion_total  	  = $rawCotizacion['monto_unitario'];
 			$cotizacion_precio_unitario    = $rawCotizacion['precio_unitario'];
@@ -1675,106 +1707,86 @@ if($tipoDocDefault==2){
 			// Suma total FINAL
 			$cotizacion_total_final += $cotizacion_total_item;
 						
-			/* Se obtiene la diferencia de meses con la fecha actual */
-			$fechaVencimiento = obtenerFechaVencimiento($enlaceCon, $globalAlmacen, $rawCotizacion['cod_material']);
-			list($mes, $anio) = explode("/", $fechaVencimiento);
-			$hoy = date('m/Y');
-			list($mesHoy, $anioHoy) = explode("/", $hoy);
-			$mesesDiferencia = (($anio - $anioHoy) * 12) + ($mes - $mesHoy);
-
 
 			/* Fin diferencia de fecha */
 	?>
 <div id="div<?=$nro_materialActivo?>">
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-	<link rel="STYLESHEET" type="text/css" href="stilos.css" />
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<?php 
-
-	require("conexion.inc");
-		$num=$nro_materialActivo;
-		$cod_precio=0;
-		if(isset($_GET["cod_precio"])){
-			$cod_precio=$_GET["cod_precio"];
-		}
-
-	?>
+	<link href="stilos.css" rel="stylesheet" type="text/css">
 	<table border="0" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
-	<tr bgcolor="#FFFFFF">
+		<tbody>
+			<tr bgcolor="#FFFFFF">
 
-	<td width="5%" align="center">
-		<a href="javascript:buscarMaterial(form1, <?php echo $num;?>)"><img src='imagenes/buscar2.png' title="Buscar Producto" width="30"></a>
-		<a href="javascript:encontrarMaterial(<?php echo $num;?>)" class="btn btn-primary btn-sm btn-fab"><i class='material-icons float-left' title="Ver en otras Sucursales">place</i></a>
-	</td>
+			<td width="5%" align="center">
+				<a href="javascript:buscarMaterial(form1, <?php echo $num;?>)"><img src='imagenes/buscar2.png' title="Buscar Producto" width="30"></a>
+				<a href="javascript:encontrarMaterial(<?php echo $num;?>)" class="btn btn-primary btn-sm btn-fab"><i class='material-icons float-left' title="Ver en otras Sucursales">place</i></a>
+			</td>
 
-	<td width="30%" align="center">
-		<input type="hidden" class="formIndex" value="<?php echo $num;?>">
-		<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="[]">
-		<!-- Codigo de Material -->
-		<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="0">
-		<!-- Codigo de Sucursal -->
-		<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$globalAlmacen?>">
+			<td width="30%" align="center">
+				<input type="hidden" class="formIndex" value="<?php echo $num;?>">
+				<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="<?=$htmlPrecios?>">
+				<!-- Codigo de Material -->
+				<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="<?=$cod_material?>">
+				<!-- Codigo de Sucursal -->
+				<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$globalAlmacen?>">
 
-		<strong id="nombreSucursal<?php echo $num;?>"><?=$globalAlmacenNombre?></strong>
-		<div id="cod_material<?php echo $num;?>" class='textomedianonegro'>-</div>
-	</td>
+				<strong id="nombreSucursal<?php echo $num;?>"><?=$globalAlmacenNombre?></strong>
+				<div id="cod_material<?php echo $num;?>" class='textomedianonegro'><?=$descripcion_material?></div>
+			</td>
 
-	<td width="10%" align="center">
-		<div id='idstock<?php echo $num;?>'>
-			<!-- <input type='hidden' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' value=''> -->
-			<input type='number' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' style="height:20px;font-size:19px;width:80px;color:red;" readonly>
-		</div>
-	</td>
+			<td width="10%" align="center">
+				<div id='idstock<?php echo $num;?>'>
+					<!-- <input type='hidden' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' value=''> -->
+					<input type='number' id='stock<?php echo $num;?>' name='stock<?php echo $num;?>' style="height:20px;font-size:19px;width:80px;color:red;" readonly value="<?=$stockProducto?>">
+				</div>
+			</td>
 
-	<td align="center" width="10%">
-		<!-- <input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" style="height:20px;font-size:19px;width:100px;color:black;" required>  -->
-		<input class="inputnumber cantidad_upd" 
-				data-index="<?php echo $num;?>" 
-				type="number" 
-				min="1" 
-				id="cantidad_unitaria<?php echo $num;?>"  
-				name="cantidad_unitaria<?php echo $num;?>" 
-				oninput='calculaMontoMaterial(<?php echo $num;?>);' 
-				onchange='calculaMontoMaterial(<?php echo $num;?>);' 
-				step="1" 
-				value="1" 
-				style="height:20px;font-size:19px;width:100px;color:black;" 
-				required> 
-	</td>
+			<td align="center" width="10%">
+				<!-- <input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" style="height:20px;font-size:19px;width:100px;color:black;" required>  -->
+				<input class="inputnumber cantidad_upd" 
+						data-index="<?php echo $num;?>" 
+						type="number" 
+						min="1" 
+						id="cantidad_unitaria<?php echo $num;?>"  
+						name="cantidad_unitaria<?php echo $num;?>" 
+						oninput='calculaMontoMaterial(<?php echo $num;?>);' 
+						onchange='calculaMontoMaterial(<?php echo $num;?>);' 
+						step="1" 
+						value="<?=$cotizacion_cantidad?>" 
+						style="height:20px;font-size:19px;width:100px;color:black;" 
+						required> 
+			</td>
 
 
-	<td align="center" width="15%">
-		<div id='idprecio<?php echo $num;?>'>
-			<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" style="height:20px;font-size:19px;width:100px;color:blue;" required><br>
-			<b id="precio_of<?php echo $num;?>" style="font-size:15px;color:red;">Of.</b>
-		</div>
-	</td>
+			<td align="center" width="15%">
+				<div id='idprecio<?php echo $num;?>'>
+					<input class="inputnumber" type="number" min="1" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" style="height:20px;font-size:19px;width:100px;color:blue;" required value="<?=$cotizacion_precio_unitario?>"><br>
+					<b id="precio_of<?php echo $num;?>" style="font-size:15px;color:red;">Of.</b>
+				</div>
+			</td>
 
-	<td align="center" width="15%">
-		<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01" readonly>
-	</td>
+			<td align="center" width="15%">
+				<input class="inputnumber" type="number" value="<?=$cotizacion_descuento_unitario?>" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01" readonly>
+			</td>
 
-	<td align="center" width="10%">
-		<input class="inputnumber" type="number" value="0" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01" style="height:20px;font-size:20px;width:120px;color:red;" required readonly> 
-	</td>
+			<td align="center" width="10%">
+				<input class="inputnumber" type="number" value="<?=$cotizacion_total_item?>" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01" style="height:20px;font-size:20px;width:120px;color:red;" required readonly> 
+			</td>
 
-	<td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
+			<td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
 
-	</tr>
+			</tr>
+		</tbody>
 	</table>
-
-	</head>
-	</html>
-
 </div>
+<script>
+	obtienePrecioProducto(<?= $nro_materialActivo;?>);
+	calculaMontoMaterial(<?= $nro_materialActivo;?>);
+</script>
 
 <?php
 	}
 }
 ?>
-
 
 
 
@@ -1904,7 +1916,7 @@ if($tipoDocDefault==2){
 
 
 <?php
-
+$banderaErrorFacturacion = 0;
 if($banderaErrorFacturacion==0){
 	echo "<div class='divBotones2' style='display:none;'>
 	        <input type='submit' class='boton-verde' value='Guardar Venta' id='btsubmit' name='btsubmit' style='z-index:0;'>
@@ -1936,8 +1948,13 @@ if($banderaErrorFacturacion==0){
 
 </div>
 
-<input type='hidden' name='materialActivo' id='materialActivo' value="0">
-<input type='hidden' name='cantidad_material' id='cantidad_material' value="0">
+<input type='hidden' name='materialActivo' id='materialActivo' value="<?=$nro_materialActivo?>">
+<input type='hidden' name='cantidad_material' id='cantidad_material' value="<?=$nro_materialActivo?>">
+<script> 
+	num = <?=$nro_materialActivo?>;
+	cantidad_items = <?=$nro_materialActivo?>;
+	totales();
+</script>
 
 </form>
 <div class="modal fade modal-primary" id="modalNuevoCliente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
