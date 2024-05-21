@@ -1369,7 +1369,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 	}
 </style>
 
-<form action='guardarSalidaMaterial.php' method='POST' name='form1' id="guardarSalidaVenta" onsubmit="return validar(this)"><!--onsubmit='return checkSubmit();'-->
+<form action='guardarSalidaMaterialVenta.php' method='POST' name='form1' id="guardarSalidaVenta" onsubmit="return validar(this)"><!--onsubmit='return checkSubmit();'-->
 <div class="row justify-content-center">
     <div class="col-md-4">
 		<?php
