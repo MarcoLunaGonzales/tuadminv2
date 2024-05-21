@@ -117,6 +117,21 @@ $nroTarjeta 		= str_replace('*', '0', $input_nro_tarjeta);
 //====================================================//
 $url_config = valorConfig(7);
 
+
+/************************************************************
+ * ? Si se factura se verifica si hay items de otra sucursal 
+ * ! AUTOMÁTICO
+ ************************************************************/
+for($i=1; $i<=$cantidad_material; $i++){
+	$ajuste_cod_sucursales = $_POST["cod_sucursales$i"]; // Item obtenida de otra sucursal
+	if($almacenOrigen != $ajuste_cod_sucursales){
+		$ajuste_codMaterial 	 = $_POST["materiales$i"];
+		$ajuste_cantidadUnitaria = $_POST["cantidad_unitaria$i"];
+		registroMaterialTraspaso($enlaceCon, $ajuste_cod_sucursales, $almacenOrigen, $ajuste_codMaterial, $ajuste_cantidadUnitaria);
+	}
+}
+// ***********************************************************
+
 // Tipo de emisión de factura = 2
 if($tipoDoc == 1){ // Tipo de Emisión Factura
 	/**
