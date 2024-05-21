@@ -133,13 +133,6 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<!--li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li-->
 				</ul>	
 			</li>
-			<li><span>SIAT</span>
-				<ul>
-					<li><a href="<?=$serverSIAT;?>siat_folder/siat_facturacion_offline/facturas_sincafc_list.php" target="contenedorPrincipal">Facturas Off-line</a></li>
-					<li><a href="<?=$serverSIAT;?>siat_folder/siat_sincronizacion/index.php" target="contenedorPrincipal">Sincronización</a></li>
-					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
-				</ul>	
-			</li>
 			<li><span>Gastos</span>
 				<ul>
 					<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
@@ -164,6 +157,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			</li-->
 			<!-- Versión Nueva -->
 			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
+			<li><a href="listadoProductosStock.php" target='_blank'>Stock Actual **</a></li>
 			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 			
   			<!-- Nueva Sección de Pagos de Servicio por Pagar -->

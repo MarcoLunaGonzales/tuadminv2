@@ -128,32 +128,14 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
 				</ul>	
 			</li>
-			<!-- Versión Antigua -->
-			<li><span>Registrar</span>
-				<ul>
-					<li><a href="registrar_salidaventas_first.php" target='_blank'>Venta SFV</a></li>
-				</ul>	
-			</li>
-			<!--li><span>Listado de Cobranzas</span>
-				<ul>
-					<li><a href="navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
-				</ul>	
-			</li-->
-			<!--li><span>Configuracion</span>
-				<ul>
-					<li><a href="navegadorDolar.php" target="contenedorPrincipal">Cambiar Cotizacion de Dolar</a></li>
-				</ul>	
-			</li-->
-  						<!-- Versión Nueva -->
-						<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
-						<li><a href="cambiarSucursalSesion.php" target="contenedorPrincipal">Cambiar Sucursal</a></li>
-						<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
-						<li><a href="navegador_costosimp.php" target="contenedorPrincipal">Items de Importacion</a></li>
-						<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Reporte Ventas x Documento</a></li>
-						<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
-						<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
-						<li><a href="rptOpArqueoDiarioServiteca.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja Serviteca</a></li>
-						
+
+
+				<!-- Versión Nueva -->
+			<li><a href="listadoProductosStock.php" target='_blank'>Stock Actual **</a></li>
+			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
+			<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
+			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
+			
 
 			<li><span>Reportes</span>
 				<ul>

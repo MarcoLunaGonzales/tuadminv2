@@ -53,7 +53,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 </tr></table><br>";
 
     echo "<div class='divBotones'>
-	<input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'></td>
+	<input type='button' value='Registrar' name='adicionar' class='boton-verde' onclick='enviar_nav()'></td>
 	<td><input type='button' value='Anular' name='adicionar' class='boton2' onclick='anular_gasto(this.form)'></div>";
 
 	echo "<br><center><table class='texto'>";
@@ -101,7 +101,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 	echo "</table></center><br>";
 	
    echo "<div class='divBotones'>
-	<input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'></td>
+	<input type='button' value='Registrar' name='adicionar' class='boton-verde' onclick='enviar_nav()'></td>
 	<td><input type='button' value='Anular' name='adicionar' class='boton2' onclick='anular_gasto(this.form)'>
 	</div>";
 	
