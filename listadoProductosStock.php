@@ -38,7 +38,7 @@
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)linea,
 		m.modelo, m.medida, m.capacidad_carga_velocidad
 		from material_apoyo m
-		where m.estado='1' order by m.medida, grupo, m.descripcion_material ASC";
+		where m.estado='1' and m.medida<>'-' order by m.medida, grupo, m.descripcion_material ASC";
 
 	$resp=mysqli_query($enlaceCon,$sql);
 
