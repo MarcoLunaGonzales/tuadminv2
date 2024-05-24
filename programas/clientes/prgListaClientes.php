@@ -11,7 +11,6 @@ echo "<h1>Clientes</h1>";
 
 echo "<div class='divBotones'>
 <input class='boton' type='button' value='Adicionar' onclick='javascript:frmAdicionar();'>
-<input class='boton' type='button' value='Editar' onclick='javascript:frmModificar();'>
 <input class='boton2' type='button' value='Eliminar' onclick='javascript:frmEliminar();'>
 </div>";
 
@@ -61,7 +60,6 @@ echo "</center>";
 
 echo "<div class='divBotones'>
 <input class='boton' type='button' value='Adicionar' onclick='javascript:frmAdicionar();'>
-<input class='boton' type='button' value='Editar' onclick='javascript:frmModificar();'>
 <input class='boton2' type='button' value='Eliminar' onclick='javascript:frmEliminar();'>
 </div>";
 
