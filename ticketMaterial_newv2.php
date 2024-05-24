@@ -69,7 +69,7 @@ $precio_costo    = $costoMaterialii;
 barcode('codigo_barra/'.$codigo.'.png', $codigo, 5, 'horizontal', 'code128', false);
 
 //Redirecciona a otro archivo PHP pasando los datos en la URL como parámetros
-header('Location: ticketMaterialPrint_newv2.php?codigo=' . urlencode($codigo) . '&nombre=' . urlencode($nombre_producto) . '&precio=' . urlencode($precio) . '&costo=' . urlencode($precio_costo) . '&margen_x=' . urlencode($margen_x) . '&margen_y=' . urlencode($margen_y) . '&margen_x2=' . urlencode($margen_x2) . '&margen_y2=' . urlencode($margen_y2) . '&card_width=' . urlencode($card_width) . '&card_height=' . urlencode($card_height) . '&cantidad_tickets=' . $cantidad_tickets);
+header('Location: ticketMaterialPrint_newv2.php?codigo=' . urlencode($codigo) . '&nombre=' . urlencode($nombre_producto) . '&precio=' . urlencode($precio) . '&costo=' . urlencode($precio_costo) . '&margen_x=' . urlencode($margen_x) . '&margen_y=' . urlencode($margen_y) . '&margen_x2=' . urlencode($margen_x2) . '&margen_y2=' . urlencode($margen_y2) . '&card_width=' . urlencode($card_width) . '&card_height=' . urlencode($card_height) . '&cantidad_tickets=' . $cantidad_tickets . '" target="_blank"');
 
 
 function obtenerConfiguracion($id_configuracion){
