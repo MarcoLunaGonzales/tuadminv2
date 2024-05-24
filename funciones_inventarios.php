@@ -27,7 +27,7 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			$fechaVencProducto=$datExistencias[3];
 			$codIngreso=$datExistencias[4];
 			
-			echo $codMaterial." ".$cantidadRestante." ".$loteProducto." ".$fechaVencProducto."<br>";
+			// echo $codMaterial." ".$cantidadRestante." ".$loteProducto." ".$fechaVencProducto."<br>";
 			
 			if($cantidadPivote<=$cantidadRestante){
 				$cantidadInsert=$cantidadPivote;

@@ -1432,6 +1432,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		$cab_cod_vendedor  = $rowCot['cod_vendedor'];
 	}
 ?>
+<input type="hidden" id="cod_cotizacion" name="cod_cotizacion" value="<?=$cod_cotizacion?>">
 <table class='texto' align='center' width='100%'>
 <tr>
 <th align='center' width="10%">
@@ -1612,30 +1613,26 @@ if($tipoDocDefault==2){
 
 <fieldset id="fiel" style="width:100%;border:0;">
 	<table align="center" class="texto" width="100%" id="data0">
-	<!--tr>
-		<td align="center" colspan="9">
-			<b>Detalle de la Venta    </b>
-		</td>
-	</tr-->
+		<!--tr>
+			<td align="center" colspan="9">
+				<b>Detalle de la Venta    </b>
+			</td>
+		</tr-->
 
-	<tr align="center">
-		<td width="5%">&nbsp;</td>
-		<td width="30%">Material</td>
-		<td width="10%">Stock</td>
-		<td width="10%">Cantidad</td>
-		<td width="10%">Precio (Bs.)</td>
-		<td width="15%">Desc.</td>
-		<td width="10%">Monto</td>
-		<td width="10%">&nbsp;</td>
-	</tr>
-	
-
-
-
+		<tr align="center">
+			<td width="5%">&nbsp;</td>
+			<td width="30%">Material</td>
+			<td width="10%">Stock</td>
+			<td width="10%">Cantidad</td>
+			<td width="10%">Precio (Bs.)</td>
+			<td width="15%">Desc.</td>
+			<td width="10%">Monto</td>
+			<td width="10%">&nbsp;</td>
+		</tr>
+	</table>
 
 	<!-- ITEMS DE COTIZACIÓN -->
 	<?php
-	
 	$globalAlmacen 	 		= $_COOKIE['global_almacen'];
 	$globalAlmacenNombre 	= $_COOKIE['global_almacen_nombre'];
 	$nro_materialActivo 	= 0;
@@ -1706,8 +1703,6 @@ if($tipoDocDefault==2){
 
 			// Suma total FINAL
 			$cotizacion_total_final += $cotizacion_total_item;
-						
-
 			/* Fin diferencia de fecha */
 	?>
 <div id="div<?=$nro_materialActivo?>">
@@ -1741,7 +1736,6 @@ if($tipoDocDefault==2){
 			</td>
 
 			<td align="center" width="10%">
-				<!-- <input class="inputnumber cantidad_upd" data-index="<?php echo $num;?>" type="number" min="1" id="cantidad_unitaria<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' name="cantidad_unitaria<?php echo $num;?>" onChange='calculaMontoMaterial(<?php echo $num;?>);' step="1" value="1" style="height:20px;font-size:19px;width:100px;color:black;" required>  -->
 				<input class="inputnumber cantidad_upd" 
 						data-index="<?php echo $num;?>" 
 						type="number" 
@@ -1772,15 +1766,15 @@ if($tipoDocDefault==2){
 				<input class="inputnumber" type="number" value="<?=$cotizacion_total_item?>" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01" style="height:20px;font-size:20px;width:120px;color:red;" required readonly> 
 			</td>
 
-			<td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
-
+			<td align="center"  width="10%" >
+				<input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 <script>
-	obtienePrecioProducto(<?= $nro_materialActivo;?>);
-	calculaMontoMaterial(<?= $nro_materialActivo;?>);
+	obtienePrecioProducto(<?=$nro_materialActivo?>);
+	calculaMontoMaterial(<?=$nro_materialActivo?>);
 </script>
 
 <?php
@@ -1789,12 +1783,6 @@ if($tipoDocDefault==2){
 ?>
 
 
-
-
-
-
-
-	</table>
 </fieldset>
 
 
