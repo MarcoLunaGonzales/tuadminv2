@@ -29,7 +29,7 @@ echo "</tr>";
 $consulta="
     SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente, c.dir_cliente, c.cod_area_empresa, a.descripcion
     FROM clientes AS c INNER JOIN ciudades AS a ON c.cod_area_empresa = a.cod_ciudad 
-    WHERE c.cod_area_empresa='$globalAgencia' ORDER BY c.nombre_cliente ASC
+    ORDER BY c.nombre_cliente ASC
 ";
 $rs=mysqli_query($enlaceCon,$consulta);
 $cont=0;
