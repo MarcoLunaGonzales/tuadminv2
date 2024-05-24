@@ -67,7 +67,8 @@ function adicionarCliente() {
     var fact = $("#fact").val();
     var apCli = $("#apCli").val();
     var diasCredito = $("#diasCredito").val();
-    var parms="nomcli="+nomcli+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+"";
+    var tipo_precio = $("#tipo_precio").val();
+    var parms="nomcli="+nomcli+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+""+"&tipo_precio="+tipo_precio+"";
     cargarPnl("#pnl00","prgClienteAdicionar.php",parms);
 }
 function modificarCliente() {
@@ -80,7 +81,9 @@ function modificarCliente() {
     var area = $("#area").val();
     var fact = $("#fact").val();
     var apCli = $("#apCli").val();
-    var parms="codcli="+codcli+"&nomcli="+nomcli+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+"";
+    var diasCredito = $("#diasCredito").val();
+    var tipo_precio = $("#tipo_precio").val();
+    var parms="codcli="+codcli+"&nomcli="+nomcli+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+""+"&tipo_precio="+tipo_precio+"";
     cargarPnl("#pnl00","prgClienteModificar.php",parms);
 }
 function eliminarCliente(cods) {

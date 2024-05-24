@@ -10,6 +10,8 @@ $tel1 = $_GET["tel1"];
 $mail = $_GET["mail"];
 $area = $_GET["area"];
 $fact = $_GET["fact"];
+$diasCredito = $_GET['diasCredito'];
+$tipo_precio = $_GET['tipo_precio'];
 
 $nomCli = str_replace("'", "''", $nomCli);
 $nit = str_replace("'", "''", $nit);
@@ -27,7 +29,9 @@ $consulta="
     telf1_cliente = '$tel1',
     email_cliente = '$mail',
     cod_area_empresa = $area,
-    nombre_factura = '$fact'
+    nombre_factura = '$fact',
+    dias_credito = '$diasCredito',
+    cod_tipo_precio = '$tipo_precio'
     WHERE cod_cliente = $codCli
 ";
 $resp=mysqli_query($enlaceCon,$consulta);
