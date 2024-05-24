@@ -95,7 +95,7 @@ $radio_borde = 5;
 $interlineado = 0;
 /*****************************************************************************/
 
-$pdf = new FPDF($orientation,$unit, $hoja);
+$pdf = new FPDF($orientation, $unit, $hoja);
 $pdf->AddPage();
 
 // Configuración de Texto
@@ -108,6 +108,9 @@ $precio          = $_GET['precio'];
 $costo           = $_GET['costo'];
 // Cantidad de Tickets
 $cantidad_tickets = isset($_GET['cantidad_tickets']) ? $_GET['cantidad_tickets'] : 1;
+
+$indiceImpar=1;
+$indicePar=2;
 
 for($i = 0; $i < $cantidad_tickets; $i++){
     // Dibujamos la primera card
@@ -125,6 +128,14 @@ for($i = 0; $i < $cantidad_tickets; $i++){
     $pdf->SetFont($tipo_letra, $estilo, $tamanio_letra);
     $pdf->setX($margen_x);
     $pdf->multiCell($card_width - 2, 3, utf8_decode($nombre_producto), 0, 'C', false);
+
+
+    // # ETIQUETA
+    $pdf->setY($margen_seg_y + $card_height - 30);
+    $pdf->setX($card_width-8);
+    $pdf->MultiCell($card_width, 3, $indiceImpar, 0, '');
+    $indiceImpar=$indiceImpar+2;
+
     $pdf->Ln();
 
     $pdf->setY($margen_seg_y + 12);
@@ -165,6 +176,14 @@ for($i = 0; $i < $cantidad_tickets; $i++){
     $pdf->setY($margen_seg_y);
     $pdf->setX($margen_seg_x);
     $pdf->multiCell($card_width - 2, 3, utf8_decode($nombre_producto), 0, 'C', false);
+
+
+    // # ETIQUETA
+    $pdf->setY($margen_seg_y + $card_height - 30);
+    $pdf->setX($card_width + 45);
+    $pdf->MultiCell($card_width, 3, $indicePar, 0, '');
+    $indicePar=$indicePar+2;
+
     $pdf->Ln();
 
     $pdf->setY($margen_seg_y + 12);

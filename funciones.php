@@ -204,7 +204,7 @@ function numeroCorrelativo($tipoDoc){
 
 function unidadMedida($codigo){
 	
-	$consulta="select u.abreviatura from material_apoyo m, unidades_medida u
+	$consulta="select u.nombre from material_apoyo m, unidades_medida u
 		where m.cod_unidad=u.codigo and m.codigo_material='$codigo'";
 	$rs=mysql_query($consulta);
 	$registro=mysql_fetch_array($rs);

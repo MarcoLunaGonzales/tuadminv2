@@ -137,6 +137,7 @@ include("datosUsuario.php");
 						<ul>
 							<li><a href="rptOpProductos.php" target="contenedorPrincipal">Productos</a></li>
 							<li><a href="rptOpPrecios.php" target="contenedorPrincipal">Precios</a></li>
+							<li><a href="rptProductosIZI.php" target="_blank">Migrado</a></li>
 						</ul>
 					</li>	
 					<li><span>Movimiento de Almacen</span>
