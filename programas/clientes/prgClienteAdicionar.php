@@ -12,6 +12,7 @@ $mail = $_GET["mail"];
 $area = $_GET["area"];
 $fact = $_GET["fact"];
 $diasCredito = $_GET["diasCredito"];
+$tipo_precio = $_GET['tipo_precio'];
 
 $ci = $_GET['ci'];
 
@@ -32,7 +33,7 @@ $codigoCliente=$dat['id'];
 
 $consulta="
 INSERT INTO clientes (cod_cliente, nombre_cliente,paterno, nit_cliente, dir_cliente, telf1_cliente, email_cliente, cod_area_empresa, nombre_factura, cod_tipo_precio, ci_cliente, dias_credito)
-VALUES ('$codigoCliente', '$nomCli','$apCli', '$nit', '$dir', '$tel1', '$mail', $area, '$fact', '0', '$ci', '$diasCredito')
+VALUES ('$codigoCliente', '$nomCli','$apCli', '$nit', '$dir', '$tel1', '$mail', $area, '$fact', '$tipo_precio', '$ci', '$diasCredito')
 ";
 if(isset($_GET["dv"])){
     $resp=mysqli_query($enlaceCon,$consulta);

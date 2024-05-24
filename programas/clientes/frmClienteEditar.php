@@ -14,7 +14,7 @@ $nomFactura = "";
 $nomArea    = "";
 $cadComboCiudad = "";
 $consulta="
-    SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente, c.dir_cliente, c.telf1_cliente, c.email_cliente, c.cod_area_empresa, c.nombre_factura, a.cod_ciudad, a.descripcion
+    SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente, c.dir_cliente, c.telf1_cliente, c.email_cliente, c.cod_area_empresa, c.nombre_factura, a.cod_ciudad, a.descripcion, c.dias_credito, c.cod_tipo_precio
     FROM clientes AS c INNER JOIN ciudades AS a ON c.cod_area_empresa = a.cod_ciudad
     WHERE c.cod_cliente = $codCliente ORDER BY c.nombre_cliente ASC
 ";
@@ -23,6 +23,8 @@ $nroregs=mysqli_num_rows($rs);
 if($nroregs==1)
    {$reg=mysqli_fetch_array($rs);
     //$codCliente = $reg["cod_cliente"];
+    $diasCredito= $reg["dias_credito"];
+    $cod_tipo_precio= $reg["cod_tipo_precio"];
     $nomCliente = $reg["nombre_cliente"];
     $nitCliente = $reg["nit_cliente"];
     $dirCliente = $reg["dir_cliente"];
@@ -43,7 +45,18 @@ if($nroregs==1)
         }
        }
    }
-
+   $cadTipoPrecio="";
+   $consulta1="select t.`codigo`, t.`nombre` from `tipos_precio` t";
+   $rs1=mysqli_query($enlaceCon,$consulta1);
+   while($reg1=mysqli_fetch_array($rs1)){
+        $codTipo  = $reg1["codigo"];
+        $nomTipo  = $reg1["nombre"];
+        $selected = $cod_tipo_precio == $codTipo ? 'selected' : '';
+        $cadTipoPrecio=$cadTipoPrecio."<option value='$codTipo' $selected>$nomTipo</option>";
+    }
+   
+     
+   ?>
 ?>
 <center>
     <br/>
@@ -64,14 +77,18 @@ if($nroregs==1)
             <td><input type="text" id="tel1" value="<?php echo "$telefono1"; ?>"/></td>
         </tr>
         <tr>
+            <th>Días de Credito</th>
             <th>Correo</th>
             <th>Factura</th>
-            <th colspan="3">Ciudad</th>
+            <th>Ciudad</th>
+            <th>Tipo de Precio</th>
         </tr>
         <tr>
+            <td><input type="number" id="diasCredito" value="<?php echo "$diasCredito"; ?>"/></td>
             <td><input type="text" id="mail" value="<?php echo "$email"; ?>"/></td>
             <td><input type="text" id="fact" value="<?php echo "$nomFactura"; ?>"/></td>
-            <td colspan="3"><select id="area"><?php echo "$cadComboCiudad"; ?></select></td>
+            <td><select id="area"><?php echo "$cadComboCiudad"; ?></select></td>
+            <td><select id="tipo_precio" name="tipo_precio"><?php echo "$cadTipoPrecio"; ?></select></td>
         </tr>
     </table>
     <br/>
