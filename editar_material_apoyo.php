@@ -14,16 +14,19 @@ require('funciones.php');
 $codProducto=$_GET['cod_material'];
 $globalAgencia=$_COOKIE['global_agencia'];
 
-$sqlEdit="select m.codigo_material, m.descripcion_material, m.estado, m.cod_linea_proveedor, m.cod_grupo, m.cod_tipomaterial, 
-	m.observaciones, m.cod_unidad from material_apoyo m where m.codigo_material='$codProducto'";
+$sqlEdit="SELECT m.codigo_material, m.descripcion_material, m.estado, m.cod_linea_proveedor, m.cod_grupo, m.cod_tipomaterial, 
+	m.observaciones, m.cod_unidad, m.cod_tipomanejo
+		FROM material_apoyo m 
+		WHERE m.codigo_material = '$codProducto'";
 $respEdit=mysql_query($sqlEdit);
 while($datEdit=mysql_fetch_array($respEdit)){
 	$nombreProductoX=$datEdit[1];
-	$codLineaX=$datEdit[3];
-	$codGrupoX=$datEdit[4];
-	$codTipoX=$datEdit[5];
-	$observacionesX=$datEdit[6];
-	$codUnidadX=$datEdit[7];
+	$codLineaX		= $datEdit[3];
+	$codGrupoX		= $datEdit[4];
+	$codTipoX		= $datEdit[5];
+	$observacionesX	= $datEdit[6];
+	$codUnidadX		= $datEdit[7];
+	$codTipoManejoX = $datEdit[8];
 }
 
 $sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=0 and p.`codigo_material`='$codProducto' and p.cod_ciudad='$globalAgencia'";
@@ -155,6 +158,26 @@ echo "<tr><th align='left'>Precio de Venta</th>";
 echo "<td align='left'>
 	<input type='number' class='texto' name='precio_producto' id='precio_producto' value='$precio1' step='0.1'>
 	</td></tr>";
+
+
+echo "<tr><th>Tipo de manejo</th>";
+$sqlManejo  = "SELECT cod_tipomanejo, nombre, estado
+			FROM tipos_material_manejo
+			WHERE estado = 1
+			ORDER BY cod_tipomanejo";
+$respManejo = mysql_query($sqlManejo);
+echo "<td>
+			<select name='cod_tipomanejo' id='cod_tipomanejo' required>";
+			while($data = mysql_fetch_array($respManejo)){	
+				$codigo		= $data[0];
+				$nombreTipo	= $data[1];
+				$selected 	= $codigo == $codTipoManejoX ? 'selected' : '';
+				echo "<option value='$codigo' $selected>$nombreTipo</option>";
+			}
+			echo "</select>
+</td>";
+echo "</tr>";
+	
 
 echo "</table></center>";
 echo "<div class='divBotones'>

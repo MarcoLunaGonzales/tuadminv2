@@ -80,13 +80,37 @@ if($banderaIngresoRealizado==0){
 				$precioUnitario=$precioBruto;			
 				$costo=$precioUnitario;
 				
-				$consulta="insert into ingreso_detalle_almacenes(cod_ingreso_almacen, cod_material, cantidad_unitaria, cantidad_restante, lote, fecha_vencimiento, 
-				precio_bruto, costo_almacen, costo_actualizado, costo_actualizado_final, costo_promedio, precio_neto) 
-				values('$codigo','$cod_material','$cantidad','$cantidad','$lote','$fechaVencimiento','$precioUnitario','$precioUnitario','$costo','$costo','$costo','$costo')";
-				
-				//echo "det:$consulta";
-				
-				$sql_inserta2 = mysql_query($consulta);
+				/**
+				 * Verificación del Tipo de Manejo
+				 */
+				$sqlTipoManejo = "SELECT ma.cod_tipomanejo FROM material_apoyo ma WHERE ma.codigo_material = '$cod_material' LIMIT 1";
+				$respTipoManejo = mysql_query($sqlTipoManejo);
+				$codTipoManejo = 1; // NORMAL
+				if ($row = mysql_fetch_array($respTipoManejo)){
+					$codTipoManejo = $row[0];
+				}
+
+				// Tipo Manejo
+				if($codTipoManejo == 1){
+					$consulta="INSERT INTO ingreso_detalle_almacenes(cod_ingreso_almacen, cod_material, cantidad_unitaria, cantidad_restante, lote, fecha_vencimiento, 
+					precio_bruto, costo_almacen, costo_actualizado, costo_actualizado_final, costo_promedio, precio_neto) 
+					values('$codigo','$cod_material','$cantidad','$cantidad','$lote','$fechaVencimiento','$precioUnitario','$precioUnitario','$costo','$costo','$costo','$costo')";
+					//echo "det:$consulta";
+					$sql_inserta2 = mysql_query($consulta);
+				}else if($codTipoManejo == 2){
+					$precioUnitario = round(($precioUnitario / $cantidad), 2);	
+					$costo			= $precioUnitario;
+					for ($i = 1; $i <= $cantidad; $i++) {
+						$lote_actual 	 = $lote . '_' . $i;
+						$cantidad_manejo = 1;
+
+						$consulta = "INSERT INTO ingreso_detalle_almacenes(cod_ingreso_almacen, cod_material, cantidad_unitaria, cantidad_restante, lote, fecha_vencimiento, 
+						precio_bruto, costo_almacen, costo_actualizado, costo_actualizado_final, costo_promedio, precio_neto) 
+						values('$codigo','$cod_material','$cantidad_manejo','$cantidad_manejo','$lote_actual','$fechaVencimiento','$precioUnitario','$precioUnitario','$costo','$costo','$costo','$costo')";
+						//echo "det:$consulta";
+						$sql_inserta2 = mysql_query($consulta);
+					}
+				}
 				
 				$sqlMargen="select p.margen_precio from material_apoyo m, proveedores_lineas p
 					where m.cod_linea_proveedor=p.cod_linea_proveedor and m.codigo_material='$cod_material'";

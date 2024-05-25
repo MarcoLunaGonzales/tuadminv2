@@ -105,6 +105,23 @@ echo "<td align='left'>
 	<input type='number' class='texto' name='precio_producto' id='precio_producto' step='0.01'>
 	</td></tr>";
 
+echo "<tr><th>Tipo de manejo</th>";
+$sqlManejo  = "SELECT cod_tipomanejo, nombre, estado
+			FROM tipos_material_manejo
+			WHERE estado = 1
+			ORDER BY cod_tipomanejo";
+$respManejo = mysql_query($sqlManejo);
+echo "<td>
+			<select name='cod_tipomanejo' id='cod_tipomanejo' required>";
+			while($data = mysql_fetch_array($respManejo)){	
+				$codigo		= $data[0];
+				$nombreTipo	= $data[1];
+				echo "<option value='$codigo'>$nombreTipo</option>";
+			}
+			echo "</select>
+</td>";
+echo "</tr>";
+
 ?>	
 
 	

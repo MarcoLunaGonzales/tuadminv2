@@ -15,6 +15,7 @@ $codUnidad=$_POST['cod_unidad'];
 $precioProducto=$_POST['precio_producto'];
 $costoProducto=$_POST['costo_producto'];
 $codigoBarras=$_POST['codigo_barras'];
+$codTipoManejo=$_POST['cod_tipomanejo'];
 
 
 $fechahora=date("dmy.Hi");
@@ -39,8 +40,8 @@ $codigoBarras=$codigo;
 
 
 
-$sql_inserta="insert into material_apoyo(codigo_material, descripcion_material, estado, cod_linea_proveedor, cod_grupo, cod_tipomaterial,
-cantidad_presentacion, observaciones, imagen, cod_unidad, codigo_anterior, codigo_barras) values ($codigo,'$nombreProducto','1','$codLinea','$codGrupo','$codTipo','1','$observaciones','$archivoName','$codUnidad','$codigoInterno','$codigoBarras')";
+$sql_inserta="INSERT INTO material_apoyo(codigo_material, descripcion_material, estado, cod_linea_proveedor, cod_grupo, cod_tipomaterial,
+cantidad_presentacion, observaciones, imagen, cod_unidad, codigo_anterior, codigo_barras, cod_tipomanejo) values ($codigo,'$nombreProducto','1','$codLinea','$codGrupo','$codTipo','1','$observaciones','$archivoName','$codUnidad','$codigoInterno','$codigoBarras', '$codTipoManejo')";
 
 //echo $sql_inserta;
 
