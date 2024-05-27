@@ -92,6 +92,7 @@ function eliminarCliente(cods) {
     cargarPnl("#pnl00","prgClienteEliminar.php",parms);
 }
 
+// EDITAR
 document.addEventListener('click', function(event) {
     if (event.target.closest('.editarCliente')) {
         let button = event.target.closest('.editarCliente');
@@ -99,6 +100,15 @@ document.addEventListener('click', function(event) {
         cargarPnl("#pnl00", "frmClienteEditar.php", "codcli=" + cod_cliente);
     }
 });
+// ELIMINAR
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.eliminarCliente')) {
+        let button = event.target.closest('.eliminarCliente');
+        let cod_cliente = button.dataset.cod_cliente;
+        cargarPnl("#pnl00", "prgClienteEliminar.php", "codcli=" + cod_cliente);
+    }
+});
+
         </script>
     </head>
     <body>

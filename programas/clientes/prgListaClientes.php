@@ -11,19 +11,17 @@ echo "<h1>Clientes</h1>";
 
 echo "<div class='divBotones'>
 <input class='boton' type='button' value='Adicionar' onclick='javascript:frmAdicionar();'>
-<input class='boton2' type='button' value='Eliminar' onclick='javascript:frmEliminar();'>
 </div>";
 
 echo "<center>";
 echo "<table class='texto'>";
 echo "<tr>";
 
-echo '<th style="width: 5%;">&nbsp;</th>';
 echo '<th style="width: 30%;">Cliente</th>';
 echo '<th style="width: 15%;">NIT</th>';
 echo '<th style="width: 25%;">Dirección</th>';
 echo '<th style="width: 15%;">Ciudad</th>';
-echo '<th style="width: 5%;">Acciones</th>';
+echo '<th style="width: 10%;" class="text-center">Acciones</th>';
 
 echo "</tr>";
 $consulta="
@@ -42,14 +40,16 @@ while($reg=mysqli_fetch_array($rs)){
     $codArea = $reg["cod_area_empresa"];
     $nomArea = $reg["descripcion"];
     echo "<tr>";
-    echo "<td><input type='checkbox' id='idchk$cont' value='$codCliente' ></td>
-            <td>$nomCliente</td>
+    echo "<td>$nomCliente</td>
             <td>$nitCliente</td>
             <td>$dirCliente</td>
             <td>$nomArea</td>
-            <td>
+            <td class='text-center'>
                 <button class='btn btn-sm btn-info pt-4 editarCliente' data-cod_cliente='$codCliente' title='Editar' style='padding-left: 10px; padding-right: 10px;'>
                     <i class='material-icons'>edit</i>
+                </button>
+                <button class='btn btn-sm btn-danger pt-4 eliminarCliente' data-cod_cliente='$codCliente' title='Editar' style='padding-left: 10px; padding-right: 10px;'>
+                    <i class='material-icons'>delete</i>
                 </button>
             </td>";
     echo "</tr>";

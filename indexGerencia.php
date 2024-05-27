@@ -54,7 +54,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 <div id="page">
 	<div class="header">
 		<a href="#menu"><span></span></a>
-		<?=$_COOKIE["global_empresa_nombre"];?>
+		<p style="font-size: 25px;"><?=$_COOKIE["global_empresa_nombre"];?></p>
 		<div style="position:absolute; width:95%; height:50px; text-align:right; top:0px; font-size: 9px; font-weight: bold; color: #fff;">
 			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]		<button onclick="location.href='salir.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Salir">
 				<i class="material-icons" style="font-size: 16px">logout</i>

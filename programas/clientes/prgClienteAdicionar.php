@@ -11,8 +11,8 @@ $tel1 = $_GET["tel1"];
 $mail = $_GET["mail"];
 $area = $_GET["area"];
 $fact = $_GET["fact"];
-$diasCredito = $_GET["diasCredito"];
-$tipo_precio = $_GET['tipo_precio'];
+$diasCredito = $_GET["diasCredito"] ?? '';
+$tipo_precio = $_GET['tipo_precio'] ?? '';
 
 $ci = $_GET['ci'];
 
