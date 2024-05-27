@@ -47,7 +47,6 @@
         $cab_funcionario     = $dataCotizacion['funcionario'];
         $cab_monto_total     = $dataCotizacion['monto_total'];
         $cab_descuento       = $dataCotizacion['descuento'];
-        $cab_monto_final     = $dataCotizacion['monto_final'];
     }
     // Tamaño Carta
     // $pdf = new FPDF($orientation='P',$unit='mm', 'Letter');
@@ -62,13 +61,13 @@
     /************************************/
     $pdf->SetFont('Arial','B',13);    
     $textypos = 5;
-    $pdf->setY(7);$pdf->setX(50);
+    $pdf->setY(7);$pdf->setX(45);
     $pdf->Cell(5,$textypos,"PROFORMA");
     
     // Cambiar el color del texto a rojo
     $pdf->SetTextColor(255, 0, 0);
     $pdf->SetFont('Arial','B',12);
-    $pdf->setY(12);$pdf->setX(61);
+    $pdf->setY(12);$pdf->setX(57);
     $pdf->Cell(5,$textypos,utf8_decode("N° $cab_nro_correlativo"),0,0,'C');
     // Restablecer el color del texto a negro
     $pdf->SetTextColor(0, 0, 0);
@@ -211,14 +210,14 @@
 
         $pdf->Ln();
 
-        $montoTotal += ($cantidad_unitario * $precio_unitario) - $descuento_unitario;
+        $montoTotal += ($cantidad_unitaria * $precio_unitario) - $descuento_unitario;
     }
 
     /****************************************/
     /*              PIE DE PAGINA           */
     /****************************************/
     $y = $pdf->getY();
-    $montoFinal=number_format($cab_monto_final,2,'.','');
+    $montoFinal=number_format($montoTotal,2,'.','');
     $arrayDecimal=explode('.', $montoFinal);
     if(count($arrayDecimal)>1){
         list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
@@ -231,9 +230,9 @@
     }
     $txtMonto=NumeroALetras::convertir($montoEntero);
     $pdf->setY($y);
-    $pdf->SetFont('Arial','B',7);  
+    $pdf->SetFont('Arial','B',6);  
     $pdf->setX(5);
-    $pdf->Cell(68.5, 6, ("Son: ".$txtMonto." ".$montoDecimal."/100 Bolivianos"), 1, 0, 'L');
+    $pdf->Cell(68.5, 6, ("Son:".$txtMonto." ".$montoDecimal."/100 Bolivianos"), 1, 0, 'L');
 
     $pdf->SetFont('Arial','',6);
     $pdf->Cell(15.5, 6, utf8_decode("SubTotal Bs:"), 1, 0, 'R');

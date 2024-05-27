@@ -944,7 +944,7 @@ function validarCotizacion(f){
 					"area": area,
 					"fact": fact,
 					"edad": edad,
-					"apcli": apcli,
+					"apCli": apcli,
 					"tipoPrecio": tipoPrecio,
 					"genero": genero,
 					"dv": 1
@@ -1575,9 +1575,14 @@ if($tipoDocDefault==2){
 		<select class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
 			<option value=''>----</option>
 			<?php
-			$sql2="select f.`codigo_funcionario`,
-				concat(f.`paterno`,' ', f.`nombres`) as nombre from `funcionarios` f, funcionarios_agencias fa 
-				where fa.codigo_funcionario=f.codigo_funcionario and fa.`cod_ciudad`='$globalAgencia' and estado=1 order by 2";
+			$sql2="SELECT f.`codigo_funcionario`,
+				concat(f.`paterno`,' ', f.`nombres`) as nombre 
+				FROM `funcionarios` f, funcionarios_agencias fa 
+				WHERE fa.codigo_funcionario=f.codigo_funcionario 
+				AND fa.`cod_ciudad`='$globalAgencia' 
+				AND estado = 1
+				GROUP BY codigo_funcionario 
+				ORDER BY 2";
 			$resp2=mysqli_query($enlaceCon,$sql2);
 
 			while($dat2=mysqli_fetch_array($resp2)){

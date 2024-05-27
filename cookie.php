@@ -72,7 +72,8 @@ if ($num_filas != 0) {
 	}elseif($cod_cargo==1019){//CAJA
 		header("location:indexAlmacenReg.php");
 	}elseif($cod_cargo==1016){//VENDEDOR
-		header("location:indexAlmacenCaja.php");
+		// header("location:indexAlmacenCaja.php");
+		header("location:indexVendedor.php");
 	}elseif ($cod_cargo==1020){
 		header("location:indexServiteca.php");
 	}

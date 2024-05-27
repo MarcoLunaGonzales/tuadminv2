@@ -47,7 +47,6 @@
         $cab_funcionario     = $dataCotizacion['funcionario'];
         $cab_monto_total     = $dataCotizacion['monto_total'];
         $cab_descuento       = $dataCotizacion['descuento'];
-        $cab_monto_final     = $dataCotizacion['monto_final'];
     }
     // Tamaño Carta
     // $pdf = new FPDF($orientation='P',$unit='mm', 'Letter');
@@ -209,14 +208,14 @@
 
         $pdf->Ln();
 
-        $montoTotal += ($cantidad_unitario * $precio_unitario) - $descuento_unitario;
+        $montoTotal += ($cantidad_unitaria * $precio_unitario) - $descuento_unitario;
     }
 
     /****************************************/
     /*              PIE DE PAGINA           */
     /****************************************/
     $y = $pdf->getY();
-    $montoFinal=number_format($cab_monto_final,2,'.','');
+    $montoFinal=number_format($montoTotal,2,'.','');
     $arrayDecimal=explode('.', $montoFinal);
     if(count($arrayDecimal)>1){
         list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
