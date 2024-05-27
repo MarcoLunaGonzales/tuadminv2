@@ -11,42 +11,43 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
     
-    $cod_cotizacion = empty($_GET["cod_cotizacion"]) ? '' : $_GET["cod_cotizacion"];
+    $cod_salida_almacen = empty($_GET["cod_salida_almacen"]) ? '' : $_GET["cod_salida_almacen"];
     
     /***********************************************************************************/
     /*                          Datos Generales de la Factura                          */
     /***********************************************************************************/
-    $sqlCotizacion = "SELECT c.nit, 
-                    c.razon_social,
-                    c.observaciones, 
-                    c.nro_correlativo, 
+    $sqlSalida = "SELECT sa.nit, 
+                    sa.razon_social,
+                    sa.observaciones, 
+                    sa.nro_correlativo, 
                     tv.nombre_tipoventa as tipo_venta,
                     tp.nombre_tipopago as tipo_pago,
                     CONCAT(cli.nombre_cliente, ' ', cli.paterno) as cliente,
                     CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as funcionario,
-                    c.monto_total,
-                    c.descuento,
-                    c.monto_final
-                FROM cotizaciones c
-                LEFT JOIN funcionarios f ON f.codigo_funcionario = c.cod_chofer
-                LEFT JOIN clientes cli ON cli.cod_cliente = c.cod_cliente
-                LEFT JOIN tipos_venta tv ON tv.cod_tipoventa = c.cod_tipoventa
-                LEFT JOIN tipos_pago tp ON tp.cod_tipopago = c.cod_tipopago
-                WHERE c.codigo = '$cod_cotizacion'
+                    sa.monto_total,
+                    sa.descuento,
+                    sa.monto_final
+                FROM salida_almacenes sa
+                LEFT JOIN funcionarios f ON f.codigo_funcionario = sa.cod_chofer
+                LEFT JOIN clientes cli ON cli.cod_cliente = sa.cod_cliente
+                LEFT JOIN tipos_venta tv ON tv.cod_tipoventa = sa.cod_tipoventa
+                LEFT JOIN tipos_pago tp ON tp.cod_tipopago = sa.cod_tipopago
+                LEFT JOIN tipos_docs td ON td.codigo = sa.cod_tipo_doc
+                WHERE sa.cod_salida_almacenes = '$cod_salida_almacen'
                 LIMIT 1";
     // echo $sqlDatosVenta;
-    $respCotizacion=mysqli_query($enlaceCon, $sqlCotizacion);
-    while($dataCotizacion = mysqli_fetch_array($respCotizacion)){
-        $cab_nit             = $dataCotizacion['nit'];
-        $cab_razon_social    = $dataCotizacion['razon_social'];
-        $cab_observaciones   = $dataCotizacion['observaciones'];
-        $cab_nro_correlativo = $dataCotizacion['nro_correlativo'];
-        $cab_tipo_venta      = $dataCotizacion['tipo_venta'];
-        $cab_tipo_pago       = $dataCotizacion['tipo_pago'];
-        $cab_cliente         = $dataCotizacion['cliente'];
-        $cab_funcionario     = $dataCotizacion['funcionario'];
-        $cab_monto_total     = $dataCotizacion['monto_total'];
-        $cab_descuento       = $dataCotizacion['descuento'];
+    $respSalida=mysqli_query($enlaceCon, $sqlSalida);
+    while($dataSalida = mysqli_fetch_array($respSalida)){
+        $cab_nit             = $dataSalida['nit'];
+        $cab_razon_social    = $dataSalida['razon_social'];
+        $cab_observaciones   = $dataSalida['observaciones'];
+        $cab_nro_correlativo = $dataSalida['nro_correlativo'];
+        $cab_tipo_venta      = $dataSalida['tipo_venta'];
+        $cab_tipo_pago       = $dataSalida['tipo_pago'];
+        $cab_cliente         = $dataSalida['cliente'];
+        $cab_funcionario     = $dataSalida['funcionario'];
+        $cab_monto_total     = $dataSalida['monto_total'];
+        $cab_descuento       = $dataSalida['descuento'];
     }
     // Tamaño Carta
     // $pdf = new FPDF($orientation='P',$unit='mm', 'Letter');
@@ -61,13 +62,13 @@
     /************************************/
     $pdf->SetFont('Arial','B',13);    
     $textypos = 5;
-    $pdf->setY(6);$pdf->setX(90);
-    $pdf->Cell(5,$textypos,"PROFORMA");
+    $pdf->setY(6);$pdf->setX(83);
+    $pdf->Cell(5, $textypos, utf8_decode("NOTA DE REMISIÓN"));
     
     // Cambiar el color del texto a rojo
     $pdf->SetTextColor(255, 0, 0);
     $pdf->SetFont('Arial','B',12);
-    $pdf->setY(10);$pdf->setX(100);
+    $pdf->setY(10);$pdf->setX(105);
     $pdf->Cell(5,$textypos,utf8_decode("N° $cab_nro_correlativo"),0,0,'C');
     // Restablecer el color del texto a negro
     $pdf->SetTextColor(0, 0, 0);
@@ -143,33 +144,33 @@
     $total = 0;
     $pdf->SetFont('Arial','',6);
 
-    /************************************************/
-    /*              DETALLE DE COTIZACIÓN           */
-    /************************************************/
-    $sqlCotizacionDet = "SELECT
+    /********************************************/
+    /*              DETALLE DE SALIDA           */
+    /********************************************/
+    $sqlSalidaDet = "SELECT
                         m.codigo_material,
-                        cd.orden_detalle,
+                        sda.orden_detalle,
                         m.descripcion_material,
-                        cd.precio_unitario,
-                        cd.cantidad_unitaria,
-                        cd.descuento_unitario,
-                        cd.monto_unitario 
-                    FROM cotizaciones_detalle cd
-                    LEFT JOIN material_apoyo m ON m.codigo_material = cd.cod_material
-                    WHERE m.codigo_material = cd.cod_material 
-                    AND cd.cod_cotizacion = '$cod_cotizacion'
-                    ORDER BY cd.orden_detalle DESC";
+                        sda.precio_unitario,
+                        sda.cantidad_unitaria,
+                        sda.descuento_unitario,
+                        sda.monto_unitario 
+                    FROM salida_detalle_almacenes sda
+                    LEFT JOIN material_apoyo m ON m.codigo_material = sda.cod_material
+                    WHERE m.codigo_material = sda.cod_material 
+                    AND sda.cod_salida_almacen = '$cod_salida_almacen'
+                    ORDER BY sda.orden_detalle DESC";
     // echo $sqlDatosVenta;
-    $respCotizacionDet = mysqli_query($enlaceCon, $sqlCotizacionDet);
+    $respSalidaDet = mysqli_query($enlaceCon, $sqlSalidaDet);
     $montoTotal = 0;
-    while($dataCotizacionDet = mysqli_fetch_array($respCotizacionDet)){
-        $codigo_material      = $dataCotizacionDet['codigo_material'];
-        $orden_detalle        = $dataCotizacionDet['orden_detalle'];
-        $descripcion_material = $dataCotizacionDet['descripcion_material'];
-        $precio_unitario      = $dataCotizacionDet['precio_unitario'];
-        $cantidad_unitaria    = $dataCotizacionDet['cantidad_unitaria'];
-        $descuento_unitario   = $dataCotizacionDet['descuento_unitario'];
-        $monto_unitario       = $dataCotizacionDet['monto_unitario'];
+    while($dataSalidaDet = mysqli_fetch_array($respSalidaDet)){
+        $codigo_material      = $dataSalidaDet['codigo_material'];
+        $orden_detalle        = $dataSalidaDet['orden_detalle'];
+        $descripcion_material = $dataSalidaDet['descripcion_material'];
+        $precio_unitario      = $dataSalidaDet['precio_unitario'];
+        $cantidad_unitaria    = $dataSalidaDet['cantidad_unitaria'];
+        $descuento_unitario   = $dataSalidaDet['descuento_unitario'];
+        $monto_unitario       = $dataSalidaDet['monto_unitario'];
 
         
         $row_index = 1;

@@ -48,7 +48,7 @@ while($reg=mysqli_fetch_array($rs)){
                 <button class='btn btn-sm btn-info pt-4 editarCliente' data-cod_cliente='$codCliente' title='Editar' style='padding-left: 10px; padding-right: 10px;'>
                     <i class='material-icons'>edit</i>
                 </button>
-                <button class='btn btn-sm btn-danger pt-4 eliminarCliente' data-cod_cliente='$codCliente' title='Editar' style='padding-left: 10px; padding-right: 10px;'>
+                <button class='btn btn-sm btn-danger pt-4 eliminarCliente' data-cod_cliente='$codCliente' title='Eliminar' style='padding-left: 10px; padding-right: 10px;'>
                     <i class='material-icons'>delete</i>
                 </button>
             </td>";
