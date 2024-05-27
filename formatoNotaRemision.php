@@ -176,9 +176,9 @@ if($montoDecimal==""){
 
 $pdf->SetFont('Arial','',7);
 
-$txtMonto=NumeroALetras::convertir($montoEntero);
-$pdf->SetXY(5,$y+$yyy+15);		$pdf->MultiCell(0,3,"Son:  $txtMonto"." ".$montoDecimal."/100 Bolivianos",0,"L");
-$pdf->SetXY(0,$y+$yyy+21);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
+// $txtMonto=NumeroALetras::convertir($montoEntero);
+// $pdf->SetXY(5,$y+$yyy+15);		$pdf->MultiCell(0,3,"Son:  $txtMonto"." ".$montoDecimal."/100 Bolivianos",0,"L");
+// $pdf->SetXY(0,$y+$yyy+21);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
 
 $pdf->Output();
 ?>

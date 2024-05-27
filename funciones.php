@@ -260,6 +260,36 @@ function precioVentaN($enlaceCon,$codigo,$agencia){
 	return $precioVenta;
 }
 
+function precioVentaMayorContado($enlaceCon,$codigo,$agencia){
+	$agenciaDefecto=1;
+	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='2' and p.cod_ciudad='$agenciaDefecto'";
+	//echo $consulta;
+	$rs=mysqli_query($enlaceCon,$consulta);
+	$registro=mysqli_fetch_array($rs);
+	$precioVenta=$registro[0];
+	if($precioVenta=="")
+	{   $precioVenta=0;
+	}
+
+	$precioVenta=redondear2($precioVenta);
+	return $precioVenta;
+}
+
+function precioVentaMayorCredito($enlaceCon,$codigo,$agencia){
+	$agenciaDefecto=1;
+	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='3' and p.cod_ciudad='$agenciaDefecto'";
+	//echo $consulta;
+	$rs=mysqli_query($enlaceCon,$consulta);
+	$registro=mysqli_fetch_array($rs);
+	$precioVenta=$registro[0];
+	if($precioVenta=="")
+	{   $precioVenta=0;
+	}
+
+	$precioVenta=redondear2($precioVenta);
+	return $precioVenta;
+}
+
 function precioVentaCosto($codigo,$agencia){
 	require("conexionmysqli.inc");
 	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='0' and p.cod_ciudad='$agencia'";
