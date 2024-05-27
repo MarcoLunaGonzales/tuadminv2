@@ -83,7 +83,7 @@
         $pdf->Image('assets/imagenes/pdf_img5.png', $ejeX + 60, 20, 15, 7);
         $pdf->Image('assets/imagenes/pdf_img6.png', $ejeX + 77, 20, 15, 7);
         $pdf->Image('assets/imagenes/pdf_img8.png', $ejeX + 43, 28, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img7.png', $ejeX + 77, 28, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img9.png', $ejeX + 77, 28, 15, 7);
         $pdf->Image('assets/imagenes/pdf_img2.png', $ejeX + 60, 28, 15, 7);
         
 
@@ -112,13 +112,14 @@
         $pdf->setY(38);$pdf->setX($ejeX + 3);
         $pdf->Cell(20,$textypos,utf8_decode("Señor(es):"), 'LTB', 0, 'L'); 
         $pdf->setY(43);$pdf->setX($ejeX + 3);
-        $pdf->Cell(20,$textypos,utf8_decode("Observaciones :"), 'L', 0, 'L');
+        $pdf->Cell(20,$textypos,utf8_decode("Vendedor:"), 'L', 0, 'L');
 
         $pdf->SetFont('Arial','',7);    
         $pdf->setY(38);$pdf->setX($ejeX + 16);
         $pdf->Cell(55,$textypos,utf8_decode($cab_cliente), 'TB', 0, 'L');  
-        $pdf->setY(43);$pdf->setX($ejeX + 22);
-        $pdf->MultiCell(40, 3, utf8_decode($cab_observaciones), 0, 'L');
+        $pdf->setY(43);$pdf->setX($ejeX + 16);
+        $pdf->Cell(40,$textypos,utf8_decode($cab_funcionario), 'TB', 0, 'L');
+        // $pdf->MultiCell(40, 3, utf8_decode($cab_funcionario), 0, 'L');
         
         $pdf->SetFont('Arial','B',7);    
         $pdf->setY(38);$pdf->setX($ejeX + 62);
