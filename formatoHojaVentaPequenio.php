@@ -119,7 +119,7 @@
         $pdf->setY(38);$pdf->setX($ejeX + 16);
         $pdf->Cell(55,$textypos,utf8_decode($cab_cliente), 'TB', 0, 'L');
         $pdf->setY(43);$pdf->setX($ejeX + 16);
-        $pdf->Cell(40,$textypos,utf8_decode($cab_funcionario), 'TB', 0, 'L');  
+        $pdf->Cell(40,$textypos,utf8_decode($cab_funcionario), 'TB', 0, 'L');
         // $pdf->MultiCell(40, 3, utf8_decode($cab_funcionario), 0, 'L');
         
         $pdf->SetFont('Arial','B',7);    
