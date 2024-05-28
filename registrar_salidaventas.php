@@ -154,7 +154,7 @@ function ajaxRazonSocial(f){
 			console.log(ajax.responseText)
 			contenedor.innerHTML = ajax.responseText;
 			document.getElementById('razonSocial').focus();
-			ajaxClienteBuscar();
+			// ajaxClienteBuscar();
 		}
 	}
 	ajax.send(null);
@@ -939,9 +939,9 @@ function validarCotizacion(f){
 		} else if (nit == "") {
 			Swal.fire("Informativo!", "Debe llenar el campo de NIT", "warning");
 		} else {
-			if (validarCorreoUnicoCliente(0, nit, mail) == 0) {
-				Swal.fire("Error!", "El cliente con correo: " + mail + ", ya se encuentra registrado!", "error");
-			} else {
+			// if (validarCorreoUnicoCliente(0, nit, mail) == 0) {
+			// 	Swal.fire("Error!", "El cliente con correo: " + mail + ", ya se encuentra registrado!", "error");
+			// } else {
 				var parametros = {
 					"nomcli": nomcli,
 					"apCli": apcli,
@@ -988,7 +988,7 @@ function validarCotizacion(f){
 						}            
 					}
 				});	
-			}
+			// }
 		}
 	}
 	/**
@@ -1004,7 +1004,7 @@ function validarCotizacion(f){
 			data: parametros,
 			async:false,
 			success:  function (resp) {
-			dato=resp;     
+				dato=resp;     
 			}
 		});
 		return dato;
@@ -2012,7 +2012,7 @@ if($banderaErrorFacturacion==0){
                     <label class="col-sm-1 col-form-label text-white">NIT(*)</label>
                     <div class="col-sm-5">
                         <div class="form-group">
-                            <input class="form-control" style="color:black;background: #fff;" type="text" id="nit" value="<?php echo "$nitCliente"; ?>" readonly/>
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="nit" value="<?php echo "$nitCliente"; ?>" required/>
                         </div>
                     </div>
                 </div>

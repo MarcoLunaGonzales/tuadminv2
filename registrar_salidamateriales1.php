@@ -284,150 +284,227 @@ else
     $codigo++;
 }
 ?>
-<form action='guardarSalidaMaterial.php' method='POST' name='form1'>
-<h1>Registrar Salida de Almacen</h1>
+<div id="appVue" hidden>
 
-<input type="hidden" name='global_almacen' id='global_almacen' value='<?=$global_almacen;?>'>
-<table class='texto' align='center' width='90%'>
-<tr><th>Tipo de Salida</th><th>Tipo de Documento</th><th>Nro. Salida</th><th>Fecha</th><th>Almacen Destino</th></tr>
-<tr>
-<td align='center'>
-	<select name='tipoSalida' id='tipoSalida' onChange='ajaxTipoDoc(form1)' required class='selectpicker form-control' data-style='btn btn-success'>
-		<option value="">--------</option>
-<?php
-	$sqlTipo="select cod_tiposalida, nombre_tiposalida from tipos_salida where cod_tiposalida<>1001 order by 2";
-	$respTipo=mysqli_query($enlaceCon,$sqlTipo);
-	while($datTipo=mysqli_fetch_array($respTipo)){
-		$codigo=$datTipo[0];
-		$nombre=$datTipo[1];
-?>
-		<option value='<?php echo $codigo?>'><?php echo $nombre?></option>
-<?php		
-	}
-?>
-	</select>
-</td>
-<td align='center'>
-	<div id='divTipoDoc'>
-		<select name='tipoDoc' id='tipoDoc' class='selectpicker form-control' data-style='btn btn-warning'><option value="0"></select>
-	</div>
-</td>
-<td align='center'>
-	<div id='divNroDoc' class='textogranderojo'>
-	</div>
-</td>
+	<form action='guardarSalidaMaterial.php' method='POST' name='form1'>
+		<h1>Registrar Salida de Almacen</h1>
 
-<td align='center'>
-	<input type='date' class='texto' value='<?=$fecha;?>' id='fecha' name='fecha' min='<?=$fechaIni;?>' max='<?=$fecha;?>'>
-</td>
-
-<td align='center'>
-	<select name='almacen' id='almacen' required class='selectpicker form-control' data-style='btn btn-rose'>
-		<option value=''>-----</option>
-<?php
-	$sql3="select cod_almacen, nombre_almacen from almacenes where cod_almacen not in ($global_almacen) order by nombre_almacen";
-	$resp3=mysqli_query($enlaceCon,$sql3);
-	while($dat3=mysqli_fetch_array($resp3)){
-		$cod_almacen=$dat3[0];
-		$nombre_almacen="$dat3[1] $dat3[2] $dat3[3]";
-?>
-		<option value="<?php echo $cod_almacen?>"><?php echo $nombre_almacen?></option>
-<?php		
-	}
-?>
-	</select>
-</td>
-</tr>
-
-<tr>
-	<th>Observaciones</th>
-	<th align='center' colspan="4">
-		<input type='text' class='texto' name='observaciones' value='' size='100' rows="2">
-	</th>
-</tr>
-</table>
-
-<br>
-
-<fieldset id="fiel" style="width:100%;border:0;">
-	<table align="center" class="texto" width="80%" border="0" id="data0" style="border:#ccc 1px solid;">
-	<tr>
-		<td align="center" colspan="9">
-			<b>Detalle de la Transaccion   </b><input class="boton" type="button" value="Agregar (+)" onclick="mas(this)" />
-		</td>
-	</tr>
-	<tr align="center">
-		<th width="10%">-</th>
-		<th width="40%">Material</th>
-		<th width="20%">Stock</th>
-		<th width="20%">Cantidad</th>
-		<th width="10%">&nbsp;</th>
-	</tr>
-	</table>
-</fieldset>
-
-<?php
-
-echo "<div class='divBotones'>
-	<input type='submit' class='boton' value='Guardar' onClick='return validar(this.form);'>
-	<input type='button' class='boton2' value='Cancelar' onClick='location.href=\"navegador_salidamateriales.php\"'>
-</div>";
-
-echo "</div>";
-
-?>
-
-
-
-<div id="divRecuadroExt" style="background-color:#666; position:absolute; width:1000px; height: 400px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2; overflow: auto;">
-</div>
-
-<div id="divboton" style="position: absolute; top:20px; left:1120px;visibility:hidden; text-align:center; z-index:3">
-	<a href="javascript:Hidden();"><img src="imagenes/cerrar4.png" height="45px" width="45px"></a>
-</div>
-
-<div id="divProfileData" style="background-color:#FFF; width:950px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
-  	<div id="divProfileDetail" style="visibility:hidden; text-align:center">
-		<table align='center'>
-			<tr><th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
-			<tr>
-			<td><select class="textogranderojo" name='itemTipoMaterial' style="width:300px">
-			<?php
-			$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g
-			where g.estado=1 order by 2;";
+		<input type="hidden" name='global_almacen' id='global_almacen' value='<?=$global_almacen;?>'>
+		<table class='texto' align='center' width='90%'>
+		<tr><th>Tipo de Salida</th><th>Tipo de Documento</th><th>Nro. Salida</th><th>Fecha</th><th>Almacen Destino</th></tr>
+		<tr>
+		<td align='center'>
+			<select name='tipoSalida' id='tipoSalida' onChange='ajaxTipoDoc(form1)' required class='selectpicker form-control' data-style='btn btn-success'>
+				<option value="">--------</option>
+		<?php
+			$sqlTipo="select cod_tiposalida, nombre_tiposalida from tipos_salida where cod_tiposalida<>1001 order by 2";
 			$respTipo=mysqli_query($enlaceCon,$sqlTipo);
-			echo "<option value='0'>--</option>";
 			while($datTipo=mysqli_fetch_array($respTipo)){
-				$codTipoMat=$datTipo[0];
-				$nombreTipoMat=$datTipo[1];
-				echo "<option value=$codTipoMat>$nombreTipoMat</option>";
+				$codigo=$datTipo[0];
+				$nombre=$datTipo[1];
+		?>
+				<option value='<?php echo $codigo?>'><?php echo $nombre?></option>
+		<?php		
 			}
-			?>
-
+		?>
 			</select>
-			</td>
-			
-			<td>
-				<input type='text' name='codigoInterno' id='codigoInterno' class="textomedianorojo" onkeypress="return pressEnter(event, this.form);">
-			</td>
-			
-			<td>
-				<input type='text' name='itemNombreMaterial' id='itemNombreMaterial' class="textogranderojo" onkeypress="return pressEnter(event, this.form);">
-			</td>
-			<td>
-				<input type='button' class='boton' value='Buscar' onClick="listaMateriales(this.form)">
-			</td>
-			</tr>
-			
+		</td>
+		<td align='center'>
+			<div id='divTipoDoc'>
+				<select name='tipoDoc' id='tipoDoc' class='selectpicker form-control' data-style='btn btn-warning'><option value="0"></select>
+			</div>
+		</td>
+		<td align='center'>
+			<div id='divNroDoc' class='textogranderojo'>
+			</div>
+		</td>
+
+		<td align='center'>
+			<input type='date' class='texto' value='<?=$fecha;?>' id='fecha' name='fecha' min='<?=$fechaIni;?>' max='<?=$fecha;?>'>
+		</td>
+
+		<td align='center'>
+			<select name='almacen' id='almacen' required class='selectpicker form-control' data-style='btn btn-rose'>
+				<option value=''>-----</option>
+		<?php
+			$sql3="select cod_almacen, nombre_almacen from almacenes where cod_almacen not in ($global_almacen) order by nombre_almacen";
+			$resp3=mysqli_query($enlaceCon,$sql3);
+			while($dat3=mysqli_fetch_array($resp3)){
+				$cod_almacen=$dat3[0];
+				$nombre_almacen="$dat3[1] $dat3[2] $dat3[3]";
+		?>
+				<option value="<?php echo $cod_almacen?>"><?php echo $nombre_almacen?></option>
+		<?php		
+			}
+		?>
+			</select>
+		</td>
+		</tr>
+
+		<tr>
+			<th align='center' colspan="2">
+				<label style="color:black;">Observaciones</label>
+				<input type='text' class='form-control' name='observaciones' placeholder="Ingrese observaciones" style="background:white;">
+			</th>
+			<!-- <th align='center'>
+				<label style="color:black;">Chofer</label>
+				<div style="display: flex;">
+					<select name='cliente' class='selectpicker form-control' data-style="btn btn-secondary" data-live-search='true'>
+						<option value='146'>NO REGISTRADO</option>
+						<?php
+							$sql = "SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente
+									FROM clientes c";
+							$resp=mysqli_query($enlaceCon,$sql);
+							while($rowCot=mysqli_fetch_array($resp)){
+								$nit_cliente = $rowCot['nit_cliente'];
+						?>
+						<option value='<?=$rowCot['cod_cliente']?>'><?=$rowCot['nombre_cliente']?></option>
+						<?php
+							}
+						?>
+					</select>
+					<button type="button" class="btn btn-success btn-round btn-sm text-white circle">+</button>
+				</div>
+			</th>
+			<th align='center'>
+				<label style="color:black;">Transportadora</label>
+				<div style="display: flex;">
+					<select name='cliente' class='selectpicker form-control' data-style="btn btn-secondary" data-live-search='true'>
+						<option value='146'>NO REGISTRADO</option>
+						<?php
+							$sql = "SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente
+									FROM clientes c";
+							$resp=mysqli_query($enlaceCon,$sql);
+							while($rowCot=mysqli_fetch_array($resp)){
+								$nit_cliente = $rowCot['nit_cliente'];
+						?>
+						<option value='<?=$rowCot['cod_cliente']?>'><?=$rowCot['nombre_cliente']?></option>
+						<?php
+							}
+						?>
+					</select>
+					<button type="button" class="btn btn-success btn-round btn-sm text-white circle">+</button>
+				</div>
+			</th>
+			<th align='center'>
+				<label style="color:black;">Placa</label>
+				<input type='text' class='form-control' name='observaciones' placeholder="Ingrese observaciones" style="background:white;" >
+			</th> -->
+		</tr>
 		</table>
-		<div id="divListaMateriales">
+
+		<br>
+
+		<fieldset id="fiel" style="width:100%;border:0;">
+			<table align="center" class="texto" width="80%" border="0" id="data0" style="border:#ccc 1px solid;">
+			<tr>
+				<td align="center" colspan="9">
+					<b>Detalle de la Transaccion   </b><input class="boton" type="button" value="Agregar (+)" onclick="mas(this)" />
+				</td>
+			</tr>
+			<tr align="center">
+				<th width="10%">-</th>
+				<th width="40%">Material</th>
+				<th width="20%">Stock</th>
+				<th width="20%">Cantidad</th>
+				<th width="10%">&nbsp;</th>
+			</tr>
+			</table>
+		</fieldset>
+
+		<?php
+
+		echo "<div class='divBotones'>
+			<input type='submit' class='boton' value='Guardar' onClick='return validar(this.form);'>
+			<input type='button' class='boton2' value='Cancelar' onClick='location.href=\"navegador_salidamateriales.php\"'>
+		</div>";
+
+		echo "</div>";
+
+		?>
+
+
+
+		<div id="divRecuadroExt" style="background-color:#666; position:absolute; width:1000px; height: 400px; top:30px; left:150px; visibility: hidden; opacity: .70; -moz-opacity: .70; filter:alpha(opacity=70); -webkit-border-radius: 20px; -moz-border-radius: 20px; z-index:2; overflow: auto;">
 		</div>
-	
-	</div>
+
+		<div id="divboton" style="position: absolute; top:20px; left:1120px;visibility:hidden; text-align:center; z-index:3">
+			<a href="javascript:Hidden();"><img src="imagenes/cerrar4.png" height="45px" width="45px"></a>
+		</div>
+
+		<div id="divProfileData" style="background-color:#FFF; width:950px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
+			<div id="divProfileDetail" style="visibility:hidden; text-align:center">
+				<table align='center'>
+					<tr><th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
+					<tr>
+					<td><select class="textogranderojo" name='itemTipoMaterial' style="width:300px">
+					<?php
+					$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g
+					where g.estado=1 order by 2;";
+					$respTipo=mysqli_query($enlaceCon,$sqlTipo);
+					echo "<option value='0'>--</option>";
+					while($datTipo=mysqli_fetch_array($respTipo)){
+						$codTipoMat=$datTipo[0];
+						$nombreTipoMat=$datTipo[1];
+						echo "<option value=$codTipoMat>$nombreTipoMat</option>";
+					}
+					?>
+
+					</select>
+					</td>
+					
+					<td>
+						<input type='text' name='codigoInterno' id='codigoInterno' class="textomedianorojo" onkeypress="return pressEnter(event, this.form);">
+					</td>
+					
+					<td>
+						<input type='text' name='itemNombreMaterial' id='itemNombreMaterial' class="textogranderojo" onkeypress="return pressEnter(event, this.form);">
+					</td>
+					<td>
+						<input type='button' class='boton' value='Buscar' onClick="listaMateriales(this.form)">
+					</td>
+					</tr>
+					
+				</table>
+				<div id="divListaMateriales">
+				</div>
+			
+			</div>
+		</div>
+
+		<input type='hidden' name='materialActivo' value="0">
+		<input type='hidden' name='cantidad_material' value="0">
+
+	</form>
+
 </div>
-
-<input type='hidden' name='materialActivo' value="0">
-<input type='hidden' name='cantidad_material' value="0">
-
-</form>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		// Inicialización de VUE
+		var app = new Vue({
+			el: '#appVue',
+			data: {
+				numFilas: 0,
+				// Lista Pagos
+				lista_tipos_pago: [],
+				lista_pagos: [], 		//ListaPagos
+				total_monto: 0,
+				// Modal 
+				cod_cliente_select: 0,
+				lista_saldo_cliente: [],
+				mensaje_saldo_cliente: '',
+				lista_estado: true,
+			},
+			mounted() {
+				// this.listaTiposPagos();
+			},
+		});
+	</script>
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			document.getElementById("appVue").removeAttribute("hidden");
+		});
+	</script>
 </body>
