@@ -154,7 +154,7 @@ function ajaxRazonSocial(f){
 			console.log(ajax.responseText)
 			contenedor.innerHTML = ajax.responseText;
 			document.getElementById('razonSocial').focus();
-			// ajaxClienteBuscar();
+			ajaxClienteBuscar();
 		}
 	}
 	ajax.send(null);
