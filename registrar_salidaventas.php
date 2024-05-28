@@ -1579,7 +1579,7 @@ if($tipoDocDefault==2){
 				concat(f.`paterno`,' ', f.`nombres`) as nombre 
 				FROM `funcionarios` f, funcionarios_agencias fa 
 				WHERE fa.codigo_funcionario=f.codigo_funcionario 
-				-- AND fa.`cod_ciudad`='$globalAgencia' 
+				AND fa.`cod_ciudad`='$globalAgencia' 
 				AND estado = 1
 				GROUP BY codigo_funcionario 
 				ORDER BY 2";
