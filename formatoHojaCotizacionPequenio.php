@@ -23,6 +23,7 @@
                     tv.nombre_tipoventa as tipo_venta,
                     tp.nombre_tipopago as tipo_pago,
                     CONCAT(cli.nombre_cliente, ' ', cli.paterno) as cliente,
+                    cli.dir_cliente,
                     CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as funcionario,
                     c.monto_total,
                     c.descuento,
@@ -44,6 +45,7 @@
         $cab_tipo_venta      = $dataCotizacion['tipo_venta'];
         $cab_tipo_pago       = $dataCotizacion['tipo_pago'];
         $cab_cliente         = $dataCotizacion['cliente'];
+        $cab_dir_cliente     = $dataCotizacion['dir_cliente'];
         $cab_funcionario     = $dataCotizacion['funcionario'];
         $cab_monto_total     = $dataCotizacion['monto_total'];
         $cab_descuento       = $dataCotizacion['descuento'];
@@ -112,13 +114,13 @@
         $pdf->setY(38);$pdf->setX($ejeX + 3);
         $pdf->Cell(20,$textypos,utf8_decode("Señor(es):"), 'LTB', 0, 'L'); 
         $pdf->setY(43);$pdf->setX($ejeX + 3);
-        $pdf->Cell(20,$textypos,utf8_decode("Vendedor:"), 'L', 0, 'L');
+        $pdf->Cell(20,$textypos,utf8_decode("Dirección:"), 'L', 0, 'L');
 
         $pdf->SetFont('Arial','',7);    
         $pdf->setY(38);$pdf->setX($ejeX + 16);
         $pdf->Cell(55,$textypos,utf8_decode($cab_cliente), 'TB', 0, 'L');  
         $pdf->setY(43);$pdf->setX($ejeX + 16);
-        $pdf->Cell(40,$textypos,utf8_decode($cab_funcionario), 'TB', 0, 'L');
+        $pdf->Cell(40,$textypos,utf8_decode($cab_dir_cliente), 'TB', 0, 'L');
         // $pdf->MultiCell(40, 3, utf8_decode($cab_funcionario), 0, 'L');
         
         $pdf->SetFont('Arial','B',7);    
@@ -131,7 +133,7 @@
         $pdf->setY(38); $pdf->setX($ejeX + 76.5);
         $pdf->Cell(15, $textypos, $cab_nit, 'TRB', 0, 'L');
         $pdf->setY(43);$pdf->setX($ejeX + 76.5);
-        $pdf->Cell(15, $textypos, $cab_tipo_doc, 'R', 0, 'L');
+        $pdf->Cell(15, $textypos, $cab_tipo_venta, 'R', 0, 'L');
         $pdf->Ln();
 
         // DETALLE DE ITEMS

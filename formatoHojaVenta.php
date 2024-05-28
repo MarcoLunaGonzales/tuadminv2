@@ -23,6 +23,7 @@
                     tv.nombre_tipoventa as tipo_venta,
                     tp.nombre_tipopago as tipo_pago,
                     CONCAT(cli.nombre_cliente, ' ', cli.paterno) as cliente,
+                    cli.dir_cliente,
                     CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as funcionario,
                     sa.monto_total,
                     sa.descuento,
@@ -45,6 +46,7 @@
         $cab_tipo_venta      = $dataSalida['tipo_venta'];
         $cab_tipo_pago       = $dataSalida['tipo_pago'];
         $cab_cliente         = $dataSalida['cliente'];
+        $cab_dir_cliente     = $dataSalida['dir_cliente'];
         $cab_funcionario     = $dataSalida['funcionario'];
         $cab_monto_total     = $dataSalida['monto_total'];
         $cab_descuento       = $dataSalida['descuento'];
@@ -109,13 +111,13 @@
     $pdf->setY(30);$pdf->setX(10);
     $pdf->Cell(30,$textypos,utf8_decode("Señor(es):"), 'LTB', 0, 'L'); 
     $pdf->setY(35);$pdf->setX(10);
-    $pdf->Cell(20,$textypos,utf8_decode("Vendedor:"), 'L', 0, 'L');
+    $pdf->Cell(20,$textypos,utf8_decode("Dirección:"), 'L', 0, 'L');
 
     $pdf->SetFont('Arial','',7);    
     $pdf->setY(30);$pdf->setX(25);
     $pdf->Cell(130,$textypos,utf8_decode($cab_cliente), 'TB', 0, 'L');  
     $pdf->setY(35);$pdf->setX(25);
-    $pdf->Cell(130,$textypos,utf8_decode($cab_funcionario), 'TB', 0, 'L');  
+    $pdf->Cell(130,$textypos,utf8_decode($cab_dir_cliente), 'TB', 0, 'L');  
     // $pdf->MultiCell(120, 3, utf8_decode($cab_funcionario), 0, 'L');
     
     $pdf->SetFont('Arial','B',7);    

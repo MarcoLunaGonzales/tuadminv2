@@ -684,19 +684,21 @@ function validar(f){
 	/**************************************************/
 
 	/**************** Validar Efectivo y Total Final ****************/
-	var efectivoRecibido = parseFloat($("#efectivoRecibido").val());
-	var totalFinalVenta = parseFloat($("#totalFinal").val());
-	if (isNaN(efectivoRecibido)) { efectivoRecibido = 0; }
-	if (isNaN(totalFinalVenta)) { totalFinalVenta = 0; }
-	console.log("efectivo: "+efectivoRecibido);
-	if(efectivoRecibido < totalFinalVenta){
-		Swal.fire("Error en Monto Recibido en Efectivo!", "<b>El monto en efectivo NO puede ser menor al monto total.</b>", "error");
-		//document.getElementById('efectivoRecibidoUnido').focus();	
-			return (false);
-	}  	
-	if(totalFinalVenta<=0){
-		Swal.fire("Monto Final!", "El Monto Final del documento no puede ser 0", "info");
-		return(false);
+	if(tipo_pago < 4){
+		var efectivoRecibido = parseFloat($("#efectivoRecibido").val());
+		var totalFinalVenta = parseFloat($("#totalFinal").val());
+		if (isNaN(efectivoRecibido)) { efectivoRecibido = 0; }
+		if (isNaN(totalFinalVenta)) { totalFinalVenta = 0; }
+		console.log("efectivo: "+efectivoRecibido);
+		if(efectivoRecibido < totalFinalVenta){
+			Swal.fire("Error en Monto Recibido en Efectivo!", "<b>El monto en efectivo NO puede ser menor al monto total.</b>", "error");
+			//document.getElementById('efectivoRecibidoUnido').focus();	
+				return (false);
+		}  	
+		if(totalFinalVenta<=0){
+			Swal.fire("Monto Final!", "El Monto Final del documento no puede ser 0", "info");
+			return(false);
+		}
 	}
 	/**************** Fin Validar Efectivo y Total Final ****************/
 
@@ -928,14 +930,21 @@ function validarCotizacion(f){
 		var genero = '';
 		var tipoPrecio = '';	
 
-		if (nomcli == "" || nit == "" || (mail == "" && tel1 == "")) {
-			Swal.fire("Informativo!", "Debe llenar los campos obligatorios", "warning");
+		if (nomcli == "") {
+			Swal.fire("Informativo!", "Debe llenar el campo de nombre del cliente", "warning");
+		} else if (apcli == "") {
+			Swal.fire("Informativo!", "Debe llenar el campo de apellidos del cliente", "warning");
+		} else if (tel1 == "") {
+			Swal.fire("Informativo!", "Debe llenar el campo de Teléfono", "warning");
+		} else if (nit == "") {
+			Swal.fire("Informativo!", "Debe llenar el campo de NIT", "warning");
 		} else {
 			if (validarCorreoUnicoCliente(0, nit, mail) == 0) {
 				Swal.fire("Error!", "El cliente con correo: " + mail + ", ya se encuentra registrado!", "error");
 			} else {
 				var parametros = {
 					"nomcli": nomcli,
+					"apCli": apcli,
 					"nit": nit,
 					"ci": ci,
 					"dir": dir,
@@ -944,7 +953,6 @@ function validarCotizacion(f){
 					"area": area,
 					"fact": fact,
 					"edad": edad,
-					"apCli": apcli,
 					"tipoPrecio": tipoPrecio,
 					"genero": genero,
 					"dv": 1
@@ -1041,7 +1049,10 @@ function validarCotizacion(f){
 				}else{
 					$("#razonSocial").attr("readonly",true);	
 				}
-				
+				var selectedOption = $('#cliente').find('option:selected');
+				var nit = selectedOption.data('nit');
+				console.log($("#cliente").val())
+				$('#nitCliente').val(nit);
 			}
 		}
 		ajax.send(null);
@@ -1499,13 +1510,13 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		<option value='146'>NO REGISTRADO</option>
 		<?php
 			$sql = "SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente
-					FROM clientes c
-					WHERE c.cod_cliente != 146";
+					FROM clientes c";
 			$resp=mysqli_query($enlaceCon,$sql);
 			while($rowCot=mysqli_fetch_array($resp)){
-				$selected = ($cab_cod_cliente = $rowCot['cod_cliente']) ? 'selected' : '';
+				$nit_cliente = $rowCot['nit_cliente'];
+				$selected = ($cab_cod_cliente = $rowCot['cod_cliente'] && !empty($cab_cod_cliente)) ? 'selected' : '';
 		?>
-		<option value='<?=$rowCot['cod_cliente']?>' <?=$selected?>><?=$rowCot['nombre_cliente']?></option>
+		<option value='<?=$rowCot['cod_cliente']?>' data-nit="<?=$nit_cliente?>" <?=$selected?>><?=$rowCot['nombre_cliente']?></option>
 		<?php
 			}
 		?>
@@ -1626,7 +1637,7 @@ if($tipoDocDefault==2){
 
 		<tr align="center">
 			<td width="5%">&nbsp;</td>
-			<td width="30%">Material</td>
+			<td width="30%">Descripción</td>
 			<td width="10%">Stock</td>
 			<td width="10%">Cantidad</td>
 			<td width="10%">Precio (Bs.)</td>
@@ -1970,7 +1981,7 @@ if($banderaErrorFacturacion==0){
                             <input class="form-control" style="color:black;background: #fff;text-transform:uppercase;" type="text" id="nomcli" required value="<?php echo "$nomCliente"; ?>" placeholder="Nombre del Cliente" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
                         </div>
                     </div>
-                    <label class="col-sm-1 col-form-label text-white">Apellidos</label>
+                    <label class="col-sm-1 col-form-label text-white" style="font-size:11px;">Apellidos (*)</label>
                     <div class="col-sm-5">
                         <div class="form-group">
                             <input class="form-control" style="color:black;background: #fff;text-transform:uppercase;" type="text" id="apcli" value="<?php echo "$apCliente"; ?>" required placeholder="Apellido(s) del Cliente" onkeyup="javascript:this.value=this.value.toUpperCase();"/>
@@ -1978,13 +1989,13 @@ if($banderaErrorFacturacion==0){
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-sm-2 col-form-label text-white">Teléfono (*)</label>
+                    <label class="col-sm-2 col-form-label text-white" style="font-size:11px;">Teléfono (*)</label>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <input class="form-control" style="color:black;background: #fff;" type="text" id="tel1" value="<?php echo "$telefono1"; ?>" required placeholder="Telefono/Celular"/>
                         </div>
                     </div>
-                    <label class="col-sm-1 col-form-label text-white">Email (*)</label>
+                    <label class="col-sm-1 col-form-label text-white">Email</label>
                     <div class="col-sm-5">
                         <div class="form-group">
                             <input class="form-control" style="color:black;background: #fff;" type="email" id="mail" value="<?php echo "$email"; ?>" required placeholder="cliente@correo.com"/>
