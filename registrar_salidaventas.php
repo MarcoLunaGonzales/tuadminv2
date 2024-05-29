@@ -175,8 +175,11 @@ function ajaxRazonSocial(f){
 			//alert(datos_resp[1])
 			//$("#cliente").val(datos_resp[1]);			
 			$("#cliente").html(datos_resp[1]);				
-			ajaxRazonSocialCliente(document.getElementById('form1'));
+			// ajaxRazonSocialCliente(document.getElementById('form1'));
 			$("#cliente").selectpicker('refresh');
+
+			// Verifica RAZON SOCIAL
+			completaRazonSocial();
 
 			// Pago de Credito Pendiente, valida el tipo de venta de: | (1) Contado y Credito | (2) Credito
 			if(validacionCreditoConfig == 1){
@@ -190,6 +193,43 @@ function ajaxRazonSocial(f){
 		}
 	}
 	ajax.send(null);
+}
+/**
+ * SELECCIONA CLIENTE
+ */
+function seleccionaCliente(){
+	completaRazonSocial();
+	completaNit();
+}
+
+/**
+ * ? COMPLETA RAZON SOCIAL
+ */
+function completaRazonSocial(){
+	if($('#cliente').val() != 146){ // El cliente seleccionado debe ser diferente a 146 
+		var selectedOption = $('#cliente').find('option:selected');
+		var razon = selectedOption.data('razon');
+		// console.log($("#cliente").val())
+		$('#razonSocial').val(razon);
+		$("#razonSocial").attr("readonly", true);
+	}else{
+		$('#razonSocial').val("");
+		$("#razonSocial").attr("readonly", false);	
+	}
+}
+
+/**
+ * ? COMPLETA NIT
+ */
+function completaNit(){
+	if($('#cliente').val() != 146){ // El cliente seleccionado debe ser diferente a 146 
+		var selectedOption = $('#cliente').find('option:selected');
+		var nit = selectedOption.data('nit');
+		// console.log($("#cliente").val())
+		$('#nitCliente').val(nit);
+	}else{
+		$('#nitCliente').val("");
+	}
 }
 
 function calculaMontoMaterial(indice){
@@ -969,7 +1009,10 @@ function validarCotizacion(f){
 						console.log("response[]:" + r[1]);
 
 						if (parseInt(r[1]) > 0) {           	
-							refrescarComboCliente(r[1]);
+							// refrescarComboCliente(r[1]); // Ya no se utiliza
+							Swal.fire("Correcto!", "Se guardó el cliente con éxito", "success"); 
+							ajaxClienteBuscar(); // Busca Cliente
+							$("#modalNuevoCliente").modal("hide"); 
 
 							$("#nomcli").val("");
 							$("#apcli").val("");
@@ -1051,7 +1094,7 @@ function validarCotizacion(f){
 				}
 				var selectedOption = $('#cliente').find('option:selected');
 				var nit = selectedOption.data('nit');
-				console.log($("#cliente").val())
+				// console.log($("#cliente").val())
 				$('#nitCliente').val(nit);
 			}
 		}
@@ -1494,7 +1537,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 </th>
 <th width="20%">
 	<div id='divNIT'>
-		<input type='text' value='<?php echo empty($cod_cotizacion) ? $nitDefault : $cab_nit; ?>' name='nitCliente' id='nitCliente' onchange="ajaxRazonSocial(this.form);" onkeypress="return check(event)" placeholder="INGRESE EL CARNET o NIT" required class="custom-input" style="width: 100%;">
+		<input type='text' value='<?php echo empty($cod_cotizacion) ? $nitDefault : $cab_nit; ?>' name='nitCliente' id='nitCliente' onchange="ajaxClienteBuscar(this.form);" onkeypress="return check(event)" placeholder="INGRESE EL CARNET o NIT" required class="custom-input" style="width: 100%;">
 	</div>
 	<input type="hidden" name="complemento" id="complemento" class="elegant-input" placeholder="COMPLEMENTO" onkeyup="javascript:this.value=this.value.toUpperCase();" style="width: 100%;">
 </th>
@@ -1506,17 +1549,28 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 </th>
 
 <th align='center' id='divCliente' width="25%">		
-	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='ajaxRazonSocialCliente(this.form);' required data-style="btn btn-secondary">
+	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='seleccionaCliente(this.form);' required data-style="btn btn-secondary">
 		<option value='146'>NO REGISTRADO</option>
 		<?php
-			$sql = "SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente
-					FROM clientes c";
+			$sql = "SELECT c.cod_cliente, 
+							CONCAT(c.nombre_cliente, ' ', c.paterno) as nombre_cliente, 
+							c.nit_cliente,
+							c.nombre_factura
+					FROM clientes c
+					ORDER BY c.cod_cliente DESC";
 			$resp=mysqli_query($enlaceCon,$sql);
-			while($rowCot=mysqli_fetch_array($resp)){
-				$nit_cliente = $rowCot['nit_cliente'];
-				$selected = ($cab_cod_cliente = $rowCot['cod_cliente'] && !empty($cab_cod_cliente)) ? 'selected' : '';
+			while($rowCliente=mysqli_fetch_array($resp)){
+				$nit_cliente 	= $rowCliente['nit_cliente'];
+				$nombre_factura = $rowCliente['nombre_factura'];
+
+				$selected = ($cab_cod_cliente = $rowCliente['cod_cliente'] && !empty($cab_cod_cliente)) ? 'selected' : '';
 		?>
-		<option value='<?=$rowCot['cod_cliente']?>' data-nit="<?=$nit_cliente?>" <?=$selected?>><?=$rowCot['nombre_cliente']?></option>
+			<option value='<?=$rowCliente['cod_cliente']?>' 
+					data-nit="<?=$nit_cliente?>" 
+					data-razon="<?=$nombre_factura?>" 
+					<?=$selected?>>
+				<?=$rowCliente['nombre_cliente']?>
+			</option>
 		<?php
 			}
 		?>
@@ -2012,7 +2066,7 @@ if($banderaErrorFacturacion==0){
                     <label class="col-sm-1 col-form-label text-white">NIT(*)</label>
                     <div class="col-sm-5">
                         <div class="form-group">
-                            <input class="form-control" style="color:black;background: #fff;" type="text" id="nit" value="<?php echo "$nitCliente"; ?>" required/>
+                            <input class="form-control" style="color:black;background: #fff;" type="text" id="nit" value="<?php echo "$nitCliente"; ?>" required readonly/>
                         </div>
                     </div>
                 </div>
