@@ -2130,6 +2130,21 @@ if($banderaErrorFacturacion==0){
       </div>  
     </div>
   </div>
+  <style>
+	/**
+	 * ESTILO DE SELECT
+	 **/
+    .bootstrap-select .dropdown-toggle .filter-option {
+        text-align: left;
+    }
+    .bootstrap-select .dropdown-menu {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .bootstrap-select .dropdown-menu.open {
+        display: block;
+    }
+</style>
 <script>
 	$('body #tipoDoc_extra').trigger('change').val(<?=$tipoDocDefault?>);
 
