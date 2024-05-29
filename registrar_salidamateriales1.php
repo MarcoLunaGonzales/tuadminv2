@@ -342,7 +342,7 @@ else
 		</tr>
 
 		<tr>
-			<th align='center' colspan="2">
+			<th align='center' colspan="4">
 				<label style="color:black;">Observaciones</label>
 				<input type='text' class='form-control' name='observaciones' placeholder="Ingrese observaciones" style="background:white;">
 			</th>
