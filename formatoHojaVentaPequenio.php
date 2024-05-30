@@ -161,13 +161,14 @@
                             sda.orden_detalle,
                             m.descripcion_material,
                             sda.precio_unitario,
-                            sda.cantidad_unitaria,
-                            sda.descuento_unitario,
-                            sda.monto_unitario 
+                            sum(sda.cantidad_unitaria)as cantidad_unitaria,
+                            sum(sda.descuento_unitario)as descuento_unitario,
+                            sum(sda.monto_unitario)as monto_unitario 
                         FROM salida_detalle_almacenes sda
                         LEFT JOIN material_apoyo m ON m.codigo_material = sda.cod_material
                         WHERE m.codigo_material = sda.cod_material 
                         AND sda.cod_salida_almacen = '$cod_salida_almacen'
+                        GROUP BY m.codigo_material
                         ORDER BY sda.orden_detalle DESC";
         // echo $sqlDatosVenta;
         $respSalidaDet = mysqli_query($enlaceCon, $sqlSalidaDet);
@@ -181,10 +182,12 @@
             $descuento_unitario   = $dataSalidaDet['descuento_unitario'];
             $monto_unitario       = $dataSalidaDet['monto_unitario'];
 
+            $montoCalculadoProducto=($cantidad_unitaria * $precio_unitario) - $descuento_unitario;
             
             $row_index = 1;
 
             $pdf->setX($ejeX + 3);
+            
             $y = $pdf->getY();
             $x = $pdf->GetX();
 
@@ -216,14 +219,14 @@
             $pdf->SetFont('Arial','',7);
             $y = $pdf->getY();
             $x = $pdf->GetX();
-            $pdf->multiCell(13, 5 * $row_index, utf8_decode(redondear2($monto_unitario)), 1, 'R');
+            $pdf->multiCell(13, 5 * $row_index, utf8_decode(redondear2($montoCalculadoProducto)), 1, 'R');
             $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
             $pdf->SetY($y); // regresar a fila anterior
             $pdf->setX($x + 13); // regresar a columna anterior mas espacio de la columna
 
             $pdf->Ln();
 
-            $montoTotal += ($cantidad_unitaria * $precio_unitario) - $descuento_unitario;
+            $montoTotal += $montoCalculadoProducto;
         }
 
         /****************************************/
