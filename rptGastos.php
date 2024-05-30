@@ -28,7 +28,7 @@ echo "<tr><th colspan='4'>Detalle de Gastos</th></tr>";
 echo "<tr><th>Fecha</th><th>Tipo</th>
 	<th>Descripcion</th><th>Monto [Bs]</th></tr>";
 
-$consulta = "select g.cod_gasto, g.descripcion_gasto, 
+$consulta = "SELECT g.cod_gasto, g.descripcion_gasto, 
 	(select nombre_tipogasto from tipos_gasto where cod_tipogasto=g.cod_tipogasto)tipogasto, 
 	DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g where fecha_gasto between '$fecha_iniconsulta' and '$fecha_finconsulta' and g.estado=1 and g.cod_ciudad='$rpt_territorio' order by g.cod_gasto";
 //echo $consulta;
