@@ -181,6 +181,7 @@
 					cantidad_items++;
 					console.log("num: "+num);
 					console.log("cantidadItems: "+cantidad_items);
+					document.getElementById('cantidad_material').value = cantidad_items; 
 					fi = document.getElementById('fiel');
 					contenedor = document.createElement('div');
 					contenedor.id = 'div'+num;  
@@ -393,6 +394,10 @@ else
 			</tr>
 			</table>
 
+
+			<input type='hidden' id='materialActivo' name='materialActivo' value="0">
+			<input type='text' id='cantidad_material' name='cantidad_material' value="0">
+			
 			<br>
 
 			<fieldset id="fiel" style="width:100%;border:0;">
@@ -471,9 +476,6 @@ else
 				
 				</div>
 			</div>
-
-			<input type='hidden' id='materialActivo' name='materialActivo' value="0">
-			<input type='hidden' id='cantidad_material' name='cantidad_material' value="0">
 
 		</form>
 
