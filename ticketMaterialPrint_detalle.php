@@ -89,7 +89,7 @@ $respConf=mysqli_query($enlaceCon,$sqlConf);
 $registro = mysqli_fetch_array($respConf);
 $registro['valor_configuracion'];
 $hoja_alto = $registro['valor_configuracion']; // ALTO
-$hoja      = array($hoja_ancho,$hoja_alto); // (ancho, alto)
+$hoja      = array($hoja_ancho, $hoja_alto); // (ancho, alto)
 
 $radio_borde = 5;
 $interlineado = 0;
@@ -101,12 +101,11 @@ $pdf->AddPage();
 // Configuración de Texto
 $pdf->SetFont($tipo_letra, $estilo, $tamanio_letra);
 
+// Codigo de CIUDAD
+$global_agencia = $_COOKIE["global_agencia"];
 // Definimos las variables con los datos de ejemplo
 $cod_ingreso_almacen = $_GET['cod_ingreso_almacen'];
-$nombre_producto = $_GET['nombre'];
-$codigo_general  = $_GET['codigo'];
-$precio          = $_GET['precio'];
-$costo           = $_GET['costo'];
+
 // Cantidad de Tickets
 $cantidad_tickets = isset($_GET['cantidad_tickets']) ? $_GET['cantidad_tickets'] : 1;
 
@@ -119,13 +118,24 @@ $numero = 0;
 /**
  * LISTA DE INGRESO DE PRODUCTOS
  */
-$sqlConf = "SELECT ida.cod_ingreso_almacen, ida.lote
-            FROM ingreso_detalle_almacenes ida
-            WHERE ida.cod_ingreso_almacen = '$cod_ingreso_almacen'";
+$sqlConf = "SELECT ma.codigo_material, ma.descripcion_material, ROUND(p.precio, 2) as precio, ida.lote, ida.cod_ingreso_almacen, ida.costo_promedio as costo
+            FROM material_apoyo ma 
+            LEFT JOIN ingreso_detalle_almacenes ida ON ida.cod_material = ma.codigo_material
+            LEFT JOIN precios p ON p.codigo_material = ma.codigo_material
+            WHERE ida.cod_ingreso_almacen = '$cod_ingreso_almacen'
+            AND p.cod_ciudad = '$global_agencia'
+            AND p.cod_precio = 1";
 $respConf = mysqli_query($enlaceCon, $sqlConf);
-$lote_array = [];
-while ($row = mysqli_fetch_assoc($respConf)) {
-// for($i = 0; $i < $cantidad_tickets; $i++){
+while ($registro = mysqli_fetch_assoc($respConf)) {
+    // for($i = 0; $i < $cantidad_tickets; $i++){
+    $cod_ingreso_almacen = $registro['cod_ingreso_almacen'];
+    $nombre_producto     = $registro['descripcion_material'];
+    $codigo_general      = $registro['codigo_material'];
+    $precio              = $registro['precio'];
+    $costo               = $registro['costo'];
+    $lote                = $registro['lote'];
+    $nombre_barra        = $cod_ingreso_almacen.'_'.$codigo_general.'_'.$lote;
+    
     $numero = $numero + 1;
     // Dibujamos la primera card
     $pdf->RoundedRect($margen_x, $margen_y, $card_width, $card_height, $radio_borde);
@@ -135,7 +145,7 @@ while ($row = mysqli_fetch_assoc($respConf)) {
     // ****************
     // Valor iniciarl
     $pdf->setY($margen_y+2);
-    /*###########################################################################*/
+    /*###########################################################################*/ 
     $margen_seg_y = $pdf->getY();
     // TEXTO PRIMERA COLUMNA
     /*****************************************************************************/
@@ -156,7 +166,7 @@ while ($row = mysqli_fetch_assoc($respConf)) {
     $y = $pdf->getY();
     // $pdf->Image('barcode.php?text='.$codigo_general.'&size=40&codetype=Code39&print=true', $margen_x+2, $y, $card_width-5, ($card_height/2));
     // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x+2, $y, $card_width-5, ($card_height/2));
-    $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_x, $y-3, $card_width, ($card_height/2)-6, 'PNG');
+    $pdf->Image('codigo_barra/'.$nombre_barra.'.png', $margen_x, $y-3, $card_width, ($card_height/2)-6, 'PNG');
     $pdf->Ln();
     // PRECIO
     $pdf->setY($margen_seg_y + $card_height-7);
@@ -164,22 +174,27 @@ while ($row = mysqli_fetch_assoc($respConf)) {
     $pdf->multiCell($card_width, 3, utf8_decode("P: ".$precio), 0, 'B', false);
     // COSTO FALSE
     $pdf->setY($margen_seg_y + $card_height-7);
-    $pdf->setX($card_width - 14);
+    $pdf->setX($card_width - 17);
     $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
     $pdf->Ln();
 
-    // LOTE DE PRODUCTO INGRESO
-    $lote = $row['lote'];
     // CODIGO
     $pdf->setY($margen_seg_y + $card_height-10);
-    $margen_seg_x_code = (($card_width)/2)-3;
+    $margen_seg_x_code = (($card_width)/2) - 6;
     $pdf->setX($margen_seg_x_code);
     $pdf->SetFont($tipo_letra, $estilo, 12);
-    $pdf->multiCell($card_width, 3, utf8_decode($codigo_general. ' / ' . $lote), 0, 'B', false);
+    $pdf->multiCell($card_width, 3, utf8_decode($codigo_general. ' | ' . $lote), 0, 'B', false);
     $pdf->Ln();
 
 
-    if ($row = mysqli_fetch_assoc($respConf)) {
+    if ($registro = mysqli_fetch_assoc($respConf)) {
+        $cod_ingreso_almacen = $registro['cod_ingreso_almacen'];
+        $nombre_producto     = $registro['descripcion_material'];
+        $codigo_general      = $registro['codigo_material'];
+        $precio              = $registro['precio'];
+        $costo               = $registro['costo'];
+        $lote                = $registro['lote'];
+        $nombre_barra        = $cod_ingreso_almacen.'_'.$codigo_general.'_'.$lote;
         // ****************
         // Valor iniciarl
         $pdf->SetFont($tipo_letra, $estilo, $tamanio_letra);
@@ -207,7 +222,7 @@ while ($row = mysqli_fetch_assoc($respConf)) {
         $pdf->setY($margen_seg_y + 12);
         $y = $pdf->getY();
         // $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y, $card_width, ($card_height/2)+5);
-        $pdf->Image('codigo_barra/'.$codigo_general.'.png', $margen_seg_x, $y-3, $card_width, ($card_height/2)-6, 'PNG');
+        $pdf->Image('codigo_barra/'.$nombre_barra.'.png', $margen_seg_x, $y-3, $card_width, ($card_height/2)-6, 'PNG');
         $pdf->Ln();
 
         // PRECIO
@@ -216,19 +231,18 @@ while ($row = mysqli_fetch_assoc($respConf)) {
         $pdf->multiCell($card_width, 3, utf8_decode("P: ".$precio), 0, 'B', false);
         // COSTO FALSE
         $pdf->setY($margen_seg_y + $card_height-7);
-        $pdf->setX($margen_seg_x + $card_width - 14);
+        $pdf->setX($margen_seg_x + $card_width - 17);
         $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
         $pdf->Ln();
 
-        // LOTE DE PRODUCTO INGRESO
-        $lote = $row['lote'];
         // CODIGO
         $pdf->setY($margen_seg_y + $card_height-10);
-        $margen_seg_x = ($margen_x + $card_width + $margen_x2) + $margen_seg_x_code-3;
+        $margen_seg_x = ($margen_x + $card_width + $margen_x2) + $margen_seg_x_code - 3;
         $pdf->setX($margen_seg_x);
         $pdf->SetFont($tipo_letra, $estilo, 12);
-        $pdf->multiCell($card_width, 3, utf8_decode($codigo_general. ' / ' . $lote), 0, 'B', false);
+        $pdf->multiCell($card_width, 3, utf8_decode($codigo_general. ' | ' . $lote), 0, 'B', false);
         $pdf->Ln();
+        
         /*****************************************************************************/
         /*###########################################################################*/
         // if ($i < $cantidad_tickets - 1) {
@@ -236,11 +250,11 @@ while ($row = mysqli_fetch_assoc($respConf)) {
         // }
 
         // Siguiente ticket
-        // $margen_y  += $card_height + 2 + $config_margen_y;
-        // $margen_y2 += $card_height + 2 + $config_margen_y2;
+        $margen_y  += $card_height + 2 + $config_margen_y;
+        $margen_y2 += $card_height + 2 + $config_margen_y2;
     }
     // if ($i < $cantidad_tickets - 1) {
-        $pdf->AddPage();
+        // $pdf->AddPage();
     // }
 }
 

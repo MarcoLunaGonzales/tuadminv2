@@ -261,7 +261,7 @@ while ($dat = mysql_fetch_array($resp)) {
 		</a>
 	</td>
 	<td align='center'>
-        <a target='_BLANK' href='ticketMaterial_detalle.php?cod_ingreso_almacen=$codigo_ingreso'><img src='imagenes/icono-barra.png' border='0' width='30' heigth='30' title='Ver Detalles para Impresión'></a>
+        <a target='_BLANK' href='ticketMaterial_detalle.php?cod_ingreso_almacen=$codigo'><img src='imagenes/icono-barra.png' border='0' width='30' heigth='30' title='Ver Detalles para Impresión'></a>
 	</td></tr>";
 	/*echo "<td align='center'>
 		<a  href='costosImportacionIngreso.php?codigo_ingreso=$codigo'>
