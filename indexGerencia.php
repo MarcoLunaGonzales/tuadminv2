@@ -93,8 +93,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						<ul>
 							<li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li>
 							<li><a href="navegador_grupos.php" target="contenedorPrincipal">Grupos</a></li>
-							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos Serviteca</a></li>
-							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos Cafeteria</a></li>			
+							<li><a href="navegador_material.php" target="contenedorPrincipal">Productos</a></li>			
 						</ul>
 					</li>
 					<li><a href="navegador_funcionarios1.php" target="contenedorPrincipal">Funcionarios</a></li>
@@ -121,7 +120,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			<li><span>Ingresos</span>
 				<ul>
 					<li><a href="navegador_ingresomateriales.php" target="contenedorPrincipal">Ingreso de Materiales</a></li>
-					<!--li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Materiales en Transito</a></li-->
+					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Materiales en Transito</a></li>
 					<li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li>
 				</ul>	
 			</li>
