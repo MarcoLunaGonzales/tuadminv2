@@ -2,32 +2,31 @@
 require("conexion.inc");
 require("funciones.php");
 
-$fechaIniBusqueda=$_GET['fechaIniBusqueda'];
-$fechaFinBusqueda=$_GET['fechaFinBusqueda'];
-$notaIngreso=$_GET['notaIngreso'];
-$global_almacen=$_GET['global_almacen'];
-$provBusqueda=$_GET['provBusqueda'];
+$fechaIniBusqueda = $_GET['fechaIniBusqueda'];
+$fechaFinBusqueda = $_GET['fechaFinBusqueda'];
+$notaIngreso      = $_GET['notaIngreso'];
+$global_almacen   = $_GET['global_almacen'];
+$provBusqueda     = $_GET['provBusqueda'];
 
 //$fechaIniBusqueda=formateaFechaVista($fechaIniBusqueda);
 //$fechaFinBusqueda=formateaFechaVista($fechaFinBusqueda);	
 //
-$consulta = "
-    SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
+$consulta = "SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
 	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor
     FROM ingreso_almacenes i, tipos_ingreso ti
     WHERE i.cod_tipoingreso=ti.cod_tipoingreso
-    AND i.cod_almacen='$global_almacen'";
+    AND i.cod_almacen='$global_almacen' ";
 
-if($notaIngreso!="")
-   {$consulta = $consulta."AND i.nro_correlativo='$notaIngreso' ";
+if(!empty($notaIngreso))
+   {$consulta .= " AND i.observaciones LIKE '%$notaIngreso%' ";
    }
-if($fechaIniBusqueda!="--" && $fechaFinBusqueda!="--")
-   {$consulta = $consulta."AND '$fechaIniBusqueda'<=i.fecha AND i.fecha<='$fechaFinBusqueda' ";
+if(!empty($fechaIniBusqueda) && !empty($fechaFinBusqueda))
+   {$consulta .= " AND i.fecha BETWEEN '$fechaIniBusqueda' AND '$fechaFinBusqueda' ";
    }
-if($provBusqueda!=0){
-	$consulta=$consulta." and cod_proveedor='$provBusqueda' ";
+if(!empty($provBusqueda)){
+	$consulta .= " AND cod_proveedor = '$provBusqueda' ";
 }   
-$consulta = $consulta."ORDER BY i.nro_correlativo DESC";
+$consulta .= " ORDER BY i.nro_correlativo DESC";
 
 //echo $consulta;
 //

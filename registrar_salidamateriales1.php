@@ -396,7 +396,7 @@ else
 
 
 			<input type='hidden' id='materialActivo' name='materialActivo' value="0">
-			<input type='text' id='cantidad_material' name='cantidad_material' value="0">
+			<input type='hidden' id='cantidad_material' name='cantidad_material' value="0">
 			
 			<br>
 
