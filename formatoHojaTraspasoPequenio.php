@@ -69,7 +69,7 @@
         $pdf->SetFont('Arial','B',13);    
         $textypos = 5;
         $pdf->setY(5);$pdf->setX($ejeX + 28);
-        $pdf->Cell(5, $textypos, utf8_decode("NOTA DE REMISIÓN"));
+        $pdf->Cell(5, $textypos, utf8_decode("GUÍA DE REMISIÓN"));
         
         // Cambiar el color del texto a rojo
         $pdf->SetTextColor(255, 0, 0);
@@ -81,13 +81,13 @@
 
 
         // Imagenes
-        $pdf->Image('assets/imagenes/pdf_img3.png', $ejeX + 60, 9, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img3.png', $ejeX + 59, 9, 15, 7);
         $pdf->Image('assets/imagenes/pdf_img4.png', $ejeX + 77, 9, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img5.png', $ejeX + 60, 15, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img6.png', $ejeX + 77, 15, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img8.png', $ejeX + 43, 22, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img9.png', $ejeX + 77, 22, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img2.png', $ejeX + 60, 22, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img5.png', $ejeX + 59, 16, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img6.png', $ejeX + 77, 16, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img8.png', $ejeX + 4, 16, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img9.png', $ejeX + 22, 16, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img2.png', $ejeX + 41, 16, 15, 7);
         
 
         /************************************/
@@ -100,48 +100,67 @@
         /*              Datos Generales de la Factura           */
         /********************************************************/
         // Titulos
-        $pdf->Image('assets/imagenes/pdf_img1.png', $ejeX + 3, 9, 25, 10);
-        $pdf->SetFont('Arial','B',8);    
-        $pdf->setY(18); $pdf->setX($ejeX + 3);
-        $pdf->Cell(5, $textypos, utf8_decode("Av. 6 de Marzo Nro. 250")); 
-        $pdf->setY(21); $pdf->setX($ejeX + 3);
-        $pdf->Cell(5, $textypos,utf8_decode("Cel.: 74276636 - 75800783"));
-        $pdf->setY(24); $pdf->setX($ejeX + 3);
-        $pdf->Cell(5, $textypos,utf8_decode("El Alto, La Paz, Bolivia"));
+        $pdf->Image('assets/imagenes/pdf_img1.png', $ejeX + 3, 8, 25, 10);
+        $pdf->SetFont('Arial','B',8);
 
         
         // Información
         $pdf->SetFont('Arial','B',7);    
-        $pdf->setY(30);$pdf->setX($ejeX + 3);
-        $pdf->Cell(20,$textypos,utf8_decode("Señor(es):"), 'LTB', 0, 'L'); 
-        $pdf->setY(35);$pdf->setX($ejeX + 3);
-        $pdf->Cell(20,$textypos,utf8_decode("Vendedor:"), 'L', 0, 'L');
-
+        $pdf->setY(23);$pdf->setX($ejeX + 3);
+        $pdf->Cell(20,$textypos,utf8_decode("Fecha de Emisión:"), '', 0, 'L'); 
         $pdf->SetFont('Arial','',7);    
-        $pdf->setY(30);$pdf->setX($ejeX + 16);
-        $pdf->Cell(55,$textypos,utf8_decode($cab_cliente), 'TB', 0, 'L');
-        $pdf->setY(35);$pdf->setX($ejeX + 16);
-        $pdf->Cell(40,$textypos,utf8_decode($cab_funcionario), 'TB', 0, 'L');
-        // $pdf->MultiCell(40, 3, utf8_decode($cab_funcionario), 0, 'L');
+        $pdf->setY(23);$pdf->setX($ejeX + 25);
+        $pdf->Cell(67,$textypos,utf8_decode("15/5/2024"), '', 0, 'L');
+        $pdf->Ln();
+
+
+        $pdf->SetFont('Arial','B',7);  
+        $pdf->setY(27);$pdf->setX($ejeX + 3);
+        $pdf->Cell(20,$textypos,utf8_decode("Domicilio del Punto de Partida:"), '', 0, 'L');
+        $pdf->SetFont('Arial','',7);  
+        $pdf->setY(27);$pdf->setX($ejeX + 40);
+        $pdf->Cell(52,$textypos,utf8_decode($cab_funcionario), '', 0, 'L');
+        $pdf->Ln();
         
-        $pdf->SetFont('Arial','B',7);    
-        $pdf->setY(30);$pdf->setX($ejeX + 58);
-        $pdf->Cell(33.5,$textypos,utf8_decode("Dir.:"), 'TBR', 0, 'L');
-        $pdf->setY(35);$pdf->setX($ejeX + 58);
-        $pdf->Cell(20,$textypos,utf8_decode("Tipo Venta :"), 0, 'L');
+        $pdf->SetFont('Arial','B',7);  
+        $pdf->setY(31);$pdf->setX($ejeX + 3);
+        $pdf->Cell(89,$textypos,utf8_decode("DATOS DEL DESTINARIO"), '', 0, 'C');
+        $pdf->Ln();
         
-        $pdf->SetFont('Arial','',6);    
-        $pdf->setY(30); $pdf->setX($ejeX + 64);
-        // $pdf->Cell(27.5, $textypos, $cab_dir_cliente, 'TRB', 0, 'L');
-        $pdf->MultiCell(27.5, 2, utf8_decode($cab_dir_cliente), 0, 'L');
+        $pdf->SetFont('Arial','B',7);  
+        $pdf->setY(35);$pdf->setX($ejeX + 3);
+        $pdf->Cell(20,$textypos,utf8_decode("Razón Social:"), '', 0, 'L');
+        $pdf->SetFont('Arial','',7);  
+        $pdf->setY(35);$pdf->setX($ejeX + 20);
+        $pdf->Cell(40,$textypos,utf8_decode("Razing Trade LTDA."), '', 0, 'L');
+        $pdf->SetFont('Arial','B',7);  
+        $pdf->setY(35);$pdf->setX($ejeX + 60);
+        $pdf->Cell(31,$textypos,utf8_decode("NIT :"), '', 0, 'L');
+        $pdf->SetFont('Arial','',7);  
         $pdf->setY(35);$pdf->setX($ejeX + 73);
-        $pdf->Cell(18.5, $textypos, $cab_tipo_venta, 'R', 0, 'L');
+        $pdf->Cell(18.5, $textypos, '345048025', '', 0, 'L');
+        $pdf->Ln();
+        
+        $pdf->SetFont('Arial','B',7);  
+        $pdf->setY(39);$pdf->setX($ejeX + 3);
+        $pdf->Cell(20,$textypos,utf8_decode("Domicilio del Punto de Llegada:"), '', 0, 'L');
+        $pdf->SetFont('Arial','',7);  
+        $pdf->setY(39);$pdf->setX($ejeX + 42);
+        $pdf->Cell(49.5,$textypos,utf8_decode($cab_funcionario), '', 0, 'L');
+        $pdf->Ln();
+        
+        $pdf->SetFont('Arial','B',7);  
+        $pdf->setY(43);$pdf->setX($ejeX + 3);
+        $pdf->Cell(20,$textypos,utf8_decode("Bienes Transportados: "), '', 0, 'L');
+        $pdf->SetFont('Arial','',7);  
+        $pdf->setY(43);$pdf->setX($ejeX + 31);
+        $pdf->Cell(60.5,$textypos,utf8_decode("LLANTAS"), '', 0, 'L');
         $pdf->Ln();
 
         // DETALLE DE ITEMS
-        $header = array("CANT", "DETALLE", "P.U.", "SUB-TOTAL");
+        $header = array("CANT.", "MARCA", "DESCRIPCION");
         // Column widths
-        $w = array(2, 49.5, 7.5, 7.5);
+        $w = array(3.5, 23.5, 45);
         $pdf->SetFont('Arial','B',6);    
         // Header
         $add_size = 5.5;
@@ -163,7 +182,11 @@
                             sda.precio_unitario,
                             sum(sda.cantidad_unitaria)as cantidad_unitaria,
                             sum(sda.descuento_unitario)as descuento_unitario,
-                            sum(sda.monto_unitario)as monto_unitario 
+                            sum(sda.monto_unitario)as monto_unitario,
+                            (select pl.nombre_linea_proveedor 
+                            from proveedores p, proveedores_lineas pl 
+                            where p.cod_proveedor=pl.cod_proveedor 
+                            and pl.cod_linea_proveedor=m.cod_linea_proveedor) as marca
                         FROM salida_detalle_almacenes sda
                         LEFT JOIN material_apoyo m ON m.codigo_material = sda.cod_material
                         WHERE m.codigo_material = sda.cod_material 
@@ -172,7 +195,7 @@
                         ORDER BY sda.orden_detalle DESC";
         // echo $sqlDatosVenta;
         $respSalidaDet = mysqli_query($enlaceCon, $sqlSalidaDet);
-        $montoTotal = 0;
+        $totalCantidad = 0;
         while($dataSalidaDet = mysqli_fetch_array($respSalidaDet)){
             $codigo_material      = $dataSalidaDet['codigo_material'];
             $orden_detalle        = $dataSalidaDet['orden_detalle'];
@@ -181,6 +204,7 @@
             $cantidad_unitaria    = $dataSalidaDet['cantidad_unitaria'];
             $descuento_unitario   = $dataSalidaDet['descuento_unitario'];
             $monto_unitario       = $dataSalidaDet['monto_unitario'];
+            $marca                = $dataSalidaDet['marca'];
 
             $montoCalculadoProducto=($cantidad_unitaria * $precio_unitario) - $descuento_unitario;
             
@@ -194,69 +218,99 @@
             // * CANTIDAD
             $pdf->SetFont('Arial','',6.5);
             $cantidad_unitaria = intval($cantidad_unitaria);
-            $pdf->multiCell(7.5, 3.5 * $row_index, $cantidad_unitaria, 1, 'B', false);
+            $pdf->multiCell(9, 3.5 * $row_index, $cantidad_unitaria, 1, 'B', false);
             $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
             $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 7.5); // regresar a columna anterior mas espacio de la columna
-            // * DESCRIPCIÓN
+            $pdf->setX($x + 9); // regresar a columna anterior mas espacio de la columna
+            // * MARCA
             $pdf->SetFont('Arial','',6.5);
             $y = $pdf->getY();
             $x = $pdf->GetX();
+            $pdf->multiCell(29, 3.5 * $row_index, utf8_decode($marca), 1, 'B', false);
+            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
+            $pdf->SetY($y); // regresar a fila anterior
+            $pdf->setX($x + 29); // regresar a columna anterior mas espacio de la columna
+            // * DESCRIPCIÓN
+            $pdf->SetFont('Arial','',6);
+            $y = $pdf->getY();
+            $x = $pdf->GetX();
             $nombreProductoX = strtoupper( substr($descripcion_material,0,40) );
-            $pdf->multiCell(55, 3.5 * $row_index, utf8_decode($nombreProductoX), 1, 'B', false);
-            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
-            $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 55); // regresar a columna anterior mas espacio de la columna
-            // * PRECIO UNITARIO
-            $pdf->SetFont('Arial','',7);
-            $y = $pdf->getY();
-            $x = $pdf->GetX();
-            $pdf->multiCell(13, 3.5 * $row_index, utf8_decode(number_format($precio_unitario, 2, ".",",")), 1, 'R');
-            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
-            $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 13); // regresar a columna anterior mas espacio de la columna
-            // * SUBTOTAL
-            $pdf->SetFont('Arial','',7);
-            $y = $pdf->getY();
-            $x = $pdf->GetX();
-            $pdf->multiCell(13, 3.5 * $row_index, utf8_decode(number_format($montoCalculadoProducto, 2, ".",",")), 1, 'R');
-            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
-            $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 13); // regresar a columna anterior mas espacio de la columna
+            $pdf->multiCell(50.5, 3.5 * $row_index, utf8_decode($nombreProductoX), 1, 'L', false);
+            // $pdf->multiCell(13, 3.5 * $row_index, utf8_decode(number_format($precio_unitario, 2, ".",",")), 1, 'R');
 
             $pdf->Ln();
 
-            $montoTotal += $montoCalculadoProducto;
+            $totalCantidad += $cantidad_unitaria;
         }
 
         /****************************************/
         /*              PIE DE PAGINA           */
         /****************************************/
+        $pdf->setY($y + 3.5);
+        $pdf->setX($ejeX + 3);
+        $pdf->SetFont('Arial','',6);
+        $pdf->Cell(9, 6, utf8_decode($totalCantidad), 1, 0, 'L');
+        $pdf->Cell(79.5, 6, utf8_decode('TOTAL'), 1, 0, 'L');
+        $pdf->Ln();
+        // DETALLE DE MOTIVO DE TRASLADO
+        $pdf->setY($y + 9.5);
+        $pdf->setX($ejeX + 3);
+        $pdf->SetFont('Arial','B',6);
+        $pdf->Cell(21, 6, utf8_decode('Motivo de Traslado'), 'LB', 0, 'L');
+        $pdf->SetFont('Arial','',6);
+        $pdf->Cell(67.5, 6, utf8_decode('Descripción de motivo'), 'BR', 0, 'L');
+        $pdf->Ln();
+        // DATOS TRANSPORTISTA
         $y = $pdf->getY();
-        $montoFinal=number_format($montoTotal,2,'.','');
-        $arrayDecimal=explode('.', $montoFinal);
-        if(count($arrayDecimal)>1){
-            list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
-        }else{
-            list($montoEntero,$montoDecimal)=array($montoFinal,0);
-        }
-
-        if($montoDecimal==""){
-            $montoDecimal="00";
-        }
-        $txtMonto=NumeroALetras::convertir($montoEntero);
-        $pdf->setY($y);
         $pdf->SetFont('Arial','B',6);  
         $pdf->setX($ejeX + 3);
-        $pdf->MultiCell(62.5, 3, utf8_decode("Son:".$txtMonto." ".$montoDecimal."/100 Bolivianos"), 1, 'L');
-        // $pdf->Cell(62.5, 6, ("Son:".$txtMonto." ".$montoDecimal."/100 Bolivianos"), 1, 0, 'L');
-
+        $pdf->Cell(40,$textypos,utf8_decode("DATOS DEL TRANSPORTISTA"), '1', 0, 'C');
+        $pdf->Cell(48.5,$textypos,utf8_decode("UNIDAD DE TRANSPORTE Y CONDUCTOR (ES)"), '1', 0, 'C');
+        $pdf->Ln();
         
-        $pdf->setY($y);
-        $pdf->setX($ejeX + 65.5);
-        $pdf->SetFont('Arial','',6);
-        $pdf->Cell(13, 6, utf8_decode("SubTotal Bs:"), 1, 0, 'R');
-        $pdf->Cell(13, 6, number_format($montoTotal, 2, ".",","), 1, 0, 'R');
+        $y = $pdf->getY();
+        $pdf->SetFont('Arial','B',6);  
+        $pdf->setX($ejeX + 3);
+        $pdf->Cell(15,$textypos,utf8_decode("Razón Social:"), 'LB', 0, 'L');
+        $pdf->SetFont('Arial','',6);  
+        $pdf->setX($ejeX + 18);
+        $pdf->Cell(25,$textypos,utf8_decode("CRISTOBAL"), 'BR', 0, 'L');
+        $pdf->SetFont('Arial','B',6);  
+        $pdf->setX($ejeX + 43);
+        $pdf->Cell(21,$textypos,utf8_decode("Nombre del Chofer:"), 'LB', 0, 'L');
+        $pdf->SetFont('Arial','',6);  
+        $pdf->setX($ejeX + 64);
+        $pdf->Cell(27.5, $textypos, utf8_decode('CRISTOBAL'), 'BR', 0, 'L');
+        $pdf->Ln();
+        
+        $y = $pdf->getY();
+        $pdf->SetFont('Arial','B',6);  
+        $pdf->setX($ejeX + 3);
+        $pdf->Cell(20,$textypos,utf8_decode("Numero de Placa:"), 'LB', 0, 'L');
+        $pdf->SetFont('Arial','',6);  
+        $pdf->setX($ejeX + 23);
+        $pdf->Cell(20,$textypos,utf8_decode("573GTX"), 'BR', 0, 'L');
+        $pdf->SetFont('Arial','B',6);  
+        $pdf->setX($ejeX + 43);
+        $pdf->Cell(10,$textypos,utf8_decode("Celular:"), 'LB', 0, 'L');
+        $pdf->SetFont('Arial','',6);  
+        $pdf->setX($ejeX + 53);
+        $pdf->Cell(38.5, $textypos, utf8_decode('72467316'), 'BR', 0, 'L');
+        $pdf->Ln();
+        
+        $y = $pdf->getY();
+        $pdf->SetFont('Arial','B',6);  
+        $pdf->setX($ejeX + 3);
+        $pdf->Cell(25,$textypos,utf8_decode("N° Licencia de Conducir:"), 'LB', 0, 'L');
+        $pdf->SetFont('Arial','',6);  
+        $pdf->setX($ejeX + 28);
+        $pdf->Cell(15,$textypos,utf8_decode("573GTX"), 'BR', 0, 'L');
+        $pdf->SetFont('Arial','B',6);  
+        $pdf->setX($ejeX + 43);
+        $pdf->Cell(13,$textypos,utf8_decode("Transporte:"), 'LB', 0, 'L');
+        $pdf->SetFont('Arial','',6);  
+        $pdf->setX($ejeX + 56);
+        $pdf->Cell(35.5, $textypos, utf8_decode('72467316'), 'BR', 0, 'L');
         $pdf->Ln();
 
         

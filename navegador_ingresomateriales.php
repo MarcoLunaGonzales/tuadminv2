@@ -191,9 +191,9 @@ function anular_ingreso(f)
 $fecha_sistema = date('Y-m-d');
 echo "<form method='post' action='navegador_ingresomateriales.php'>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
+echo "<input type='hidden' name='global_almacen' id='global_almacen' value='$global_almacen'>";
 
-$consulta = "
-    SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
+$consulta = "SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
 	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor, i.nro_factura_proveedor, 
 	(select s.nro_correlativo from salida_almacenes s where s.cod_salida_almacenes=i.cod_salida_almacen), 
 	(select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen), i.cod_salida_almacen
@@ -201,7 +201,6 @@ $consulta = "
     WHERE i.cod_tipoingreso=ti.cod_tipoingreso
     AND i.cod_almacen='$global_almacen'";
    $consulta = $consulta."ORDER BY i.nro_correlativo DESC limit 0, 200 ";
-//echo "MAT:$sql";
 $resp = mysqli_query($enlaceCon,$consulta);
 echo "<h1>Ingreso de Productos</h1>";
 
@@ -322,7 +321,7 @@ echo "</form>";
 				</td>
 			</tr>
 			<tr>
-				<td>Nota de Ingreso</td>
+				<td>Observaciones</td>
 				<td>
 				<input type='text' name='notaIngreso' id="notaIngreso" class='texto'>
 				</td>
