@@ -14,7 +14,7 @@
 
     $rs=mysqli_query($enlaceCon,$consulta);
     $registro=mysqli_fetch_array($rs);
-    $precioMaterial=$registro[0];
+    $precioMaterial=$registro[0] ?? '';
     if($precioMaterial>0){
         $precioMaterial=number_format($precioMaterial,2,'.','');
     }

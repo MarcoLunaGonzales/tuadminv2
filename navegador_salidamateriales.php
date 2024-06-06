@@ -298,11 +298,10 @@ echo "<tr><th>&nbsp;</th><th>Numero Salida</th><th>Fecha/hora<br>Registro Salida
 	
 	
 //
-$consulta = "
-	SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
+$consulta = "SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
 	(select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
 	s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
-	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc 
+	(select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, s.cod_tiposalida
 	FROM salida_almacenes s, tipos_salida ts 
 	WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida<>1001 ";
 
@@ -331,6 +330,7 @@ while ($dat = mysqli_fetch_array($resp)) {
     $cod_almacen_destino = $dat[9];
 	$nombreCliente=$dat[10];
 	$codTipoDoc=$dat[11];
+	$codTipoSalida=$dat[12];
     echo "<input type='hidden' name='fecha_salida$nro_correlativo' value='$fecha_salida_mostrar'>";
     $estado_preparado = 0;
     if ($estado_almacen == 0) {
@@ -374,8 +374,16 @@ while ($dat = mysqli_fetch_array($resp)) {
     echo "<td>$nombre_tiposalida</td><td>&nbsp;$nombre_almacen</td>";
     echo "<td>&nbsp;$nombreCliente</td><td>&nbsp;$obs_salida</td>";
     $url_notaremision = "navegador_detallesalidamuestras.php?codigo_salida=$codigo";    
-    echo "<td bgcolor='$color_fondo'><a href='javascript:llamar_preparado(this.form, $estado_preparado, $codigo)'>
-		<img src='imagenes/detalles.png' border='0' title='Detalle' width='40'></a></td>";
+    echo "<td bgcolor='$color_fondo'>
+            <a href='javascript:llamar_preparado(this.form, $estado_preparado, $codigo)'>
+                <img src='imagenes/detalles.png' border='0' title='Detalle' width='40'>
+            </a>";
+    if($codTipoSalida == 1000){
+        echo "<a href='formatoHojaTraspasoPequenio.php?cod_salida_almacen=$codigo' target='_blank'>
+            <img src='imagenes/pdf.png' border='0' title='PDF de Traspaso' width='40'>
+        </a>";   
+    }
+    echo "</td>";
 	/*if($codTipoDoc==1){
 		echo "<td><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'>Ver F.P.</a></td>";
 	}else{

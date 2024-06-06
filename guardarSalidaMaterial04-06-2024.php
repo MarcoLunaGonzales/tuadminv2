@@ -50,7 +50,7 @@ if($descuentoVenta=="" || $descuentoVenta==0){
 	$descuentoVenta=0;
 }
 
-$vehiculo=$_POST['cod_vehiculo'] ?? '';
+$vehiculo="";
 //SACAMOS LA CONFIGURACION PARA EL DOCUMENTO POR DEFECTO
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=1";
 $respConf=mysqli_query($enlaceCon,$sqlConf);
@@ -239,101 +239,8 @@ if($tipoDoc <> 1){
 // DATOS DE TRASPASO
 $cod_transportista 	= $_POST['cod_transportista'] ?? '';
 $cod_transportadora = $_POST['cod_transportadora'] ?? '';
+$nro_placa 			= $_POST['nro_placa'] ?? '';
 $cod_tipotraspaso 	= $tipoSalida == '1000' ? ($_POST['cod_tipotraspaso'] ?? '') : '';
-
-
-/************************************************************
- * ? TRASPASO (1000) DE PRODUCTOS DE DIFERENTES SUCURSALES
- ************************************************************/
-if($tipoSalida == '1000'){ // Traspaso
-	/**
-	 * TODO: PREPARA DATOS
-	 */
-	$sql = "SELECT cod_almacen, nombre_almacen FROM almacenes";
-	$resp = mysqli_query($enlaceCon, $sql);
-	if ($resp) {
-		// SUCURSALES
-		$almacenesConSucursales = array();
-		while ($fila = mysqli_fetch_assoc($resp)) {
-			$almacen = new stdClass();
-			$almacen->cod_almacen_origen = $fila['cod_almacen']; // Origen
-			$almacen->items = array();
-			for ($i = 1; $i <= $cantidad_material; $i++) {
-				// ITEMS
-				$item = new stdClass();
-				$cod_sucursal_origen = $_POST["cod_sucursales$i"];
-				if ($fila['cod_almacen'] == $cod_sucursal_origen) {	
-					$item->codMaterial 		 = $_POST["materiales$i"];
-					$item->cantidad_unitaria = $_POST["cantidad_unitaria$i"];
-					$item->precio_unitario 	 = $_POST["precio_unitario$i"];
-					$item->descuentoProducto = $_POST["descuentoProducto$i"];
-					$item->montoMaterial 	 = $_POST["montoMaterial$i"];
-					$almacen->items[] 		 = $item;
-				}
-			}
-			$almacenesConSucursales[] = $almacen;
-		}
-		// // Convertir a JSON
-		// $json_output = json_encode($almacenesConSucursales);
-		// // Mostrar el JSON
-		// echo $json_output;
-		// exit;
-
-		/**
-		 * TODO: REGISTRAR POR SUCURSALES EL RTASPASO
-		 */
-		$cantidad_salidas = 0;
-		foreach ($almacenesConSucursales as $almacen) {
-			if (!empty($almacen->items)) {
-				$sql	= "SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
-				$resp	= mysqli_query($enlaceCon,$sql);
-				$codigo = mysqli_result($resp,0,0);
-				$almacenOrigen = $almacen->cod_almacen_origen; // * Sucursal ORIGEN
-				$sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
-						`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
-						`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-						`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_transportista, cod_transportadora, cod_tipotraspaso)
-						values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-						'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_transportista','$cod_transportadora', '$cod_tipotraspaso')";
-				$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
-				
-				$index = 0;
-				foreach ($almacen->items as $item) {
-					$codMaterial 		= $item->codMaterial;
-					$cantidadUnitaria 	= $item->cantidad_unitaria;
-					$precioUnitario		= $item->precio_unitario;
-					$descuentoProducto 	= $item->descuentoProducto;
-					$montoMaterial 		= $item->montoMaterial;
-					$index++;
-					
-					$respuesta = descontar_inventarios($enlaceCon, $codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$index);
-
-					if($respuesta!=1){
-						echo "<script>
-							alert('Existio un error en el detalle. Contacte con el administrador del sistema.');
-						</script>";
-					}
-				}
-				$cantidad_salidas++;
-			}
-		}
-		// Mostrar mensaje dependiendo del resultado
-		if ($cantidad_salidas > 0) {
-			echo "<script>
-				alert('Registro correcto');
-				location.href='navegador_salidamateriales.php';
-				</script>";
-		} else {
-			echo "<script>
-				alert('No se registró ninguna salida de almacén.');
-				location.href='navegador_salidamateriales.php';
-				</script>";
-		}
-	}
-	exit;
-}
-
-// ***********************************************************
 
 $sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
 $resp=mysqli_query($enlaceCon,$sql);
@@ -341,9 +248,9 @@ $codigo=mysqli_result($resp,0,0);
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_transportista, cod_transportadora, cod_tipotraspaso)
+		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_transportista, cod_transportadora, nro_placa, cod_tipotraspaso)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_transportista','$cod_transportadora', '$cod_tipotraspaso')";
+		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_transportista','$cod_transportadora','$nro_placa', '$cod_tipotraspaso')";
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 //echo $sql_inserta;

@@ -9,27 +9,28 @@ ob_clean();
 
 $cod_transportadora = $_GET['cod_transportadora'];
 
-$sql = "SELECT t.codigo, t.nombre, t.nro_licencia
-        FROM transportistas t
-        WHERE t.estado = 1
-        AND t.cod_transportadora = '$cod_transportadora'
-        ORDER BY t.nombre ASC";
+$sql = "SELECT v.codigo, v.nombre, v.placa
+        FROM vehiculos v
+        WHERE v.estado = 1
+        AND v.cod_transportadora = '$cod_transportadora'
+        ORDER BY v.nombre ASC";
 $resp = mysqli_query($enlaceCon, $sql);
 
 $html = '<option value="0">Ninguno</option>';
 while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat['codigo'];
     $nombre = $dat['nombre'];
-    $html .= "<option value='$codigo'>$nombre</option>";
+    $placa  = $dat['placa'];
+    $html .= "<option value='$codigo'>$placa $nombre</option>";
 }
 
 if ($resp) {
     $response['success'] = true;
-    $response['message'] = "Se obtuvo la lista de choferes correctamente";
+    $response['message'] = "Se obtuvo la lista de vehículos correctamente";
     $response['html'] = $html;
 } else {
     $response['success'] = false;
-    $response['message'] = "Error al obtener la choferes";
+    $response['message'] = "Error al obtener la vehículos";
 }
 
 // Limpia el buffer de salida
