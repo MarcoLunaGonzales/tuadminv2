@@ -28,10 +28,14 @@ echo "<table align='center' class='textotit' width='100%'><tr><td align='center'
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
-$sql="SELECT c.`cod_cobro`, c.`fecha_cobro`, cd.`nro_doc`, concat(cl.`nombre_cliente`,' ',cl.paterno), concat(t.abreviatura,'-',s.nro_correlativo), cd.`monto_detalle`, c.`observaciones`
-	from `cobros_cab` c, `cobros_detalle` cd, clientes cl, `salida_almacenes` s, tipos_docs t
-	where c.`cod_cobro`=cd.`cod_cobro` and  t.codigo=s.cod_tipo_doc and c.`fecha_cobro` BETWEEN '$fecha_iniconsulta' and
-    '$fecha_finconsulta' and c.`cod_cliente`=cl.`cod_cliente` and cd.`cod_venta`=s.`cod_salida_almacenes` and c.cod_estado<>2";
+$sql="SELECT c.cod_cobro, c.fecha_cobro, cd.nro_doc, concat(cl.nombre_cliente,' ',cl.paterno), concat(t.abreviatura,'-',s.nro_correlativo), cd.monto_detalle, c.observaciones
+	FROM cobros_cab c, cobros_detalle cd, clientes cl, salida_almacenes s, tipos_docs t
+	WHERE c.cod_cobro = cd.cod_cobro 
+	AND t.codigo = s.cod_tipo_doc  
+	AND c.cod_cliente = cl.cod_cliente 
+	AND cd.cod_venta = s.cod_salida_almacenes 
+	AND c.cod_estado <> 2
+	AND c.fecha_cobro BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'";
 if($rpt_cliente!=0){
 	$sql=$sql." and cl.cod_cliente in ($rpt_cliente)";
 }

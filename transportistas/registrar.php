@@ -20,8 +20,8 @@ if (empty($ch_nombre) || empty($ch_nro_licencia) || empty($ch_celular) || empty(
 }
 
 // Guarda los datos del chofer en la base de datos
-$sql = "INSERT INTO transportistas (nombre, nro_licencia, celular, cod_transportadora) 
-        VALUES ('$ch_nombre', '$ch_nro_licencia', '$ch_celular', '$ch_cod_transportadora')";
+$sql = "INSERT INTO transportistas (nombre, nro_licencia, celular, cod_transportadora, estado) 
+        VALUES ('$ch_nombre', '$ch_nro_licencia', '$ch_celular', '$ch_cod_transportadora', 1)";
 $result = mysqli_query($enlaceCon, $sql);
 
 if ($result) {

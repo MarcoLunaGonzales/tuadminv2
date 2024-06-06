@@ -30,28 +30,32 @@ echo "<table align='center' class='textotit' width='100%'><tr><td align='center'
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
-$sql="SELECT s.`cod_salida_almacenes`, s.`nro_correlativo`, s.`fecha`, concat(c.`nombre_cliente`,' ',c.paterno), s.`monto_final`,
-       (
-         select COALESCE(sum(cbd.monto_detalle), 0)
-         from `cobros_cab` cb, `cobros_detalle` cbd
-         where cb.cod_cobro=cbd.cod_cobro and cbd.cod_venta=s.`cod_salida_almacenes`
-         and cb.cod_estado<>2 
-       ) cobrado, 
-	   COALESCE(
-			(DATEDIFF(CURDATE(), DATE_ADD(s.fecha, INTERVAL c.dias_credito DAY)) > 0), 0
-		) AS credito_expirado,
+$sql="SELECT s.cod_salida_almacenes, 
+		s.nro_correlativo, 
+		s.fecha, 
+		concat(c.nombre_cliente,' ',c.paterno), 
+		s.monto_final,
+		(select COALESCE(sum(cbd.monto_detalle), 0)
+		from cobros_cab cb, cobros_detalle cbd
+		where cb.cod_cobro = cbd.cod_cobro 
+		and cbd.cod_venta = s.cod_salida_almacenes
+		and cb.cod_estado <> 2) cobrado, 
+		DATEDIFF(DATE_ADD(s.fecha, INTERVAL s.dias_credito DAY), CURDATE()) AS dias_credito_faltante,
+		-- COALESCE((DATEDIFF(CURDATE(), DATE_ADD(s.fecha, INTERVAL s.dias_credito DAY)) > 0), 0) AS credito_expirado,
 		(SELECT CONCAT(f.nombres, ' ', f.paterno) FROM funcionarios f WHERE f.codigo_funcionario = s.cod_chofer) as funcionario
-from `salida_almacenes` s, clientes c where s.`monto_final` >
-      (
-        select COALESCE(sum(cbd.monto_detalle), 0)
-         from `cobros_cab` cb, `cobros_detalle` cbd
-         where cb.cod_cobro=cbd.cod_cobro and cbd.cod_venta=s.`cod_salida_almacenes`
-         and cb.cod_estado<>2 
-      ) and s.`cod_cliente` = c.`cod_cliente` and
-      s.`salida_anulada` = 0 and s.cod_almacen='$globalAlmacen' and s.cod_tiposalida=1001 and s.cod_tipopago=4 and 
-      s.`fecha` between '$fecha_iniconsulta' and
-      '$fecha_finconsulta'
-order by c.nombre_cliente,
+	from salida_almacenes s, clientes c 
+	where s.monto_final > (
+			select COALESCE(sum(cbd.monto_detalle), 0)
+			from cobros_cab cb, cobros_detalle cbd
+			where cb.cod_cobro = cbd.cod_cobro and cbd.cod_venta = s.cod_salida_almacenes
+			and cb.cod_estado <> 2) 
+	and s.cod_cliente = c.cod_cliente 
+	and s.salida_anulada = 0 
+	and s.cod_almacen = '$globalAlmacen' 
+	and s.cod_tiposalida = 1001 
+	and s.cod_tipopago = 4 
+	and s.fecha between '$fecha_iniconsulta' and '$fecha_finconsulta'
+	order by c.nombre_cliente,
          s.fecha";	  
 // echo $sql;
 
@@ -61,7 +65,8 @@ echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='10
 <tr>
 <th>N.R.</th>
 <th>Vendedor</th>
-<th>Fecha</th>
+<th>Fecha Registro</th>
+<th width='10%' style='text-align: center;'>Días Restantes de Crédito</th>
 <th>Cliente</th>
 <th>MontoVenta</th>
 <th>A Cuenta</th>
@@ -70,15 +75,15 @@ echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='10
 
 $totalxCobrar=0;
 while($datos=mysqli_fetch_array($resp)){	
-	$codSalida=$datos[0];
-	$nroVenta=$datos[1];
-	$fechaVenta=$datos[2];
-	$nombreCliente=$datos[3];
-	$montoVenta=$datos[4];
-	$montoCobro=$datos[5];
-	$verificacionDeuda = $datos[6];
+	$codSalida		   = $datos[0];
+	$nroVenta		   = $datos[1];
+	$fechaVenta		   = $datos[2];
+	$nombreCliente	   = $datos[3];
+	$montoVenta		   = $datos[4];
+	$montoCobro		   = $datos[5];
 	$funcionarioCobrar = $datos[7];
-	$montoxCobrar=$montoVenta-$montoCobro;
+	$montoxCobrar	   = $montoVenta-$montoCobro;
+	$dias_credito_faltante = $datos['dias_credito_faltante'];
 	
 	
 	$montoCobro=redondear2($montoCobro);
@@ -91,7 +96,8 @@ while($datos=mysqli_fetch_array($resp)){
 		echo "<tr>
 		<td align='center'>$nroVenta</td>
 		<td>$funcionarioCobrar</td>
-		<td align='center' ".($verificacionDeuda ? "style='background-color: #ffcccc;color: red; font-weight: bold; font-size: 16px;'" : "").">$fechaVenta</td>
+		<td align='center' ".($dias_credito_faltante < 0 ? "style='background-color: #ffcccc;color: red; font-weight: bold; font-size: 16px;'" : "").">$fechaVenta</td>
+		<td style='text-align: center;'>$dias_credito_faltante</td>
 		<td>$nombreCliente</td>
 		<td align='right'>$montoVenta</td>
 		<td align='right'>$montoCobro</td>
@@ -101,13 +107,10 @@ while($datos=mysqli_fetch_array($resp)){
 }
 $totalxCobrar=redondear2($totalxCobrar);
 echo "<tr>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-	<td>Total:</td>
-	<td align='right'>$totalxCobrar</td>
-</tr>";
+		<td colspan='6'>&nbsp;</td>
+		<td align='right'><b>Total:</b></td>
+		<td align='right'>$totalxCobrar</td>
+	</tr>";
 
 echo "</table>";
 ?>

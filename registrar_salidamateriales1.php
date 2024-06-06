@@ -268,8 +268,13 @@
 		function encontrarMaterial(numMaterial){
 			fila_seleccionada = numMaterial;
 
+			let cod_almacen_destino = $('#almacen').val();
+
 			var cod_material = $("#materiales"+numMaterial).val();
-			var parametros	 = {"cod_material":cod_material};
+			var parametros	 = {
+							"cod_material" : cod_material,
+							"cod_almacen_destino" : cod_almacen_destino
+						};
 			$.ajax({
 				type: "GET",
 				dataType: 'html',

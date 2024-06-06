@@ -8,41 +8,43 @@ ob_clean();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$cod_cotizacion = $_POST['cod_cotizacion'];
+$cod_cotizacion	 = $_POST['cod_cotizacion'];
 $usuarioVendedor = empty($_POST['cod_vendedor']) ? '' : $_POST['cod_vendedor'];
 $globalUsuario 	 = $_COOKIE['global_usuario'];
 
 $usuarioVendedor = empty($usuarioVendedor) ? $globalUsuario : $usuarioVendedor;
 
-$globalSucursal=$_COOKIE['global_agencia'];
-$globalEmpresa=$_COOKIE['global_cod_empresa'];
+$globalSucursal	= $_COOKIE['global_agencia'];
+$globalEmpresa	= $_COOKIE['global_cod_empresa'];
 
-$tipoSalida=$_POST['tipoSalida'];
-$tipoDoc=$_POST['tipoDoc'];
-$almacenDestino=empty($_POST['almacen'])?'':$_POST['almacen'];
-$codCliente=empty($_POST['cliente'])?'':$_POST['cliente'];
+$tipoSalida		= $_POST['tipoSalida'];
+$tipoDoc		= $_POST['tipoDoc'];
+$almacenDestino	= empty($_POST['almacen'])?'':$_POST['almacen'];
+$codCliente		= empty($_POST['cliente'])?'':$_POST['cliente'];
 
-$tipoPrecio=empty($_POST['tipoPrecio'])?'':$_POST['tipoPrecio'];
-$razonSocial=strtoupper((empty($_POST['razonSocial'])?'':$_POST['razonSocial']));
-$nitCliente=empty($_POST['nitCliente'])?'':$_POST['nitCliente'];
-$complemento=empty($_POST["complemento"])?'':$_POST["complemento"];
-$tipoDocumento=empty($_POST["tipo_documento"])?'':$_POST["tipo_documento"];
+$tipoPrecio		= empty($_POST['tipoPrecio'])?'':$_POST['tipoPrecio'];
+$razonSocial	= strtoupper((empty($_POST['razonSocial'])?'':$_POST['razonSocial']));
+$nitCliente		= empty($_POST['nitCliente'])?'':$_POST['nitCliente'];
+$complemento	= empty($_POST["complemento"])?'':$_POST["complemento"];
+$tipoDocumento	= empty($_POST["tipo_documento"])?'':$_POST["tipo_documento"];
 
-$observaciones=empty($_POST["observaciones"])?'':$_POST["observaciones"];
+$observaciones	= empty($_POST["observaciones"])?'':$_POST["observaciones"];
 
-$tipoVenta = empty($_POST["tipo"])?'':$_POST["tipo"]; 			// Tipo de Venta
-$tipoPago  = empty($_POST["tipoVenta"])?'':$_POST["tipoVenta"]; // Tipo de Pago
+$tipoVenta 		= empty($_POST["tipo"])?'':$_POST["tipo"]; 			// Tipo de Venta
+$tipoPago  		= empty($_POST["tipoVenta"])?'':$_POST["tipoVenta"]; // Tipo de Pago
 
-$almacenOrigen = $_COOKIE['global_almacen'];
+$almacenOrigen 	= $_COOKIE['global_almacen'];
 
-$totalVenta=empty($_POST["totalVenta"])?'':$_POST["totalVenta"];
-$descuentoVenta=empty($_POST["descuentoVenta"])?'':$_POST["descuentoVenta"];
-$totalFinal=empty($_POST["totalFinal"])?'':$_POST["totalFinal"];
+$totalVenta		= empty($_POST["totalVenta"])?'':$_POST["totalVenta"];
+$descuentoVenta	= empty($_POST["descuentoVenta"])?'':$_POST["descuentoVenta"];
+$totalFinal		= empty($_POST["totalFinal"])?'':$_POST["totalFinal"];
 
-$totalFinalRedondeado=round($totalFinal);
+$totalFinalRedondeado = round($totalFinal);
 
-$fecha=$_POST["fecha"];
-$cantidad_material=$_POST["cantidad_material"];
+$fecha				= $_POST["fecha"];
+$cantidad_material	= $_POST["cantidad_material"];
+
+$dias_credito = $tipoVenta == 2 ? ($_POST['dias_credito'] ?? 0) : 0;
 
 /*ENVIAMOS 0 EN NRO CORRELATIVO PORQUE LO RECIBIMOS DESDE EL SIAT*/
 $nroCorrelativo=0;
@@ -258,9 +260,9 @@ $codigo=mysqli_result($resp,0,0);
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_cotizacion)
+		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_cotizacion, dias_credito)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_cotizacion')";
+		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_cotizacion', '$dias_credito')";
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 //echo $sql_inserta;

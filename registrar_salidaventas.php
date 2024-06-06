@@ -1329,9 +1329,11 @@ function validarCotizacion(f){
 		totales();
 		// TipoVenta
 		if($(this).val() == 1){ // CONTADO
+			$('#diasCredito').toggle();
 			$('#tipoVenta').trigger('change').val(1);
 		}else if($(this).val() == 2){ // CREDITO
-			console.log('credito')
+			// console.log('credito')
+			$('#diasCredito').show();
 			$('#tipoVenta').trigger('change').val(4);
 			verificarDeudaCliente($('#cliente').val());
 		}
@@ -1410,6 +1412,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		transition: border-color 0.3s; 	/* Transición del color del borde */
 	}
 	.custom-input {
+		width: 80%;
 		border: 2px solid #aaa; /* Borde del input */
 		border-radius: 5px; 	/* Bordes redondeados */
 		padding: 3px; 			/* Espaciado interno */
@@ -1488,8 +1491,15 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 ?>
 <input type="hidden" id="cod_cotizacion" name="cod_cotizacion" value="<?=$cod_cotizacion?>">
 <table class='texto' align='center' width='100%'>
+<!-- <tr>
+	<th width="10%" style="padding:0px;">Tipo de Doc.</th>
+	<th width="40%" style="padding:0px;" colspan="2">NIT/CI/CEX</th>
+	<th width="25%" style="padding:0px;">Razón Social</th>
+	<th width="20%" style="padding:0px;">Cliente</th>
+	<th width="5%" style="padding:0px;"></th>
+</tr> -->
 <tr>
-<th align='center' width="10%">
+<th align='center'>
 	<input type="hidden" value="<?=$tipoDocDefault;?>" id="tipoDoc" name="tipoDoc">
 	<?php
 
@@ -1500,7 +1510,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		}
 		$resp=mysqli_query($enlaceCon,$sql);
 
-		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' disabled class='selectpicker form-control' data-style='btn btn-primary'>";
+		echo "<select name='tipoDoc_extra' id='tipoDoc_extra' disabled class='selectpicker form-control' data-style='btn btn-primary btn-sm'>";
 		echo "<option value=''>-</option>";
 		while($dat=mysqli_fetch_array($resp)){
 			$codigo=$dat[0];
@@ -1515,9 +1525,9 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		?>
 </th>
 <input type="hidden" name="tipoSalida" id="tipoSalida" value="1001">
-<th width="20%">
+<th>
 	<div class="dropdown bootstrap-select form-control show">
-		<select name="tipo_documento" class="selectpicker form-control" data-live-search="true" id="tipo_documento" required="" data-style="btn btn-success" onChange='mostrarComplemento(form1);'>
+		<select name="tipo_documento" class="selectpicker form-control" data-live-search="true" id="tipo_documento" required="" data-style="btn btn-success btn-sm" onChange='mostrarComplemento(form1);'>
 		<!-- Tipo de Documento por Defecto => NIT -->
 		<?php
 			$sql2="SELECT codigoClasificador,descripcion FROM siat_sincronizarparametricatipodocumentoidentidad;";
@@ -1535,21 +1545,21 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		</select>
 	</div>
 </th>
-<th width="20%">
+<th>
 	<div id='divNIT'>
 		<input type='text' value='<?php echo empty($cod_cotizacion) ? $nitDefault : $cab_nit; ?>' name='nitCliente' id='nitCliente' onchange="ajaxClienteBuscar(this.form);" onkeypress="return check(event)" placeholder="INGRESE EL CARNET o NIT" required class="custom-input" style="width: 100%;">
 	</div>
 	<input type="hidden" name="complemento" id="complemento" class="elegant-input" placeholder="COMPLEMENTO" onkeyup="javascript:this.value=this.value.toUpperCase();" style="width: 100%;">
 </th>
 
-<th width="20%">
+<th>
 	<div id='divRazonSocial'>
 		<input type='text' name='razonSocial' id='razonSocial' value='<?php echo empty($cab_razon_social) ? $razonSocialDefault : $cab_razon_social;?>'style="width: 100%;" onKeyUp='javascript:this.value=this.value.toUpperCase();' placeholder="NOMBRE / RAZON SOCIAL" required class="custom-input">
 	</div>
 </th>
 
-<th align='center' id='divCliente' width="25%">		
-	<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='seleccionaCliente(this.form);' required data-style="btn btn-secondary">
+<th align='center' id='divCliente'>
+<select name='cliente' class='selectpicker form-control' data-live-search="true" id='cliente' onChange='seleccionaCliente(this.form);' required data-style="btn btn-secondary btn-sm">
 		<option value='146'>NO REGISTRADO</option>
 		<?php
 			$sql = "SELECT c.cod_cliente, 
@@ -1576,7 +1586,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 		?>
 	</select>
 </th>
-<th width="5%">
+<th>
 	<a href="#" title="Registrar Nuevo Cliente" data-toggle='tooltip' onclick="registrarNuevoCliente(); return false;" class="btn btn-success btn-round btn-sm text-white circle" id="button_nuevo_cliente">+</a>
 	<input type="hidden" name="nroCorrelativo" id="nroCorrelativo" value="0">
 </th>
@@ -1592,18 +1602,24 @@ if($tipoDocDefault==2){
 }
 ?>
 <tr>
-	<th>
+	<th width="10%" style="padding:0px;">Fecha</th>
+	<th width="20%" style="padding:0px;">Tipo Venta</th>
+	<th width="20%" style="padding:0px;">Tipo Pago</th>
+	<th width="25%" style="padding:0px;">Vendedor</th>
+	<th width="25%" style="padding:0px;" colspan="2">Observaciones</th>
+</tr>
+<tr>
+	<th style="padding-top:0px;">
 		<input type="text" class="custom-input" value="<?php echo $fecha?>" id="fecha" name="fecha" size="10" readonly><img id="imagenFecha" src="imagenes/fecha.bmp"> 
 	</th>
-	<th>
-		Tipo Venta
-		<div id='divTipo'>
+	<th style="padding-top:0px;">
+		<span id='divTipo'>
 			<?php
 				$sql1="SELECT cod_tipoventa, nombre_tipoventa 
 						FROM tipos_venta tv  
 						WHERE tv.estado = 1";
 				$resp1=mysqli_query($enlaceCon,$sql1);
-				echo "<select class='selectpicker form-control' name='tipo' data-style='btn btn-success' data-live-search='true' id='tipo'>";
+				echo "<select class='selectpicker form-control' name='tipo' data-style='btn btn-success btn-sm' data-live-search='true' id='tipo'>";
 				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
@@ -1612,16 +1628,18 @@ if($tipoDocDefault==2){
 				}
 				echo "</select>";
 				?>
-
-		</div>
+		</span>
+		<!-- DIAS DE CREDITO -->
+		<span id="diasCredito" style="display:none;">
+			<input type='number' name='dias_credito' id='dias_credito' style="width:48%;" placeholder="Días de crédito" class="custom-input">
+		</span>
 	</th>
-	<th>
-		Tipo Pago
-		<div id='divTipoVenta'>
+	<th style="padding-top:0px;">
+		<span id='divTipoVenta'>
 			<?php
 				$sql1="select cod_tipopago, nombre_tipopago from tipos_pago order by 1";
 				$resp1=mysqli_query($enlaceCon,$sql1);
-				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-success' data-live-search='true' id='tipoVenta'>";
+				echo "<select class='selectpicker form-control' name='tipoVenta' data-style='btn btn-success btn-sm' data-live-search='true' id='tipoVenta'>";
 				while($dat=mysqli_fetch_array($resp1)){
 					$codigo=$dat[0];
 					$nombre=$dat[1];
@@ -1631,13 +1649,12 @@ if($tipoDocDefault==2){
 				echo "</select>";
 				?>
 
-		</div><br>
+		</span><br>
 		<!-- Numero de Tarjeta -->
 		<input type='text' style='display:none;' name='nroTarjeta_form' id='nroTarjeta_form' class="custom-input" placeholder="Ingresar nro. tarjeta" style="width: 100%;">
 	</th>
-	<th>
-		Vendedor
-		<select class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
+	<th style="padding-top:0px;">
+		<select class='selectpicker form-control' data-style='btn btn-rose btn-sm' data-live-search='true' name='cod_vendedor' id='cod_vendedor' required>
 			<option value=''>----</option>
 			<?php
 			$sql2="SELECT f.`codigo_funcionario`,
@@ -1661,7 +1678,8 @@ if($tipoDocDefault==2){
 			?>
 		</select>
 	</th>
-	<th colspan="2">Observaciones:<input type='text' class='custom-input' name='observaciones' size='50' rows="3" value="<?=$cab_observacion?>">
+	<th colspan="2" style="padding-top:0px;">
+		<input type='text' class='custom-input' name='observaciones' size='50' rows="3" value="<?=$cab_observacion?>">
 	</th>
 
 </tr>
@@ -2130,7 +2148,7 @@ if($banderaErrorFacturacion==0){
       </div>  
     </div>
   </div>
-  <style>
+<style>
 	/**
 	 * ESTILO DE SELECT
 	 **/
@@ -2144,6 +2162,38 @@ if($banderaErrorFacturacion==0){
     .bootstrap-select .dropdown-menu.open {
         display: block;
     }
+	/**
+	* ESTILO DE FORMULARIO
+	**/
+	.elegant-label {
+		font-family: 'Poppins', sans-serif;
+		font-weight: bold;
+		color: #6c757d;
+		display: flex;
+		align-items: center;
+		margin-bottom: 0;
+	}
+
+	.elegant-label span.text-danger {
+		margin-right: 5px;
+	}
+	.elegant-input {
+		width: 100%;
+		border: 2px solid #ced4da;
+		border-radius: 5px;
+		padding: 5px 5px;
+		transition: all 0.3s ease;
+	}
+
+	.elegant-input:focus {
+		border-color: #80bdff;
+		box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+	}
+
+	.elegant-input::placeholder {
+		color: #999;
+		opacity: 1;
+	}
 </style>
 <script>
 	$('body #tipoDoc_extra').trigger('change').val(<?=$tipoDocDefault?>);

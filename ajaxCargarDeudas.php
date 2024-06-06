@@ -9,11 +9,16 @@ require("funciones.php");
 
 $codCliente=$_GET['codCliente'];
 
-$sql="select s.`cod_salida_almacenes`, s.`nro_correlativo`, 
-	(select td.`nombre` from `tipos_docs` td where td.`codigo`=s.cod_tipo_doc),
-	s.`fecha`, s.`monto_final`, s.`monto_cancelado`
-	from `salida_almacenes` s where s.`cod_cliente`='$codCliente' and s.`salida_anulada`=0 and 
-	s.`monto_final`>s.`monto_cancelado` and  s.cod_almacen=1000 and s.cod_tiposalida=1001 order by s.`fecha`;";
+$sql="SELECT s.cod_salida_almacenes, s.nro_correlativo, 
+	(select td.nombre from tipos_docs td where td.codigo=s.cod_tipo_doc),
+	s.fecha, s.monto_final, s.monto_cancelado
+	from salida_almacenes s 
+	WHERE s.cod_cliente = '$codCliente' 
+	AND s.salida_anulada= 0 
+	AND s.monto_final > s.monto_cancelado 
+	-- AND  s.cod_almacen=1000 
+	AND s.cod_tiposalida = 1001 
+	ORDER BY s.fecha;";
 $resp=mysqli_query($enlaceCon,$sql);
 $numFilas=mysqli_num_rows($resp);
 
