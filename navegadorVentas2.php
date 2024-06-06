@@ -87,7 +87,7 @@ function ajaxBuscarVentas(f){
     contenedor = document.getElementById('divCuerpo');
     ajax=nuevoAjax();
     
-    location.href="navegadorVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda;
+    location.href="navegadorVentas2.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda;
     /*ajax.open("GET", "ajaxSalidaVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda,true);
     ajax.onreadystatechange=function() {
         if (ajax.readyState==4) {
@@ -379,6 +379,8 @@ $estado_preparado="";
 $txtnroingreso = "";
 $fecha1 = "";
 $fecha2 = "";
+$codClienteBusqueda="";
+
 if(isset($_GET["nroCorrelativoBusqueda"])){
     $txtnroingreso = $_GET["nroCorrelativoBusqueda"];
 }
@@ -387,6 +389,9 @@ if(isset($_GET["fechaIniBusqueda"])){
 }
 if(isset($_GET["fechaFinBusqueda"])){
     $fecha2 = $_GET["fechaFinBusqueda"];
+}
+if(isset($_GET["clienteBusqueda"])){
+    $codClienteBusqueda = $_GET["clienteBusqueda"];
 }
 
 
@@ -413,7 +418,7 @@ echo "<div class='divBotones'>
         
 echo "<center><table class='texto'>";
 
-echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>TipoPago</th>
+echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>Cliente</th><th>TipoPago</th>
     <th>Razon Social</th><th>NIT</th><th>Monto</th><th>Observaciones</th><th>Imprimir</th><th>Editar</br>DatosVenta</th></tr>";
     
 echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='global_almacen'>";
@@ -424,7 +429,7 @@ $consulta = "
     SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
     (select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
     s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
-    (select c.nombre_cliente from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
+    (select concat(c.nombre_cliente,' ',c.paterno) from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
     (select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor,
     (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
     s.cod_chofer, s.cod_tipopago, s.monto_final, s.idTransaccion_siat
@@ -432,12 +437,17 @@ $consulta = "
     WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 and 
     s.cod_tipo_doc not in (1,4)";
 
-if($txtnroingreso!="")
-   {$consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
-   }
-if($fecha1!="" && $fecha2!="")
-   {$consulta = $consulta."AND '$fecha1'<=s.fecha AND s.fecha<='$fecha2' ";
-   }
+if($txtnroingreso!=""){
+    $consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
+}
+if($fecha1!="" && $fecha2!=""){
+    $consulta = $consulta."AND '$fecha1'<=s.fecha AND s.fecha<='$fecha2' ";
+}
+if($codClienteBusqueda!="" && $codClienteBusqueda!="0"){
+    $consulta = $consulta."AND s.cod_cliente='$codClienteBusqueda' ";
+}
+
+
 $consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc limit 0, 50 ";
 
 //
@@ -502,6 +512,7 @@ while ($dat = mysqli_fetch_array($resp)) {
     echo "<td align='center'>$strikei $nombreTipoDoc-$nro_correlativo $strikef</td>";
     echo "<td align='center'>$strikei $fecha_salida_mostrar $hora_salida $strikef</td>";
     echo "<td>$strikei $vendedor $strikef</td>";
+    echo "<td>$strikei $nombreCliente $strikef</td>";
     echo "<td>$strikei $tipoPago $strikef</td>";
     echo "<td>$strikei $razonSocial $strikef</td>
     <td>$strikei $nitCli $strikef</td>
@@ -574,7 +585,7 @@ echo "</form>";
             <tr>
                 <td>Cliente:</td>
                 <td>
-                    <select name="clienteBusqueda" class="texto" id="clienteBusqueda">
+                    <select name="clienteBusqueda" class="selectpicker" data-style="btn btn-success" data-live-search="true" id="clienteBusqueda">
                         <option value="0">Todos</option>
                     <?php
                         $sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
@@ -673,7 +684,7 @@ echo "</form>";
                         FROM funcionarios f ";
                     $resp1=mysqli_query($enlaceCon,$sql1);
             ?>
-            <select name='cod_vendedor' id='edit_cod_vendedor' required>
+            <select name='cod_vendedor' id='edit_cod_vendedor' class="selectpicker" data-style='btn btn-success' required>
                 <?php while($dat1=mysqli_fetch_array($resp1))
                     {   
                         $codLinea=$dat1[0];
