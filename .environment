@@ -5,17 +5,15 @@ DATABASE_ENCODING = utf8
 [ parametros de conexion bd mysql ]
 DATABASE_HOST = localhost
 DATABASE_PORT = 3306
-DATABASE_NAME = antares_oficial
+DATABASE_NAME = llantas
 DATABASE_USER = root
-DATABASE_PASSWORD = 4868422Marco
+DATABASE_PASSWORD = 
 DATABASE_DESCRIPTION = DB LOCAL
-
 
 SIAT_DATABASE_HOST = localhost
 SIAT_DATABASE_NAME = antares
 SIAT_DATABASE_USER = root
 SIAT_DATABASE_PASSWORD = 4868422Marco
-
 
 [ parametros de conexion envio de correos ]
 EMAIL_HOST = smtp.gmail.com
