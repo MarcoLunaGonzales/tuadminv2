@@ -264,6 +264,29 @@
 		}
 			
 			
+		var tablaBuscadorSucursales=null;
+		function encontrarMaterial(numMaterial){
+			fila_seleccionada = numMaterial;
+
+			let cod_almacen_destino = $('#almacen').val();
+
+			var cod_material = $("#materiales"+numMaterial).val();
+			var parametros	 = {
+							"cod_material" : cod_material,
+							"cod_almacen_destino" : cod_almacen_destino
+						};
+			$.ajax({
+				type: "GET",
+				dataType: 'html',
+				url: "ajax_encontrar_productos.php",
+				data: parametros,
+				success:  function (resp) { 
+				// alert(resp);           
+					$("#modalProductosCercanos").modal("show");
+					$("#tabla_datosE").html(resp);   
+				}
+			});	
+		}
 	</script>
 
 		
@@ -301,7 +324,13 @@ else
 
 			<input type="hidden" name='global_almacen' id='global_almacen' value='<?=$global_almacen;?>'>
 			<table class='texto' align='center' width='90%'>
-			<tr><th>Tipo de Salida</th><th>Tipo de Documento</th><th>Nro. Salida</th><th>Fecha</th><th>Almacen Destino</th></tr>
+				<tr>
+					<th width="20%">Tipo de Salida</th>
+					<th width="20%">Tipo de Documento</th>
+					<th width="20%">Nro. Salida</th>
+					<th width="20%">Fecha</th>
+					<th width="20%">Almacen Destino</th>
+				</tr>
 			<tr>
 			<td align='center'>
 				<select name='tipoSalida' id='tipoSalida' 
@@ -357,9 +386,19 @@ else
 			</tr>
 
 			<tr>
-				<th align='center' v-bind:colspan="tipo_salida == 1000 ? 2 : 5">
-					<label style="color:black;">Observaciones</label>
-					<input type='text' class='form-control' name='observaciones' placeholder="Ingrese observaciones" style="background:white;">
+				<th align='center' v-show="tipo_salida == 1000">
+					<label style="color:black;">Transportadora</label>
+					<div style="display: flex;">
+						<select name='cod_transportadora' 
+								id='cod_transportadora' 
+								class='selectpicker form-control' 
+								data-style="btn btn-secondary" 
+								data-live-search='true'
+								v-model="transportadora_seleccionada"
+								@change="listaDependientes">
+						</select>
+						<button type="button" class="btn btn-success btn-round btn-sm text-white circle" @click="abrirModalTransportadora()">+</button>
+					</div>
 				</th>
 				<th align='center' v-show="tipo_salida == 1000">
 					<label style="color:black;">Chofer</label>
@@ -375,21 +414,38 @@ else
 					</div>
 				</th>
 				<th align='center' v-show="tipo_salida == 1000">
-					<label style="color:black;">Transportadora</label>
+					<label style="color:black;">Vehículo</label>
 					<div style="display: flex;">
-						<select name='cod_transportadora' 
-								id='cod_transportadora' 
+						<select name='cod_vehiculo' 
+								id='cod_vehiculo' 
 								class='selectpicker form-control' 
 								data-style="btn btn-secondary" 
 								data-live-search='true'
-								v-model="transportadora_seleccionada">
+								v-model="vehiculo_seleccionado">
 						</select>
-						<button type="button" class="btn btn-success btn-round btn-sm text-white circle" @click="abrirModalTransportadora()">+</button>
+						<button type="button" class="btn btn-success btn-round btn-sm text-white circle" @click="abrirModalVehiculo()">+</button>
 					</div>
 				</th>
 				<th align='center' v-show="tipo_salida == 1000">
-					<label style="color:black;">Placa</label>
-					<input type='text' class='form-control' name='nro_placa' placeholder="Ingrese nro de placa" style="background:white;" >
+					<label style="color:black;">Tipo Traspaso</label>
+					<select name='cod_tipotraspaso' id='cod_tipotraspaso' required class='selectpicker form-control' data-style='btn btn-rose'>
+					<?php
+						$sqlTipo = "SELECT tt.cod_tipotraspaso, tt.nombre
+									FROM tipos_traspaso tt
+									WHERE tt.estado = 1
+									ORDER BY tt.cod_tipotraspaso";
+						$respTipo = mysqli_query($enlaceCon,$sqlTipo);
+						while($data = mysqli_fetch_array($respTipo)){
+					?>
+						<option value="<?= $data['cod_tipotraspaso'] ?>"><?= $data['nombre'] ?></option>
+					<?php		
+						}
+					?>
+					</select>
+				</th>
+				<th align='center' v-bind:colspan="tipo_salida == 1000 ? 1 : 5">
+					<label style="color:black;">Observaciones</label>
+					<input type='text' class='form-control' name='observaciones' placeholder="Ingrese observaciones" style="background:white;">
 				</th>
 			</tr>
 			</table>
@@ -478,44 +534,6 @@ else
 			</div>
 
 		</form>
-
-		<!-- MODAL CHOFER -->
-		<div class="modal fade" id="modalChofer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="modalTituloCambio"><b>Registro de Chofer</b></h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="row pb-2">
-							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Nombre Completo:</label>
-							<div class="col-sm-9">
-								<input class="elegant-input" type="text" placeholder="Insertar nombre completo" v-model="ch_nombre" id="ch_nombre"/>
-							</div>
-						</div>
-						<div class="row pb-2">
-							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> N° Licencia:</label>
-							<div class="col-sm-9">
-								<input class="elegant-input" type="text" placeholder="Insertar nro. de licencia" v-model="ch_nro_licencia" id="ch_nro_licencia"/>
-							</div>
-						</div>
-						<div class="row pb-2">
-							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Celular:</label>
-							<div class="col-sm-9">
-								<input class="elegant-input" type="text" placeholder="Insertar nro. celular" v-model="ch_celular" id="ch_celular"/>
-							</div>
-						</div>
-						<div class="modal-footer p-0 pt-2">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-							<button type="button" class="btn btn-primary" @click="guardarChofer()">Guardar</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		
 		<!-- MODAL TRANSPORTADORA -->
 		<div class="modal fade" id="modalTransportadora" tabindex="-1" role="dialog" aria-labelledby="modalTransportadora" aria-hidden="true">
@@ -532,20 +550,138 @@ else
 							<div class="row pb-2">
 								<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Nombre:</label>
 								<div class="col-sm-9">
-									<input class="elegant-input" type="text" id="tr_nombre" v-model="tr_nombre" placeholder="Insertar nombre de transportadora"/>
+									<input class="elegant-input" type="text" id="tr_nombre" v-model="tr_nombre" placeholder="Ingresar nombre de transportadora"/>
 								</div>
 							</div>
 							<div class="modal-footer p-0 pt-2">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-								<button type="button" class="btn btn-primary" @click="guardarTransportista()">Guardar</button>
+								<button type="button" class="btn btn-primary" @click="guardarTransportadora()">Guardar</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<!-- MODAL CHOFER -->
+		<div class="modal fade" id="modalChofer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalTituloCambio"><b>Registro de Chofer</b></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row pb-2">
+							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Transportadora:</label>
+							<div class="col-sm-9">
+								<input class="elegant-input" type="text" v-model="nombre_transportadora" name="nombre_transportadora" id="nombre_transportadora" disabled/>
+							</div>
+						</div>
+						<div class="row pb-2">
+							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Nombre Completo:</label>
+							<div class="col-sm-9">
+								<input class="elegant-input" type="text" placeholder="Ingresar nombre completo" v-model="ch_nombre" id="ch_nombre"/>
+							</div>
+						</div>
+						<div class="row pb-2">
+							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> N° Licencia:</label>
+							<div class="col-sm-9">
+								<input class="elegant-input" type="text" placeholder="Ingresar nro. de licencia" v-model="ch_nro_licencia" id="ch_nro_licencia"/>
+							</div>
+						</div>
+						<div class="row pb-2">
+							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Celular:</label>
+							<div class="col-sm-9">
+								<input class="elegant-input" type="text" placeholder="Ingresar nro. celular" v-model="ch_celular" id="ch_celular"/>
+							</div>
+						</div>
+						<div class="modal-footer p-0 pt-2">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+							<button type="button" class="btn btn-primary" @click="guardarChofer()">Guardar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- MODAL VEHICULO -->
+		<div class="modal fade" id="modalVehiculo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalTituloCambio"><b>Registro de Vehículo</b></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row pb-2">
+							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Transportadora:</label>
+							<div class="col-sm-9">
+								<input class="elegant-input" type="text" v-model="nombre_transportadora" name="nombre_transportadora" id="nombre_transportadora" disabled/>
+							</div>
+						</div>
+						<div class="row pb-2">
+							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> Descripción:</label>
+							<div class="col-sm-9">
+								<input class="elegant-input" type="text" placeholder="Ingresar descripción del vehículo" v-model="veh_nombre" id="veh_nombre"/>
+							</div>
+						</div>
+						<div class="row pb-2">
+							<label class="col-sm-3 elegant-label"><span class="text-danger">*</span> N° Placa:</label>
+							<div class="col-sm-9">
+								<input class="elegant-input" type="text" placeholder="Ingresar nro. de placa" v-model="veh_placa" id="veh_placa"/>
+							</div>
+						</div>
+						<div class="modal-footer p-0 pt-2">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+							<button type="button" class="btn btn-primary" @click="guardarVehiculo()">Guardar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>
+
+
+	<!-- Modal Ver Productos de otras Sucursales -->
+	<div class="modal fade modal-primary" id="modalProductosCercanos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content card">
+				<div class="card-header card-header-primary card-header-icon">
+					<div class="card-icon">
+						<i class="material-icons">place</i>
+					</div>
+					<h4 class="card-title text-primary font-weight-bold">Stock de Productos en Sucursales</h4>
+					<button type="button" class="btn btn-danger btn-sm btn-fab float-right" data-dismiss="modal" aria-hidden="true" style="position:absolute;top:0px;right:0;">
+						<i class="material-icons">close</i>
+					</button>
+				</div>
+				<div class="card-body">
+					<div class="form-group">
+						<input type="text" class="form-control pull-right" style="width:20%" id="busqueda_sucursal" placeholder="Buscar Sucursal">
+					</div>
+					<br>
+					<table class="table table-sm table-bordered" id='tabla_sucursal'>
+						<thead>
+							<tr style='background: #ADADAD;color:#000;'>
+								<th width='10%'>-</th>
+							</tr>
+						</thead>
+						<tbody id="tabla_datosE">
+						</tbody>
+					</table>
+					<br><br>
+				</div>
+			</div>  
+		</div>
+	</div>
+
 	<style>
 		/**
 		 * ESTILO DE FORMULARIO
@@ -590,31 +726,25 @@ else
 			data: {
 				// Datos Generales
 				tipo_salida: '',
+				nombre_transportadora: '',
 				// Datos de Chofer
-				lista_choferes: '',
 				chofer_seleccionado: 0,
 				ch_nombre: '',
 				ch_nro_licencia: '',
 				ch_celular: '',
 				// Datos de Transportadora
-				lista_transportadoras: '',
 				transportadora_seleccionada: 0,
 				tr_nombre: '',
+				// Datos de Vehiculo
+				vehiculo_seleccionado: 0,
+				veh_nombre: '',
+				veh_placa: ''
 			},
 			mounted() {
 				let me = this;
-                me.listaChoferes();
 				me.listaTransportadora();
 			},
 			methods: {
-				// * ABRIR MODAL CHOFER
-				abrirModalChofer(){
-					let me = this;
-					me.ch_nombre 		= '';
-					me.ch_nro_licencia 	= '';
-					me.ch_celular 		= '';
-					$('#modalChofer').modal('show');
-				},
 				// * ABRIR MODAL TRANSPORTADORA
 				abrirModalTransportadora(){
 					let me = this;
@@ -623,12 +753,49 @@ else
 					me.ch_celular 		= '';
 					$('#modalTransportadora').modal('show');
 				},
+				// * ABRIR MODAL CHOFER
+				abrirModalChofer(){
+					let me = this;
+					let cod_transportadora = $('#cod_transportadora').val();
+					let texto_transportadora = $('#cod_transportadora option:selected').text();
+					me.nombre_transportadora = texto_transportadora;
+					if (cod_transportadora == '' || cod_transportadora == '0') {
+						alert('Debe seleccionar una transportadora');
+					} else {
+						me.ch_nombre 		= '';
+						me.ch_nro_licencia 	= '';
+						me.ch_celular 		= '';
+						$('#modalChofer').modal('show');
+					}
+				},
+				// * ABRIR MODAL VEHICULO
+				abrirModalVehiculo(){
+					let me = this;
+					let cod_transportadora = $('#cod_transportadora').val();
+					let texto_transportadora = $('#cod_transportadora option:selected').text();
+					me.nombre_transportadora = texto_transportadora;
+					if (cod_transportadora == '' || cod_transportadora == '0') {
+						alert('Debe seleccionar una transportadora');
+					} else {
+						me.veh_nombre = '';
+						me.veh_placa  = '';
+						$('#modalVehiculo').modal('show');
+					}
+				},
+				/*****************************************************************/
+				listaDependientes(){
+					let me = this;
+					me.listaChoferes();
+					me.listaVehiculos();
+				},
+				/*****************************************************************/
 				/**
 				 * ? LISTA DE CHOFERES
 				 */
 				listaChoferes() {
 					let me = this;
-                    axios.get('transportistas/listaSelect.php')
+					let cod_transportadora = me.transportadora_seleccionada;
+                    axios.get(`transportistas/listaSelect.php?cod_transportadora=${cod_transportadora}`)
                         .then(response => {
 							if (response.data.success) {
 								$("#cod_transportista").html(response.data.html);		
@@ -653,6 +820,7 @@ else
 					formData.append('nombre', me.ch_nombre);
 					formData.append('nro_licencia', me.ch_nro_licencia);
 					formData.append('celular', me.ch_celular);
+					formData.append('cod_transportadora', me.transportadora_seleccionada);
 					axios.post('transportistas/registrar.php', formData, {
 						headers: { 'Content-Type': 'multipart/form-data' }
 					})
@@ -678,8 +846,9 @@ else
 						console.error('Error al guardar el chofer:', error);
 					});
 				},
+				/*****************************************************************/
 				/**
-				 * ? LISTA DE CHOFERES
+				 * ? LISTA DE TRANSPORTADORAS
 				 */
 				listaTransportadora() {
 					let me = this;
@@ -700,9 +869,9 @@ else
                         });
                 },
 				/**
-				 * ? GUARDA DATOS DE CHOFER
+				 * ? GUARDA DATOS DE TRANSPORTADORA
 				 */
-				guardarTransportista() {
+				guardarTransportadora() {
 					let me = this;
 					const formData = new FormData();
 					formData.append('nombre', me.tr_nombre);
@@ -730,7 +899,64 @@ else
 					.catch(error => {
 						console.error('Error al guardar el transportadora:', error);
 					});
-				}
+				},
+				/*****************************************************************/
+				/**
+				 * ? LISTA DE VEHICULOS
+				 */
+				listaVehiculos() {
+					let me = this;
+					let cod_transportadora = me.transportadora_seleccionada;
+                    axios.get(`vehiculos/listaSelect.php?cod_transportadora=${cod_transportadora}`)
+                        .then(response => {
+							if (response.data.success) {
+								$("#cod_vehiculo").html(response.data.html);		
+								$("#cod_vehiculo").selectpicker('refresh');
+								$("#cod_vehiculo").val(me.vehiculo_seleccionado).trigger('change');
+								// console.log(response.data)
+                            } else {
+								alert(response.message);
+                                console.error(response.data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al obtener la lista de choferes:', error);
+                        });
+                },
+				/**
+				 * ? GUARDA DATOS DE VEHICULO
+				 */
+				guardarVehiculo() {
+					let me = this;
+					const formData = new FormData();
+					formData.append('nombre', me.veh_nombre);
+					formData.append('placa', me.veh_placa);
+					formData.append('cod_transportadora', me.transportadora_seleccionada);
+					axios.post('vehiculos/registrar.php', formData, {
+						headers: { 'Content-Type': 'multipart/form-data' }
+					})
+					.then(response => {
+						if (response.data.success) {
+							Swal.fire({
+								type: 'success',
+								title: 'Éxito',
+								text: response.data.message
+							});
+							me.vehiculo_seleccionado = response.data.codigo;
+							me.listaVehiculos();
+							$('#modalVehiculo').modal('hide');
+						} else {
+							Swal.fire({
+								type: 'warning',
+								title: 'Ops!',
+								text: response.data.message
+							});
+						}
+					})
+					.catch(error => {
+						console.error('Error al guardar el chofer:', error);
+					});
+				},
 			}
 		});
 	</script>
@@ -738,6 +964,18 @@ else
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			document.getElementById("appVue").removeAttribute("hidden");
+		});
+		// Modificación de Sucursal en lista de ITEMS
+		let fila_seleccionada = 0;
+		$('body').on('click', '.nueva_sucursal', function(){
+			let cod_sucursal = $(this).data('cod_sucursal');
+			let nombre 		 = $(this).data('nombre');
+			let stock 		 = $(this).data('stock');
+			
+			$('#cod_sucursales'+fila_seleccionada).val(cod_sucursal);
+			$('#nombreSucursal'+fila_seleccionada).html(nombre);
+			$('#stock'+fila_seleccionada).val(stock);
+			$('#modalProductosCercanos').modal('toggle');
 		});
 	</script>
 </body>

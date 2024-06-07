@@ -41,35 +41,31 @@ $montoTotal=0;
 echo "monto=0";
 $globalGestion=1;
 
-for($i=1;$i<=$nroFilas;$i++)
-{   		
+
+for($i = 1; $i <= $nroFilas; $i++){   		
 	
 	echo $i." iii";
 
-	$codVenta=$_POST["codCobro$i"];	
-	$montoPago=$_POST["montoPago$i"];
-	$nroDoc=$_POST["nroDoc$i"];
+	$codVenta	  = $_POST["codCobro$i"];	
+	$montoPago	  = $_POST["montoPago$i"];
+	$nroDoc		  = $_POST["nroDoc$i"];
+	$cod_tipopago = $_POST["cod_tipopago$i"];
+	$referencia	  = $_POST["referencia$i"];
 	
-	$montoTotal=$montoTotal+$montoPago;
-	if($montoPago>0){
-		$sql_inserta="INSERT INTO `cobros_detalle` (`cod_cobro`,`cod_venta`,`monto_detalle`,`nro_doc`) 
-			VALUE ('$codigo','$codVenta','$montoPago','$nroDoc')";
-		echo $sql_inserta;
+	$montoTotal = $montoTotal+$montoPago;
+	if($montoPago > 0){
+		$sql_inserta="INSERT INTO cobros_detalle (cod_cobro, cod_venta, monto_detalle, nro_doc, cod_tipopago, referencia) 
+					VALUE ('$codigo', '$codVenta', '$montoPago', '$nroDoc', '$cod_tipopago', '$referencia')";
 		$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 	}
 	
 	//actualizamos la tabla ordenes de compra
-	$sqlUpd="update salida_almacenes set monto_cancelado=monto_cancelado+$montoPago where cod_salida_almacenes='$codVenta'";
-	$respUpd=mysqli_query($enlaceCon,$sqlUpd);
-
-	//echo $i;
+	$sqlUpd  = "UPDATE salida_almacenes set monto_cancelado=monto_cancelado+$montoPago where cod_salida_almacenes='$codVenta'";
+	$respUpd = mysqli_query($enlaceCon,$sqlUpd);
 }
 
-$sqlInsertC="INSERT INTO `cobros_cab` (`cod_cobro`,`fecha_cobro`,`monto_cobro`,`observaciones`,`cod_cliente`,`cod_estado`,`cod_gestion`,`nro_cobro`) 
-	VALUE ('$codigo','$fecha','$montoTotal','$observaciones','$cliente','1','$globalGestion','$nroCobranza')";
-
-echo $sqlInsertC;
-
+$sqlInsertC="INSERT INTO cobros_cab (cod_cobro, fecha_cobro, monto_cobro, observaciones, cod_cliente, cod_estado, cod_gestion, nro_cobro) 
+			VALUE ('$codigo','$fecha','$montoTotal','$observaciones','$cliente','1','$globalGestion','$nroCobranza')";
 $respInsertC=mysqli_query($enlaceCon,$sqlInsertC);
 
 echo "<script type='text/javascript' language='javascript'>";

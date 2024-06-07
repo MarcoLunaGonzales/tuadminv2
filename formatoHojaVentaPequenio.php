@@ -27,7 +27,8 @@
                     CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as funcionario,
                     sa.monto_total,
                     sa.descuento,
-                    sa.monto_final
+                    sa.monto_final,
+                    CONCAT(DATE_FORMAT(sa.fecha, '%d-%m-%Y'), ' ', DATE_FORMAT(sa.hora_salida, '%r')) as fecha
                 FROM salida_almacenes sa
                 LEFT JOIN funcionarios f ON f.codigo_funcionario = sa.cod_chofer
                 LEFT JOIN clientes cli ON cli.cod_cliente = sa.cod_cliente
@@ -50,6 +51,7 @@
         $cab_funcionario     = $dataSalida['funcionario'];
         $cab_monto_total     = $dataSalida['monto_total'];
         $cab_descuento       = $dataSalida['descuento'];
+        $cab_fecha           = $dataSalida['fecha'];
     }
     // Tamaño Carta
     // $pdf = new FPDF($orientation='P',$unit='mm', 'Letter');
@@ -100,15 +102,21 @@
         /*              Datos Generales de la Factura           */
         /********************************************************/
         // Titulos
-        $pdf->Image('assets/imagenes/pdf_img1.png', $ejeX + 3, 9, 25, 10);
-        $pdf->SetFont('Arial','B',8);    
-        $pdf->setY(18); $pdf->setX($ejeX + 3);
+        $pdf->Image('assets/imagenes/pdf_img1.png', $ejeX + 3, 8, 26, 8);
+        $pdf->SetFont('Arial','B',7);    
+        $pdf->setY(15); $pdf->setX($ejeX + 3);
         $pdf->Cell(5, $textypos, utf8_decode("Av. 6 de Marzo Nro. 250")); 
-        $pdf->setY(21); $pdf->setX($ejeX + 3);
+        $pdf->setY(18); $pdf->setX($ejeX + 3);
         $pdf->Cell(5, $textypos,utf8_decode("Cel.: 74276636 - 75800783"));
-        $pdf->setY(24); $pdf->setX($ejeX + 3);
+        $pdf->setY(21); $pdf->setX($ejeX + 3);
         $pdf->Cell(5, $textypos,utf8_decode("El Alto, La Paz, Bolivia"));
-
+        // Información
+        $pdf->SetFont('Arial','B',7);    
+        $pdf->setY(25);$pdf->setX($ejeX + 3);
+        $pdf->Cell(20,$textypos,utf8_decode("Fecha:"), '', 0, 'L');
+        $pdf->SetFont('Arial','',7);    
+        $pdf->setY(25);$pdf->setX($ejeX + 12);
+        $pdf->Cell(55,$textypos,utf8_decode($cab_fecha), '', 0, 'L');
         
         // Información
         $pdf->SetFont('Arial','B',7);    
@@ -168,7 +176,7 @@
                         LEFT JOIN material_apoyo m ON m.codigo_material = sda.cod_material
                         WHERE m.codigo_material = sda.cod_material 
                         AND sda.cod_salida_almacen = '$cod_salida_almacen'
-                        GROUP BY m.codigo_material
+                        GROUP BY m.codigo_material, sda.precio_unitario
                         ORDER BY sda.orden_detalle DESC";
         // echo $sqlDatosVenta;
         $respSalidaDet = mysqli_query($enlaceCon, $sqlSalidaDet);

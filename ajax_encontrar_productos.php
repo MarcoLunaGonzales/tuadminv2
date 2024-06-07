@@ -9,19 +9,24 @@
     error_reporting(E_ALL);
     ini_set('display_errors', '1');
 
-    $cod_material=$_GET["cod_material"];
-    $consulta="select p.`precio` from precios p where p.`codigo_material`='$cod_material' and p.cod_precio=1 and cod_ciudad='$globalAgencia'";
+    $cod_material        = $_GET["cod_material"];
+    $cod_almacen_destino = $_GET['cod_almacen_destino'] ?? '';
+
+    $consulta="SELECT p.`precio` from precios p where p.`codigo_material`='$cod_material' and p.cod_precio=1 and cod_ciudad='$globalAgencia'";
 
     $rs=mysqli_query($enlaceCon,$consulta);
     $registro=mysqli_fetch_array($rs);
-    $precioMaterial=$registro[0];
+    $precioMaterial=$registro[0] ?? '';
     if($precioMaterial>0){
         $precioMaterial=number_format($precioMaterial,2,'.','');
     }
     $dateActual=date("Y-m-d");
 
-    $sql="SELECT a.cod_almacen,c.descripcion from ciudades c join almacenes a on a.cod_ciudad=c.cod_ciudad 
-    where c.cod_ciudad>0 order by c.descripcion";
+    $sql="SELECT a.cod_almacen,c.descripcion 
+        FROM ciudades c 
+        JOIN almacenes a ON a.cod_ciudad=c.cod_ciudad 
+        WHERE c.cod_ciudad > 0 
+        ORDER BY c.descripcion";
     
     //echo $sql;
     
@@ -47,7 +52,7 @@
         <td width='10%'>$index</td>
         <td width='20%'>";
 
-        if($stock > 0){
+        if($stock > 0 && $cod_almacen_destino != $codAlmacen){
             echo "<button class='btn btn-success btn-sm btn-fab text-white nueva_sucursal'
                 data-cod_sucursal='$codAlmacen'
                 data-nombre='$sucursal'

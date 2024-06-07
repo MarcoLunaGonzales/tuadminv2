@@ -2,14 +2,13 @@
 require("../conexionmysqli.inc");
 require("../funciones.php");
 
-// Recibe los datos del chofer
-$ch_nombre 		 = $_POST['nombre'];
-$ch_nro_licencia = $_POST['nro_licencia'];
-$ch_celular 	 = $_POST['celular'];
+// Recibe los datos del vehiculo
+$nombre = $_POST['nombre'];
+$placa  = $_POST['placa'];
 $ch_cod_transportadora = $_POST['cod_transportadora'];
 
 // Aquí puedes realizar las validaciones necesarias antes de guardar los datos, por ejemplo:
-if (empty($ch_nombre) || empty($ch_nro_licencia) || empty($ch_celular) || empty($ch_cod_transportadora)) {
+if (empty($nombre) || empty($placa) || empty($ch_cod_transportadora)) {
     $response = array(
         'success' => false,
         'message' => 'Todos los campos son obligatorios.'
@@ -19,9 +18,9 @@ if (empty($ch_nombre) || empty($ch_nro_licencia) || empty($ch_celular) || empty(
     exit;
 }
 
-// Guarda los datos del chofer en la base de datos
-$sql = "INSERT INTO transportistas (nombre, nro_licencia, celular, cod_transportadora, estado) 
-        VALUES ('$ch_nombre', '$ch_nro_licencia', '$ch_celular', '$ch_cod_transportadora', 1)";
+// Guarda los datos del vehiculo en la base de datos
+$sql = "INSERT INTO vehiculos (nombre, placa, cod_transportadora, estado) 
+        VALUES ('$nombre', '$placa', '$ch_cod_transportadora', 1)";
 $result = mysqli_query($enlaceCon, $sql);
 
 if ($result) {
@@ -32,7 +31,7 @@ if ($result) {
         $codigo = mysqli_insert_id($enlaceCon);
         $response = array(
             'success' => true,
-            'message' => 'Los datos del chofer se guardaron correctamente.',
+            'message' => 'Los datos del vehiculo se guardaron correctamente.',
             'codigo'  => "$codigo"
         );
         echo json_encode($response);
@@ -40,7 +39,7 @@ if ($result) {
         // No se insertó ninguna fila, probablemente debido a un error
         $response = array(
             'success' => false,
-            'message' => 'Error al guardar los datos del chofer: No se insertaron filas.'
+            'message' => 'Error al guardar los datos del vehiculo: No se insertaron filas.'
         );
         echo json_encode($response);
     }

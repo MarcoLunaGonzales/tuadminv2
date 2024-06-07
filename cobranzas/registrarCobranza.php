@@ -120,11 +120,11 @@ $fecha=date("d/m/Y");
 </select>
 </td>
 <td>
-<input type='text' class='texto' value='<?php echo $fecha; ?>' id='fecha' size='10' name='fecha'>
+<input type='text' class='elegant-input' value='<?php echo $fecha; ?>' id='fecha' name='fecha' style="width:80%;" readonly>
 <img id='imagenFecha' src='../imagenes/fecha.bmp'>
 </td>
 <td>
-<input type='text' class='texto' value="" id='observaciones' size='40' name='observaciones'>
+<input type='text' class='elegant-input' value="" id='observaciones' size='40' name='observaciones'>
 </td>
 
 
@@ -135,7 +135,18 @@ $fecha=date("d/m/Y");
 
 <div id="divDetalle">
 	<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>
-		<tr><th>Nro. OC</th><th>Fecha OC</th><th>Monto OC</th><th>A Cuenta</th><th>Saldo OC</th><th>Monto a Pagar</th><th>Nro. Recibo</th></tr>
+		<tr>
+			<th>Tipo Doc</th>
+			<th>Nro.</th>
+			<th>Fecha</th>
+			<th>Monto</th>
+			<th>A Cuenta</th>
+			<th>Saldo</th>
+			<th>Tipo de Pago</th>
+			<th>Monto a Pagar</th>
+			<th>Nro. Doc. Pago</th>
+			<th>Referencia</th>
+		</tr>
 	</table>
 </div>
 
@@ -143,4 +154,56 @@ $fecha=date("d/m/Y");
 <center><input type='submit' class='boton' value='Guardar Cobranza' id='btsubmit' name='btsubmit' ></center>
 
 </form>
+<style>
+	/**
+	* ESTILO DE FORMULARIO
+	**/
+	.elegant-label {
+		font-family: 'Poppins', sans-serif;
+		font-weight: bold;
+		color: #6c757d;
+		display: flex;
+		align-items: center;
+		margin-bottom: 0;
+	}
+
+	.elegant-label span.text-danger {
+		margin-right: 5px;
+	}
+	/* INPUT */
+	.elegant-input {
+		width: 100%;
+		border: 2px solid #ced4da;
+		border-radius: 5px;
+		padding: 5px 5px;
+		transition: all 0.3s ease;
+	}
+
+	.elegant-input:focus {
+		border-color: #80bdff;
+		box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+	}
+	/* SELECT */
+    .elegant-select {
+        width: 100%;
+        border: 2px solid #ced4da;
+        border-radius: 5px;
+        padding: 5px 5px;
+        transition: all 0.3s ease;
+        appearance: none; /* Para eliminar la flecha de estilo predeterminado del select */
+        background: #fff url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5'><path fill='none' stroke='%23333' stroke-width='2' d='M0 0l2 2 2-2'/></svg>") no-repeat right 10px center; /* Agregar una flecha personalizada */
+        background-size: 8px 10px;
+    }
+
+    .elegant-select:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        outline: none; /* Para eliminar el borde de enfoque predeterminado del navegador */
+    }
+
+	.elegant-input::placeholder {
+		color: #999;
+		opacity: 1;
+	}
+</style>
 </body>

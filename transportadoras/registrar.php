@@ -16,7 +16,7 @@ if (empty($nombre)) {
 }
 
 // Guarda los datos del transportadora en la base de datos
-$sql = "INSERT INTO transportadoras (nombre) VALUES ('$nombre')";
+$sql = "INSERT INTO transportadoras (nombre, estado) VALUES ('$nombre', 1)";
 $result = mysqli_query($enlaceCon, $sql);
 
 if ($result) {
