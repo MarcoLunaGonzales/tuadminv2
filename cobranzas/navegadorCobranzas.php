@@ -104,17 +104,25 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 	echo "<tr><th>&nbsp;</th><th>Nro. Cobro</th><th>Gestion</th><th>Cliente</th>
 		<th>Fecha</th><th>Monto</th><th>Observaciones</th><th>&nbsp;</th></tr>";
 	
-	$consulta = "select c.`cod_cobro`,
-       c.`fecha_cobro`,
-       c.`observaciones`,
-       c.`monto_cobro`,
-       (
-         select concat(cl.`nombre_cliente`, ' ',cl.paterno)
-         from clientes cl
-         where c.`cod_cliente` = cl.`cod_cliente`
-       ), c.nro_cobro, (select g.nombre_gestion from gestiones g where g.cod_gestion=c.cod_gestion), c.cod_estado
-from `cobros_cab` c
-order by c.`cod_cobro` desc limit 0, 100";
+	$consulta = "SELECT c.`cod_cobro`,
+        c.`fecha_cobro`,
+        c.`observaciones`,
+        c.`monto_cobro`,
+        (
+            select concat(cl.`nombre_cliente`, ' ',cl.paterno)
+            from clientes cl
+            where c.`cod_cliente` = cl.`cod_cliente`
+        ), c.nro_cobro, (select g.nombre_gestion from gestiones g where g.cod_gestion=c.cod_gestion), c.cod_estado
+    FROM `cobros_cab` c 
+    WHERE c.cod_estado = 1 ";
+    
+    $global_usuario     = $_COOKIE['global_usuario'];
+    $global_admin_cargo = $_COOKIE['global_admin_cargo'];
+    if(!$global_admin_cargo){ // SI NO ES ADMINISTRADOR
+        $consulta .= " AND c.cod_funcionario_registro = '$global_usuario' ";
+    }
+
+    $consulta .= " ORDER BY c.`cod_cobro` DESC LIMIT 0, 100";
 		
 	$resp = mysqli_query($enlaceCon, $consulta);
 

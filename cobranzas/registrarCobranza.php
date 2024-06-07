@@ -100,8 +100,24 @@ require("../conexionmysqli.inc");
 <table border='0' class='texto' cellspacing='0' align='center' width='80%' style='border:#ccc 1px solid;'>
 <tr><th>Cliente</th><th>Fecha Pago</th><th>Observaciones</th></tr>
 <?php
-$sql1="select cod_cliente, concat(nombre_cliente,' ',paterno) from clientes order by 2";
-$resp1=mysqli_query($enlaceCon, $sql1);
+	$global_usuario 	= $_COOKIE['global_usuario'];
+    $global_admin_cargo = $_COOKIE['global_admin_cargo'];
+	$globalAlmacen		= $_COOKIE['global_almacen'];
+
+	$sql1  = "SELECT DISTINCT c.cod_cliente, concat(c.nombre_cliente, ' ', c.paterno) as cliente
+				FROM clientes c
+				INNER JOIN salida_almacenes sa ON sa.cod_cliente = c.cod_cliente
+				WHERE sa.cod_tipopago = 4
+				AND sa.cod_tiposalida = 1001
+				AND sa.salida_anulada = 0 
+				AND sa.monto_final > sa.monto_cancelado ";
+    if(!$global_admin_cargo){ // SI NO ES ADMINISTRADOR
+		$sql1 .= " AND sa.cod_chofer = '$global_usuario' ";
+	} 
+	// $sql1 .= " AND sa.cod_almacen = '$globalAlmacen' ";
+	$sql1 .= " ORDER BY cliente";
+	
+	$resp1 = mysqli_query($enlaceCon, $sql1);
 ?>
 <tr>
 <td align='center'>

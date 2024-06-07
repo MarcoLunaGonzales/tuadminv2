@@ -20,14 +20,27 @@ require("../funciones.php");
 
 $codCliente=$_GET['codCliente'];
 
-$globalAlmacen=$_COOKIE['global_almacen'];
+$globalAlmacen		= $_COOKIE['global_almacen'];
+$global_usuario 	= $_COOKIE['global_usuario'];
+$global_admin_cargo = $_COOKIE['global_admin_cargo']; // 1: Administrador, 0: Normal
 
 
 $sql="SELECT s.`cod_salida_almacenes`, s.`nro_correlativo`, 
 	(select td.`nombre` from `tipos_docs` td where td.`codigo`=s.cod_tipo_doc),
 	s.`fecha`, s.`monto_final`, s.`monto_cancelado`
-	from `salida_almacenes` s where s.`cod_cliente`='$codCliente' and s.`salida_anulada`=0 and 
-	s.`monto_final`>s.`monto_cancelado` and  s.cod_almacen='$globalAlmacen' and s.cod_tiposalida=1001 and s.cod_tipopago=4 order by s.`fecha`;";
+	from `salida_almacenes` s 
+	where s.`cod_cliente` = '$codCliente' 
+	and s.`salida_anulada` = 0 
+	and s.`monto_final` > s.`monto_cancelado` 
+	and s.cod_tiposalida = 1001 
+	and s.cod_tipopago = 4 ";
+
+if(!$global_admin_cargo){ // SI NO ES ADMINISTRADOR
+	$sql1 .= " AND sa.cod_chofer = '$global_usuario' ";
+} 
+// $sql .= " AND s.cod_almacen = '$globalAlmacen' ";
+
+$sql .= " ORDER BY s.`fecha`;";
 
 //echo $sql;
 

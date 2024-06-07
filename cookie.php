@@ -61,6 +61,17 @@ if ($num_filas != 0) {
 	setcookie("global_almacen",$global_almacen);
 	setcookie("global_almacen_nombre",$global_almacen_nombre);
 	setcookie("globalGestion", $globalGestion);
+
+
+	$stringGlobalAdmins=obtenerValorConfiguracion(0);
+	$posBuscada = strpos($stringGlobalAdmins, $usuario);
+	
+	// if ($posBuscada === true) {
+	if($stringGlobalAdmins == $usuario){
+		setcookie("global_admin_cargo", 1);	    
+	}else{
+		setcookie("global_admin_cargo", 0);		
+	}
 	
 	if($cod_cargo==1000){//ADMINISTRADORES
 		header("location:indexGerencia.php");
@@ -76,15 +87,6 @@ if ($num_filas != 0) {
 		header("location:indexVendedor.php");
 	}elseif ($cod_cargo==1020){
 		header("location:indexServiteca.php");
-	}
-
-
-	$stringGlobalAdmins=obtenerValorConfiguracion(0);
-	$posBuscada = strpos($stringGlobalAdmins, $usuario);
-	if ($posBuscada === true) {
-		setcookie("global_admin_cargo", 0);	    
-	}else{
-		setcookie("global_admin_cargo", 1);		
 	}
 } else {
     echo "<link href='stilos.css' rel='stylesheet' type='text/css'>
