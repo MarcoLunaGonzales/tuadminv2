@@ -180,10 +180,10 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
 
     // CODIGO
     $pdf->setY($margen_seg_y + $card_height-10);
-    $margen_seg_x_code = (($card_width)/2) - 6;
+    $margen_seg_x_code = (($card_width)/2) - 10;
     $pdf->setX($margen_seg_x_code);
-    $pdf->SetFont($tipo_letra, $estilo, 12);
-    $pdf->multiCell($card_width, 3, utf8_decode($codigo_general. ' | ' . $lote), 0, 'B', false);
+    $pdf->SetFont($tipo_letra, $estilo, 10);
+    $pdf->multiCell($card_width, 3, utf8_decode($cod_ingreso_almacen.'|'.$codigo_general. '|' . $lote), 0, 'B', false);
     $pdf->Ln();
 
 
@@ -239,8 +239,8 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
         $pdf->setY($margen_seg_y + $card_height-10);
         $margen_seg_x = ($margen_x + $card_width + $margen_x2) + $margen_seg_x_code - 3;
         $pdf->setX($margen_seg_x);
-        $pdf->SetFont($tipo_letra, $estilo, 12);
-        $pdf->multiCell($card_width, 3, utf8_decode($codigo_general. ' | ' . $lote), 0, 'B', false);
+        $pdf->SetFont($tipo_letra, $estilo, 10);
+        $pdf->multiCell($card_width, 3, utf8_decode($cod_ingreso_almacen.'|'.$codigo_general. '|' . $lote), 0, 'B', false);
         $pdf->Ln();
         
         /*****************************************************************************/

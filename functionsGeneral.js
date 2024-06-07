@@ -7,7 +7,9 @@ function cambiarDatosProductosTable(valor){
         url: "ajaxSetProductoCodigoBarras.php",
         data: parametros,
         success:  function (respuesta) {
-        	var resp=respuesta.split('#####');
+        	var resp = respuesta.split('#####');
+			// console.log(resp);
+			// console.log(resp[10]);
         	if(resp[0].trim()=="0"){
                $("#mensaje_input_codigo_barras").html("No se encontró el código de barras: "+ valor);
                $("#input_codigo_barras").val("");
@@ -113,8 +115,10 @@ function soloMasVentas(obj){
 					div_material.innerHTML=ajax.responseText;
 
 					console.log("ingresoSetMaterial."+obj.toString());
-
-					setMaterialesSoloVentas(obj[1],obj[2]+"(<small>"+obj[1]+"</small>)");
+					
+					let cod_ingreso_almacen = obj[9];
+					let lote  				= obj[10];
+					setMaterialesSoloVentas(obj[1], obj[2]+"(<small>"+obj[1]+"</small>)", cod_ingreso_almacen, lote);
 				}
 			}		
 			ajax.send(null);
@@ -213,10 +217,17 @@ function setMaterialesSolo(cod, nombreMat, cantidadPresentacion,costoItem){
 
 }
 
-function setMaterialesSoloVentas(cod, nombreMat){
+function setMaterialesSoloVentas(cod, nombreMat, cod_ingreso_almacen, lote){
 	var numRegistro=$('input[name=materialActivo]').val();
 	console.log("fila:"+numRegistro);
 	$('#materiales'+numRegistro).val(cod);
+	$('#cod_ingreso_almacen'+numRegistro).val(cod_ingreso_almacen);
+	$('#lote'+numRegistro).val(lote);
+	$('#texto_lote'+numRegistro).html(lote);
+	if (lote) {
+		$('#cantidad_unitaria' + numRegistro).attr('readonly', true);
+	}
+
 	$('#cod_material'+numRegistro).html(nombreMat);
 	$("#input_codigo_barras").focus();
 	actStock(numRegistro);
