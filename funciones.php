@@ -208,6 +208,17 @@ function numeroCorrelativo($tipoDoc){
 		}
 	}
 }
+function numeroCorrelativoTraspaso($globalAlmacen){
+	require("conexionmysqli.inc");
+
+	$sql="SELECT IFNULL(max(nro_correlativo)+1,1) from salida_almacenes where cod_tipo_doc='3' and cod_almacen='$globalAlmacen'";
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp)){
+		$codigo=$dat[0];
+		$vectorCodigo = array($codigo,$banderaErrorFacturacion,0);
+		return $vectorCodigo;
+	}
+}
 
 function unidadMedida($codigo){
 	require("conexionmysqli.inc");	

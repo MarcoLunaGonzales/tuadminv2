@@ -43,7 +43,8 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			'$precio','$descuento','$montoparcial','$codIngreso','$orden')";
 			$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 			
-			//echo $sqlInsert;
+			// echo "DETALLE DE SALIDA <br>";
+			// echo $sqlInsert;
 			//AQUI DAMOS DE BAJA EL DESCUENTO POR SI HUBIERAN DOS REGISTROS O MAS
 			$descuento=0;
 
@@ -105,7 +106,8 @@ function insertar_detalleSalidaVenta($enlaceCon,$cod_salida, $cod_almacen, $cod_
 	$createdDate = date('Y-m-d H:i:s');
 	$observaciones = 'SALIDA AUTOMÁTICA PARA VENTA';
 	
-	$vectorNroCorrelativo 	= numeroCorrelativo($tipoDoc);
+	// $vectorNroCorrelativo 	= numeroCorrelativo($tipoDoc);
+	$vectorNroCorrelativo 	= numeroCorrelativoTraspaso($almacenOrigen);
 	$nro_correlativo_salida	= $vectorNroCorrelativo[0];
 	
 	$totalVenta 	 = 0;

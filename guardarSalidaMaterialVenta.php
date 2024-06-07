@@ -254,9 +254,10 @@ if($tipoDoc <> 1){
 	$nro_correlativo=$vectorNroCorrelativo[0];
 	$cod_dosificacion=$vectorNroCorrelativo[2];
 }
-$sql="SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
-$resp=mysqli_query($enlaceCon,$sql);
-$codigo=mysqli_result($resp,0,0);
+$sql	= "SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
+$resp	= mysqli_query($enlaceCon,$sql);
+$codigo = mysqli_result($resp,0,0);
+
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 

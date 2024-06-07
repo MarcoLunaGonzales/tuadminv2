@@ -176,7 +176,7 @@
                         LEFT JOIN material_apoyo m ON m.codigo_material = sda.cod_material
                         WHERE m.codigo_material = sda.cod_material 
                         AND sda.cod_salida_almacen = '$cod_salida_almacen'
-                        GROUP BY m.codigo_material
+                        GROUP BY m.codigo_material, sda.precio_unitario
                         ORDER BY sda.orden_detalle DESC";
         // echo $sqlDatosVenta;
         $respSalidaDet = mysqli_query($enlaceCon, $sqlSalidaDet);
