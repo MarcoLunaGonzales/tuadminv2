@@ -1,8 +1,18 @@
 <?php
 require('../fpdf.php');
-require('../conexionmysqli.inc');
-require('../funciones.php');
+require('../conexionmysqlipdf.inc');
+//require('../funciones.php');
 require('../NumeroALetras.php');
+
+
+
+function redondear2($valor) { 
+   $float_redondeado=round($valor * 100) / 100; 
+   return $float_redondeado; 
+}
+
+
+
 
 $codCobro=$_GET['codCobro'];
 
@@ -65,16 +75,21 @@ $pdf->SetXY(0,$y+25);		$pdf->Cell(0,0,"Obs: $obsNota",0,0,"C");
 
 $y=$y-15;
 
+$pdf->SetFont('Arial','',9);
+
 $pdf->SetXY(0,$y+45);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
-$pdf->SetXY(7,$y+48);		$pdf->Cell(0,0,"Recibo");
-$pdf->SetXY(25,$y+48);		$pdf->Cell(0,0,"Doc.Venta");
-$pdf->SetXY(50,$y+48);		$pdf->Cell(0,0,"Monto");
+$pdf->SetXY(1,$y+48);		$pdf->Cell(0,0,"Rec");
+$pdf->SetXY(10,$y+48);		$pdf->Cell(0,0,"Venta");
+$pdf->SetXY(26,$y+48);		$pdf->Cell(0,0,"Tipo");
+$pdf->SetXY(40,$y+48);		$pdf->Cell(0,0,"Ref");
+$pdf->SetXY(55,$y+48);		$pdf->Cell(0,0,"Monto");
 $pdf->SetXY(0,$y+52);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
 
 
 $yyy=55;
 
-$sql_detalle="select cd.`nro_doc`, cd.`monto_detalle`, td.`abreviatura`, s.`nro_correlativo`, s.`razon_social`
+$sql_detalle="select cd.`nro_doc`, cd.`monto_detalle`, td.`abreviatura`, s.`nro_correlativo`, s.`razon_social`,
+	(select tp.abreviatura from tipos_pago tp where tp.cod_tipopago=cd.cod_tipopago)as tipopago, cd.referencia
 	from `cobros_cab` c, `cobros_detalle` cd, `salida_almacenes` s, `tipos_docs` td
 	where c.`cod_cobro`=cd.`cod_cobro` and cd.`cod_venta`=s.`cod_salida_almacenes` and 
 	c.`cod_cobro`='$codCobro' and td.`codigo`=s.`cod_tipo_doc`";		
@@ -86,14 +101,19 @@ while($dat_detalle=mysqli_fetch_array($resp_detalle)){
 	$montoDet=$dat_detalle[1];
 	$nroVenta=$dat_detalle[2]."-".$dat_detalle[3];
 	$razonSocial=$dat_detalle[4];
+	$tipoPagoDetalle=$dat_detalle[5];
+	$referencia=$dat_detalle[6];
+
 	
 	$montoTotal=$montoTotal+$montoDet;
 	$montoDet=redondear2($montoDet);
 	
-	$pdf->SetFont('Arial','',9);
-	$pdf->SetXY(7,$y+$yyy);		$pdf->Cell(10,5,"$nroDoc",0,0,"L");	
-	$pdf->SetXY(30,$y+$yyy);		$pdf->Cell(10,5,"$nroVenta",0,0,"C");
-	$pdf->SetXY(40,$y+$yyy);		$pdf->Cell(20,5,"$montoDet",0,0,"R");	
+	$pdf->SetFont('Arial','',8);
+	$pdf->SetXY(3,$y+$yyy);		$pdf->Cell(10,5,"$nroDoc",0,0,"L");	
+	$pdf->SetXY(9,$y+$yyy);		$pdf->Cell(10,5,"$nroVenta",0,0,"C");
+	$pdf->SetXY(23,$y+$yyy);		$pdf->Cell(10,5,"$tipoPagoDetalle",0,0,"C");
+	$pdf->SetXY(39,$y+$yyy);		$pdf->Cell(10,5,"$referencia",0,0,"C");
+	$pdf->SetXY(52,$y+$yyy);		$pdf->Cell(20,5,"$montoDet",0,0,"R");	
 	$indice++;
 	$yyy+=5;
 }
