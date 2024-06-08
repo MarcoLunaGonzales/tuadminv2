@@ -12,8 +12,6 @@ $cod_cotizacion	 = $_POST['cod_cotizacion'];
 $usuarioVendedor = empty($_POST['cod_vendedor']) ? '' : $_POST['cod_vendedor'];
 $globalUsuario 	 = $_COOKIE['global_usuario'];
 
-$usuarioVendedor = empty($usuarioVendedor) ? $globalUsuario : $usuarioVendedor;
-
 $globalSucursal	= $_COOKIE['global_agencia'];
 $globalEmpresa	= $_COOKIE['global_cod_empresa'];
 
@@ -261,9 +259,9 @@ $codigo = mysqli_result($resp,0,0);
 $sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 		`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 		`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_cotizacion, dias_credito)
+		`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_cotizacion, dias_credito, cod_funcionario_registro)
 		values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_cotizacion', '$dias_credito')";
+		'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_cotizacion', '$dias_credito', '$globalUsuario')";
 $sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 
 //echo $sql_inserta;

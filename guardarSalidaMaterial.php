@@ -11,8 +11,6 @@ ini_set('display_errors', 1);
 $usuarioVendedor = empty($_POST['cod_vendedor']) ? '' : $_POST['cod_vendedor'];
 $globalUsuario 	 = $_COOKIE['global_usuario'];
 
-$usuarioVendedor = empty($usuarioVendedor) ? $globalUsuario : $usuarioVendedor;
-
 $globalSucursal=$_COOKIE['global_agencia'];
 $globalEmpresa=$_COOKIE['global_cod_empresa'];
 
@@ -280,7 +278,7 @@ if($tipoSalida == '1000'){ // Traspaso
 		// exit;
 
 		/**
-		 * TODO: REGISTRAR POR SUCURSALES EL RTASPASO
+		 * TODO: REGISTRAR POR SUCURSALES EL TRASPASO
 		 */
 		$cantidad_salidas = 0;
 		foreach ($almacenesConSucursales as $almacen) {
@@ -288,13 +286,18 @@ if($tipoSalida == '1000'){ // Traspaso
 				$sql	= "SELECT IFNULL(max(cod_salida_almacenes)+1,1) FROM salida_almacenes";
 				$resp	= mysqli_query($enlaceCon,$sql);
 				$codigo = mysqli_result($resp,0,0);
-				$almacenOrigen = $almacen->cod_almacen_origen; // * Sucursal ORIGEN
+
+				$almacenOrigen = $almacen->cod_almacen_origen; // * Sucursal ORIGEN				
+				$nro_correlativo_trapaso = numeroCorrelativoTraspaso($almacenOrigen)[0];
+				// echo "nro_correlativo_trapaso: ".$nro_correlativo_trapaso;
+				// exit;
+
 				$sql_inserta="INSERT INTO `salida_almacenes`(`cod_salida_almacenes`, `cod_almacen`,`cod_tiposalida`, 
 						`cod_tipo_doc`, `fecha`, `hora_salida`, `territorio_destino`, 
 						`almacen_destino`, `observaciones`, `estado_salida`, `nro_correlativo`, `salida_anulada`, 
-						`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_transportista, cod_transportadora, cod_tipotraspaso)
+						`cod_cliente`, `monto_total`, `descuento`, `monto_final`, razon_social, nit, cod_chofer, cod_vehiculo, monto_cancelado, cod_dosificacion, cod_tipopago, idTransaccion_siat, nro_tarjeta, cod_tipoventa, cod_transportista, cod_transportadora, cod_tipotraspaso, cod_funcionario_registro)
 						values ('$codigo', '$almacenOrigen', '$tipoSalida', '$tipoDoc', '$fecha', '$hora', '0', '$almacenDestino', 
-						'$observaciones', '1', '$nro_correlativo', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_transportista','$cod_transportadora', '$cod_tipotraspaso')";
+						'$observaciones', '1', '$nro_correlativo_trapaso', 0, '$codCliente', '$totalVenta', '$descuentoVenta', '$totalFinal', '$razonSocial','$nitCliente', '$usuarioVendedor', '$vehiculo',0,'$cod_dosificacion','$tipoPago','$idTransaccion_siat','$nroTarjeta','$tipoVenta','$cod_transportista','$cod_transportadora', '$cod_tipotraspaso', '$globalUsuario')";
 				$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 				
 				$index = 0;
