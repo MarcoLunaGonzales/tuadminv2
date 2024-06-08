@@ -15,15 +15,15 @@ require("conexion.inc");
 	$globalAlmacen 	 = $_COOKIE['global_almacen'];
 	$globalAlmacenNombre 	 = $_COOKIE['global_almacen_nombre'];
 ?>
-<table border="0" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
+<table border="1" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
 <tr bgcolor="#FFFFFF">
 
-<td width="5%" align="center">
+<td width="7%" align="center">
 	<a href="javascript:buscarMaterial(form1, <?php echo $num;?>)"><img src='imagenes/buscar2.png' title="Buscar Producto" width="30"></a>
 	<a href="javascript:encontrarMaterial(<?php echo $num;?>)" class="btn btn-primary btn-sm btn-fab"><i class='material-icons float-left' title="Ver en otras Sucursales">place</i></a>
 </td>
 
-<td width="30%" align="center">
+<td width="38%" align="center">
 	<input type="hidden" class="formIndex" value="<?php echo $num;?>">
 	<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="[]">
 	<!-- Codigo de Material -->
@@ -59,14 +59,14 @@ require("conexion.inc");
 </td>
 
 
-<td align="center" width="15%">
+<td align="center" width="10%">
 	<div id='idprecio<?php echo $num;?>'>
 		<input class="inputnumber" type="number" min="1" value="0" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" style="height:20px;font-size:19px;width:100px;color:blue;" required><br>
 		<b id="precio_of<?php echo $num;?>" style="font-size:15px;color:red;">Of.</b>
 	</div>
 </td>
 
-<td align="center" width="15%">
+<td align="center" width="10%">
 	<?php
 			// $sql1="select codigo, nombre, abreviatura from tipos_precio where estado=1 order by 3";
 			// $resp1=mysqli_query($enlaceCon,$sql1);
@@ -90,7 +90,7 @@ require("conexion.inc");
 	<input class="inputnumber" type="number" value="0" id="montoMaterial<?php echo $num;?>" name="montoMaterial<?php echo $num;?>" value="0"  step="0.01" style="height:20px;font-size:20px;width:120px;color:red;" required readonly> 
 </td>
 
-<td align="center"  width="10%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
+<td align="center"  width="5%" ><input class="boton2peque" type="button" value="-" onclick="menos(<?php echo $num;?>)" /></td>
 
 </tr>
 </table>
