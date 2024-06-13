@@ -436,8 +436,13 @@ $consulta = "SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_ti
     FROM salida_almacenes s, tipos_salida ts 
     WHERE s.cod_tiposalida = ts.cod_tiposalida 
     AND s.cod_almacen = '$global_almacen' 
-    AND s.cod_tiposalida=1001 
+    AND s.cod_tiposalida = 1001 
     AND s.cod_tipo_doc not in (1,4)";
+    
+$tipoPagoBusqueda = $_GET["tipoPagoBusqueda"] ?? '';
+if(isset($tipoPagoBusqueda)){
+    $consulta = $consulta."AND s.cod_tipopago='4' ";
+}
 
 if($txtnroingreso!=""){
     $consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
