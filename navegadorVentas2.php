@@ -574,19 +574,19 @@ echo "</form>";
             <tr>
                 <td>Fecha Ini(aaaa-mm-dd)</td>
                 <td>
-                <input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
+                <input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto' value="<?=$_GET['fechaIniBusqueda'] ?? ''?>">
                 </td>
             </tr>
             <tr>
                 <td>Fecha Fin(aaaa-mm-dd)</td>
                 <td>
-                <input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
+                <input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto' value="<?=$_GET['fechaFinBusqueda'] ?? ''?>">
                 </td>
             </tr>
             <tr>
                 <td>Nro. de Documento</td>
                 <td>
-                <input type='text' name='nroCorrelativoBusqueda' id="nroCorrelativoBusqueda" class='texto'>
+                <input type='text' name='nroCorrelativoBusqueda' id="nroCorrelativoBusqueda" class='texto' value="<?=$_GET['nroCorrelativoBusqueda'] ?? ''?>">
                 </td>
             </tr>           
             <tr>
@@ -600,8 +600,9 @@ echo "</form>";
                         while($datClientes=mysqli_fetch_array($respClientes)){
                             $codCliBusqueda=$datClientes[0];
                             $nombreCliBusqueda=$datClientes[1];
+                            $selected = ($_GET['clienteBusqueda'] ?? '') == $codCliBusqueda ? 'selected' : '';
                     ?>
-                            <option value="<?php echo $codCliBusqueda;?>"><?php echo $nombreCliBusqueda;?></option>
+                            <option value="<?php echo $codCliBusqueda;?>" <?=$selected?>><?php echo $nombreCliBusqueda;?></option>
                     <?php
                         }
                     ?>
@@ -622,8 +623,9 @@ echo "</form>";
                         while($data = mysqli_fetch_array($respTipoPagos)){
                             $codigo = $data['codigo'];
                             $nombre = $data['nombre'];
+                            $selected = ($_GET['tipoPagoBusqueda'] ?? '') == $codigo ? 'selected' : '';
                     ?>
-                            <option value="<?php echo $codigo;?>"><?php echo $nombre;?></option>
+                            <option value="<?php echo $codigo;?>" <?=$selected?>><?php echo $nombre;?></option>
                     <?php
                         }
                     ?>
@@ -635,10 +637,11 @@ echo "</form>";
             <tr>
                 <td>Ver:</td>
                 <td>
+                    <?php $fil_tipo_vita = $_GET['verBusqueda'] ?? ''; ?>
                 <select name='verBusqueda' id='verBusqueda' class='texto' >
-                    <option value='0'>Todo</option>
-                    <option value='1'>No Cancelados</option>
-                    <option value='2'>Anulados</option>
+                    <option value='0' <?=$fil_tipo_vita == 0 ? 'selected' : ''?>>Todo</option>
+                    <option value='1' <?=$fil_tipo_vita == 1 ? 'selected' : ''?>>No Cancelados</option>
+                    <option value='2' <?=$fil_tipo_vita == 2 ? 'selected' : ''?>>Anulados</option>
                 </select>
                 </td>
             </tr>           
