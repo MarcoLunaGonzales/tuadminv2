@@ -49,6 +49,12 @@ $globalGestion=1;
 
 
 
+// Verificar y crear la carpeta si no existe
+$target_dir = __DIR__ . '/../archivos_cobro/';
+if (!is_dir($target_dir)) {
+	mkdir($target_dir, 0777, true);
+}
+
 for($i=1;$i<=$nroFilas;$i++)
 {   		
 	
@@ -62,8 +68,23 @@ for($i=1;$i<=$nroFilas;$i++)
 	
 	$montoTotal=$montoTotal+$montoPago;
 	if($montoPago>0){
-		$sql_inserta="INSERT INTO cobros_detalle (cod_cobro, cod_venta, monto_detalle, nro_doc, cod_tipopago, referencia) 
-					VALUE ('$codigo', '$codVenta', '$montoPago', '$nroDoc', '$cod_tipopago', '$referencia')";
+		// Almacena Archivos
+        $archivoNombre = '';
+
+        // Almacena Archivos
+        if (isset($_FILES["archivo$i"]) && $_FILES["archivo$i"]['error'] == 0) {
+            $archivoNombre = date('Ymd_Hm').basename($_FILES["archivo$i"]["name"]);
+            $target_file   = $target_dir . $archivoNombre;
+            if (move_uploaded_file($_FILES["archivo$i"]["tmp_name"], $target_file)) {
+                echo "Archivo guardado: " . $archivoNombre . "<br>";
+            } else {
+                echo "Hubo un error al subir el archivo $archivoNombre.<br>";
+            }
+        }		
+
+		// Almacena Datos
+		$sql_inserta="INSERT INTO cobros_detalle (cod_cobro, cod_venta, monto_detalle, nro_doc, cod_tipopago, referencia, archivo) 
+					VALUE ('$codigo', '$codVenta', '$montoPago', '$nroDoc', '$cod_tipopago', '$referencia', '$archivoNombre')";
 		$sql_inserta=mysqli_query($enlaceCon,$sql_inserta);
 	}
 	

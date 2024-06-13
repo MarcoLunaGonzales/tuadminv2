@@ -13,6 +13,7 @@
 		<th>Monto a Pagar</th>
 		<th>Nro. Doc. Pago</th>
 		<th>Referencia</th>
+		<th>Adjuntar Archivo</th>
 	</tr>
 <?php
 require("../conexionmysqli.inc");
@@ -93,6 +94,9 @@ while($dat=mysqli_fetch_array($resp)){
 			</td>
 			<td align='center'>
 				<input type='text' class='elegant-input' name='referencia$i' id='referencia$i' size='15'>
+			</td>
+			<td align='center'>
+				<input type='file' class='elegant-input' name='archivo$i' id='archivo$i' size='10'>
 			</td>
 		</tr>";
 	$i++;

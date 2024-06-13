@@ -83,11 +83,12 @@ function ajaxBuscarVentas(f){
     verBusqueda=document.getElementById("verBusqueda").value;
     global_almacen=document.getElementById("global_almacen").value;
     clienteBusqueda=document.getElementById("clienteBusqueda").value;
+    tipoPagoBusqueda=document.getElementById("tipoPagoBusqueda").value;
     var contenedor;
     contenedor = document.getElementById('divCuerpo');
     ajax=nuevoAjax();
     
-    location.href="navegadorVentas2.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda;
+    location.href="navegadorVentas2.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda+"&tipoPagoBusqueda="+tipoPagoBusqueda;
     /*ajax.open("GET", "ajaxSalidaVentas.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen+"&clienteBusqueda="+clienteBusqueda,true);
     ajax.onreadystatechange=function() {
         if (ajax.readyState==4) {
@@ -425,8 +426,7 @@ echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='glo
 
 echo "<div id='divCuerpo'>";
 
-$consulta = "
-    SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
+$consulta = "SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
     (select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
     s.estado_salida, s.nro_correlativo, s.salida_anulada, s.almacen_destino, 
     (select concat(c.nombre_cliente,' ',c.paterno) from clientes c where c.cod_cliente = s.cod_cliente), s.cod_tipo_doc, razon_social, nit,
@@ -434,8 +434,10 @@ $consulta = "
     (select nombre_tipopago from tipos_pago where cod_tipopago = s.cod_tipopago) as tipoPago,
     s.cod_chofer, s.cod_tipopago, s.monto_final, s.idTransaccion_siat
     FROM salida_almacenes s, tipos_salida ts 
-    WHERE s.cod_tiposalida = ts.cod_tiposalida AND s.cod_almacen = '$global_almacen' and s.cod_tiposalida=1001 and 
-    s.cod_tipo_doc not in (1,4)";
+    WHERE s.cod_tiposalida = ts.cod_tiposalida 
+    AND s.cod_almacen = '$global_almacen' 
+    AND s.cod_tiposalida=1001 
+    AND s.cod_tipo_doc not in (1,4)";
 
 if($txtnroingreso!=""){
     $consulta = $consulta."AND s.nro_correlativo='$txtnroingreso' ";
@@ -585,7 +587,7 @@ echo "</form>";
             <tr>
                 <td>Cliente:</td>
                 <td>
-                    <select name="clienteBusqueda" class="selectpicker" data-style="btn btn-success" data-live-search="true" id="clienteBusqueda">
+                    <select name="clienteBusqueda" class="selectpicker" data-style="btn btn-success btn-sm" data-live-search="true" id="clienteBusqueda">
                         <option value="0">Todos</option>
                     <?php
                         $sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
@@ -601,7 +603,29 @@ echo "</form>";
                     </select>
                 
                 </td>
-            </tr>           
+            </tr>                  
+            <tr>
+                <td>Tipo Pago:</td>
+                <td>
+                    <select name="tipoPagoBusqueda" class="selectpicker" data-style="btn btn-info btn-sm" data-live-search="true" id="tipoPagoBusqueda">
+                        <option value="0">Todos</option>
+                    <?php
+                        $sqlTipoPagos="SELECT tp.cod_tipopago as codigo, tp.nombre_tipopago as nombre, tp.abreviatura
+                                        FROM tipos_pago tp
+                                        ORDER BY tp.cod_tipopago ASC";
+                        $respTipoPagos=mysqli_query($enlaceCon,$sqlTipoPagos);
+                        while($data = mysqli_fetch_array($respTipoPagos)){
+                            $codigo = $data['codigo'];
+                            $nombre = $data['nombre'];
+                    ?>
+                            <option value="<?php echo $codigo;?>"><?php echo $nombre;?></option>
+                    <?php
+                        }
+                    ?>
+                    </select>
+                
+                </td>
+            </tr> 
 
             <tr>
                 <td>Ver:</td>

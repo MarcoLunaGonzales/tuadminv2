@@ -94,7 +94,7 @@ require("../conexionmysqli.inc");
 
 ?>
 <body>
-<form action='guardarCobranza.php' method='post' name='form1' onsubmit="return validar(this)">
+<form action='guardarCobranza.php' method='post' name='form1' onsubmit="return validar(this)" enctype="multipart/form-data">
 <h3 align="center">Registrar Pagos</h3>
 
 <table border='0' class='texto' cellspacing='0' align='center' width='80%' style='border:#ccc 1px solid;'>
@@ -162,6 +162,7 @@ $fecha=date("d/m/Y");
 			<th>Monto a Pagar</th>
 			<th>Nro. Doc. Pago</th>
 			<th>Referencia</th>
+			<th>Adjuntar Archivo</th>
 		</tr>
 	</table>
 </div>
