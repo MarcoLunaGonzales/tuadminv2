@@ -440,8 +440,8 @@ $consulta = "SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_ti
     AND s.cod_tipo_doc not in (1,4)";
     
 $tipoPagoBusqueda = $_GET["tipoPagoBusqueda"] ?? '';
-if(isset($tipoPagoBusqueda)){
-    $consulta = $consulta."AND s.cod_tipopago='4' ";
+if(!empty($tipoPagoBusqueda)){
+    $consulta = $consulta."AND s.cod_tipopago='$tipoPagoBusqueda' ";
 }
 
 if($txtnroingreso!=""){
