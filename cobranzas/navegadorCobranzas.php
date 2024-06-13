@@ -101,7 +101,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 
 	echo "<br><center><table class='texto'>";
 
-	echo "<tr><th>&nbsp;</th><th>Nro. Cobro</th><th>Gestion</th><th>Cliente</th>
+	echo "<tr><th>&nbsp;</th><th>Nro. Cobro</th><th>Cliente</th>
 		<th>Fecha</th><th>Monto</th><th>Observaciones</th><th>&nbsp;</th></tr>";
 	
 	$consulta = "SELECT c.`cod_cobro`,
@@ -153,7 +153,6 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 		echo "<tr style='$estilo_texto'>
 		<td align='center'>$chkbox</td>
 		<td align='center'>$nroCobranza</td>
-		<td align='center'>$nombreGestion</td>
 		<td align='center'>$nombreProveedor</td>
 		<td align='center'>$fechaPago</td>
 		<td align='center'>$montoPago</td>

@@ -1700,7 +1700,7 @@ if($tipoDocDefault==2){
 
 
 <fieldset id="fiel" style="width:100%;border:0;">
-	<table align="center" class="texto" width="100%" id="data0">
+	<table align="center" class="texto" width="100%" id="data0" border="1">
 		<!--tr>
 			<td align="center" colspan="9">
 				<b>Detalle de la Venta    </b>
@@ -1708,14 +1708,14 @@ if($tipoDocDefault==2){
 		</tr-->
 
 		<tr align="center">
-			<td width="5%">&nbsp;</td>
-			<td width="30%">Descripción</td>
+			<td width="7%">&nbsp;</td>
+			<td width="38%">Descripción</td>
 			<td width="10%">Stock</td>
 			<td width="10%">Cantidad</td>
 			<td width="10%">Precio (Bs.)</td>
-			<td width="15%">Desc.</td>
+			<td width="10%">Desc.</td>
 			<td width="10%">Monto</td>
-			<td width="10%">&nbsp;</td>
+			<td width="5%">&nbsp;</td>
 		</tr>
 	</table>
 

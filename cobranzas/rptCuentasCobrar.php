@@ -26,7 +26,7 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
-echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Reporte de Cuentas x Cobrar
+echo "<table align='center' class='textotit' width='90%'><tr><td align='center'>Reporte de Cuentas x Cobrar
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
@@ -51,17 +51,18 @@ $sql="SELECT s.cod_salida_almacenes,
 			and cb.cod_estado <> 2) 
 	and s.cod_cliente = c.cod_cliente 
 	and s.salida_anulada = 0 
-	and s.cod_almacen = '$globalAlmacen' 
+	and s.cod_almacen in (SELECT alm.cod_almacen from almacenes alm where alm.cod_ciudad='$rpt_territorio')
 	and s.cod_tiposalida = 1001 
 	and s.cod_tipopago = 4 
 	and s.fecha between '$fecha_iniconsulta' and '$fecha_finconsulta'
 	order by c.nombre_cliente,
          s.fecha";	  
-// echo $sql;
+
+//echo $sql;
 
 $resp=mysqli_query($enlaceCon, $sql);
 
-echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='100%'>
+echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='90%'>
 <tr>
 <th>N.R.</th>
 <th>Vendedor</th>

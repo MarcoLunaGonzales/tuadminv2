@@ -139,6 +139,14 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte detallado de Gastos</a></li>
 				</ul>	
 			</li>
+
+			<li><span>Cobranzas</span>
+				<ul>
+					<li><a href="cobranzas/navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
+					<li><a href="cobranzas/rptOpCobranzas.php" target="contenedorPrincipal">Reporte de Cobros</a></li>
+					<li><a href="cobranzas/rptOpCuentasCobrar.php" target="contenedorPrincipal">Reporte Cuentas x Cobrar</a></li>
+				</ul>	
+			</li>
 			<!-- Versión Antigua -->
 			<!--li><span>Registrar</span>
 				<ul>
@@ -169,15 +177,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				</ul>	
 			</li> -->
 				
-			<li><span>Cobros/Obligaciones</span>
-				<ul>
-					<li><span>Cobranzas</span>
-						<ul>
-							<li><a href="cobranzas/navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
-							<li><a href="cobranzas/rptOpCobranzas.php" target="contenedorPrincipal">Reporte de Cobros</a></li>
-							<li><a href="cobranzas/rptOpCuentasCobrar.php" target="contenedorPrincipal">Reporte Cuentas x Cobrar</a></li>
-						</ul>	
-					</li>	
+			<li><span>Obligaciones</span>
+				<ul>	
 					<li><span>Obligaciones</span>
 						<ul>
 							<li><a href="obligaciones/navegadorObligaciones.php" target="contenedorPrincipal">Listado de Obligaciones</a></li>

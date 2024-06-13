@@ -117,6 +117,8 @@ require("../conexionmysqli.inc");
 	// $sql1 .= " AND sa.cod_almacen = '$globalAlmacen' ";
 	$sql1 .= " ORDER BY cliente";
 	
+	//echo $sql1;
+
 	$resp1 = mysqli_query($enlaceCon, $sql1);
 ?>
 <tr>

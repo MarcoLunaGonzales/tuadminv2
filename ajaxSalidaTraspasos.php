@@ -6,10 +6,10 @@ $fechaIniBusqueda=$_GET['fechaIniBusqueda'];
 $fechaFinBusqueda=$_GET['fechaFinBusqueda'];
 $nroCorrelativoBusqueda=$_GET['nroCorrelativoBusqueda'];
 $verBusqueda=$_GET['verBusqueda'];
-$global_almacen=$_GET['global_almacen'];
+$global_almacen=$_COOKIE['global_almacen'];
 
-$fechaIniBusqueda=formateaFechaVista($fechaIniBusqueda);
-$fechaFinBusqueda=formateaFechaVista($fechaFinBusqueda);
+//$fechaIniBusqueda=formateaFechaVista($fechaIniBusqueda);
+//$fechaFinBusqueda=formateaFechaVista($fechaFinBusqueda);
 
 echo "<center><table class='texto' width='100%'>";
 echo "<tr><th>&nbsp;</th><th>Numero Salida</th><th>Fecha/hora<br>Registro Salida</th><th>Tipo de Salida</th>

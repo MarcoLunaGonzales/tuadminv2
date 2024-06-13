@@ -52,12 +52,12 @@ function ajaxBuscarVentas(f){
 	fechaFinBusqueda=document.getElementById("fechaFinBusqueda").value;
 	nroCorrelativoBusqueda=document.getElementById("nroCorrelativoBusqueda").value;
 	verBusqueda=document.getElementById("verBusqueda").value;
-	global_almacen=document.getElementById("global_almacen").value;
+	//global_almacen=document.getElementById("global_almacen").value;
 	var contenedor;
 	contenedor = document.getElementById('divCuerpo');
 	ajax=nuevoAjax();
 
-	ajax.open("GET", "ajaxSalidaTraspasos.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda+"&global_almacen="+global_almacen,true);
+	ajax.open("GET", "ajaxSalidaTraspasos.php?fechaIniBusqueda="+fechaIniBusqueda+"&fechaFinBusqueda="+fechaFinBusqueda+"&nroCorrelativoBusqueda="+nroCorrelativoBusqueda+"&verBusqueda="+verBusqueda,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText;
@@ -417,13 +417,13 @@ echo "</form>";
 			<tr>
 				<td>Fecha Ini(dd/mm/aaaa)</td>
 				<td>
-				<input type='text' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
+				<input type='date' name='fechaIniBusqueda' id="fechaIniBusqueda" class='texto'>
 				</td>
 			</tr>
 			<tr>
 				<td>Fecha Fin(dd/mm/aaaa)</td>
 				<td>
-				<input type='text' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
+				<input type='date' name='fechaFinBusqueda' id="fechaFinBusqueda" class='texto'>
 				</td>
 			</tr>
 			<tr>

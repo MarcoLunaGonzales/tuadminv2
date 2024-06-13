@@ -64,14 +64,17 @@ if ($num_filas != 0) {
 
 
 	$stringGlobalAdmins=obtenerValorConfiguracion(0);
-	$posBuscada = strpos($stringGlobalAdmins, $usuario);
-	
-	// if ($posBuscada === true) {
-	if($stringGlobalAdmins == $usuario){
-		setcookie("global_admin_cargo", 1);	    
+
+	$arrayAdmins = explode(",", $stringGlobalAdmins);
+
+	//var_dump($arrayAdmins);
+
+	if(in_array($usuario, $arrayAdmins)){
+		setcookie("global_admin_cargo", 1);		
 	}else{
 		setcookie("global_admin_cargo", 0);		
 	}
+
 	
 	if($cod_cargo==1000){//ADMINISTRADORES
 		header("location:indexGerencia.php");
