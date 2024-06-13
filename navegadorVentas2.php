@@ -590,9 +590,9 @@ echo "</form>";
                 </td>
             </tr>           
             <tr>
-                <td>Cliente:</td>
-                <td>
-                    <select name="clienteBusqueda" class="selectpicker" data-style="btn btn-success btn-sm" data-live-search="true" id="clienteBusqueda">
+                <td style="padding-top: 1px; padding-bottom: 1px;">Cliente:</td>
+                <td style="padding-top: 1px; padding-bottom: 1px;">
+                    <select name="clienteBusqueda" class="selectpicker" data-style="btn btn-success btn-md" data-live-search="true" id="clienteBusqueda">
                         <option value="0">Todos</option>
                     <?php
                         $sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
@@ -611,9 +611,9 @@ echo "</form>";
                 </td>
             </tr>                  
             <tr>
-                <td>Tipo Pago:</td>
-                <td>
-                    <select name="tipoPagoBusqueda" class="selectpicker" data-style="btn btn-info btn-sm" data-live-search="true" id="tipoPagoBusqueda">
+                <td style="padding-top: 1px; padding-bottom: 1px;">Tipo Pago:</td>
+                <td style="padding-top: 1px; padding-bottom: 1px;">
+                    <select name="tipoPagoBusqueda" class="selectpicker" data-style="btn btn-info btn-md" data-live-search="true" id="tipoPagoBusqueda">
                         <option value="0">Todos</option>
                     <?php
                         $sqlTipoPagos="SELECT tp.cod_tipopago as codigo, tp.nombre_tipopago as nombre, tp.abreviatura
