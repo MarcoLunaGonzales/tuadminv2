@@ -379,7 +379,7 @@ while ($dat = mysqli_fetch_array($resp)) {
                 <img src='imagenes/detalles.png' border='0' title='Detalle' width='40'>
             </a>";
     if($codTipoSalida == 1000){
-        echo "<a href='formatoHojaTraspasoPequenio.php?cod_salida_almacen=$codigo' target='_blank'>
+        echo "<a href='formatoHojaTraspaso.php?cod_salida_almacen=$codigo' target='_blank'>
             <img src='imagenes/pdf.png' border='0' title='PDF de Traspaso' width='40'>
         </a>";   
     }

@@ -175,7 +175,8 @@
 						<button type="button" 
 								class="btn btn-primary abrirArchivo"
 								data-archivo="<?= $archivo; ?>"
-								style="border: none; border-radius: 50%; background: none; padding: 0; margin: 0;">
+								style="border: none; border-radius: 50%; background: none; padding: 0; margin: 0;"
+								title="Ver Archivo">
 							<img src="../imagenes/ver_archivo.png" alt="Ver Archivo" width="30" height="30">
 						</button>
 					</div>
@@ -207,7 +208,7 @@
     </div>
 	<!-- Modal -->
 	<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="fileModalLabel"><b style="font-weight: bold; color: #4E4EDB; text-align: center;">VISOR DE ARCHIVO ADJUNTO</b></h5>
@@ -216,7 +217,8 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<iframe id="fileFrame" src="" width="100%" height="400px"></iframe>
+					<div id="fileViewer">
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -224,13 +226,41 @@
 			</div>
 		</div>
 	</div>
+	<style>
+		#fileViewer {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+	</style>
 	<script>
 		$(document).ready(function() {
 			$('body').on('click', '.abrirArchivo', function() {
-				var file = $(this).data('archivo');				
-				$('#fileFrame').attr('src', 'archivos_cobro/' + file);
+				var file = $(this).data('archivo');
+				var fileType = getFileType(file);
+				var fileUrl = 'archivos_cobro/' + file;
+
+				if (fileType === 'image') {
+					// Mostrar imagen en un <img>
+					$('#fileViewer').html('<img src="' + fileUrl + '" class="img-fluid" alt="Imagen" style="max-width: 100%; max-height: 80vh;" >');
+				} else {
+					// Mostrar documento en un <iframe>
+					$('#fileViewer').html('<iframe id="fileFrame" src="' + fileUrl + '" width="100%" height="400px"></iframe>');
+				}
+
 				$('#fileModal').modal('show');
 			});
+
+			// Función para determinar el tipo de archivo basado en su extensión
+			function getFileType(fileName) {
+				var ext = fileName.split('.').pop().toLowerCase();
+				if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
+					return 'image';
+				} else {
+					return 'document';
+				}
+			}
 		});
 	</script>
 </body>

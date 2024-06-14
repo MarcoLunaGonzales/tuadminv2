@@ -161,7 +161,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
             <a href='notaCobranza.php?codCobro=$codPago' target='_blank'>
                 <img src='../imagenes/icon_detail.png' alt='Detalle' width='30' heigth='30'>
             </a>
-            <a href='navegadorCobranzasDetalle.php?codCobro=$codPago' target='_blank'>
+            <a href='navegadorCobranzasDetalle.php?codCobro=$codPago' target='_blank' title='Ver Detalle Cobro'>
                 <img src='../imagenes/detallePago.png' alt='Detalle' width='30' heigth='30'>
             </a>
         </td>
