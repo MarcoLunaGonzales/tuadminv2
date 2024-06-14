@@ -50,7 +50,7 @@ $globalGestion=1;
 
 
 // Verificar y crear la carpeta si no existe
-$target_dir = __DIR__ . '/../archivos_cobro/';
+$target_dir = 'archivos_cobro/';
 if (!is_dir($target_dir)) {
 	mkdir($target_dir, 0777, true);
 }

@@ -157,7 +157,14 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 		<td align='center'>$fechaPago</td>
 		<td align='center'>$montoPago</td>
 		<td>&nbsp;$observaciones</td>
-		<td bgcolor='$color_fondo'><a href='notaCobranza.php?codCobro=$codPago' target='_blank'><img src='../imagenes/icon_detail.png' alt='Detalle' width='30' heigth='30'></a></td>
+		<td bgcolor='$color_fondo'>
+            <a href='notaCobranza.php?codCobro=$codPago' target='_blank'>
+                <img src='../imagenes/icon_detail.png' alt='Detalle' width='30' heigth='30'>
+            </a>
+            <a href='navegadorCobranzasDetalle.php?codCobro=$codPago' target='_blank'>
+                <img src='../imagenes/detallePago.png' alt='Detalle' width='30' heigth='30'>
+            </a>
+        </td>
 		</tr>";
 	}
 	echo "</table></center><br>";
