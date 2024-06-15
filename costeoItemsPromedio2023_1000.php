@@ -1,5 +1,6 @@
 <?php
-require("conexion.inc");
+
+/*require("conexion.inc");
 require("funcionRecalculoCostos2023.php");
 
 set_time_limit(0);
@@ -38,5 +39,6 @@ $finTime = microtime(true);
 $tiempoEjecucionTodo = $finTime - $inicioTime;
 
 echo "Tiempo Total Ejecucion: ".$tiempoEjecucionTodo;
+*/
 
 ?>
