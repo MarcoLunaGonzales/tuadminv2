@@ -2,7 +2,7 @@
 <body>
 <table align='center' class="texto">
 <tr>
-<th>CodInterno</th><th>Producto</th><th>Stock</th></tr>
+<th>CodInterno</th><th>Producto</th><th>Manejo</th><th>Stock</th></tr>
 <?php
 require("conexion.inc");
 $codTipo=$_GET['codTipo'];
@@ -14,7 +14,9 @@ $globalAgencia=$_COOKIE['global_agencia'];
 //$itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $itemsNoUtilizar="0";
 
-	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion, m.codigo_anterior from material_apoyo m where estado=1 
+	$sql="SELECT m.codigo_material, m.descripcion_material, m.cantidad_presentacion, m.codigo_anterior,
+		(SELECT t.nombre from tipos_material_manejo t where t.cod_tipomanejo=m.cod_tipomanejo)
+	 	from material_apoyo m where estado=1 
 		and m.codigo_material not in ($itemsNoUtilizar)";
 	if($nombreItem!=""){
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
@@ -36,6 +38,7 @@ $itemsNoUtilizar="0";
 			$nombre=addslashes($nombre);
 			$cantidadPresentacion=$dat[2];
 			$codigoInterno=$dat[3];
+			$tipoManejo=$dat[4];
 			
 			//SACAMOS EL PRECIO
 			$sqlUltimoCosto="select id.precio_bruto from ingreso_almacenes i, ingreso_detalle_almacenes id
@@ -57,7 +60,12 @@ $itemsNoUtilizar="0";
 				}
 			}
 			
-			echo "<tr><td><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre\", $cantidadPresentacion, $costoItem)'>$codigoInterno</a></div></td><td><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre ($codigoInterno)\", $cantidadPresentacion, $costoItem)'>$nombre</a></div></td><td><div class='textograndenegro'>-</a></div></td></tr>";
+			echo "<tr>
+				<td><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre\", $cantidadPresentacion, $costoItem)'>$codigoInterno</a></div></td>
+				<td><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre ($codigoInterno)\", $cantidadPresentacion, $costoItem)'>$nombre</a></div></td>
+				<td><div class='textograndenegro'>$tipoManejo</a></div></td>
+				<td><div class='textograndenegro'>-</a></div></td>
+				</tr>";
 		}
 	}else{
 		echo "<tr><td colspan='3'>Sin Resultados en la busqueda.</td></tr>";

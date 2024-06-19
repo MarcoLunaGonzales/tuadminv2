@@ -153,7 +153,7 @@ include("datosUsuario.php");
 					</li>	
 					<li><span>Costos</span>
 						<ul>
-							<li><a href="rptOpKardexCostos.php" target="contenedorPrincipal">Kardex de Movimiento Precio Promedio</a></li>
+							<li><a href="rptOpKardexCostos.php" target="contenedorPrincipal">Kardex de Movimiento</a></li>
 							<!--li><a href="rptOpKardexCostosPEPS.php" target="contenedorPrincipal">Kardex de Movimiento PEPS</a></li>
 							<li><a href="rptOpKardexCostosUEPS.php" target="contenedorPrincipal">Kardex de Movimiento UEPS</a></li-->							
 							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>							

@@ -151,9 +151,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$valorIngreso=$cantidad_ingreso*$costoIngreso;
 			$suma_valorIngresos=$suma_valorIngresos+$valorIngreso;
 			$valor_kardex=$valor_kardex+$valorIngreso;
-
-			//$nuevoCostoPromedio=$valor_kardex/$cantidad_kardex;
-			
+			$nuevoCostoPromedio=$valor_kardex/$cantidad_kardex;
 			//FORMATEAMOS
 			$cantidadIngresoX=formatonumeroDec($cantidad_ingreso);
 			$cantidadKardexX=formatonumeroDec($cantidad_kardex);
@@ -167,7 +165,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			<td align='right' bgcolor='$coloresCantidades'>$cantidadIngresoX</td>
 			<td align='right' bgcolor='$coloresCantidades'>0</td>
 			<td align='right' bgcolor='$coloresCantidades'>$cantidadKardexX</td>
-			<td align='center'bgcolor='$colorCosto'>$costoIngreso</td>
+			<td align='center'bgcolor='$colorCosto'>$nuevoCostoPromedioX</td>
 			<td align='right' bgcolor='$coloresValores'>$valorIngresoX</td>
 			<td align='right' bgcolor='$coloresValores'>0</td>
 			<td align='right' bgcolor='$coloresValores'>$valorKardexX</td>
@@ -181,7 +179,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		s.observaciones, s.territorio_destino, s.cod_salida_almacenes, sd.costo_almacen
 		from salida_almacenes s, salida_detalle_almacenes sd, tipos_salida ts
 		where s.cod_tiposalida=ts.cod_tiposalida and s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
-		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta' order by s.cod_salida_almacenes, s.nro_correlativo";
+		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta' order by s.nro_correlativo";
 		$resp_salidas=mysql_query($sql_salidas);
 		while($dat_salidas=mysql_fetch_array($resp_salidas))
 		{	$nro_salida=$dat_salidas[0];

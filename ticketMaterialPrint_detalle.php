@@ -83,7 +83,7 @@ $hoja_ancho = $registro['valor_configuracion']; // ANCHO
 
 $sqlConf="SELECT c.valor_configuracion
 FROM configuraciones c
-WHERE c.id_configuracion = 13
+WHERE c.id_configuracion = 16
 ORDER BY c.id_configuracion ASC";
 $respConf=mysqli_query($enlaceCon,$sqlConf);
 $registro = mysqli_fetch_array($respConf);

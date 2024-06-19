@@ -2,10 +2,10 @@
 set_time_limit(0);
 require('conexion.inc');
 
-$cod_almacen_arreglar=1002;
+$cod_almacen_arreglar=1000;
 
-$sqlMat="select m.codigo_material, m.descripcion_material from material_apoyo m where m.estado='1' and 
-m.codigo_material=1782 ORDER BY 1 limit 101,150";
+$sqlMat="select m.codigo_material, m.descripcion_material from material_apoyo m where m.codigo_material in 
+(704) ORDER BY 1";
 $respMat=mysql_query($sqlMat);
 
 while($datMat=mysql_fetch_array($respMat)){
@@ -50,7 +50,8 @@ while($datMat=mysql_fetch_array($respMat)){
 		$sql_detalle_ingreso="select id.cod_ingreso_almacen, id.cantidad_restante from ingreso_detalle_almacenes id, 
 		ingreso_almacenes i
 		where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$cod_almacen_arreglar' 
-		and id.cod_material='$cod_material' and id.cantidad_restante<>0 and i.ingreso_anulado=0 order by id.cod_ingreso_almacen";
+		and id.cod_material='$cod_material' and id.cantidad_restante>0 and i.ingreso_anulado=0 order by id.cod_ingreso_almacen";
+		echo $sql_detalle_ingreso."<br><br>";
 		$resp_detalle_ingreso=mysql_query($sql_detalle_ingreso);
 		$cantidad_bandera=$cant_unit_salida;
 		$bandera=0;

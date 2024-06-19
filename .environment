@@ -1,4 +1,4 @@
-[ Main settings ]
+[0 Main settings ]
 DATABASE_DRIVER = mysql
 DATABASE_ENCODING = utf8
 
