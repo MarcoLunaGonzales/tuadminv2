@@ -1,19 +1,38 @@
 <?php
-require("conexion.inc");
-require("funciones.php");
+	require("conexion.inc");
+	require("funciones.php");
 
 
-$codigoItem=$_GET['codigo'];
-$globalAlmacen=$_COOKIE['global_almacen'];
-$globalAgencia=$_COOKIE['global_agencia'];
+	$codigoItem=$_GET['codigo'];
+	$globalAlmacen=$_COOKIE['global_almacen'];
+	$globalAgencia=$_COOKIE['global_agencia'];
 
-	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion, 
-		(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) from proveedores p, proveedores_lineas pl 
-		where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
-		(select g.nombre_grupo from grupos g where g.cod_grupo=m.cod_grupo ) as grupo  
-		from material_apoyo m where estado=1 
-		and m.codigo_barras = '$codigoItem'";
-	$sql=$sql." limit 1";
+	// Verificamos CODIGO
+	$parte1 = ''; // 1542 : cod_ingreso_almacen
+	$parte2 = ''; // 10   : codigo_material
+	$parte3 = ''; // L10  : lote
+	if (strpos($codigoItem, '|') !== false) {
+		// La cadena contiene el carácter '|'
+		$valores = explode('|', $codigoItem);
+		$parte1 = $valores[0]; // 1542 	:cod_ingreso_almacen
+		$parte2 = $valores[1]; // 10 	:codigo_material
+		$parte3 = $valores[2]; // L10	:lote
+	}
+
+	$sql="SELECT m.codigo_material, 
+			m.descripcion_material, 
+			m.cantidad_presentacion, 
+			(select concat(p.nombre_proveedor,' ',pl.abreviatura_linea_proveedor) 
+			from proveedores p, proveedores_lineas pl 
+			where p.cod_proveedor = pl.cod_proveedor 
+			and pl.cod_linea_proveedor = m.cod_linea_proveedor),
+			(select g.nombre_grupo 
+			from grupos g 
+			where g.cod_grupo = m.cod_grupo) as grupo  
+		FROM material_apoyo m
+		WHERE m.estado = 1 
+		AND (m.codigo_barras = '$codigoItem' OR m.codigo_material = (SELECT ida.cod_material FROM ingreso_detalle_almacenes ida WHERE CONCAT(ida.cod_ingreso_almacen,'|',ida.cod_material,'|',ida.lote) = '$codigoItem' LIMIT 1))";
+	$sql=$sql." LIMIT 1";
 	$resp=mysql_query($sql);
 	$numFilas=mysql_num_rows($resp);
 	if($numFilas>0){
@@ -46,10 +65,10 @@ $globalAgencia=$_COOKIE['global_agencia'];
 					$costoItem=mysql_result($respCosto,0,0);
 				}
 			}
-			echo "1#####".$codigo."#####".$nombreCompletoProducto."#####".$cantidadPresentacion."#####".$costoItem."#####-#####-#####-#####-";
+			echo "1#####".$codigo."#####".$nombreCompletoProducto."#####".$cantidadPresentacion."#####".$costoItem."#####-#####-#####-#####-"."#####$parte1#####$parte3";
 		}
 	}else{
-		echo "0#####_#####_#####_#####_#####_#####_#####_#####_";
+		echo "0#####_#####_#####_#####_#####_#####_#####_#####_#####_#####_";
 	}
 
 ?>

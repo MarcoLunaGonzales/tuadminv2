@@ -139,7 +139,8 @@ echo "<script language='Javascript'>
         (select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
         (select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
         (select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
-        m.observaciones, imagen
+        m.observaciones, imagen,
+        (select t.nombre from tipos_material_manejo t where t.cod_tipomanejo=m.cod_tipomanejo)
         from material_apoyo m
         where m.estado='1' and m.cod_tipomaterial in (1,2)";
     if($vista==1)
@@ -147,7 +148,8 @@ echo "<script language='Javascript'>
         (select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
         (select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
         (select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
-        m.observaciones, imagen
+        m.observaciones, imagen,
+        (select t.nombre from tipos_material_manejo t where t.cod_tipomanejo=m.cod_tipomanejo)
         from material_apoyo m
         where m.estado='0' and m.cod_tipomaterial in (1,2)";
     }
@@ -230,7 +232,7 @@ echo "<script language='Javascript'>
     
     echo "<center><table class='texto'>";
     echo "<tr><th>Indice</th><th>&nbsp;</th><th>Nombre Producto</th><th>Descripcion</th>
-        <th>Grupo</th><th>Tipo</th><th>Proveedor</th><th>Stock</th><th>Precio de Venta [Bs]</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+        <th>Grupo</th><th>TipoManejo</th><th>Proveedor</th><th>Stock</th><th>Precio de Venta [Bs]</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
     
     $indice_tabla=1;
     while($dat=mysql_fetch_array($resp))
@@ -243,6 +245,8 @@ echo "<script language='Javascript'>
         $nombreLinea=$dat[5];
         $observaciones=$dat[6];
         $imagen=$dat[7];
+        $tipoManejo=$dat[8];
+        
         $precioVenta=precioVenta($codigo,$globalAgencia);
         $precioVenta=$precioVenta;
 
@@ -263,7 +267,7 @@ echo "<script language='Javascript'>
             <input type='checkbox' name='codigo' value='$codigo'></td>
             <td>$nombreProd</td><td>$observaciones</td>
             <td>$grupo</td>
-            <td>$tipoMaterial</td>
+            <td>$tipoManejo</td>
             <td>$nombreLinea</td>
             <td><span class='textomedianorojo'>$stockProducto</span></td>
             <td align='center'>$precioVenta</td>

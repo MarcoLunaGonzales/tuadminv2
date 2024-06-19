@@ -214,7 +214,7 @@ echo "<div id='divCuerpo'>";
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nro.Factura</th><th>Fecha</th><th>Tipo de Ingreso</th>
 <th>Proveedor</th>
-<th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+<th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 while ($dat = mysql_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
@@ -259,6 +259,9 @@ while ($dat = mysql_fetch_array($resp)) {
 		<a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
 			<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
 		</a>
+	</td>
+	<td align='center'>
+        <a target='_BLANK' href='ticketMaterial_detalle.php?cod_ingreso_almacen=$codigo'><img src='imagenes/icono-barra.png' border='0' width='30' heigth='30' title='Ver Detalles para Impresión'></a>
 	</td></tr>";
 	/*echo "<td align='center'>
 		<a  href='costosImportacionIngreso.php?codigo_ingreso=$codigo'>

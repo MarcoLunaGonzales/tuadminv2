@@ -36,7 +36,7 @@ m.`codigo_material`, m.`descripcion_material`,
 	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.`fecha` BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta'
 	and s.`salida_anulada`=0 and sd.`cod_material`=m.`codigo_material` and m.cod_grupo in ($arrayRptGrupo) and 
 	s.`cod_almacen` in (select a.`cod_almacen` from `almacenes` a where a.`cod_ciudad`='$rpt_territorio') and s.cod_tiposalida=1001
-	group by s.fecha, s.nro_correlativo, m.codigo_material, m.descripcion_material
+	group by s.fecha, s.nro_correlativo, m.codigo_material, m.descripcion_material, sd.cod_ingreso_almacen
 	order by 1,3,13";
 
 //echo $sql;	

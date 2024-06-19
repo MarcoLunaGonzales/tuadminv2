@@ -116,10 +116,13 @@ if($sql_inserta==1){
 	{   	
 		$codMaterial=$_POST["materiales$i"];
 		if($codMaterial!=0){
-			$cantidadUnitaria=$_POST["cantidad_unitaria$i"];
-			$precioUnitario=$_POST["precio_unitario$i"];
-			$descuentoProducto=$_POST["descuentoProducto$i"];
-			$montoMaterial=$_POST["montoMaterial$i"];
+			$cantidadUnitaria	= $_POST["cantidad_unitaria$i"];
+			$precioUnitario		= $_POST["precio_unitario$i"];
+			$descuentoProducto	= $_POST["descuentoProducto$i"];
+			$montoMaterial		= $_POST["montoMaterial$i"];
+
+			$cod_ingreso_almacen= $_POST["cod_ingreso_almacen$i"];
+			$lote				= $_POST["lote$i"];
 
 			//SE DEBE CALCULAR EL MONTO DEL MATERIAL POR CADA UNO PRECIO*CANTIDAD - EL DESCUENTO ES UN DATO ADICIONAL
 			$montoMaterial=$precioUnitario*$cantidadUnitaria;
@@ -128,7 +131,12 @@ if($sql_inserta==1){
 			
 			$montoTotalVentaDetalle=$montoTotalVentaDetalle+$montoMaterialConDescuento;
 			if($banderaValidacionStock==1){
-				$respuesta=descontar_inventarios($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i);
+				// Si tiene LOTE y cod_ingreso_almacen
+				if($cod_ingreso_almacen){
+					$respuesta=descontar_inventarios_lote($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i,$cod_ingreso_almacen,$lote);
+				}else{
+					$respuesta=descontar_inventarios($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i);
+				}
 			}else{
 				$respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $i);
 			}
