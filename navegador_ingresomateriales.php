@@ -192,14 +192,30 @@ function anular_ingreso(f)
 echo "<form method='post' action='navegador_ingresomateriales.php'>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
-$consulta = "
-    SELECT i.cod_ingreso_almacen, i.fecha, i.hora_ingreso, ti.nombre_tipoingreso, i.observaciones, i.nota_entrega, i.nro_correlativo, i.ingreso_anulado,
-	(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor, i.nro_factura_proveedor
+$consulta = "SELECT i.cod_ingreso_almacen, 
+    	i.fecha, 
+    	i.hora_ingreso, 
+    	ti.nombre_tipoingreso, 
+    	i.observaciones, 
+    	i.nota_entrega, 
+    	i.nro_correlativo, 
+    	i.ingreso_anulado,
+		(select p.nombre_proveedor from proveedores p where p.cod_proveedor=i.cod_proveedor) as proveedor, i.nro_factura_proveedor,
+	    CASE 
+	        WHEN EXISTS (
+	            SELECT 1 
+	            FROM ingreso_detalle_almacenes ida 
+	            WHERE ida.cod_ingreso_almacen = i.cod_ingreso_almacen 
+	              AND ida.lote IS NOT NULL 
+	              AND ida.lote != '0'
+	        ) THEN 1
+	        ELSE 0
+	    END AS tiene_lote
     FROM ingreso_almacenes i, tipos_ingreso ti
     WHERE i.cod_tipoingreso=ti.cod_tipoingreso
     AND i.cod_almacen='$global_almacen'";
    $consulta = $consulta."ORDER BY i.nro_correlativo DESC limit 0, 50 ";
-//echo "MAT:$sql";
+// echo "MAT:$consulta";
 $resp = mysql_query($consulta);
 echo "<h1>Ingreso de Materiales</h1>";
 
@@ -227,6 +243,8 @@ while ($dat = mysql_fetch_array($resp)) {
     $anulado = $dat[7];
 	$proveedor=$dat[8];
 	$nroFacturaProveedor=$dat[9];
+	// Verifica si Tiene Lote
+	$tieneLote = $dat['tiene_lote'];
 
     echo "<input type='hidden' name='fecha_ingreso$nro_correlativo' value='$fecha_ingreso_mostrar'>";
     $sql_verifica_movimiento = "select * from salida_almacenes s, salida_detalle_almacenes sd, ingreso_almacenes i
@@ -252,10 +270,16 @@ while ($dat = mysql_fetch_array($resp)) {
 	<td>&nbsp;$obs_ingreso</td>
 	<td align='center'>
 		<a target='_BLANK' href='formatoNotaIngreso.php?codigo_ingreso=$codigo'><img src='imagenes/factura1.jpg' border='0' width='30' heigth='30' title='Imprimir'></a>
-	</td>	<td align='center'>
-		<a target='_BLANK' href='navegador_detalleingresomateriales.php?codigo_ingreso=$codigo'><img src='imagenes/icon_detail.png' border='0' width='30' heigth='30' title='Ver Detalles del Ingreso'></a>
-	</td>
-	<td align='center'>
+	</td>";
+
+	if($tieneLote){
+		echo "<td align='center'>
+				<a target='_BLANK' href='navegador_detalleingresomateriales.php?codigo_ingreso=$codigo'>
+					<img src='imagenes/icon_detail.png' border='0' width='30' heigth='30' title='Ver Detalles del Ingreso'>
+				</a>
+			</td>";
+	}
+	echo "<td align='center'>
 		<a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
 			<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
 		</a>

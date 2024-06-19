@@ -63,6 +63,7 @@ if($banderaIngresoRealizado==0){
 
 	//echo "aaaa:$consulta";
 
+	// echo "CANTIDAD: ".$cantidad_material."<br>";
 	if($sql_inserta==1){
 		for ($i = 1; $i <= $cantidad_material; $i++) {
 			$cod_material = $_POST["material$i"];
@@ -80,6 +81,7 @@ if($banderaIngresoRealizado==0){
 				$precioUnitario=$precioBruto;			
 				$costo=$precioUnitario;
 				
+				// echo "cod_material: $cod_material<br>";
 				/**
 				 * Verificación del Tipo de Manejo
 				 */
@@ -95,19 +97,21 @@ if($banderaIngresoRealizado==0){
 					$consulta="INSERT INTO ingreso_detalle_almacenes(cod_ingreso_almacen, cod_material, cantidad_unitaria, cantidad_restante, lote, fecha_vencimiento, 
 					precio_bruto, costo_almacen, costo_actualizado, costo_actualizado_final, costo_promedio, precio_neto) 
 					values('$codigo','$cod_material','$cantidad','$cantidad','$lote','$fechaVencimiento','$precioUnitario','$precioUnitario','$costo','$costo','$costo','$costo')";
-					//echo "det:$consulta";
+					// echo "det1:$consulta <br>";
 					$sql_inserta2 = mysql_query($consulta);
 				}else if($codTipoManejo == 2){
 					$precioUnitario = round(($precioUnitario / $cantidad), 2);	
 					$costo			= $precioUnitario;
-					for ($i = 1; $i <= $cantidad; $i++) {
-						$lote_actual 	 = $lote . '_' . $i;
+					for ($j = 1; $j <= $cantidad; $j++) {
+						$lote_actual 	 = $lote . '_' . $j;
 						$cantidad_manejo = 1;
+
+						// echo "********** <br>";
 
 						$consulta = "INSERT INTO ingreso_detalle_almacenes(cod_ingreso_almacen, cod_material, cantidad_unitaria, cantidad_restante, lote, fecha_vencimiento, 
 						precio_bruto, costo_almacen, costo_actualizado, costo_actualizado_final, costo_promedio, precio_neto) 
 						values('$codigo','$cod_material','$cantidad_manejo','$cantidad_manejo','$lote_actual','$fechaVencimiento','$precioUnitario','$precioUnitario','$costo','$costo','$costo','$costo')";
-						//echo "det:$consulta";
+						// echo "det2:$consulta <br>";
 						$sql_inserta2 = mysql_query($consulta);
 					}
 				}
@@ -150,10 +154,10 @@ if($banderaIngresoRealizado==0){
 			
 
 		}
-		echo "<script language='Javascript'>
-			alert('Los datos fueron insertados correctamente.');
-			location.href='navegador_ingresomateriales.php';
-			</script>";		
+		// echo "<script language='Javascript'>
+		// 	alert('Los datos fueron insertados correctamente.');
+		// 	location.href='navegador_ingresomateriales.php';
+		// 	</script>";		
 	}else{
 		echo "<script language='Javascript'>
 			alert('EXISTIO UN ERROR EN LA TRANSACCION, POR FAVOR CONTACTE CON EL ADMINISTRADOR.');

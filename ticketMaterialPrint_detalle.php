@@ -139,8 +139,6 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
     $numero = $numero + 1;
     // Dibujamos la primera card
     $pdf->RoundedRect($margen_x, $margen_y, $card_width, $card_height, $radio_borde);
-    // Dibujamos la segunda card
-    $pdf->RoundedRect($margen_x + $card_width + $margen_x2, $margen_y2, $card_width, $card_height, $radio_borde);
 
     // ****************
     // Valor iniciarl
@@ -188,6 +186,9 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
 
 
     if ($registro = mysqli_fetch_assoc($respConf)) {
+        // Dibujamos la segunda card
+        $pdf->RoundedRect($margen_x + $card_width + $margen_x2, $margen_y2, $card_width, $card_height, $radio_borde);
+        
         $cod_ingreso_almacen = $registro['cod_ingreso_almacen'];
         $nombre_producto     = $registro['descripcion_material'];
         $codigo_general      = $registro['codigo_material'];
