@@ -103,8 +103,11 @@ $pdf->SetFont($tipo_letra, $estilo, $tamanio_letra);
 
 // Codigo de CIUDAD
 $global_agencia = $_COOKIE["global_agencia"];
+
+// Lista de Codigos Seleccionados
+$codigos = empty($_GET['codigos']) ? '' : $_GET['codigos'];
 // Definimos las variables con los datos de ejemplo
-$cod_ingreso_almacen = $_GET['cod_ingreso_almacen'];
+$cod_ingreso_almacen = empty($_GET['cod_ingreso_almacen']) ? '' : $_GET['cod_ingreso_almacen'];
 
 // Cantidad de Tickets
 $cantidad_tickets = isset($_GET['cantidad_tickets']) ? $_GET['cantidad_tickets'] : 1;
@@ -115,6 +118,10 @@ $indicePar=2;
 $numero = 0;
 
 
+$query_fil = empty($codigos) 
+                ? "AND ida.cod_ingreso_almacen = '$cod_ingreso_almacen'" 
+                : "AND CONCAT(ida.cod_ingreso_almacen, '_', ma.codigo_material, '_', ida.lote) IN ($codigos)";
+
 /**
  * LISTA DE INGRESO DE PRODUCTOS
  */
@@ -122,9 +129,11 @@ $sqlConf = "SELECT ma.codigo_material, ma.descripcion_material, ROUND(p.precio, 
             FROM material_apoyo ma 
             LEFT JOIN ingreso_detalle_almacenes ida ON ida.cod_material = ma.codigo_material
             LEFT JOIN precios p ON p.codigo_material = ma.codigo_material
-            WHERE ida.cod_ingreso_almacen = '$cod_ingreso_almacen'
-            AND p.cod_ciudad = '$global_agencia'
-            AND p.cod_precio = 1";
+            WHERE p.cod_ciudad = '$global_agencia'
+            AND p.cod_precio = 1
+            $query_fil";
+// echo $sqlConf;
+
 $respConf = mysqli_query($enlaceCon, $sqlConf);
 while ($registro = mysqli_fetch_assoc($respConf)) {
     // for($i = 0; $i < $cantidad_tickets; $i++){

@@ -23,32 +23,91 @@
 	$nro_correlativo=$dat[4];
 	echo "<tr><td align='center'>$nro_correlativo</td><td align='center'>$fecha_ingreso_mostrar</td><td>$nombre_tipoingreso</td><td>&nbsp;$obs_ingreso</td></tr>";
 	echo "</table>";
-	$sql_detalle="select m.codigo_anterior, i.cantidad_unitaria, i.precio_neto, i.lote, DATE_FORMAT(i.fecha_vencimiento, '%d/%m/%Y'), m.descripcion_material, m.codigo_material	from ingreso_detalle_almacenes i, material_apoyo m
-	where i.cod_ingreso_almacen='$codigo' and m.codigo_material=i.cod_material order by m.descripcion_material";
+	$sql_detalle="SELECT m.codigo_anterior, 
+						i.cantidad_unitaria, 
+						i.precio_neto, 
+						i.lote, 
+						DATE_FORMAT(i.fecha_vencimiento, '%d/%m/%Y'), 
+						m.descripcion_material, 
+						m.codigo_material,
+						i.cod_ingreso_almacen
+				FROM ingreso_detalle_almacenes i, material_apoyo m
+				WHERE i.cod_ingreso_almacen = '$codigo' 
+				AND m.codigo_material = i.cod_material 
+				ORDER BY m.descripcion_material";
 	$resp_detalle=mysql_query($sql_detalle);
 
 	echo "<br><table border=0 class='texto' align='center'>";
 	echo "<tr><th>&nbsp;</th><th>Codigo</th><th>Material</th><th>Cantidad</th><th>Lote</th><th>Precio(Bs.)</th><th>Total(Bs.)</th></tr>";
 	$indice=1;
 	while($dat_detalle=mysql_fetch_array($resp_detalle))
-	{	$cod_material=$dat_detalle[0];
-		$cantidad_unitaria=$dat_detalle[1];
-		$precioNeto=redondear2($dat_detalle[2]);
-		$loteProducto=$dat_detalle[3];
-		$fechaVenc=$dat_detalle[4];
-		$nombre_material=$dat_detalle[5];
+	{	$cod_material		= $dat_detalle[0];
+		$cantidad_unitaria	= $dat_detalle[1];
+		$precioNeto			= redondear2($dat_detalle[2]);
+		$loteProducto		= $dat_detalle[3];
+		$fechaVenc			= $dat_detalle[4];
+		$nombre_material	= $dat_detalle[5];
+		$cod_ingreso_almacen= $dat_detalle['cod_ingreso_almacen'];
+
+		$valor_check = $cod_ingreso_almacen.'_'.$cod_material.'_'.$loteProducto;
 		
-		$totalValorItem=$cantidad_unitaria*$precioNeto;
+		$totalValorItem		= $cantidad_unitaria*$precioNeto;
 		
 		$cantidad_unitaria=redondear2($cantidad_unitaria);
-		echo "<tr><td align='center'>$indice</td><td>$cod_material</td><td>$nombre_material</td><td align='center'>$cantidad_unitaria</td>
+		echo "<tr>
+			<td align='center'>";
+		
+		if($loteProducto != '0'){
+			echo "<input type='checkbox' class='material-checkbox' value='$valor_check' tilte='Seleccione para Impresión'>";
+		}
+		
+		echo "$indice
+			</td>
+			<td>$cod_material</td>
+			<td>$nombre_material</td>
+			<td align='center'>$cantidad_unitaria</td>
 		<td align='center'>$loteProducto</td>
 		<td align='center'>$precioNeto</td><td align='center'>$totalValorItem</td></tr>";
 		$indice++;
 	}
 	echo "</table>";
-	
-	echo "<center><a href='javascript:window.print();'><IMG border='no'
-	 src='imagenes/print.jpg' width='40'></a></center>";
-	
+		
 ?>
+<style>
+	.center-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 20px;
+		margin: 0 auto;
+	}
+</style>
+<div class="center-container">
+	<a href='javascript:window.print();'>
+		<img border='no' src='imagenes/print.jpg' width='40'>
+	</a>
+	<button type="button" onclick="enviarSeleccionados()">
+		Imprimir Seleccionados
+	</button>
+</div>
+
+<script>
+function enviarSeleccionados() {
+    // Obtener todos los checkboxes seleccionados
+    var checkboxes = document.querySelectorAll('.material-checkbox:checked');
+    var valoresSeleccionados = [];
+
+    checkboxes.forEach(function(checkbox) {
+		valoresSeleccionados.push("'" + checkbox.value + "'");
+    });
+
+    if (valoresSeleccionados.length > 0) {
+        // Crear la URL con los valores seleccionados
+        var url = 'ticketMaterial_detalle.php?codigos=' + valoresSeleccionados.join(',');
+        // Redirigir a la URL
+        location.href = url;
+    } else {
+        alert('Por favor, seleccione al menos un material.');
+    }
+}
+</script>
