@@ -154,10 +154,10 @@ if($banderaIngresoRealizado==0){
 			
 
 		}
-		// echo "<script language='Javascript'>
-		// 	alert('Los datos fueron insertados correctamente.');
-		// 	location.href='navegador_ingresomateriales.php';
-		// 	</script>";		
+		echo "<script language='Javascript'>
+			alert('Los datos fueron insertados correctamente.');
+			location.href='navegador_ingresomateriales.php';
+			</script>";		
 	}else{
 		echo "<script language='Javascript'>
 			alert('EXISTIO UN ERROR EN LA TRANSACCION, POR FAVOR CONTACTE CON EL ADMINISTRADOR.');

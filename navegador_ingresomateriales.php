@@ -272,21 +272,22 @@ while ($dat = mysql_fetch_array($resp)) {
 		<a target='_BLANK' href='formatoNotaIngreso.php?codigo_ingreso=$codigo'><img src='imagenes/factura1.jpg' border='0' width='30' heigth='30' title='Imprimir'></a>
 	</td>";
 
-	if($tieneLote){
-		echo "<td align='center'>
-				<a target='_BLANK' href='navegador_detalleingresomateriales.php?codigo_ingreso=$codigo'>
-					<img src='imagenes/icon_detail.png' border='0' width='30' heigth='30' title='Ver Detalles del Ingreso'>
-				</a>
-			</td>";
-	}
+    echo "<td align='center'>
+            <a target='_BLANK' href='navegador_detalleingresomateriales.php?codigo_ingreso=$codigo'>
+                <img src='imagenes/icon_detail.png' border='0' width='30' heigth='30' title='Ver Detalles del Ingreso'>
+            </a>
+        </td>";
 	echo "<td align='center'>
 		<a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
 			<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
 		</a>
-	</td>
-	<td align='center'>
-        <a target='_BLANK' href='ticketMaterial_detalle.php?cod_ingreso_almacen=$codigo'><img src='imagenes/icono-barra.png' border='0' width='30' heigth='30' title='Ver Detalles para Impresión'></a>
-	</td></tr>";
+	</td>";
+	if($tieneLote == '1'){
+        echo "<td align='center'>
+            <a target='_BLANK' href='ticketMaterial_detalle.php?cod_ingreso_almacen=$codigo'><img src='imagenes/icono-barra.png' border='0' width='30' heigth='30' title='Ver Detalles para Impresión'></a>
+        </td>";
+    }
+    echo "</tr>";
 	/*echo "<td align='center'>
 		<a  href='costosImportacionIngreso.php?codigo_ingreso=$codigo'>
 			<img src='imagenes/imp9.jpg' border='0' width='50' heigth='50' title='Asociar Costos de Importacion'>
