@@ -256,12 +256,12 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
         /*****************************************************************************/
         /*###########################################################################*/
         // if ($i < $cantidad_tickets - 1) {
-            $pdf->AddPage();
+        //     $pdf->AddPage();
         // }
 
         // Siguiente ticket
-        // $margen_y  += $card_height + 2 + $config_margen_y;
-        // $margen_y2 += $card_height + 2 + $config_margen_y2;
+        $margen_y  += $card_height + 2 + $config_margen_y;
+        $margen_y2 += $card_height + 2 + $config_margen_y2;
     }
     // if ($i < $cantidad_tickets - 1) {
         // $pdf->AddPage();
