@@ -164,7 +164,7 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
     // # ETIQUETA
     $pdf->setY($margen_seg_y + $card_height - 30);
     $pdf->setX($card_width-8);
-    $pdf->MultiCell($card_width, 3, $indiceImpar, 0, '');
+    //$pdf->MultiCell($card_width, 3, $indiceImpar, 0, '');
     $indiceImpar=$indiceImpar+2;
 
     $pdf->Ln();
@@ -182,7 +182,8 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
     // COSTO FALSE
     $pdf->setY($margen_seg_y + $card_height-7);
     $pdf->setX($card_width - 17);
-    $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
+    //$pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
+    $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo), 0, 'L');
     $pdf->Ln();
 
     // CODIGO
@@ -224,7 +225,7 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
         // # ETIQUETA
         $pdf->setY($margen_seg_y + $card_height - 30);
         $pdf->setX($card_width + 45);
-        $pdf->MultiCell($card_width, 3, $indicePar, 0, '');
+        //$pdf->MultiCell($card_width, 3, $indicePar, 0, '');
         $indicePar=$indicePar+2;
 
         $pdf->Ln();
@@ -242,7 +243,8 @@ while ($registro = mysqli_fetch_assoc($respConf)) {
         // COSTO FALSE
         $pdf->setY($margen_seg_y + $card_height-7);
         $pdf->setX($margen_seg_x + $card_width - 17);
-        $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
+        //$pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo." / ".$numero), 0, 'L');
+        $pdf->MultiCell($card_width, 3,  utf8_decode("000".$costo), 0, 'L');
         $pdf->Ln();
 
         // CODIGO

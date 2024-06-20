@@ -100,10 +100,10 @@ if($banderaIngresoRealizado==0){
 					// echo "det1:$consulta <br>";
 					$sql_inserta2 = mysql_query($consulta);
 				}else if($codTipoManejo == 2){
-					$precioUnitario = round(($precioUnitario / $cantidad), 2);	
-					$costo			= $precioUnitario;
+					//$precioUnitario = round(($precioUnitario / $cantidad), 2);	
+					//$costo			= $precioUnitario;
 					for ($j = 1; $j <= $cantidad; $j++) {
-						$lote_actual 	 = $lote . '_' . $j;
+						$lote_actual 	 = 'L.'.$j;
 						$cantidad_manejo = 1;
 
 						// echo "********** <br>";
@@ -148,7 +148,8 @@ if($banderaIngresoRealizado==0){
 					}
 				}
 				*/
-				$aa=recalculaCostos($cod_material, $global_almacen);
+				
+				//$aa=recalculaCostos($cod_material, $global_almacen);
 				
 			}
 			

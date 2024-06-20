@@ -58,7 +58,7 @@
 			<td align='center'>";
 		
 		if($loteProducto != '0'){
-			echo "<input type='checkbox' class='material-checkbox' value='$valor_check' tilte='Seleccione para Impresión'>";
+			echo "<input type='checkbox' class='material-checkbox' value='$valor_check' title='Seleccione para Impresión' checked>";
 		}
 		
 		echo "$indice
@@ -87,7 +87,7 @@
 		<img border='no' src='imagenes/print.jpg' width='40'>
 	</a>
 	<button type="button" onclick="enviarSeleccionados()">
-		Imprimir Seleccionados
+		Imprimir Etiquetas de los productos Seleccionados
 	</button>
 </div>
 
