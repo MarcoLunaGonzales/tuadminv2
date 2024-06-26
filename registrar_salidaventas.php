@@ -426,10 +426,11 @@ function setMateriales(f, cod, nombreMat, stockproducto, precioproducto, descuen
 	document.getElementById('stock'+numRegistro).value=parseInt(stockproducto);
 	document.getElementById('precio_unitario'+numRegistro).value=parseFloat(precioproducto);
 
-	var valorDescuentoMaximoBs = parseFloat(precioproducto*(descuentomaximoproducto/100));
+	/*var valorDescuentoMaximoBs = parseFloat(precioproducto*(descuentomaximoproducto/100));
 	console.log("valormaxbs: "+valorDescuentoMaximoBs);
 	document.getElementById('tipoPrecio'+numRegistro).max=parseFloat(descuentomaximoproducto);
 	document.getElementById('descuentoProducto'+numRegistro).max=parseFloat(valorDescuentoMaximoBs);
+	*/
 
 	document.getElementById('divRecuadroExt').style.visibility='hidden';
 	document.getElementById('divProfileData').style.visibility='hidden';
