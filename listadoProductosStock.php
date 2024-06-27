@@ -23,7 +23,30 @@
     } );
 	
 </script>
-
+<style>
+	.scroll-container {
+		width: 100%;
+		overflow-x: scroll; /* Siempre muestra el scroll horizontal */
+		max-height: 85vh;
+		position: relative;
+	}
+	table {
+		width: 80%;
+		border-collapse: collapse;
+	}
+	th, td {
+		padding: 8px 12px;
+		border: 1px solid #ddd;
+		text-align: left;
+	}
+	th {
+		background-color: #f2f2f2;
+		position: sticky;
+		top: 0;
+		z-index: 2;
+		box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+	}
+</style>
 <?php
 	require("conexion.inc");
 	require('estilos.inc');
@@ -42,7 +65,7 @@
 
 	$resp=mysqli_query($enlaceCon,$sql);
 
-	echo "<center><table class='texto' id='myTable'>";
+	echo "<center class='scroll-container'><table class='texto' id='myTable'>";
 	echo "<thead>";
 	echo "<tr><th>Indice</th>
 	<th>Codigo</th>

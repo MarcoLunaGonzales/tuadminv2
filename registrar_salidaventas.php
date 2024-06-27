@@ -1686,6 +1686,34 @@ if($tipoDocDefault==2){
 </table>
 <input type="hidden" id="ventas_codigo"><!--para validar la funcion mas desde ventas-->
 
+<style>
+	/* BOTON DE NUEVO PRODUCTO FLOTANTE */
+	.float-button {
+		position: fixed;
+		width: 50px;
+		height: 50px;
+		bottom: 180px;
+		right: 10px;
+		background-color: #4CAF50;
+		color: #FFF;
+		border-radius: 50px;
+		text-align: center;
+		box-shadow: 2px 2px 3px #999;
+		z-index: 1000; 
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-decoration: none; 
+	}
+	.float-button i {
+		font-size: 24px;
+		color: white;
+	}
+	.float-button:hover {
+		background-color: #45a049;
+		text-decoration: none; 
+	}
+</style>
 <?php
 	if($verificaConversion[0] > 0){
 ?>
@@ -1694,6 +1722,9 @@ if($tipoDocDefault==2){
         <input type="text" class="form-codigo-barras" id="input_codigo_barras" placeholder="Ingrese el código de barras." autofocus autocomplete="off">
 
 </div>
+<a href="#" class="float-button" onclick="mas(this);" title="Nuevo Producto">
+	<i class='material-icons font-18' style='color:white;'>add</i>
+</a>
 <?php
 	}
 ?>
