@@ -109,6 +109,20 @@ document.addEventListener('click', function(event) {
     }
 });
 
+function abrirModalFiltro(){
+    $('#modalControlVersion').modal('show');
+}
+/*proceso inicial*/
+function filtroCliente() {
+    $('#modalControlVersion').one('hidden.bs.modal', function (e) {
+        let nombre    = $('#fil_nombre').val();
+        let nit       = $('#fil_nit').val();
+        let direccion = $('#fil_direccion').val();
+        cargarPnl("#pnl00", `prgListaClientes.php?fil_nombre=${nombre}&fil_nit=${nit}&fil_direccion=${direccion}`, "");
+    });
+
+    $('#modalControlVersion').modal('hide');
+}
         </script>
     </head>
     <body>
@@ -116,6 +130,7 @@ document.addEventListener('click', function(event) {
         <div id='pnldlgfrm'></div>
         <div id='pnldlggeneral'></div>
         <div id='pnldlgenespera'></div>
+
     </body>
 </html>
 
