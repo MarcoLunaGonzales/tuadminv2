@@ -36,7 +36,7 @@ echo '<th style="width: 15%;">Ciudad</th>';
 echo '<th style="width: 10%;" class="text-center">Acciones</th>';
 
 echo "</tr>";
-$consulta="SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente, c.dir_cliente, c.cod_area_empresa, a.descripcion
+$consulta="SELECT c.cod_cliente, CONCAT(c.nombre_cliente,' ',c.paterno)as nombre_cliente, c.nit_cliente, c.dir_cliente, c.cod_area_empresa, a.descripcion
     FROM clientes AS c 
     INNER JOIN ciudades AS a ON c.cod_area_empresa = a.cod_ciudad 
     WHERE c.cod_cliente is not null ";
