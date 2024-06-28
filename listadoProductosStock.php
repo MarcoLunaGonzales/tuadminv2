@@ -46,6 +46,12 @@
 		z-index: 2;
 		box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
 	}
+	/* TEXTO PRODUCTO */
+	.textomedianorojo2 {
+		font-family: Verdana;
+		font-size: 14pt;
+		color: #e20000;
+	}	
 </style>
 <?php
 	require("conexion.inc");
@@ -98,8 +104,10 @@
 	$sw_color_fila = 1;
 	while($dat=mysqli_fetch_array($resp))
 	{
-		$sw_color_fila = $sw_color_fila == 1 ? 0 : 1;
-		$color_fila = $sw_color_fila == 1 ? "style='background-color:#dcdcdc;'" : "";
+		$sw_color_fila 	= $sw_color_fila == 1 ? 0 : 1;
+		$color_fila 	= $sw_color_fila == 1 ? "style='background-color:#e2e2e2;color:#2f2f2f;'" : "";
+		// Producto descripción
+		$class_producto = $sw_color_fila == 1 ? 'textomedianorojo2' : 'textomedianorojo';
 
 		$codigo=$dat[0];
 		$nombreProd=$dat[1];
@@ -124,7 +132,7 @@
 
 		echo "<tr $color_fila><td align='center'>$indice_tabla</td>
 		<td align='center'>$codigo</td>
-		<td><div class='textomedianorojo'>$nombreProd</div></td>
+		<td><div class='$class_producto'>$nombreProd</div></td>
 		<td>$nombreLinea</td>
 		<td>$nombreGrupo</td>
 		<td>$nombreModelo</td>
