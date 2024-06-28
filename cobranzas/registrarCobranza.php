@@ -41,8 +41,12 @@ function ajaxCargarDeudas(){
 	ajax.send(null)
 }
 
-function validar(f)
-{   
+function validar(f){
+
+	document.getElementById("btsubmit").value = "Enviando...";
+	document.getElementById("btsubmit").disabled = true;   
+
+	var banderaValidacion=1;
 	var codCliente=document.getElementById("cliente").value;
 	var banderaMontos=0;
 
@@ -50,7 +54,7 @@ function validar(f)
 	var nroDoc;
 	if(codCliente==0){
 		alert("Debe seleccionar un Cliente");
-		return false;
+		banderaValidacion=0;
 	}else{
 		/******** Validacion Algun Monto con Datos ********/
 		var inputs = $('form input[name^="montoPago"]');
@@ -62,11 +66,19 @@ function validar(f)
 		});
 		if(banderaMontos==0){
 			alert("Debe existir algun monto valido para guardar la cobranza.");
-			return(false);
+			banderaValidacion=0;
 		}
 		/******** Fin validacion Cantidades ********/
 	}	
-	return true;
+
+	if(banderaValidacion==1){
+		document.forms[0].submit();
+		return true;
+	}else{
+		document.getElementById("btsubmit").value = "Guardar Cobranza .";
+		document.getElementById("btsubmit").disabled = false;   
+		return false;
+	}
 }
 
 function solonumeros(e)
