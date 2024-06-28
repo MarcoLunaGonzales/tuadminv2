@@ -94,8 +94,13 @@
 	echo "<tbody>";
 
 	$indice_tabla=1;
+
+	$sw_color_fila = 1;
 	while($dat=mysqli_fetch_array($resp))
 	{
+		$sw_color_fila = $sw_color_fila == 1 ? 0 : 1;
+		$color_fila = $sw_color_fila == 1 ? "style='background-color:#dcdcdc;'" : "";
+
 		$codigo=$dat[0];
 		$nombreProd=$dat[1];
 		$nombreProd=utf8_decode($nombreProd);
@@ -117,7 +122,7 @@
         $precioProducto3=precioVentaMayorCredito($enlaceCon, $codigo, $globalAgencia);
         $precio3F=formatonumeroDec($precioProducto3);
 
-		echo "<tr><td align='center'>$indice_tabla</td>
+		echo "<tr $color_fila><td align='center'>$indice_tabla</td>
 		<td align='center'>$codigo</td>
 		<td><div class='textomedianorojo'>$nombreProd</div></td>
 		<td>$nombreLinea</td>
