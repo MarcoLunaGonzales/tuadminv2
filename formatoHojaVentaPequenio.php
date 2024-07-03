@@ -207,7 +207,7 @@
             $pdf->SetY($y); // regresar a fila anterior
             $pdf->setX($x + 7.5); // regresar a columna anterior mas espacio de la columna
             // * DESCRIPCIÓN
-            $pdf->SetFont('Arial','',6.5);
+            $pdf->SetFont('Arial','',5.3);
             $y = $pdf->getY();
             $x = $pdf->GetX();
             $nombreProductoX = strtoupper( substr($descripcion_material,0,40) );
