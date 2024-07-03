@@ -120,19 +120,21 @@ echo "<script language='Javascript'>
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
 		(select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor), 
-		m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre, g.nombre_grupo
+		m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre, g.nombre_grupo, ta.nombre
 		from material_apoyo m
 		LEFT JOIN pais_procedencia pp ON pp.codigo = m.cod_pais_procedencia
 		LEFT JOIN grupos g ON g.cod_grupo = m.cod_grupo
+		LEFT JOIN tipos_aro ta ON ta.codigo=m.cod_tipoaro
 		where m.estado='1' ";
 	if($vista==1)
 	{	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
 		(select e.nombre_grupo from grupos e where e.cod_grupo=m.cod_grupo), 
 		(select t.nombre_tipomaterial from tipos_material t where t.cod_tipomaterial=m.cod_tipomaterial), 
 		(select pl.nombre_linea_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor),
-		m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre, g.nombre_grupo
+		m.observaciones, imagen, m.modelo, m.medida, m.capacidad_carga_velocidad, pp.nombre, g.nombre_grupo, ta.nombre
 		LEFT JOIN pais_procedencia pp ON pp.codigo = m.cod_pais_procedencia
 		LEFT JOIN grupos g ON g.cod_grupo = m.cod_grupo
+		LEFT JOIN tipos_aro ta ON ta.codigo=m.cod_tipoaro 
 		from material_apoyo m
 		where m.estado='0' ";
 	}
@@ -232,6 +234,7 @@ echo "<script language='Javascript'>
 	<th>Grupo</th>
 	<th>Capacidad de Carga y<br>Código de Velocidad</th>
 	<th>País Origen</th>
+	<th>Aro</th>
 	</tr>";
 	
 	$indice_tabla=1;
@@ -254,6 +257,8 @@ echo "<script language='Javascript'>
 		$pais_procedencia=$dat[11];
 		$nombreGrupo=$dat[12];
 
+		$tipoAro=$dat[13];
+
 		if($imagen=='default.png'){
 			$tamanioImagen=80;
 		}else{
@@ -268,6 +273,7 @@ echo "<script language='Javascript'>
 		<td>$nombreGrupo</td>
 		<td>$capacidad_carga_velocidad</td>
 		<td>$pais_procedencia</td>
+		<td>$tipoAro</td>
 		</tr>";
 		$indice_tabla++;
 	}
