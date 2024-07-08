@@ -11,7 +11,15 @@
 	$parte1 = ''; // 1542 : cod_ingreso_almacen
 	$parte2 = ''; // 10   : codigo_material
 	$parte3 = ''; // L10  : lote
-	if (strpos($codigoItem, '|') !== false) {
+
+	/**********************************************************************************************/
+	/***  AQUI BUSCAMOS CARACTERES ESPECIALES QUE NO RECONOZCA LA PISTOLA LECTORA DE CODBARRAS ****/
+	/**********************************************************************************************/
+	$buscar = array(']','[');
+	$reemplazar = '|';
+	$codigoItem = str_replace($buscar, $reemplazar, $codigoItem);
+
+	if ( (strpos($codigoItem, '|') !== false) ) {
 		// La cadena contiene el carácter '|'
 		$valores = explode('|', $codigoItem);
 		$parte1 = $valores[0]; // 1542 	:cod_ingreso_almacen
@@ -31,7 +39,9 @@
 			where g.cod_grupo = m.cod_grupo) as grupo  
 		FROM material_apoyo m
 		WHERE m.estado = 1 
-		AND (m.codigo_barras = '$codigoItem' OR m.codigo_material = (SELECT ida.cod_material FROM ingreso_detalle_almacenes ida WHERE CONCAT(ida.cod_ingreso_almacen,'|',ida.cod_material,'|',ida.lote) = '$codigoItem' LIMIT 1))";
+		AND (m.codigo_barras = '$codigoItem' OR m.codigo_material = (SELECT ida.cod_material FROM ingreso_detalle_almacenes ida WHERE CONCAT(ida.cod_ingreso_almacen,'|',ida.cod_material,'|',ida.lote) = '$codigoItem' 
+
+			LIMIT 1))";
 	$sql=$sql." LIMIT 1";
 	$resp=mysql_query($sql);
 	$numFilas=mysql_num_rows($resp);

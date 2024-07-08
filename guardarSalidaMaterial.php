@@ -133,8 +133,10 @@ if($sql_inserta==1){
 			if($banderaValidacionStock==1){
 				// Si tiene LOTE y cod_ingreso_almacen
 				if($cod_ingreso_almacen){
+					//echo " POR LOTE ";
 					$respuesta=descontar_inventarios_lote($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i,$cod_ingreso_almacen,$lote);
 				}else{
+					//echo " GENERAL ";
 					$respuesta=descontar_inventarios($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i);
 				}
 			}else{
