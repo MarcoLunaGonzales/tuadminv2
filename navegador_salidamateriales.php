@@ -285,7 +285,7 @@ echo "<table border='1' class='textomini' cellspacing='0' width='90%'><tr><th>Le
 <th>Salidas locales</th><td bgcolor='#66ff99' width='5%'></td>
 <td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
 //
-echo "<div class='divBotones'>
+echo "<div class='divBotones mb-3'>
 <input type='button' value='Registrar Salida' name='adicionar' class='boton' onclick='enviar_nav()'>
 		<input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'>
 		<input type='button' value='Anular Salida' class='boton2' onclick='anular_salida(this.form)'>

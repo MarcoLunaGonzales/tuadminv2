@@ -411,7 +411,7 @@ echo "<table class='texto' cellspacing='0' width='90%'>
 <th>Ventas Anuladas</th><td bgcolor='#e74c3c' width='5%'></td>
 <td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
 //
-echo "<div class='divBotones'>
+echo "<div class='divBotones mb-3'>
         <input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
         <input type='button' value='Buscar' class='boton' onclick='ShowBuscar()'></td>      
         <input type='button' value='Anular' class='boton2' onclick='anular_salida(this.form)'>
