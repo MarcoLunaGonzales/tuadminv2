@@ -190,7 +190,7 @@
         // * DESCRIPCIÓN
         $y = $pdf->getY();
         $x = $pdf->GetX();
-        $nombreProductoX = strtoupper( substr($descripcion_material,0,40) );
+        $nombreProductoX = strtoupper( $descripcion_material );
         $pdf->multiCell(88.5, 5 * $row_index, utf8_decode($nombreProductoX), 1, 'B', false);
         $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
         $pdf->SetY($y); // regresar a fila anterior
