@@ -8,9 +8,16 @@ function cambiarDatosProductosTable(valor){
         data: parametros,
         success:  function (respuesta) {
         	var resp = respuesta.split('#####');
-			// console.log(resp);
-			// console.log(resp[10]);
-        	if(resp[0].trim()=="0"){
+			
+			var cod_ingreso_lote="";
+			if (resp.length > 9) {
+				console.log("RESP 9: " + resp[9]);
+				var cod_ingreso_lote = resp[9];
+			}
+			console.log("CODINGRESOLOTE: "+cod_ingreso_lote);
+        	
+
+			if(resp[0].trim()=="0"){
                $("#mensaje_input_codigo_barras").html("No se encontró el código de barras: "+ valor);
                $("#input_codigo_barras").val("");
         	}else{
@@ -40,7 +47,7 @@ function cambiarDatosProductosTable(valor){
 	            	 }	
 	            	}
 	            };
-	            if(existeCodigo==0){
+	            if( existeCodigo==0 ||  ( existeCodigo==1 && cod_ingreso_lote!="") ){
 	              if($("#ventas_codigo").length>0){
                     soloMasVentas(resp);	//para Ventas
 	              }else{
@@ -206,7 +213,7 @@ function setMaterialesSoloSalidas(cod, nombreMat, cod_ingreso_almacen, lote){
 	$("#input_codigo_barras").focus();
 	actStock(numRegistro);
     $("#fiel").animate({ scrollTop: $("#fiel")[0].scrollHeight}, 1000);
-	$("#fiel").scrollTop( $("#fiel").prop('scrollHeight') );
+	//$("#fiel").scrollTop( $("#fiel").prop('scrollHeight') );
 	
 }
 
@@ -221,7 +228,7 @@ function setMaterialesSolo(cod, nombreMat, cantidadPresentacion,costoItem){
 	$("#input_codigo_barras").focus();	
     
     $("#fiel").animate({ scrollTop: $("#fiel")[0].scrollHeight}, 1000);
-	$("#fiel").scrollTop( $("#fiel").prop('scrollHeight') );
+	//$("#fiel").scrollTop( $("#fiel").prop('scrollHeight') );
 
 }
 
@@ -240,7 +247,7 @@ function setMaterialesSoloVentas(cod, nombreMat, cod_ingreso_almacen, lote){
 	$("#input_codigo_barras").focus();
 	actStock(numRegistro);
 	$("#fiel").animate({ scrollTop: $("#fiel")[0].scrollHeight}, 1000);
-	$("#fiel").scrollTop( $("#fiel").prop('scrollHeight') );
+	//$("#fiel").scrollTop( $("#fiel").prop('scrollHeight') );
 }
 
 $(document).ready(function() {

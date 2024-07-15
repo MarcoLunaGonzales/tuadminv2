@@ -73,16 +73,17 @@ function descontar_inventarios_lote($enlaceCon, $cod_salida, $cod_almacen, $cod_
 	
 	$banderaError = 1;
 	
-	$sqlExistencias="SELECT id.cod_material, id.cantidad_restante, id.lote, id.fecha_vencimiento, id.cod_ingreso_almacen 
+	$sqlExistencias="SELECT id.cod_material, id.cantidad_unitaria, id.lote, id.fecha_vencimiento, id.cod_ingreso_almacen 
 					FROM ingreso_almacenes i, ingreso_detalle_almacenes id 
 					WHERE i.cod_ingreso_almacen = id.cod_ingreso_almacen 
 					AND i.cod_almacen = '$cod_almacen' 
 					AND i.ingreso_anulado = 0 
 					AND id.cod_ingreso_almacen = '$cod_ingreso_almacen'
 					AND id.lote = '$lote'
-					AND id.cod_material = '$cod_material' AND id.cantidad_restante > 0 
+					AND id.cod_material = '$cod_material' 
 					ORDER BY  id.lote, id.fecha_vencimiento asc";
 	
+	// AND id.cantidad_restante > 0
 	//AQUI SE DEBE CORREGIR EL DATO DE CANTIDAD RESTANTE >0 OJO
 	
 	//echo $sqlExistencias."<br>";
