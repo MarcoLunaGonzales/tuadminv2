@@ -18,6 +18,10 @@ require("conexion.inc");
 
 <td width="40%" align="center">
 	<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="0">
+	<!-- CODIGO DE INGRESO DE MATERIAL -->
+	<input type="hidden" name="cod_ingreso_almacen<?php echo $num;?>" id="cod_ingreso_almacen<?php echo $num;?>" value="0">
+	<!-- LOTE -->
+	<input type="hidden" name="lote<?php echo $num;?>" id="lote<?php echo $num;?>" value="0">
 	<div id="cod_material<?php echo $num;?>" class='textomedianonegro'>-</div>
 </td>
 

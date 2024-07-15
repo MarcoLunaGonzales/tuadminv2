@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="lib/js/xlibPrototipoSimple-v0.1.js"></script>
         <script type="text/javascript" src="lib/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="functionsGeneral.js"></script>
 
 <script type='text/javascript' language='javascript'>
 function nuevoAjax()
@@ -411,6 +412,7 @@ else
 	<tr>
 		<td align="center" colspan="9">
 			<b>Detalle de la Transaccion   </b><input class="boton" type="button" value="Agregar (+)" onclick="mas(this)" />
+			<input type="text" class="form-codigo-barras" id="input_codigo_barras" placeholder="Ingrese el código de barras." autofocus autocomplete="off">
 		</td>
 	</tr>
 	<tr align="center">
