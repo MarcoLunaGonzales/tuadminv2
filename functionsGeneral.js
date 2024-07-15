@@ -181,7 +181,10 @@ function soloMasSalida(obj) {
 			ajax.onreadystatechange=function(){
 				if (ajax.readyState==4) {
 					div_material.innerHTML=ajax.responseText;
-					setMaterialesSoloSalidas(obj[1],obj[2]);
+					
+					let cod_ingreso_almacen = obj[9];
+					let lote  				= obj[10];
+					setMaterialesSoloSalidas(obj[1],obj[2],cod_ingreso_almacen, lote);
 				}
 			}		
 			ajax.send(null);
@@ -191,10 +194,15 @@ function soloMasSalida(obj) {
 	
 }		
 
-function setMaterialesSoloSalidas(cod, nombreMat){
+function setMaterialesSoloSalidas(cod, nombreMat, cod_ingreso_almacen, lote){
 	var numRegistro=$('input[name=materialActivo]').val();
 	$('#materiales'+numRegistro).val(cod);
 	$('#cod_material'+numRegistro).html(nombreMat);
+	
+	$('#cod_ingreso_almacen'+numRegistro).val(cod_ingreso_almacen);
+	$('#lote'+numRegistro).val(lote);
+	$('#texto_lote'+numRegistro).html(lote);
+
 	$("#input_codigo_barras").focus();
 	actStock(numRegistro);
     $("#fiel").animate({ scrollTop: $("#fiel")[0].scrollHeight}, 1000);

@@ -23,6 +23,7 @@ require("conexion.inc");
 	<!-- LOTE -->
 	<input type="hidden" name="lote<?php echo $num;?>" id="lote<?php echo $num;?>" value="0">
 	<div id="cod_material<?php echo $num;?>" class='textomedianonegro'>-</div>
+	<span style="color:blue;" id="texto_lote<?php echo $num;?>"></span>
 </td>
 
 <td width="20%" align="center">
