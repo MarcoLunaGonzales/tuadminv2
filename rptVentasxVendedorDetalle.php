@@ -1,9 +1,10 @@
 <?php
-require('estilos_reportes_almacencentral.php');
-require('function_formatofecha.php');
+
 require('conexion.inc');
 require('funcion_nombres.php');
 require('funciones.php');
+require('estilos_almacenes.inc');
+
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
@@ -35,8 +36,10 @@ $sql="SELECT
  (select concat(f.paterno,' ',f.nombres) from funcionarios f where f.codigo_funcionario=s.cod_chofer)as vendedor
 from salida_almacenes s, salida_detalle_almacenes sd, material_apoyo m
 where s.cod_salida_almacenes=sd.cod_salida_almacen and  sd.cod_material=m.codigo_material and 
-s.cod_almacen in (select a.cod_almacen from almacenes a where a.cod_ciudad='$rpt_territorio') and s.fecha BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' and s.salida_anulada=0  and s.cod_chofer in ($rpt_persona)
-and s.cod_tiposalida=1001 order by vendedor, lineaproveedor, s.fecha, m.descripcion_material;";
+s.cod_almacen in (select a.cod_almacen from almacenes a where a.cod_ciudad in ($rpt_territorio) and s.fecha BETWEEN '$fecha_iniconsulta' and '$fecha_finconsulta' and s.salida_anulada=0  and s.cod_chofer in ($rpt_persona)
+and s.cod_tiposalida=1001) order by vendedor, lineaproveedor, s.fecha, m.descripcion_material";
+
+//echo $sql;
 
 $resp=mysqli_query($enlaceCon,$sql);
 
@@ -47,7 +50,7 @@ if($rpt_ver==1){
 	<th colspan='7'>Vendedor</th>
 	<th>-</th>
 	<th>-</th>
-	<th>Dif.(Bs.)</th>
+	<th>-</th>
 	<th>Monto Venta</th>
 	<th>Descuento</th>
 	<th>Subtotal</th>
@@ -143,7 +146,7 @@ while($datos=mysqli_fetch_array($resp)){
 			<td class='textomedianorojo' colspan='7'>$vendedorPivote</td>
 			<td>-</td>
 			<td>-</td>
-			<td>$subTotalDiferenciaPreciosF</td>
+			<td>-</td>
 			<td align='right' class='textomedianorojo'>$subTotalVentaF</td>
 			<td align='right' class='textomedianorojo'>$subTotalDescuentosF</td>
 			<td align='right' class='textomedianorojo'>$subTotalVentaXF</td>
@@ -197,7 +200,7 @@ if($vendedorPivote!="XXX"){
 	<td class='textomedianorojo' colspan='7'>$vendedorPivote</td>
 	<td>-</td>
 	<td>-</td>
-	<td>$subTotalDiferenciaPreciosF</td>
+	<td>-</td>
 	<td align='right' class='textomedianorojo'>$subTotalVentaF</td>
 	<td align='right' class='textomedianorojo'>$subTotalDescuentosF</td>
 	<td align='right' class='textomedianorojo'>$subTotalVentaXF</td>
@@ -210,7 +213,7 @@ $totalDescuentosF=formatonumeroDec($totalDescuentos);
 
 $sumaDiferenciaPreciosCabeceraF="<span style='color:red; font-size:16px;'>$sumaDiferenciaPreciosCabecera</span>";
 
-/*echo "<tr>
+echo "<tr>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
@@ -221,12 +224,11 @@ $sumaDiferenciaPreciosCabeceraF="<span style='color:red; font-size:16px;'>$sumaD
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>Total:</td>
-	<td align='right'>$sumaDiferenciaPreciosCabeceraF</td>
-	<td align='right'>$totalVentaBrutaF</td>
-	<td align='right'>$totalDescuentosF</td>
-	<td align='right'>$totalVentaF</td>
-<tr>";*/
+	<td align='right'>-</td>
+	<td align='right' class='textograndeazul'>$totalVentaBrutaF</td>
+	<td align='right' class='textograndeazul'>$totalDescuentosF</td>
+	<td align='right' class='textograndeazul'>$totalVentaF</td>
+<tr>";
 
 echo "</table>";
-include("imprimirInc.php");
 ?>

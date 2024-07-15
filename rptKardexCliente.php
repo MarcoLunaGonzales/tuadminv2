@@ -1,17 +1,17 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
 require('conexion.inc');
 require('funcion_nombres.php');
 require('funciones.php');
+require('estilos_almacenes.inc');
 
-$fecha_ini=$_GET['fecha_ini'];
-$fecha_fin=$_GET['fecha_fin'];
-$rpt_cliente=$_GET['rpt_cliente'];
+$fecha_ini=$_POST['exafinicial'];
+$fecha_fin=$_POST['exaffinal'];
+$rpt_cliente=$_POST['rpt_cliente'];
 
 //desde esta parte viene el reporte en si
-$fecha_iniconsulta=cambia_formatofecha($fecha_ini);
-$fecha_finconsulta=cambia_formatofecha($fecha_fin);
+$fecha_iniconsulta=($fecha_ini);
+$fecha_finconsulta=($fecha_fin);
 
 $fecha_reporte=date("d/m/Y");
 
@@ -43,12 +43,11 @@ while($dat=mysqli_fetch_array($resp)){
 	$totalAntCli=$totalAntCli+$cuentaxCobrarCli;
 } 
 echo "<h1>Reporte Kardex x Cliente</h1>
-	<h2>Cliente: $nombre_cliente <br> De: $fecha_ini A: $fecha_fin
-	<br>Fecha Reporte: $fecha_reporte
+	<h2>Cliente: $nombre_cliente <br> De: $fecha_ini A: $fecha_fin   --    Fecha Impresion: $fecha_reporte
 	<br>Cuenta x Cobrar a fecha Inicio: $totalAntCli
 	</h2>";
 
-echo "<center><table class='texto' width='100%'>
+echo "<center><table class='texto' width='80%'>
 <tr>
 <th>Fecha</th>
 <th>Transaccion</th>
@@ -82,10 +81,11 @@ while($datFechas=mysqli_fetch_array($respFechas)){
 		$montoVenta=$datVenta[1];
 		$saldoNuevo=$saldoNuevo+$montoVenta;
 		
-		$montoVentaF=redondear2($montoVenta);
-		$saldoNuevoF=redondear2($saldoNuevo);
+		$montoVentaF=formatonumeroDec($montoVenta);
+		$saldoNuevoF=formatonumeroDec($saldoNuevo);
 		
-		echo "<tr><td>$fechaTr</td><td>Venta</td><td>$docVenta</td><td>$montoVentaF</td><td>-</td><td>-</td><td>$saldoNuevoF</td></tr>";
+		echo "<tr>
+			<td align='center'>$fechaTr</td><td>Venta</td><td>$docVenta</td><td>$montoVentaF</td><td>-</td><td>-</td><td>$saldoNuevoF</td></tr>";
 	}
 	
 	$sqlCobros=" select c.`nro_cobro`,
@@ -107,10 +107,11 @@ while($datFechas=mysqli_fetch_array($respFechas)){
 		
 		$saldoNuevo=$saldoNuevo-$montoCobro;
 		
-		$montoCobroF=redondear2($montoCobro);
+		$montoCobroF=formatonumeroDec($montoCobro);
 
-		$saldoNuevoF=redondear2($saldoNuevo);
-		echo "<tr><td>$fechaTr</td><td>Cobranza</td><td>-</td><td>-</td><td>$nroCobro ($ventaAsociada)</td><td>$montoCobroF</td><td>$saldoNuevoF</td></tr>";
+		$saldoNuevoF=formatonumeroDec($saldoNuevo);
+		echo "<tr>
+			<td align='center'>$fechaTr</td><td>Cobranza</td><td>-</td><td>-</td><td>$nroCobro ($ventaAsociada)</td><td>$montoCobroF</td><td>$saldoNuevoF</td></tr>";
 	}
 	
 }

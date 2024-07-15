@@ -314,6 +314,11 @@ a:active {
     font-size: 12pt;
     color: #585858;
 }
+.textograndeazul {
+    font-family: Verdana;
+    font-size: 13pt;
+    color: blue;
+}
 .textomedianoazul {
     font-family: Verdana;
     font-size: 8pt;

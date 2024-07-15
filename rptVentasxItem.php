@@ -21,7 +21,7 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rptTerritorio);
 
-echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Ranking de Ventas x Item
+echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Ranking de Ventas x Producto
 	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 	
@@ -95,11 +95,11 @@ echo "<tr>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>Total:</td>
-	<td>$totalVentaProductoF</td>
+	<td align='right'><b>$totalVentaProductoF</b></td>
 	<td>&nbsp;</td>
-	<td>$totalPtr</td>
+	<td align='right'><b>$totalPtr</b></td>
 <tr>";
 
 echo "</table>";
-include("imprimirInc.php");
+
 ?>

@@ -15,12 +15,18 @@ function nuevoAjax()
 	}
 	return xmlhttp;
 }
-function ajaxPersonal(f){
-	var codTerritorio=document.getElementById('rpt_territorio').value;
+function ajaxPersonalMultiple(f){
+	//var codTerritorio=document.getElementById('rpt_territorio').value;
+
+	const rptTerritorio = document.getElementById('rpt_territorio');
+    const rptTerritorioSelected = Array.from(rptTerritorio.selectedOptions).map(option => option.value);
+    const rptTerritorioString = rptTerritorioSelected.join(', ');
+    console.log('territorio: '+rptTerritorioString);
+
 	var contenedor;
 	contenedor = document.getElementById('divPersonal');
 	ajax=nuevoAjax();
-	ajax.open('GET', 'ajaxPersonal.php?codTerritorio='+codTerritorio+'',true);
+	ajax.open('GET', 'ajaxPersonal.php?codTerritorio='+rptTerritorioString+'',true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText
@@ -30,7 +36,11 @@ function ajaxPersonal(f){
 }
 function envia_formulario(f)
 {	var rpt_territorio,fecha_ini, fecha_fin;
-	rpt_territorio=f.rpt_territorio.value;
+	
+	const rptTerritorio = document.getElementById('rpt_territorio');
+    const rptTerritorioSelected = Array.from(rptTerritorio.selectedOptions).map(option => option.value);
+    const rptTerritorioString = rptTerritorioSelected.join(', ');
+
 	var rpt_persona=new Array();
 	var rpt_grupo=new Array();
 	var rpt_ver=f.rpt_ver.value;
@@ -44,7 +54,7 @@ function envia_formulario(f)
 			j++;
 		}
 	}
-	window.open('rptVentasxVendedorDetalle.php?rpt_territorio='+rpt_territorio+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&rpt_persona='+rpt_persona+'&rpt_ver='+rpt_ver,'','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
+	window.open('rptVentasxVendedorDetalle.php?rpt_territorio='+rptTerritorioString+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&rpt_persona='+rpt_persona+'&rpt_ver='+rpt_ver,'','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
 	return(true);
 }
 </script>
@@ -53,19 +63,25 @@ function envia_formulario(f)
 require("conexion.inc");
 require("estilos_almacenes.inc");
 
-$fecha_rptdefault=date("d/m/Y");
-echo "<table align='center' class='textotit'><tr><th>Reporte Ventas x Vendedor</th></tr></table><br>";
+$fecha_inirptdefault=date("Y-m-01");
+$fecha_rptdefault=date("Y-m-d");
+
+echo "<h1>Reporte Ventas x Vendedor</h1>";
+
 echo"<form method='post' action=''>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' id='rpt_territorio' class='texto' onChange='ajaxPersonal(this.form)' required>";
-	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
+	echo "<tr>
+		<th align='left'>Territorio</th>
+		<td>
+		<select name='rpt_territorio[]' id='rpt_territorio' class='selectpicker' onChange='ajaxPersonalMultiple(this.form)' data-style='btn btn-info' multiple required>";
+
+	$sql="SELECT cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<option value='0'></option>";
 	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
-		echo "<option value='$codigo_ciudad'>$nombre_ciudad</option>";
+		echo "<option value='$codigo_ciudad' selected>$nombre_ciudad</option>";
 	}
 	echo "</select></td></tr>";
 	
@@ -73,14 +89,16 @@ echo"<form method='post' action=''>";
 	echo "<td><div id='divPersonal'></div>
 	</td></tr>";
 	
-	echo "<tr><th align='left'>Ver</th><td><select name='rpt_ver' id='rpt_ver' class='texto' size='2'>";
+	echo "<tr><th align='left'>Ver</th>
+	<td>
+		<select name='rpt_ver' id='rpt_ver' class='selectpicker' data-style='btn btn-info' size='2'>";
 	echo "<option value='1' selected>Resumido</option>";
 	echo "<option value='2'>Detallado</option>";
 	echo "</select></td></tr>";
 	echo "</tr>";	
 	
 	echo "<tr><th align='left'>Fecha inicio:</th>";
-			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial' required>";
+			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_inirptdefault' id='exafinicial' size='10' name='exafinicial' required>";
     		echo"  </TD>";
 	echo "</tr>";
 	echo "<tr><th align='left'>Fecha final:</th>";
@@ -94,6 +112,8 @@ echo"<form method='post' action=''>";
 	</center><br>";
 	echo"</form>";
 	echo "</div>";
-	echo"<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
-
 ?>
+
+<script>
+	ajaxPersonalMultiple(this.form);
+</script>
