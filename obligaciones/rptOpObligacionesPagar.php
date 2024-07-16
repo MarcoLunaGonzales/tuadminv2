@@ -22,7 +22,8 @@ echo "<table align='center' class='textotit'><tr><th>Reporte Obligaciones x Paga
 echo"<form method='post' action='rptOpKardexCostos.php'>";
 
 	echo"\n<table class='texto' border='1' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>";
+	echo "<tr><th align='left'>Almacén</th>
+	<td><select name='rpt_territorio' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon, $sql);
 	echo "<option value=''></option>";

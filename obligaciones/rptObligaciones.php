@@ -24,7 +24,7 @@ $fecha_reporte=date("d/m/Y");
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
 echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Reporte Pagos
-	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
+	<br>Almacén: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
 $sql="SELECT p.cod_pago, p.fecha, pd.nro_doc, pro.nombre_proveedor, ia.nro_correlativo, pd.monto_detalle, p.observaciones, ia.nro_factura_proveedor

@@ -271,7 +271,7 @@ if(isset($_POST["clave_ant"])){
   <!-- bit of a bio; who are you? -->
   <div class="profile-bio">
     
-    <p>TU-FARMA</p>
+    <!--p>TU-FARMA</p-->
     <form class="form" action="editPerfil.php" method="POST">
    <div class="input-group mb-2 mr-sm-2">
     <div class="input-group-prepend">

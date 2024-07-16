@@ -28,7 +28,7 @@ $fecha_rptdefault=date("d/m/Y");
 <form method='post' action=''>
     <table class='texto' border='1' align='center' cellSpacing='0' width='50%'>
         <tr>
-            <th align='left'>Territorio</th>
+            <th align='left'>Almacén</th>
             <td>
                 <select name='rpt_territorio' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
                     <option value=''></option>
@@ -45,7 +45,7 @@ $fecha_rptdefault=date("d/m/Y");
             </td>
         </tr>
         <tr>
-            <th align='left'>Marca</th>
+            <th align='left'>Proveedor</th>
             <td>
                 <select name='rpt_proveedor' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>
                     <option value='0'>Todos</option>

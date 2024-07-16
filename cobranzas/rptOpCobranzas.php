@@ -24,7 +24,7 @@ echo "<table align='center' class='textotit'><tr><th>Reporte de Cobros</th></tr>
 echo"<form method='post' action=''>";
 
 	echo"\n<table class='texto' border='1' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td>
+	echo "<tr><th align='left'>Almacén</th><td>
 	<select name='rpt_territorio' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true' >";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon, $sql);
