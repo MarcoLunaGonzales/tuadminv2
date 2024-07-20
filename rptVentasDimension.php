@@ -136,7 +136,7 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 				</div>     
 				<div class="row mt-4">
 					<!-- Grafico 3 -->
-					<div class="col-md-12 m-4">
+					<div class="col-md-12 pr-4">
 						<div class="card">
 							<div class="card-header card-header-success card-header-icon">
 								<div class="card-icon">

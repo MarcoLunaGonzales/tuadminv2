@@ -9,7 +9,7 @@ $fecha_finconsulta = $_POST['fecha_fin'];
 $rptTerritorio     = $_POST['territorios'];
 
 // Consulta SQL
-$sql = "SELECT p.codigo, p.nombre,
+$sql = "SELECT p.codigo, COALESCE(p.nombre, '-') as nombre,
             (sum(sd.monto_unitario)-sum(sd.descuento_unitario)) AS montoVenta,
             sum(sd.cantidad_unitaria) AS cantidadventa,
             sum(((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento) AS descuentocabecera

@@ -9,7 +9,7 @@ $fecha_finconsulta = $_POST['fecha_fin'];
 $rptTerritorio     = $_POST['territorios'];
 
 // Consulta SQL
-$sql = "SELECT p.codigo, p.nombre,
+$sql = "SELECT p.codigo, COALESCE(p.nombre, '-') as nombre,
 	(sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria)cantidadventa, sum(((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento)as descuentocabecera, concat(YEAR(s.fecha),'.',MONTH(s.fecha)) as mes
 	from salida_almacenes s 
 	INNER JOIN salida_detalle_almacenes sd ON s.cod_salida_almacenes=sd.cod_salida_almacen 
