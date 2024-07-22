@@ -24,7 +24,7 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 
 
 <div class="content text-center">
-	<h3 class="font-weight-bold text-primary">Reporte de Ventas por País de Procedencia</h3>
+	<h3 class="font-weight-bold text-primary">Reporte de Ventas por Marca</h3>
 </div>
 
 
@@ -34,73 +34,75 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
       		<div class="card">
         		<div class="card-header card-header-success card-header-icon">
                   	<div class="card-icon">
-                      	<i class="material-icons">bar_chart</i> Ventas por Pais de Procedencia
+                      	<i class="material-icons">bar_chart</i> Ventas por Marca
                   	</div>
         		</div>
 
     			<div class="row mb-4">
 					<div class="col-md-4">
-						<div class="card h-100">
+						<div class="card mb-0">
 							<div class="card-header card-header-info card-header-icon">
 								<div class="card-title">
 									<h6 class="font-weight-bold text-secondary">De: <?=$fecha_iniconsulta;?></h6>
 									<h6 class="font-weight-bold text-secondary">A: <?=$fecha_finconsulta;?></h6>
 									<h6 class="font-weight-bold text-secondary">Almacenes: <?=$nombreTerritorio;?></h6>
 								</div>
-								<div class="table-responsive">
-									<table class="table table-striped table-bordered">
-										<thead>
-											<tr>
-												<th class="text-center">#</th>
-												<th class="text-center">Nombre</th>
-												<th class="text-center">Cantidad</th>
-												<th class="text-center">Monto</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php
-											$sql = "SELECT p.codigo, p.nombre,
-												(SUM(sd.monto_unitario) - SUM(sd.descuento_unitario)) AS montoVenta, 
-												SUM(sd.cantidad_unitaria) AS cantidadventa, 
-												SUM(((sd.monto_unitario - sd.descuento_unitario) / s.monto_total) * s.descuento) AS descuentocabecera
-												FROM salida_almacenes s 
-												INNER JOIN salida_detalle_almacenes sd ON s.cod_salida_almacenes = sd.cod_salida_almacen 
-												INNER JOIN material_apoyo m ON sd.cod_material = m.codigo_material
-												INNER JOIN almacenes a ON a.cod_almacen = s.cod_almacen
-												LEFT JOIN pais_procedencia p ON p.codigo = m.cod_pais_procedencia
-												WHERE s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
-												AND s.salida_anulada = 0 
-												AND s.cod_tiposalida = 1001 
-												AND a.cod_ciudad IN ($rptTerritorio)
-												GROUP BY p.codigo ";
-
-											if ($rptOrdenar == 1) {
-												$sql .= "ORDER BY montoVenta DESC;";
-											} elseif ($rptOrdenar == 2) {
-												$sql .= "ORDER BY cantidadventa DESC;";
-											}
-
-											$resp = mysqli_query($enlaceCon, $sql);
-											$indice = 1;
-											while ($dat = mysqli_fetch_array($resp)) {
-												$codigo = $dat[0];
-												$nombre = $dat[1];
-												$monto = $dat[2];
-												$cantidad = $dat[3];
-												$descuento = $dat[4];
-											?>
+								<div class="card-body p-0">
+									<div class="table-responsive">
+										<table class="table table-striped table-bordered">
+											<thead>
 												<tr>
-													<td class="text-center"><?=$indice;?></td>
-													<td class="text-left"><?=$nombre;?></td>
-													<td class="text-right"><?=formatonumeroDec($cantidad);?></td>
-													<td class="text-right"><?=formatonumeroDec($monto);?></td>
+													<th class="text-center">#</th>
+													<th class="text-center">Nombre</th>
+													<th class="text-center">Cantidad</th>
+													<th class="text-center">Monto</th>
 												</tr>
-											<?php
-												$indice++;
-											}
-											?>
-										</tbody>
-									</table>
+											</thead>
+											<tbody>
+												<?php
+												$sql = "SELECT pl.cod_linea_proveedor as codigo, COALESCE(pl.nombre_linea_proveedor, '-') as nombre,
+													(SUM(sd.monto_unitario) - SUM(sd.descuento_unitario)) AS montoVenta, 
+													SUM(sd.cantidad_unitaria) AS cantidadventa, 
+													SUM(((sd.monto_unitario - sd.descuento_unitario) / s.monto_total) * s.descuento) AS descuentocabecera
+													FROM salida_almacenes s 
+													INNER JOIN salida_detalle_almacenes sd ON s.cod_salida_almacenes = sd.cod_salida_almacen 
+													INNER JOIN material_apoyo m ON sd.cod_material = m.codigo_material
+													INNER JOIN almacenes a ON a.cod_almacen = s.cod_almacen
+													LEFT JOIN proveedores_lineas pl ON pl.cod_linea_proveedor=m.cod_linea_proveedor
+													WHERE s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
+													AND s.salida_anulada = 0 
+													AND s.cod_tiposalida = 1001 
+													AND a.cod_ciudad IN ($rptTerritorio)
+													GROUP BY pl.cod_linea_proveedor ";
+
+												if ($rptOrdenar == 1) {
+													$sql .= "ORDER BY montoVenta DESC;";
+												} elseif ($rptOrdenar == 2) {
+													$sql .= "ORDER BY cantidadventa DESC;";
+												}
+
+												$resp = mysqli_query($enlaceCon, $sql);
+												$indice = 1;
+												while ($dat = mysqli_fetch_array($resp)) {
+													$codigo = $dat[0];
+													$nombre = $dat[1];
+													$monto = $dat[2];
+													$cantidad = $dat[3];
+													$descuento = $dat[4];
+												?>
+													<tr>
+														<td class="text-center"><?=$indice;?></td>
+														<td class="text-left"><?=$nombre;?></td>
+														<td class="text-right"><?=formatonumeroDec($cantidad);?></td>
+														<td class="text-right"><?=formatonumeroDec($monto);?></td>
+													</tr>
+												<?php
+													$indice++;
+												}
+												?>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -181,7 +183,7 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 	// Prepara Graficos Iniciales
 	function graficoVentaDimension() {
 		$.ajax({
-			url: 'backendGrafico/rptVentaDimension.php',
+			url: 'backendGrafico/rptVentaDimensionMarca.php',
 			type: 'POST',
 			data: {
 				fecha_inicio: <?= "'".$fecha_iniconsulta."'" ?>,
@@ -224,7 +226,7 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 						categories: categories
 					},
 					title: {
-						text: 'Monto Venta x País de Procedencia',
+						text: 'Monto Venta x Marca',
 						align: 'center'
 					},
 					yaxis: {
@@ -288,7 +290,7 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 					series: quantityData,
 					labels: categories,
 					title: {
-						text: 'Cantidad Venta x País de Procedencia',
+						text: 'Cantidad Venta x Marca',
 						align: 'center'
 					},
 					colors: colors,
@@ -303,8 +305,8 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 						enabled: true,
 						formatter: function(val, opts) {
 							return formatNumber(val);
-						}
-					}
+						},
+					},
 				}
 				
 				// ! Renderizar el gráfico 2
@@ -320,7 +322,7 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 	// Prepara Grafico Evolutivo
 	function graficoVentaDimensionMes() {
 		$.ajax({
-			url: 'backendGrafico/rptVentaDimensionMes.php',
+			url: 'backendGrafico/rptVentaDimensionMarcaMes.php',
 			type: 'POST',
 			data: {
 				fecha_inicio: <?= "'".$fecha_iniconsulta."'" ?>,
@@ -340,7 +342,7 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 						categories: categories
 					},
 					title: {
-						text: 'Monto de Venta por País y Mes'
+						text: 'Monto de Venta por Marca y Mes'
 					},
 					yaxis: {
 						title: {
