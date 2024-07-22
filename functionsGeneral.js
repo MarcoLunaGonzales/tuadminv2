@@ -10,9 +10,11 @@ function cambiarDatosProductosTable(valor){
         	var resp = respuesta.split('#####');
 			
 			var cod_ingreso_lote="";
+			var lote = "";
 			if (resp.length > 9) {
 				console.log("RESP 9: " + resp[9]);
 				var cod_ingreso_lote = resp[9];
+				lote = resp[10];
 			}
 			console.log("CODINGRESOLOTE: "+cod_ingreso_lote);
         	
@@ -40,14 +42,14 @@ function cambiarDatosProductosTable(valor){
 	            		}
 	            	}else{
 	            	  if($("#materiales"+i).length>0){ //para ventas
-	            		if($("#materiales"+i).val()==resp[1]){
+	            		if($("#materiales"+i).val()==resp[1] && lote == $('#texto_lote' + i).text()){ // Verificación de LOTE
                            existeCodigo++; 
                            filaEncontrado=i;
 	            		}
 	            	 }	
 	            	}
 	            };
-	            if( existeCodigo==0 ||  ( existeCodigo==1 && cod_ingreso_lote!="") ){
+	            if( existeCodigo==0 ){
 	              if($("#ventas_codigo").length>0){
                     soloMasVentas(resp);	//para Ventas
 	              }else{
