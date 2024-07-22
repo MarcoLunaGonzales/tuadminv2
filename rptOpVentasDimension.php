@@ -36,7 +36,11 @@ echo"<form method='post' action='rptVentasDimension.php' target='_blank'>";
 
 	
 	echo"\n </table><br>";
-	echo "<center><input type='submit' name='reporte' value='Ver Reporte' onClick='envia_formulario(this.form)' class='boton'>
+	echo "<center>
+			<input type='submit' name='reporte' value='Reporte x Grupo'  formaction='rptVentasDimensionGrupo.php' class='boton-azul'>
+			<input type='submit' name='reporte' value='Reporte x Tipo de Aro'  formaction='rptVentasDimensionTipoAro.php' class='boton-verde'>
+			<input type='submit' name='reporte' value='Reporte x Marca'  formaction='rptVentasDimensionMarca.php' class='boton2'>
+			<input type='submit' name='reporte' value='Reporte x País de Procedencia'  formaction='rptVentasDimension.php' class='boton'>
 	</center><br>";
 	echo"</form>";
 	echo "</div>";
