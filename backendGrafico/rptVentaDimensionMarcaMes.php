@@ -3,6 +3,9 @@ require("../conexion.inc");
 require("../estilos.inc");
 require('../funciones.php');
 
+// Cantidad de Registros
+$cantidad_registros = obtenerValorConfiguracion(12);
+
 // Obtén los parámetros de consulta
 $fecha_iniconsulta = $_POST['fecha_inicio'];
 $fecha_finconsulta = $_POST['fecha_fin'];
@@ -18,7 +21,8 @@ $sql = "SELECT pl.cod_linea_proveedor as codigo, COALESCE(pl.nombre_linea_provee
         LEFT JOIN proveedores_lineas pl ON pl.cod_linea_proveedor=m.cod_linea_proveedor
         where s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
         and s.salida_anulada=0 and s.cod_tiposalida=1001 and a.cod_ciudad in ($rptTerritorio)
-        group by pl.cod_linea_proveedor, mes order by mes, montoVenta desc";
+        group by pl.cod_linea_proveedor, mes order by mes, montoVenta desc
+        LIMIT $cantidad_registros";
 $resp = mysqli_query($enlaceCon, $sql);
 
 $meses     = [];

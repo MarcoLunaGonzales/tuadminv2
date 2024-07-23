@@ -20,11 +20,17 @@ $fecha_finconsulta=$fecha_fin;
 $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rptTerritorio);
+
+// Cantidad de Registros
+$cantidad_registros = obtenerValorConfiguracion(12);
 ?>
 
 
 <div class="content text-center">
 	<h3 class="font-weight-bold text-primary">Reporte de Ventas por País de Procedencia</h3>
+	<h6 class="font-weight-bold text-secondary">De: <?=$fecha_iniconsulta;?></h6>
+	<h6 class="font-weight-bold text-secondary">A: <?=$fecha_finconsulta;?></h6>
+	<h6 class="font-weight-bold text-secondary">Almacenes: <?=$nombre_territorio;?></h6>
 </div>
 
 
@@ -42,11 +48,6 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 					<div class="col-md-4">
 						<div class="card h-100">
 							<div class="card-header card-header-info card-header-icon">
-								<div class="card-title">
-									<h6 class="font-weight-bold text-secondary">De: <?=$fecha_iniconsulta;?></h6>
-									<h6 class="font-weight-bold text-secondary">A: <?=$fecha_finconsulta;?></h6>
-									<h6 class="font-weight-bold text-secondary">Almacenes: <?=$nombreTerritorio;?></h6>
-								</div>
 								<div class="table-responsive">
 									<table class="table table-striped table-bordered">
 										<thead>
@@ -75,10 +76,11 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 												GROUP BY p.codigo ";
 
 											if ($rptOrdenar == 1) {
-												$sql .= "ORDER BY montoVenta DESC;";
+												$sql .= "ORDER BY montoVenta DESC ";
 											} elseif ($rptOrdenar == 2) {
-												$sql .= "ORDER BY cantidadventa DESC;";
+												$sql .= "ORDER BY cantidadventa DESC ";
 											}
+											$sql .= " LIMIT $cantidad_registros;";
 
 											$resp = mysqli_query($enlaceCon, $sql);
 											$indice = 1;
@@ -180,6 +182,19 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 
 	// Prepara Graficos Iniciales
 	function graficoVentaDimension() {
+		var colorsInitial = [
+			'#FF6F61',
+			'#FF8C00',
+			'#00BFFF',
+			'#FF1493',
+			'#FFC300',
+			'#DAF7A6',
+			'#FF5733',
+			'#33FF57',
+			'#3357FF',
+			'#FF33A6'
+		];
+
 		$.ajax({
 			url: 'backendGrafico/rptVentaDimension.php',
 			type: 'POST',
@@ -238,24 +253,19 @@ $nombre_territorio=nombreTerritorio($rptTerritorio);
 							}
 						}
 					},
-					colors: colors,
+					colors: colorsInitial,
 					dataLabels: {
 						enabled: true,
 						textAnchor: 'start',
 						style: {
-							colors: ['#fff']
+							colors: ['#000']
 						},
 						formatter: function (val, opt) {
 							return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
 						},
 						offsetX: 0,
 						dropShadow: {
-							enabled: true,
-							top: 2,
-							left: 2,
-							blur: 2,
-							opacity: 0.8,
-							color: '#000'
+							enabled: false,
 						}
 					},
 					stroke: {

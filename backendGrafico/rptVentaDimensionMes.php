@@ -3,6 +3,9 @@ require("../conexion.inc");
 require("../estilos.inc");
 require('../funciones.php');
 
+// Cantidad de Registros
+$cantidad_registros = obtenerValorConfiguracion(12);
+
 // Obtén los parámetros de consulta
 $fecha_iniconsulta = $_POST['fecha_inicio'];
 $fecha_finconsulta = $_POST['fecha_fin'];
@@ -10,15 +13,16 @@ $rptTerritorio     = $_POST['territorios'];
 
 // Consulta SQL
 $sql = "SELECT p.codigo, COALESCE(p.nombre, '-') as nombre,
-	(sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria)cantidadventa, sum(((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento)as descuentocabecera, concat(YEAR(s.fecha),'.',MONTH(s.fecha)) as mes
-	from salida_almacenes s 
-	INNER JOIN salida_detalle_almacenes sd ON s.cod_salida_almacenes=sd.cod_salida_almacen 
-	INNER JOIN material_apoyo m ON sd.cod_material=m.codigo_material
-	INNER JOIN almacenes a ON a.cod_almacen=s.cod_almacen
-	LEFT JOIN pais_procedencia p ON p.codigo=m.cod_pais_procedencia
-	where s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
-	and s.salida_anulada=0 and s.cod_tiposalida=1001 and a.cod_ciudad in ($rptTerritorio)
-	group by p.codigo, mes order by mes, montoVenta desc";
+        (sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria)cantidadventa, sum(((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento)as descuentocabecera, concat(YEAR(s.fecha),'.',MONTH(s.fecha)) as mes
+        from salida_almacenes s 
+        INNER JOIN salida_detalle_almacenes sd ON s.cod_salida_almacenes=sd.cod_salida_almacen 
+        INNER JOIN material_apoyo m ON sd.cod_material=m.codigo_material
+        INNER JOIN almacenes a ON a.cod_almacen=s.cod_almacen
+        LEFT JOIN pais_procedencia p ON p.codigo=m.cod_pais_procedencia
+        where s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
+        and s.salida_anulada=0 and s.cod_tiposalida=1001 and a.cod_ciudad in ($rptTerritorio)
+        group by p.codigo, mes order by mes, montoVenta desc
+        LIMIT $cantidad_registros";
 
 $resp = mysqli_query($enlaceCon, $sql);
 

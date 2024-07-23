@@ -3,6 +3,9 @@ require("../conexion.inc");
 require("../estilos.inc");
 require('../funciones.php');
 
+// Cantidad de Registros
+$cantidad_registros = obtenerValorConfiguracion(12);
+
 // Obtén los parámetros de consulta
 $fecha_iniconsulta = $_POST['fecha_inicio'];
 $fecha_finconsulta = $_POST['fecha_fin'];
@@ -18,7 +21,8 @@ $sql = "SELECT g.cod_grupo, COALESCE(g.nombre_grupo, '-') as nombre,
         LEFT JOIN grupos g ON g.cod_grupo=m.cod_grupo
         WHERE s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
         AND s.salida_anulada=0 AND s.cod_tiposalida=1001 AND a.cod_ciudad IN ($rptTerritorio)
-	    group by g.cod_grupo order by montoVenta desc";
+	    group by g.cod_grupo order by montoVenta desc
+        LIMIT $cantidad_registros";
 
 $resp = mysqli_query($enlaceCon, $sql);
 
