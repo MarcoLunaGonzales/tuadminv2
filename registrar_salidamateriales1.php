@@ -267,6 +267,8 @@ function validar(f){
 <?php
 echo "<body>";
 
+error_reporting(0);
+
 $global_almacen=$_COOKIE['global_almacen'];
 $fecha="";
 if($fecha=="")
@@ -289,6 +291,7 @@ else
 }
 ?>
 <form action='guardarSalidaMaterial.php' method='POST' name='form1'>
+<input type='hidden' name="global_almacen" id="global_almacen" value="<?=$global_almacen;?>">
 <h1>Registrar Salida de Almacen</h1>
 
 <table class='texto' align='center' width='90%'>

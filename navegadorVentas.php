@@ -345,6 +345,8 @@ while ($dat = mysqli_fetch_array($resp)) {
     }
     $chk = "<input type='checkbox' name='codigo' value='$codigo' ".(empty($txtAnulado) ? '' : 'hidden').">";
 
+    $salidaAnuladaSiat=0;
+    $estadoSalidaAnuladaSiat=0;
     /****** ANULACION SIAT *******/
     $sqlAnuladoSiat="SELECT s.estado_salida, s.salida_anulada from salida_almacenes s where s.cod_salida_almacenes='$idTransaccion'";
     $respAnuladoSiat=mysqli_query($enlaceConSiat, $sqlAnuladoSiat);

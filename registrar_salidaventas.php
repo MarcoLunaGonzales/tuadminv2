@@ -1013,6 +1013,7 @@ $(document).ready(function() {
 
 <?php
 
+$fecha="";
 if($fecha==""){   
 	$fecha=date("Y-m-d");
 }
@@ -1047,6 +1048,10 @@ $facturacionActivada=mysqli_result($respConf,0,0);
 $sqlConf="select valor_configuracion from configuraciones where id_configuracion=5";
 $respConf=mysqli_query($enlaceCon,$sqlConf);
 $ventaDebajoCosto=mysqli_result($respConf,0,0);
+
+$nitDefault="";
+$razonSocialDefault="";
+
 
 ?>
 
@@ -1358,7 +1363,7 @@ if($tipoDocDefault==2){
 
 
 <?php
-
+$banderaErrorFacturacion=0;
 if($banderaErrorFacturacion==0){
 	echo "<div class='divBotones2' style='display:none;'>
 	        <input type='submit' class='boton-verde' value='Guardar Venta' id='btsubmit' name='btsubmit' onclick='return validar(this.form, $ventaDebajoCosto)' style='z-index:0;'>

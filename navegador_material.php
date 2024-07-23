@@ -108,10 +108,20 @@ echo "<script language='Javascript'>
 	require('estilos.inc');
 	require("funciones.php");
 	
-	$vista_ordenar=$_GET['vista_ordenar'];
-	$vista=$_GET['vista'];
+	$vista_ordenar=0;
+	$vista=0;
+	$grupo=0;
+	if(isset($_GET['vista_ordenar'])){			
+		$vista_ordenar=$_GET['vista_ordenar'];
+	}
+	if(isset($_GET['vista'])){
+		$vista=$_GET['vista'];
+	}
+	if(isset($_GET['grupo'])){
+		$grupo=$_GET['grupo'];
+	}
+
 	$globalAgencia=$_COOKIE['global_agencia'];
-	$grupo=$_GET['grupo'];
 
 	echo "<h1>Registro de Productos</h1>";
 
