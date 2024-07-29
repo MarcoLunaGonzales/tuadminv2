@@ -140,8 +140,8 @@
         
         $pdf->SetFont('Arial','',6);    
         $pdf->setY(30); $pdf->setX($ejeX + 64);
-        // $pdf->Cell(27.5, $textypos, $cab_dir_cliente, 'TRB', 0, 'L');
-        $pdf->MultiCell(27.5, 2, utf8_decode($cab_dir_cliente), 0, 'L');
+        $pdf->Cell(27.5, $textypos, $cab_dir_cliente, 'TRB', 0, 'L');
+        // $pdf->MultiCell(27.5, 1, utf8_decode($cab_dir_cliente), 0, 'L');
         $pdf->setY(35);$pdf->setX($ejeX + 73);
         $pdf->Cell(18.5, $textypos, $cab_tipo_venta, 'R', 0, 'L');
         $pdf->Ln();
