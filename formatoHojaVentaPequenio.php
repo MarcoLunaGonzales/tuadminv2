@@ -147,9 +147,9 @@
         $pdf->Ln();
 
         // DETALLE DE ITEMS
-        $header = array("CANT", "DETALLE", "P.U.", "SUB-TOTAL");
+        $header = array("DETALLE", "CANT", "P.U.", "SUB-TOTAL");
         // Column widths
-        $w = array(2, 49.5, 7.5, 7.5);
+        $w = array(49.5, 2, 7.5, 7.5);
         $pdf->SetFont('Arial','B',6);    
         // Header
         $add_size = 5.5;
@@ -200,39 +200,43 @@
             $x = $pdf->GetX();
 
             // * CANTIDAD
+            $nombreProductoX = strtoupper( $descripcion_material );
+            // Determinar el tamaño de la fuente en función de la longitud del texto
+            if (strlen($nombreProductoX) > 50) {
+                $fontSize = 4;
+            } else {
+                $fontSize = 5;
+            }
+            $pdf->SetFont('Arial', '', $fontSize);
+            // Medir la altura necesaria para la celda de descripción
+            $start_y = $pdf->GetY();
+            $pdf->multiCell(55, 3.5 * $row_index, utf8_decode($nombreProductoX), 1, 'B', false);
+            $end_y = $pdf->GetY();
+            $descripcion_height = $end_y - $start_y;
+            $max_y = max($max_y, $end_y);
+
+            // * DESCRIPCIÓN
+            $pdf->SetXY($x + 55, $y);
             $pdf->SetFont('Arial','',6.5);
             $cantidad_unitaria = intval($cantidad_unitaria);
-            $pdf->multiCell(7.5, 3.5 * $row_index, $cantidad_unitaria, 1, 'B', false);
-            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
-            $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 7.5); // regresar a columna anterior mas espacio de la columna
-            // * DESCRIPCIÓN
-            $pdf->SetFont('Arial','',5.3);
-            $y = $pdf->getY();
-            $x = $pdf->GetX();
-            $nombreProductoX = strtoupper( $descripcion_material );
-            $pdf->multiCell(55, 3.5 * $row_index, utf8_decode($nombreProductoX), 1, 'B', false);
-            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
-            $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 55); // regresar a columna anterior mas espacio de la columna
+            $pdf->multiCell(7.5, $descripcion_height / $row_index, 1, 'B', false);
+            $max_y = $pdf->getY();
+        
             // * PRECIO UNITARIO
-            $pdf->SetFont('Arial','',7);
-            $y = $pdf->getY();
-            $x = $pdf->GetX();
-            $pdf->multiCell(13, 3.5 * $row_index, utf8_decode(number_format($precio_unitario, 2, ".",",")), 1, 'R');
-            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
-            $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 13); // regresar a columna anterior mas espacio de la columna
+            $pdf->SetXY($x + 62.5, $y);
+            $pdf->SetFont('Arial', '', 7);
+            $pdf->multiCell(13, $descripcion_height / $row_index, utf8_decode(number_format($precio_unitario, 2, ".", ",")), 1, 'R');
+            $max_y = max($max_y, $pdf->getY());
+        
             // * SUBTOTAL
-            $pdf->SetFont('Arial','',7);
-            $y = $pdf->getY();
-            $x = $pdf->GetX();
-            $pdf->multiCell(13, 3.5 * $row_index, utf8_decode(number_format($montoCalculadoProducto, 2, ".",",")), 1, 'R');
-            $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
-            $pdf->SetY($y); // regresar a fila anterior
-            $pdf->setX($x + 13); // regresar a columna anterior mas espacio de la columna
+            $pdf->SetXY($x + 75.5, $y);
+            $pdf->SetFont('Arial', '', 7);
+            $pdf->multiCell(13, $descripcion_height / $row_index, utf8_decode(number_format($montoCalculadoProducto, 2, ".", ",")), 1, 'R');
+            $max_y = max($max_y, $pdf->getY());
 
-            $pdf->Ln();
+            // Ajustar la posición para la siguiente fila
+            $pdf->SetY($max_y);
+            // $pdf->Ln();
 
             $montoTotal += $montoCalculadoProducto;
         }
