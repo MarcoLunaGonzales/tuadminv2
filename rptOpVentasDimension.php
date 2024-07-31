@@ -5,7 +5,7 @@ require("estilos_almacenes.inc");
 
 $fecha_rptdefault=date("Y-m-01");
 $fecha_rptdefault2=date("Y-m-d");
-echo "<h1>Ranking de Ventas x Dimension</h1>";
+echo "<h1>Estadisticos de Venta</h1>";
 echo"<form method='post' action='rptVentasDimension.php' target='_blank'>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
