@@ -199,7 +199,7 @@
             $y = $pdf->getY();
             $x = $pdf->GetX();
 
-            // * CANTIDAD
+            // * DESCRIPCIÓN
             $nombreProductoX = strtoupper( $descripcion_material );
             // Determinar el tamaño de la fuente en función de la longitud del texto
             if (strlen($nombreProductoX) > 50) {
@@ -215,7 +215,7 @@
             $descripcion_height = $end_y - $start_y;
             $max_y = max($max_y, $end_y);
 
-            // * DESCRIPCIÓN
+            // * CANTIDAD
             $pdf->SetXY($x + 55, $y);
             $pdf->SetFont('Arial','',6.5);
             $cantidad_unitaria = intval($cantidad_unitaria);
