@@ -64,7 +64,7 @@ while($datos=mysqli_fetch_array($resp)){
 
 	$totalCobro=$totalCobro+$montoCobro;
 
-	$montoCobro=redondear2($montoCobro);
+	$montoCobro=formatonumeroDec($montoCobro);
 	$obs=$datos[6];
 		
 	echo "<tr>
@@ -77,7 +77,7 @@ while($datos=mysqli_fetch_array($resp)){
 	<td align='right'>$montoCobro</td>
 	</tr>";
 }
-$totalCobro=redondear2($totalCobro);
+$totalCobro=formatonumeroDec($totalCobro);
 
 echo "<tr>
 	<td>&nbsp;</td>
