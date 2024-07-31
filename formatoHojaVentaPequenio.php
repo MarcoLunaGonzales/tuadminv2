@@ -219,7 +219,7 @@
             $pdf->SetXY($x + 55, $y);
             $pdf->SetFont('Arial','',6.5);
             $cantidad_unitaria = intval($cantidad_unitaria);
-            $pdf->multiCell(7.5, $descripcion_height / $row_index, 1, 'B', false);
+            $pdf->multiCell(7.5, $descripcion_height / $row_index, $cantidad_unitaria, 'B', false);
             $max_y = $pdf->getY();
         
             // * PRECIO UNITARIO
