@@ -59,7 +59,7 @@ while($datos=mysqli_fetch_array($resp)){
 
 	$totalCobro=$totalCobro+$montoCobro;
 
-	$montoCobro=redondear2($montoCobro);
+	$montoCobro=formatonumeroDec(redondear2($montoCobro));
 	$obs=$datos[6];
 		
 	echo "<tr>
