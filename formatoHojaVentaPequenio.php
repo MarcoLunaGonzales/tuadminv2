@@ -71,7 +71,7 @@
         $pdf->SetFont('Arial','B',13);    
         $textypos = 5;
         $pdf->setY(5);$pdf->setX($ejeX + 28);
-        $pdf->Cell(5, $textypos, utf8_decode("NOTA DE REMISIÓN"));
+        $pdf->Cell(5, $textypos, utf8_decode("NOTA DE VENTA"));
         
         // Cambiar el color del texto a rojo
         $pdf->SetTextColor(255, 0, 0);
