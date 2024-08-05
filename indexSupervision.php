@@ -165,6 +165,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			</li-->
 			<!-- Versión Nueva -->
 			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
+			<li><a href="navegadorCotizaciones.php" target='_blank'>Cotizaciones</a></li>			
 			<li><a href="listadoProductosStock.php" target='_blank'>Stock Actual **</a></li>
 			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 			
