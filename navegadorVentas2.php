@@ -460,6 +460,8 @@ $consulta = $consulta."ORDER BY s.fecha desc, s.hora_salida desc limit 0, 50 ";
 //
 $resp = mysqli_query($enlaceCon,$consulta);
     
+// Tamaño de HOJA | Oficio, Carta
+$tamanio_hoja = valorConfig(13) == 2 ? 'Oficio' : '';
     
 while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
@@ -535,7 +537,7 @@ while ($dat = mysqli_fetch_array($resp)) {
         echo "<td  bgcolor='$color_fondo'><a href='notaSalida.php?codVenta=$codigo' target='_BLANK'><img src='imagenes/detalle.png' width='30' border='0' title='Factura Formato Pequeño'></a></td>";
     }
     else{
-        echo "<td  bgcolor='$color_fondo'><a href='formatoHojaVentaPequenio.php?cod_salida_almacen=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a>
+        echo "<td  bgcolor='$color_fondo'><a href='formatoHojaVentaPequenio$tamanio_hoja.php?cod_salida_almacen=$codigo' target='_BLANK'><img src='imagenes/factura1.jpg' width='30' border='0' title='Factura Formato Pequeño'></a>
         </td>";
         // Editar Datos
         echo "<td bgcolor='$color_fondo'>
