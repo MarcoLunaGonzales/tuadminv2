@@ -81,13 +81,13 @@
 
 
         // Imagenes
-        $pdf->Image('assets/imagenes/pdf_img3.png', $ejeX + 60, 9, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img4.png', $ejeX + 77, 9, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img5.png', $ejeX + 60, 15, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img6.png', $ejeX + 77, 15, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img8.png', $ejeX + 43, 22, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img9.png', $ejeX + 77, 22, 15, 7);
-        $pdf->Image('assets/imagenes/pdf_img2.png', $ejeX + 60, 22, 15, 7);
+        $pdf->Image('assets/imagenes/pdf_img3.png', $ejeX + 70, 9, 19, 7);
+        $pdf->Image('assets/imagenes/pdf_img4.png', $ejeX + 92, 9, 19, 7);
+        $pdf->Image('assets/imagenes/pdf_img5.png', $ejeX + 70, 15, 19, 7);
+        $pdf->Image('assets/imagenes/pdf_img6.png', $ejeX + 92, 15, 19, 7);
+        $pdf->Image('assets/imagenes/pdf_img8.png', $ejeX + 48, 22, 19, 7);
+        $pdf->Image('assets/imagenes/pdf_img9.png', $ejeX + 92, 22, 19, 7);
+        $pdf->Image('assets/imagenes/pdf_img2.png', $ejeX + 70, 22, 19, 7);
         
 
         /************************************/
