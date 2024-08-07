@@ -46,10 +46,12 @@ function listaMateriales(f){
 	var codTipo=f.itemTipoMaterial.value;
 	var nombreItem=f.itemNombreMaterial.value;
 	var codInterno=f.codigoInterno.value;
+	
+	let proveedor = $('#proveedor').val();
 
 	contenedor = document.getElementById('divListaMateriales');
 	ajax=nuevoAjax();
-	ajax.open("GET", "ajaxListaMaterialesIngreso.php?codTipo="+codTipo+"&codInterno="+codInterno+"&nombreItem="+nombreItem,true);
+	ajax.open("GET", "ajaxListaMaterialesIngreso.php?codTipo="+codTipo+"&codInterno="+codInterno+"&nombreItem="+nombreItem+"&cod_proveedor="+proveedor,true);
 	ajax.onreadystatechange=function() {
 		if (ajax.readyState==4) {
 			contenedor.innerHTML = ajax.responseText;

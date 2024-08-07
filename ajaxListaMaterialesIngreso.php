@@ -9,13 +9,21 @@ $codTipo=$_GET['codTipo'];
 $nombreItem=$_GET['nombreItem'];
 $codInterno=$_GET['codInterno'];
 
+$codProveedor=$_GET['cod_proveedor'] ?? '';
+
 $globalAlmacen=$_COOKIE['global_almacen'];
 $globalAgencia=$_COOKIE['global_agencia'];
 //$itemsNoUtilizar=$_GET['arrayItemsUtilizados'];
 $itemsNoUtilizar="0";
 
-	$sql="select m.codigo_material, m.descripcion_material, m.cantidad_presentacion, m.codigo_anterior from material_apoyo m where estado=1 
-		and m.codigo_material not in ($itemsNoUtilizar)";
+	$sql="SELECT m.codigo_material, m.descripcion_material, m.cantidad_presentacion, m.codigo_anterior 
+			FROM material_apoyo m 
+			where estado = 1 and 
+			m.codigo_material not in ($itemsNoUtilizar)";
+	if(!empty($codProveedor)){
+		$sql=$sql. " AND cod_linea_proveedor = '$codProveedor'";
+	}
+
 	if($nombreItem!=""){
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
 	}
