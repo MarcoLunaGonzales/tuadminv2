@@ -24,7 +24,9 @@
                     tp.nombre_tipopago as tipo_pago,
                     CONCAT(cli.nombre_cliente, ' ', cli.paterno) as cliente,
                     cli.dir_cliente,
-                    CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as funcionario,
+                    f.nombres as fun_nombre,
+                    f.paterno as fun_paterno,
+                    f.materno as fun_materno,
                     sa.monto_total,
                     sa.descuento,
                     sa.monto_final,
@@ -47,8 +49,20 @@
         $cab_tipo_venta      = $dataSalida['tipo_venta'];
         $cab_tipo_pago       = $dataSalida['tipo_pago'];
         $cab_cliente         = $dataSalida['cliente'];
+
+        $cab_fun_nombre      = $dataSalida['fun_nombre'];
+        $cab_fun_paterno     = $dataSalida['fun_paterno'];
+        $cab_fun_materno     = $dataSalida['fun_materno'];
+
+        if (!empty($cab_fun_paterno)) {
+            $cab_fun_paterno = substr($cab_fun_paterno, 0, 1) . '.';
+        }
+        if (!empty($cab_fun_materno)) {
+            $cab_fun_materno = substr($cab_fun_materno, 0, 1) . '.';
+        }
+        $cab_funcionario     = $cab_fun_nombre.' '.$cab_fun_paterno.' '.$cab_fun_materno;
+
         $cab_dir_cliente     = $dataSalida['dir_cliente'];
-        $cab_funcionario     = $dataSalida['funcionario'];
         $cab_monto_total     = $dataSalida['monto_total'];
         $cab_descuento       = $dataSalida['descuento'];
         $cab_fecha           = $dataSalida['fecha'];
