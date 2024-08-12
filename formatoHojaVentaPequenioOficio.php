@@ -145,9 +145,9 @@
         $pdf->Ln();
 
         // DETALLE DE ITEMS
-        $header = array("DETALLE", "CANT", "P.U.", "SUB-TOTAL");
+        $header = array("CANT", "DETALLE", "P.U.", "SUB-TOTAL");
         // Column widths
-        $w = array(60, 5, 8, 8);
+        $w = array(5, 60, 8, 8);
         $pdf->SetFont('Arial','B',6);    
         // Header
         $add_size = 5.5;
@@ -205,6 +205,8 @@
             } else {
                 $fontSize = 6;
             }
+            $pdf->SetY($y);
+            $pdf->setX($ejeX + 13.5);
             $pdf->SetFont('Arial', '', $fontSize);
             // Medir la altura necesaria para la celda de descripción
             $start_y = $pdf->GetY();
@@ -214,14 +216,16 @@
             $max_y = max($max_y, $end_y);
 
             // * CANTIDAD
-            $pdf->SetXY($x + 65.5, $y);
+            $pdf->SetY($y);
+            $pdf->setX($x);
             $pdf->SetFont('Arial','',6.5);
             $cantidad_unitaria = intval($cantidad_unitaria);
             $pdf->multiCell(10.5, $descripcion_height / $row_index, $cantidad_unitaria, 'LTRB', false);
             $max_y = $pdf->getY();
         
             // * PRECIO UNITARIO
-            $pdf->SetXY($x + 76, $y);
+            $pdf->SetY($y);
+            $pdf->setX($ejeX + 79);
             $pdf->SetFont('Arial', '', 7);
             $pdf->multiCell(13.5, $descripcion_height / $row_index, utf8_decode(number_format($precio_unitario, 2, ".", ",")), 1, 'LTRB');
             $max_y = max($max_y, $pdf->getY());
