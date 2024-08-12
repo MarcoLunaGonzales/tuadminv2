@@ -1,7 +1,4 @@
 <?php
-set_time_limit(0);
-
-$start_time = microtime(true);
 require("conexionmysqli.php");
 require("estilos_almacenes.inc");
 require("funciones.php");
@@ -10,6 +7,7 @@ require("funciones.php");
 // ini_set('display_errors', '1');
 
 $cod_cotizacion  = $_GET['cod_cotizacion'];
+echo "Cotización:".$cod_cotizacion;
 
 $sql_upd = "UPDATE cotizaciones SET estado = 2 WHERE codigo = '$cod_cotizacion'";
 $sql_update = mysqli_query($enlaceCon,$sql_upd);

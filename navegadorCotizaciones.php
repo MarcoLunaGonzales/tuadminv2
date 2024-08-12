@@ -19,8 +19,11 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
         </script>
     </head>
     <body>
+    <div class="container-fluid m-0">
         <h1>Listado de Cotizaciones</h1>
-        <div class="container-fluid m-0">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="registrar_cotizacion.php" target="_blank" class="btn btn-success btn-sm" role="button"><i class="material-icons small">add</i> Nueva Cotización</a>
+        </div>
             <table class="table table-hover" style="font-size: 12px;">
                 <thead class="thead-light">
                     <tr>
