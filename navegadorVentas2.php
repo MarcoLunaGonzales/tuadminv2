@@ -597,7 +597,7 @@ echo "</form>";
                     <select name="clienteBusqueda" class="selectpicker" data-style="btn btn-success btn-md" data-live-search="true" id="clienteBusqueda">
                         <option value="0">Todos</option>
                     <?php
-                        $sqlClientes="select c.`cod_cliente`, c.`nombre_cliente` from clientes c order by 2";
+                        $sqlClientes="select c.`cod_cliente`, concat(c.nombre_cliente,' ',c.paterno) from clientes c order by 2";
                         $respClientes=mysqli_query($enlaceCon,$sqlClientes);
                         while($datClientes=mysqli_fetch_array($respClientes)){
                             $codCliBusqueda=$datClientes[0];
