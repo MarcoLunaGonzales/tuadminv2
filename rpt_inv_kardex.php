@@ -109,7 +109,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	<th>Tipo</th>
 	<th>Nro. Ingreso/Salida</th>
 	<th>Fecha</th>
-	<th>Factura</th>
+	<th>Factura<br>/ NR</th>
 	<th>Observaciones<br>/ R. Social</th>
 	<th>Entrada</th>
 	<th>Salida</th>

@@ -357,9 +357,9 @@ function HiddenFacturarEditar(){
                 processData: false,
                 data: formData,
                 success:function(response){
-                    let resp = JSON.parse(response);
-                    console.log(resp)
-                    location.href="navegadorVentas.php";
+                    //let resp = JSON.parse(response);
+                    //console.log(resp)
+                    location.href="navegadorVentas2.php";
                 }
             });
             HiddenFacturarEditar();

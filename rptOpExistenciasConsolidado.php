@@ -21,8 +21,8 @@ echo"<form method='post' action='rptExistenciasConsolidado.php' target='_blank'>
 	}
 	echo "</select></td></tr>";
 
-	echo "<tr><th align='left'>Grupo</th><td>
-	<select name='rpt_grupo[]' class='selectpicker form-control' data-actions-box='true' size='10' multiple>";
+	echo "<tr><th align='left'>Marca</th><td>
+	<select name='rpt_grupo[]' class='selectpicker form-control' data-live-search='true' data-actions-box='true' size='10' multiple>";
 	$sql="select p.cod_linea_proveedor, p.nombre_linea_proveedor from proveedores_lineas p order by 2";
 	$resp=mysqli_query($enlaceCon,$sql);
 	while($dat=mysqli_fetch_array($resp))
@@ -45,7 +45,7 @@ echo"<form method='post' action='rptExistenciasConsolidado.php' target='_blank'>
 
 	echo "<tr><th align='left'>Ordenar Por:</th>";
 	echo "<td><select name='rpt_ordenar' class='selectpicker' data-style='btn btn-success'>";
-	echo "<option value='2'>Grupo y Producto</option>";
+	echo "<option value='2'>Marca y Producto</option>";
 	echo "<option value='1'>Producto</option>";
 	echo "</tr>";
 	
