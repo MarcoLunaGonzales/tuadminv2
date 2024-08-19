@@ -47,7 +47,7 @@
 			}
 			
 			ajax=nuevoAjax();
-			ajax.open("GET", "ajaxListaMateriales.php?codTipo="+codTipo+"&nombreItem="+nombreItem+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
+			ajax.open("GET", "ajaxListaMateriales.php?codMarca="+codTipo+"&nombreItem="+nombreItem+"&codInterno="+codInterno+"&arrayItemsUtilizados="+arrayItemsUtilizados,true);
 			ajax.onreadystatechange=function() {
 				if (ajax.readyState==4) {
 					contenedor.innerHTML = ajax.responseText
@@ -496,14 +496,16 @@ else
 			<div id="divProfileData" style="background-color:#FFF; width:950px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
 				<div id="divProfileDetail" style="visibility:hidden; text-align:center">
 					<table align='center'>
-						<tr><th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
+						<tr><th>Marca</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
 						<tr>
-						<td><select class="textogranderojo" name='itemTipoMaterial' id="itemTipoMaterial" style="width:300px">
+						<td><select class="selectpicker textogranderojo" name='itemTipoMaterial' id="itemTipoMaterial" style="width:300px" data-live-search="true">
 						<?php
-						$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g
-						where g.estado=1 order by 2;";
+						$sqlTipo="SELECT pl.cod_linea_proveedor, pl.nombre_linea_proveedor 
+								FROM proveedores p
+								LEFT JOIN	proveedores_lineas pl ON p.cod_proveedor = pl.cod_proveedor
+								ORDER BY pl.nombre_linea_proveedor ASC";
 						$respTipo=mysqli_query($enlaceCon,$sqlTipo);
-						echo "<option value='0'>--</option>";
+						echo "<option value='0'>TODOS</option>";
 						while($datTipo=mysqli_fetch_array($respTipo)){
 							$codTipoMat=$datTipo[0];
 							$nombreTipoMat=$datTipo[1];

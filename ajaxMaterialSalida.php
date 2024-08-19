@@ -21,7 +21,7 @@ require("conexionmysqlipdf.inc");
 </td>
 
 <td width="40%" align="center">
-	<!-- Codigo de Material -->
+	<!-- Codigo de Producto -->
 	<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="0">
 	<!-- Codigo de Sucursal -->
 	<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$globalAlmacen?>">

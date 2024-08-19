@@ -21,7 +21,7 @@ if($tipoItem!=0){
 $resp=mysqli_query($enlaceCon,$sql);
 	
 echo "<center><table border='1' class='texto' cellspacing='0' width='80%' id='main'>";
-echo "<tr><th>Material</th>
+echo "<tr><th>Producto</th>
 <th>Existencias</th>
 <th>Precio A</th>
 <th>Precio B</th>

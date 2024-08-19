@@ -24,7 +24,7 @@ echo "<h1>Reporte Kardex de Movimiento Costos</h1>";
 echo"<form method='post' action='rptOpKardexCostos.php'>";
 
 	echo"<center><table class='texto'>";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
+	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio'  class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true' onChange='envia_select(this.form)'>";
 	if($global_tipoalmacen==1)
 	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	}
@@ -44,7 +44,7 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 		}
 	}
 	echo "</select></td></tr>";
-	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_almacen' class='texto'>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_almacen' class='selectpicker' data-style='btn btn-warning' data-show-subtext='true' data-live-search='true'>";
 	$sql="select cod_almacen, nombre_almacen from almacenes where cod_ciudad='$rpt_territorio'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	while($dat=mysqli_fetch_array($resp))
@@ -59,12 +59,12 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 	}
 	echo "</select></td></tr>";
 	echo "<tr><th align='left'>Tipo de Item:</th>";
-	echo "<td><select name='tipo_item' class='texto' onChange='envia_select(this.form)'>";
+	echo "<td><select name='tipo_item' class='selectpicker' data-style='btn btn-warning' data-show-subtext='true' data-live-search='true' onChange='envia_select(this.form)'>";
 	
 	echo "<option value='2'>Productos</option>";
 	
 	echo "</tr>";
-	echo "<tr><th align='left'>Material</th><td><select name='rpt_item' class='texto'>";
+	echo "<tr><th align='left'>Producto</th><td><select name='rpt_item'  class='selectpicker' data-style='btn btn-primary' data-show-subtext='true' data-live-search='true'>";
 	
 	$sql_item="select codigo_material, descripcion_material from material_apoyo where codigo_material<>0 order by descripcion_material";
 	

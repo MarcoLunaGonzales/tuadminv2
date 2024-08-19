@@ -26,7 +26,7 @@ require("conexion.inc");
 <td width="38%" align="center">
 	<input type="hidden" class="formIndex" value="<?php echo $num;?>">
 	<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="[]">
-	<!-- Codigo de Material -->
+	<!-- Codigo de Producto -->
 	<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="0">
 	<!-- Codigo de Sucursal -->
 	<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$globalAlmacen?>">

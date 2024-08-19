@@ -20,15 +20,29 @@ $globalAlmacen=$_COOKIE["global_almacen"];
 $fecha_iniconsulta=$fecha_ini;
 $fecha_finconsulta=$fecha_fin;
 
+$rpt_cod_vendedor = $_GET['cod_vendedor'];
 $rpt_territorio=$_GET['rpt_territorio'];
 
 $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
+// Nombre de Vendedor
+$nombreCompletoV = 'TODOS';
+if($rpt_cod_vendedor > 0){
+	$sql = "SELECT CONCAT(f.nombres, ' ', f.paterno) AS nombre_completo FROM funcionarios f WHERE f.codigo_funcionario = '$rpt_cod_vendedor'";
+    $resp = mysqli_query($enlaceCon, $sql);
+
+    if ($resp) {
+        $registro = mysqli_fetch_assoc($resp);
+        $nombreCompletoV = $registro ? $registro['nombre_completo'] : '';
+    }
+}
+
 echo "<table align='center' class='textotit' width='90%'><tr><td align='center'>Reporte de Cuentas x Cobrar
 	<br>Almacén: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
-	<br>Fecha Reporte: $fecha_reporte</tr></table>";
+	<br>Fecha Reporte: $fecha_reporte
+	<br>Vendedor: $nombreCompletoV</tr></table>";
 
 $sql="SELECT s.cod_salida_almacenes, 
 		s.nro_correlativo, 
@@ -41,7 +55,6 @@ $sql="SELECT s.cod_salida_almacenes,
 		and cbd.cod_venta = s.cod_salida_almacenes
 		and cb.cod_estado <> 2) cobrado, 
 		DATEDIFF(DATE_ADD(s.fecha, INTERVAL s.dias_credito DAY), CURDATE()) AS dias_credito_faltante,
-		-- COALESCE((DATEDIFF(CURDATE(), DATE_ADD(s.fecha, INTERVAL s.dias_credito DAY)) > 0), 0) AS credito_expirado,
 		(SELECT CONCAT(f.nombres, ' ', f.paterno) FROM funcionarios f WHERE f.codigo_funcionario = s.cod_chofer) as funcionario
 	from salida_almacenes s, clientes c 
 	where s.monto_final > (
@@ -54,11 +67,14 @@ $sql="SELECT s.cod_salida_almacenes,
 	and s.cod_almacen in (SELECT alm.cod_almacen from almacenes alm where alm.cod_ciudad='$rpt_territorio')
 	and s.cod_tiposalida = 1001 
 	and s.cod_tipopago = 4 
-	and s.fecha between '$fecha_iniconsulta' and '$fecha_finconsulta'
-	order by c.nombre_cliente,
+	and s.fecha between '$fecha_iniconsulta' and '$fecha_finconsulta' ";
+if($rpt_cod_vendedor > 0){
+	$sql .= " and s.cod_chofer = '$rpt_cod_vendedor' ";
+}
+$sql .= " ORDER BY c.nombre_cliente,
          s.fecha";	  
 
-//echo $sql;
+// echo $sql;
 
 $resp=mysqli_query($enlaceCon, $sql);
 

@@ -170,7 +170,7 @@
         $orden_detalle        = $dataCotizacionDet['orden_detalle'];
         $descripcion_material = $dataCotizacionDet['descripcion_material'];
         $precio_unitario      = $dataCotizacionDet['precio_unitario'];
-        $cantidad_unitaria    = $dataCotizacionDet['cantidad_unitaria'];
+        $cantidad_unitaria    = round($dataCotizacionDet['cantidad_unitaria'], 0);
         $descuento_unitario   = $dataCotizacionDet['descuento_unitario'];
         $monto_unitario       = $dataCotizacionDet['monto_unitario'];
 
@@ -197,6 +197,7 @@
         // * PRECIO UNITARIO
         $y = $pdf->getY();
         $x = $pdf->GetX();
+        $precio_unitario = number_format($precio_unitario, 2);
         $pdf->multiCell(33.5, 5 * $row_index, utf8_decode($precio_unitario), 1, 'R');
         $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
         $pdf->SetY($y); // regresar a fila anterior
@@ -204,7 +205,8 @@
         // * SUBTOTAL
         $y = $pdf->getY();
         $x = $pdf->GetX();
-        $pdf->multiCell(33.5, 5 * $row_index, utf8_decode(redondear2($monto_unitario)), 1, 'R');
+        $monto_unitario = number_format($monto_unitario, 2);
+        $pdf->multiCell(33.5, 5 * $row_index, utf8_decode($monto_unitario), 1, 'R');
         $max_y = $pdf->getY() > $y ? $pdf->getY() : $y;
         $pdf->SetY($y); // regresar a fila anterior
         $pdf->SetX($x + 33.5); // regresar a columna anterior mas espacio de la columna

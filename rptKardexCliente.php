@@ -42,6 +42,18 @@ while($dat=mysqli_fetch_array($resp)){
 	$cuentaxCobrarCli=$dat[4]-$dat[5];
 	$totalAntCli=$totalAntCli+$cuentaxCobrarCli;
 } 
+// Nombre de Cliente
+$nombreCliente = '';
+if($rpt_cliente > 0){
+	$sqlCliente = "SELECT cod_cliente, CONCAT(nombre_cliente,' ',paterno) as nombre_completo FROM clientes WHERE cod_cliente = '$rpt_cliente'";
+    $respCliente = mysqli_query($enlaceCon, $sqlCliente);
+
+    if ($respCliente) {
+        $registro = mysqli_fetch_assoc($respCliente);
+        $nombre_cliente = $registro ? $registro['nombre_completo'] : '';
+    }
+}
+
 echo "<h1>Reporte Kardex x Cliente</h1>
 	<h2>Cliente: $nombre_cliente <br> De: $fecha_ini A: $fecha_fin   --    Fecha Impresion: $fecha_reporte
 	<br>Cuenta x Cobrar a fecha Inicio: $totalAntCli
