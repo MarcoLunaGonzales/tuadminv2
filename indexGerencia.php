@@ -202,7 +202,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						<ul>
 							<li><a href="rpt_op_inv_kardex.php" target="contenedorPrincipal">Kardex de Movimiento</a></li>
 							<li><a href="rpt_op_inv_existencias.php" target="contenedorPrincipal">Existencias</a></li>
-							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias con Precio de Venta</a></li>
+							<!--li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias con Precio de Venta</a></li-->
 							<li><a href="rpt_op_inv_ingresos.php" target="contenedorPrincipal">Ingresos</a></li>
 							<li><a href="rpt_op_inv_salidas.php" target="contenedorPrincipal">Salidas</a></li>
 							<li><a href="rpt_op_inv_traspasos.php" target="contenedorPrincipal">Seguimiento Traspasos</a></li>
@@ -210,11 +210,9 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
 					</li>	
-					<li><span>Costos</span>
+					<!--li><span>Costos</span>
 						<ul>
-							<li><a href="rptOpKardexCostos.php" target="contenedorPrincipal">Kardex de Movimiento Precio Promedio</a></li>
-							<!--li><a href="rptOpKardexCostosPEPS.php" target="contenedorPrincipal">Kardex de Movimiento PEPS</a></li>
-							<li><a href="rptOpKardexCostosUEPS.php" target="contenedorPrincipal">Kardex de Movimiento UEPS</a></li-->							
+							<li><a href="rptOpKardexCostos.php" target="contenedorPrincipal">Kardex de Movimiento Precio Promedio</a></li>			
 							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>							
 						</ul>
 					</li-->

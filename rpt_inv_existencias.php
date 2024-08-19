@@ -58,13 +58,13 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			if($rptFormato==1){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Material</th><th>Cantidad</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Producto</th><th>Cantidad</th></tr>
 				</thead>";				
 			}
 			if($rptFormato==2){//PARA INVENTARIO
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Material</th><th>Cantidad</th>
+					<tr><th>&nbsp;</th><th>Producto</th><th>Cantidad</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -74,13 +74,13 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			if($rptFormato==3){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Material</th><th>Cantidad</th><th>PrecioCosto</th><th>Subtotal</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Producto</th><th>Cantidad</th><th>PrecioCosto</th><th>Subtotal</th></tr>
 				</thead>";				
 			}
 			if($rptFormato==4){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Material</th><th>Cantidad</th><th>PrecioVenta</th><th>Subtotal</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Producto</th><th>Cantidad</th><th>PrecioVenta</th><th>Subtotal</th></tr>
 				</thead>";				
 			}
 
@@ -88,19 +88,19 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		}else{
 			/*echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 			<thead>
-				<tr><th>&nbsp;</th><th>Codigo</th><th>Grupo</th><th>Material</th><th>Peso[Kg]</th>
+				<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th><th>Peso[Kg]</th>
 				<th>Cantidad</th></tr>
 			</thead>";*/
 			if($rptFormato==1){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Grupo</th><th>Material</th><th>Cantidad</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th><th>Cantidad</th></tr>
 				</thead>";				
 			}
 			if($rptFormato==2){//PARA INVENTARIO
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Grupo</th><th>Material</th><th>Cantidad</th>
+					<tr><th>&nbsp;</th><th>Marca</th><th>Producto</th><th>Cantidad</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th></tr>
@@ -109,25 +109,25 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			if($rptFormato==3){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Grupo</th><th>Material</th><th>Cantidad</th><th>PrecioCosto</th><th>Subtotal</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th><th>Cantidad</th><th>PrecioCosto</th><th>Subtotal</th></tr>
 				</thead>";				
 			}
 			if($rptFormato==4){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Grupo</th><th>Material</th><th>Cantidad</th><th>PrecioVenta</th><th>Subtotal</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th><th>Cantidad</th><th>PrecioVenta</th><th>Subtotal</th></tr>
 				</thead>";				
 			}
 		}
 		$cadena_mostrar="";
-		$indice=0;
+		$indice=1;
 		while($datos_item=mysqli_fetch_array($resp_item))
 		{	$codigo_item=$datos_item[0];
 			$nombre_item=$datos_item[1];
 			$cantidadPresentacion=$datos_item[2];
 			$nombreLinea=$datos_item[3];
 			$pesoItem=$datos_item[4];
-			$codigoInterno=$datos_item[5];
+			$codigoInterno=$codigo_item;
 			
 			$cadena_mostrar="<tbody>";
 			if($rptOrdenar==1){
@@ -173,7 +173,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 				$cadena_mostrar.="<td>-</td><td>-</td>";	
 			}
 			if($rptFormato==4){
-				$precioVentaX=precioVenta($codigo_item, $rpt_territorio);
+				$precioVentaX=precioVentaN($enlaceCon, $codigo_item, $rpt_territorio);
 				$subtotalPrecioVenta=$precioVentaX*$stock2;
 				$subtotalPrecioVentaF=formatonumeroDec($subtotalPrecioVenta);
 				$cadena_mostrar.="<td align='right'>$precioVentaX</td><td align='right'>$subtotalPrecioVentaF</td>";	
@@ -183,14 +183,16 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			
 			if($rpt_ver==1)
 				{	echo $cadena_mostrar;
+					$indice++;
 				}
 				if($rpt_ver==2 and $stock2>0)
 				{	echo $cadena_mostrar;
+					$indice++;					
 				}
 				if($rpt_ver==3 and $stock2==0)
 				{	echo $cadena_mostrar;
+					$indice++;
 				}
-				$indice++;
 			}
 
 		$cadena_mostrar.="</tbody>";

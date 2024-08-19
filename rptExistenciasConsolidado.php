@@ -50,7 +50,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		}else{
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Grupo</th><th>Producto</th>";				
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th>";				
 		}
 		$sqlAlmacenes="SELECT a.cod_almacen, a.nombre_almacen from almacenes a where a.cod_almacen in ($rpt_almacen)";
 		$respAlmacenes=mysqli_query($enlaceCon, $sqlAlmacenes);
@@ -72,7 +72,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$cantidadPresentacion=$datos_item[2];
 			$nombreLinea=$datos_item[3];
 			$pesoItem=$datos_item[4];
-			$codigoInterno=$datos_item[5];
+			$codigoInterno=$codigo_item;
 			
 			$cadena_mostrar="<tbody>";
 			if($rptOrdenar==1){

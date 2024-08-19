@@ -72,7 +72,9 @@ function buscarProductoReporte(){
 <?php
 
 $global_agencia=$_COOKIE['global_agencia'];
-$fecha_rptdefault=date("d/m/Y");
+
+$fecha_rptdefaultini=date("Y-m-01");
+$fecha_rptdefault=date("Y-m-d");
 
 $rptValorado=0;
 
@@ -126,7 +128,7 @@ echo"<form method='post' action='rpt_op_inv_kardex.php'>";
 
 
 	echo "<tr><th align='left'>Fecha inicio:</th>";
-			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exafinicial' size='10' name='exafinicial'>";
+			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefaultini' id='exafinicial' size='10' name='exafinicial'>";
     		echo"  </TD>";
 	echo "</tr>";
 	echo "<tr><th align='left'>Fecha final:</th>";
