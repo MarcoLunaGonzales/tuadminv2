@@ -450,6 +450,11 @@ function setMateriales(f, cod, nombreMat, precioVentaArray, stockProducto, preci
 	// actStock(numRegistro);
 	
 	calculaMontoMaterial(numRegistro);
+
+    // Hacer focus en el campo 'cantidad_unitaria' y desplazar la pantalla
+    var cantidadElement = document.getElementById('cantidad_unitaria' + numRegistro);
+    cantidadElement.focus();
+    cantidadElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 /**
