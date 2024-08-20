@@ -241,13 +241,13 @@
             $pdf->SetY($y);
             $pdf->setX($ejeX + 79);
             $pdf->SetFont('Arial', '', 7);
-            $pdf->multiCell(13.5, $descripcion_height / $row_index, utf8_decode(number_format($precio_unitario, 2, ".", ",")), 1, 'LTRB');
+            $pdf->multiCell(13.5, $descripcion_height / $row_index, utf8_decode(formatonumeroDec($precio_unitario)), 1, 'R');
             $max_y = max($max_y, $pdf->getY());
         
             // * SUBTOTAL
             $pdf->SetXY($x + 89.5, $y);
             $pdf->SetFont('Arial', '', 7);
-            $pdf->multiCell(13.5, $descripcion_height / $row_index, utf8_decode(number_format($montoCalculadoProducto, 2, ".", ",")), 1, 'LTRB');
+            $pdf->multiCell(13.5, $descripcion_height / $row_index, utf8_decode(formatonumeroDec($montoCalculadoProducto)), 1, 'R');
             $max_y = max($max_y, $pdf->getY());
 
             // Ajustar la posición para la siguiente fila
