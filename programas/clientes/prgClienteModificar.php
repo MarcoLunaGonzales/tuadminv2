@@ -13,6 +13,8 @@ $fact = $_GET["fact"];
 $diasCredito = $_GET['diasCredito'];
 $tipo_precio = $_GET['tipo_precio'];
 
+$paterno = $_GET['paterno'] ?? '';
+
 $nomCli = str_replace("'", "''", $nomCli);
 $nit = str_replace("'", "''", $nit);
 $dir = str_replace("'", "''", $dir);
@@ -24,6 +26,7 @@ $fact = str_replace("'", "''", $fact);
 $consulta="
     UPDATE clientes SET
     nombre_cliente = '$nomCli',
+    paterno = '$paterno',
     nit_cliente = '$nit',
     dir_cliente = '$dir',
     telf1_cliente = '$tel1',

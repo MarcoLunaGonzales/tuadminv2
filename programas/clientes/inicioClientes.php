@@ -74,6 +74,7 @@ function adicionarCliente() {
 function modificarCliente() {
     var codcli = $("#codcli").text();
     var nomcli = $("#nomcli").val();
+    var paterno = $("#paterno").val();
     var nit = $("#nit").val();
     var dir = $("#dir").val();
     var tel1 = $("#tel1").val();
@@ -83,7 +84,7 @@ function modificarCliente() {
     var apCli = $("#apCli").val();
     var diasCredito = $("#diasCredito").val();
     var tipo_precio = $("#tipo_precio").val();
-    var parms="codcli="+codcli+"&nomcli="+nomcli+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+""+"&tipo_precio="+tipo_precio+"";
+    var parms="codcli="+codcli+"&nomcli="+nomcli+"&paterno="+paterno+"&nit="+nit+"&dir="+dir+"&tel1="+tel1+"&mail="+mail+"&area="+area+"&fact="+fact+"&apCli="+apCli+""+"&diasCredito="+diasCredito+""+"&tipo_precio="+tipo_precio+"";
     cargarPnl("#pnl00","prgClienteModificar.php",parms);
 }
 function eliminarCliente(cods) {

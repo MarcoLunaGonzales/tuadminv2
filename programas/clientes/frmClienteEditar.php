@@ -5,6 +5,7 @@ require("../../estilos_almacenes.inc");
 
 $codCliente = $_GET["codcli"];
 $nomCliente = "";
+$paterno    = "";
 $nitCliente = "";
 $dirCliente = "";
 $telefono1  = "";
@@ -14,7 +15,7 @@ $nomFactura = "";
 $nomArea    = "";
 $cadComboCiudad = "";
 $consulta="
-    SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente, c.dir_cliente, c.telf1_cliente, c.email_cliente, c.cod_area_empresa, c.nombre_factura, a.cod_ciudad, a.descripcion, c.dias_credito, c.cod_tipo_precio
+    SELECT c.cod_cliente, c.nombre_cliente, c.paterno, c.nit_cliente, c.dir_cliente, c.telf1_cliente, c.email_cliente, c.cod_area_empresa, c.nombre_factura, a.cod_ciudad, a.descripcion, c.dias_credito, c.cod_tipo_precio
     FROM clientes AS c INNER JOIN ciudades AS a ON c.cod_area_empresa = a.cod_ciudad
     WHERE c.cod_cliente = $codCliente ORDER BY c.nombre_cliente ASC
 ";
@@ -26,6 +27,7 @@ if($nroregs==1)
     $diasCredito= $reg["dias_credito"];
     $cod_tipo_precio= $reg["cod_tipo_precio"];
     $nomCliente = $reg["nombre_cliente"];
+    $paterno    = $reg['paterno'];
     $nitCliente = $reg["nit_cliente"];
     $dirCliente = $reg["dir_cliente"];
     $telefono1  = $reg["telf1_cliente"];
@@ -64,7 +66,8 @@ if($nroregs==1)
     <table class="texto">
         <tr>
             <th>Codigo</th>
-            <th>Cliente</th>
+            <th>Nombre</th>
+            <th>Paterno</th>
             <th>NIT</th>
             <th>Direccion</th>
             <th>Telefono</th>
@@ -72,6 +75,7 @@ if($nroregs==1)
         <tr>
             <td><span id="codcli"><?php echo "$codCliente"; ?></span></td>
             <td><input type="text" id="nomcli" value="<?php echo "$nomCliente"; ?>"/></td>
+            <td><input type="text" id="paterno" value="<?php echo "$paterno"; ?>"/></td>
             <td><input type="text" id="nit" value="<?php echo "$nitCliente"; ?>"/></td>
             <td><input type="text" id="dir" value="<?php echo "$dirCliente"; ?>"/></td>
             <td><input type="text" id="tel1" value="<?php echo "$telefono1"; ?>"/></td>
@@ -85,7 +89,7 @@ if($nroregs==1)
         </tr>
         <tr>
             <td><input type="number" id="diasCredito" value="<?php echo "$diasCredito"; ?>"/></td>
-            <td><input type="text" id="mail" value="<?php echo "$email"; ?>"/></td>
+            <td colspan="2"><input type="text" id="mail" value="<?php echo "$email"; ?>"/></td>
             <td><input type="text" id="fact" value="<?php echo "$nomFactura"; ?>"/></td>
             <td><select id="area"><?php echo "$cadComboCiudad"; ?></select></td>
             <td><select id="tipo_precio" name="tipo_precio"><?php echo "$cadTipoPrecio"; ?></select></td>
