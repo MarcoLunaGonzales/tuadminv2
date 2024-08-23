@@ -112,7 +112,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				<ul>
 					<li><a href="navegador_ingresomateriales.php" target="contenedorPrincipal">Ingreso de Productos</a></li>
 					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Productos en Transito</a></li>
-					<li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li>
+					<!--li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li-->
 				</ul>	
 			</li>
 			<li><span>Salidas</span>
@@ -121,13 +121,13 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="navegadorVentas.php" target="contenedorPrincipal">Listado de Ventas</a></li>
 				</ul>	
 			</li>
-			<li><span>SIAT</span>
+			<!--li><span>SIAT</span>
 				<ul>
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_facturacion_offline/facturas_sincafc_list.php" target="contenedorPrincipal">Facturas Off-line</a></li>
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_sincronizacion/index.php" target="contenedorPrincipal">Sincronización</a></li>
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
 				</ul>	
-			</li>
+			</li-->
 
 
 				<!-- Versión Nueva -->
@@ -141,7 +141,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				<ul>
 					<li><span>Productos</span>
 						<ul>
-							<li><a href="rptOpProductos.php" target="contenedorPrincipal">Productos</a></li>
+							<!--li><a href="rptOpProductos.php" target="contenedorPrincipal">Productos</a></li-->
 							<li><a href="rptOpPrecios.php" target="contenedorPrincipal">Precios</a></li>
 						</ul>
 					</li>	
@@ -182,7 +182,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<!--li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li-->
 						</ul>	
 					</li>
-					<li><span>Utilidades</span>
+					<!--li><span>Utilidades</span>
 						<ul>
 							<li><a href="rptOpUtilidadesDocumento.php" target="contenedorPrincipal">Utilidades x Documento</a></li>
 							<li><a href="rptOpUtilidadesDocumentoServiteca.php" target="contenedorPrincipal">Utilidades x Documento Serviteca</a></li>
@@ -190,7 +190,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<li><a href="rptOpUtilidadesDocItem.php" target="contenedorPrincipal">Utilidades x Documento e Item</a></li>
 							<li><a href="rptOpUtilidadesNetas.php" target="contenedorPrincipal">Utilidad Neta x Periodo</a></li>
 						</ul>	
-					</li>
+					</li-->
 					<!--li><span>Cobranzas</span>
 						<ul>
 							<li><a href="rptOpCobranzas.php" target="contenedorPrincipal">Cobranzas</a></li>
