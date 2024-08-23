@@ -82,7 +82,7 @@ if($nroregs==1)
         </tr>
         <tr>
             <th>Días de Credito</th>
-            <th>Correo</th>
+            <th colspan="2">Correo</th>
             <th>Factura</th>
             <th>Ciudad</th>
             <th>Tipo de Precio</th>
