@@ -137,6 +137,14 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 			
 
+			<li><span>Cobranzas</span>
+				<ul>
+					<li><a href="cobranzas/navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
+					<!-- <li><a href="cobranzas/rptOpCobranzas.php" target="contenedorPrincipal">Reporte de Cobros</a></li>
+					<li><a href="cobranzas/rptOpCuentasCobrar.php" target="contenedorPrincipal">Reporte Cuentas x Cobrar</a></li> -->
+				</ul>	
+			</li>
+
 			<li><span>Reportes</span>
 				<ul>
 					<li><span>Productos</span>
