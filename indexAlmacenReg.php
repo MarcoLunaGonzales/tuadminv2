@@ -72,7 +72,7 @@ include("datosUsuario.php");
 				<ul>
 					<li><a href="navegador_ingresomateriales.php" target="contenedorPrincipal">Ingreso de Productos</a></li>
 					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Productos en Transito</a></li>
-					<li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li>
+					<!--li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li-->
 				</ul>	
 			</li>
 			<li><span>Salidas</span>
@@ -89,7 +89,7 @@ include("datosUsuario.php");
 				<ul>
 					<li><span>Productos</span>
 						<ul>
-							<li><a href="rptOpProductos.php" target="contenedorPrincipal">Productos</a></li>
+							<!--li><a href="rptOpProductos.php" target="contenedorPrincipal">Productos</a></li-->
 							<li><a href="rptOpPrecios.php" target="contenedorPrincipal">Precios</a></li>
 						</ul>
 					</li>	
