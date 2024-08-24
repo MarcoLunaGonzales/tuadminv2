@@ -137,7 +137,7 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
                                     ?>
                                     <button class="btn btn-sm btn-danger pt-4 anular-pedido" 
                                             data-cod-pedido="<?=$dat['codigo']?>" 
-                                            title="Anular Pedido"
+                                            title="Anular Cotización"
                                             style="padding-left: 10px; padding-right: 10px;">
                                         <i class="material-icons">cancel</i>
                                     </button>
