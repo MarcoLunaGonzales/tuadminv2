@@ -419,7 +419,8 @@ function buscarMaterial(f, numMaterial){
 	document.getElementById('divListaMateriales').innerHTML='';
 	document.getElementById('itemNombreMaterial').value='';	
 	document.getElementById('codigoInterno').value='';	
-	document.getElementById('codigoInterno').focus();	
+	document.getElementById('itemNombreMaterial').value='';	
+	document.getElementById('itemNombreMaterial').focus();	
 	
 }
 function Hidden(){
@@ -531,7 +532,7 @@ cantidad_items=0;
 
 function mas(obj) {
 	if(num>=1000){
-		alert("No puede registrar mas de 15 items en una nota.");
+		alert("No puede registrar mas de 1000 items en una nota.");
 	}else{
 		//aca validamos que el item este seleccionado antes de adicionar nueva fila de datos
 		var banderaItems0=0;
@@ -568,7 +569,6 @@ function mas(obj) {
 			}		
 			ajax.send(null);
 		}
-
 	}
 	
 }

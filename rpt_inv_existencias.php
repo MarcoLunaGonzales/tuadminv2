@@ -1,3 +1,37 @@
+
+<style>
+    thead {
+        font-size: 16px;
+        background-color: #f8f9fa;
+        color: #343a40; 
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    tbody {
+        font-size: 15px;
+        background-color: #ffffff;
+        color: #495057;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    tbody td, thead th {
+        padding: 10px;
+        text-align: left;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tbody tr:hover {
+        background-color: #e9ecef;
+    }
+</style>
 <?php
 //header("Content-type: application/vnd.ms-excel");
 //header("Content-Disposition: attachment; filename=archivo.xls");
