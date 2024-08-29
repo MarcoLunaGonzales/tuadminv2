@@ -37,7 +37,7 @@ if(empty($codigo)){
 if ($sql_cabecera) {
 
     // Obtener el ID del registro recién insertado
-    $cod_despachoproducto = empty($codigo) ? mysql_insert_id() : $codigo;
+    $cod_despachoproducto = empty($codigo) ? mysqli_insert_id($enlaceCon) : $codigo;
 
     $cantidad_venta      = 0;
     $cantidad_devolucion = 0;
@@ -80,7 +80,7 @@ if ($sql_cabecera) {
     $response['status']  = false;
     $response['message'] = "No se pudo insertar la cabecera.";
 }
-
+ob_clean();
 // Convertir el array de respuesta en formato JSON y mostrarlo
 echo json_encode($response);
 ?>
