@@ -37,7 +37,7 @@ if(empty($codigo)){
 if ($sql_cabecera) {
 
     // Obtener el ID del registro recién insertado
-    $cod_despachoproducto = empty($codigo) ? mysql_insert_id() : $codigo;
+    $cod_despachoproducto = empty($codigo) ? mysqli_insert_id() : $codigo;
 
     $cantidad_venta      = 0;
     $cantidad_devolucion = 0;
