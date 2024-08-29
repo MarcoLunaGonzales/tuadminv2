@@ -119,8 +119,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			</li-->
 			<li><span>Ingresos</span>
 				<ul>
-					<li><a href="navegador_ingresomateriales.php" target="contenedorPrincipal">Ingreso de Materiales</a></li>
-					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Materiales en Transito</a></li>
+					<li><a href="navegador_ingresomateriales.php" target="contenedorPrincipal">Ingreso de Productos</a></li>
+					<li><a href="navegador_ingresotransito.php" target="contenedorPrincipal">Ingreso de Productos en Transito</a></li>
 					<li><a href="navegadorLiquidacionIngresos.php" target="contenedorPrincipal">Liquidacion de Ingresos</a></li>
 				</ul>	
 			</li>
@@ -131,13 +131,13 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<!--li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li-->
 				</ul>	
 			</li>
-			<li><span>SIAT</span>
+			<!--li><span>SIAT</span>
 				<ul>
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_facturacion_offline/facturas_sincafc_list.php" target="contenedorPrincipal">Facturas Off-line</a></li>
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_sincronizacion/index.php" target="contenedorPrincipal">Sincronización</a></li>
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_cuis_cufd/index.php" target="contenedorPrincipal">Generación CUIS y CUFD</a></li>
 				</ul>	
-			</li>
+			</li-->
 			<!-- Versión Antigua -->
 			<!--li><span>Registrar</span>
 				<ul>
@@ -256,7 +256,9 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						</ul>	
 					</li-->
 				</ul>
-			</li>		
+			</li>
+
+			<li><a href="navegador_despachoalmacenes.php" target="contenedorPrincipal" >Despacho de Productos</a></li>		
 			<li><span>Utilitarios</span>
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>

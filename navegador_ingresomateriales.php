@@ -1,5 +1,6 @@
 <?php
 require("conexion.inc");
+require('funciones.php');
 require('function_formatofecha.php');
 require("estilos_almacenes.inc");
 ?>
@@ -189,6 +190,10 @@ function anular_ingreso(f)
 
 <?php
 $fecha_sistema = date('Y-m-d');
+
+$mostrarDetallesImportacion=obtenerValorConfiguracion(11);
+
+
 echo "<form method='post' action='navegador_ingresomateriales.php'>";
 echo "<input type='hidden' name='fecha_sistema' value='$fecha_sistema'>";
 
@@ -203,7 +208,7 @@ $consulta = "
    $consulta = $consulta."ORDER BY i.nro_correlativo DESC limit 0, 50 ";
 //echo "MAT:$sql";
 $resp = mysqli_query($enlaceCon,$consulta);
-echo "<h1>Ingreso de Materiales</h1>";
+echo "<h1>Ingreso de Productos</h1>";
 
 echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><th>Ingresos Anulados</th><td bgcolor='#ff8080' width='10%'></td><th>Ingresos con movimiento</th><td bgcolor='#ffff99' width='10%'></td><th>Ingresos sin movimiento</th><td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
 
@@ -216,7 +221,14 @@ echo "<div id='divCuerpo'>";
 echo "<br><center><table class='texto'>";
 echo "<tr><th>&nbsp;</th><th>Nro. Ingreso</th><th>Nro.Factura</th><th>Fecha</th><th>Tipo de Ingreso</th>
 <th>Proveedor</th>
-<th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+<th>Observaciones</th>
+<th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>";
+
+if($mostrarDetallesImportacion==1){
+	echo "<th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>";
+}
+
+echo "</tr>";
 while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_ingreso = $dat[1];
@@ -276,21 +288,25 @@ while ($dat = mysqli_fetch_array($resp)) {
 		<a href='#' onclick='javascript:editarIngresoTipoProv($codigo)' > 
 			<img src='imagenes/edit.png' border='0' width='30' heigth='30' title='Editar Tipo & Proveedor'>
 		</a>
-	</td>
-		<td align='center'>
+	</td>";
+
+	if($mostrarDetallesImportacion==1){
+		echo "<td align='center'>
 		<a  href='costosImportacionIngreso.php?codigo_ingreso=$codigo'>
 			<img src='imagenes/imp9.jpg' border='0' width='50' heigth='50' title='Asociar Costos de Importacion'>
 		</a>
-	</td>
-	<td align='center'>
-		<a target='_BLANK' href='navegador_detalleingresomateriales2.php?codigo_ingreso=$codigo'>
-		<img src='imagenes/documento.png' border='0' width='30' heigth='30' title='Ingreso y Costos de Importacion'></a>
-	</td>
-	<td align='center'>
-		<a target='_BLANK' href='navegadorDetalleIngresoImpUtilidad.php?codigo_ingreso=$codigo'>
-		<img src='imagenes/procesar.png' border='0' width='30' heigth='30' title='Configurar Utilidades'></a>
-	</td>
-	</tr>";
+		</td>
+		<td align='center'>
+			<a target='_BLANK' href='navegador_detalleingresomateriales2.php?codigo_ingreso=$codigo'>
+			<img src='imagenes/documento.png' border='0' width='30' heigth='30' title='Ingreso y Costos de Importacion'></a>
+		</td>
+		<td align='center'>
+			<a target='_BLANK' href='navegadorDetalleIngresoImpUtilidad.php?codigo_ingreso=$codigo'>
+			<img src='imagenes/procesar.png' border='0' width='30' heigth='30' title='Configurar Utilidades'></a>
+		</td>";		
+	}
+
+	echo "</tr>";
 }
 echo "</table></center><br>";
 echo "</div>";
