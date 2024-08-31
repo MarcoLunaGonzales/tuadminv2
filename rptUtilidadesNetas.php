@@ -1,13 +1,13 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
-require('conexion.inc');
 require('funcion_nombres.php');
 require('funciones.php');
+require('estilos_reportes_almacencentral.php');
+
+require('conexionmysqlipdf.inc');
 
 $fecha_ini=$_POST['exafinicial'];
 $fecha_fin=$_POST['exaffinal'];
-$rpt_ver=$_POST['rpt_ver'];
 
 //desde esta parte viene el reporte en si
 $fecha_iniconsulta=$fecha_ini;
@@ -76,7 +76,9 @@ while($datos=mysqli_fetch_array($resp)){
 	$porcentajeUtilidadF=number_format($porcentajeUtilidad,2,".",",");
 	$subTotalCosto=0;
 	$subTotalVenta=0;
-	$lineaPivote=$nombreLinea;
+
+
+	//$lineaPivote=$nombreLinea;
 	
 	$subTotalCosto=$subTotalCosto+$montoCosto;
 	$subTotalVenta=$subTotalVenta+$montoVenta;

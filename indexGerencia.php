@@ -131,6 +131,13 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<!--li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li-->
 				</ul>	
 			</li>
+			<li><span>Gastos</span>
+				<ul>
+					<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
+					<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte Detallado de Gastos</a></li>
+				</ul>	
+			</li>
+
 			<!--li><span>SIAT</span>
 				<ul>
 					<li><a href="<?=$serverSIAT;?>siat_folder/siat_facturacion_offline/facturas_sincafc_list.php" target="contenedorPrincipal">Facturas Off-line</a></li>
@@ -156,6 +163,9 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				</ul>	
 			</li-->
   						<!-- Versión Nueva -->
+
+			<li><a href="navegador_despachoalmacenes.php" target="contenedorPrincipal" >Despacho de Productos</a></li>		
+			
 			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
 			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 						
@@ -168,14 +178,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				</ul>	
 			</li> -->
 				
-			<li><span>Gastos/Cobros/Obligaciones</span>
+			<li><span>Cobros/Obligaciones</span>
 				<ul>
-					<li><span>Gastos</span>
-						<ul>
-							<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
-							<li><a href="rptOpGastos.php" target="contenedorPrincipal">Reporte Detallado de Gastos</a></li>
-						</ul>	
-					</li>
 					<li><span>Cobranzas</span>
 						<ul>
 							<li><a href="cobranzas/navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
@@ -258,7 +262,6 @@ $serverSIAT=obtenerValorConfiguracion(7);
 				</ul>
 			</li>
 
-			<li><a href="navegador_despachoalmacenes.php" target="contenedorPrincipal" >Despacho de Productos</a></li>		
 			<li><span>Utilitarios</span>
 				<ul>
 					<li><a href="configuraciones_sistema.php" target="contenedorPrincipal">Configuraciones</a></li>

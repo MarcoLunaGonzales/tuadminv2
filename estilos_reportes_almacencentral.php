@@ -5,7 +5,7 @@ echo"<head><title>Reportes</title>
 </head>";
 echo "<center><table border=0 class='linea' width='100%'><tr><td align='left'>
 <img src='imagenes/logoMinka.png' width='80'></td>
-<th></th></tr></table></center><br>";
+<th></th></tr></table></center>";
 
 
 ?>

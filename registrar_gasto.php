@@ -104,7 +104,7 @@ $resp1=mysqli_query($enlaceCon,$sql1);
 ?>
 <tr>
 <td align='center'>
-<select name='tipo_gasto' id='tipo_gasto' class='texto' required>
+<select name='tipo_gasto' id='tipo_gasto' class='selectpicker' data-style='btn btn-success' required>
 <?php
 while($dat1=mysqli_fetch_array($resp1))
 {   $codigo=$dat1[0];

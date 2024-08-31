@@ -92,15 +92,22 @@
 					var cantidadEntrega = parseFloat(fila.find(".cantidad-entrega").val() || 0);
 					var cantidadVenta   = parseFloat($(this).val() || 0);
 					var montoVenta      = parseFloat(fila.find(".monto-venta").val() || 0);
+					var precioProducto  = parseFloat(fila.find(".precio-producto").val() || 0);
 					
 					let cantidadDevolucion = 0;
+					let montoVendido = 0;
 					// Devolución
 					if (!isNaN(cantidadEntrega) && !isNaN(cantidadVenta)) {
 						cantidadDevolucion = cantidadEntrega - cantidadVenta;
+						montoVendido = cantidadVenta * precioProducto;
 					}
 					fila.find(".cantidad-devolucion").val(cantidadDevolucion.toFixed(2));
+					fila.find(".monto-venta").val(montoVendido.toFixed(2));
+					
+
+					calcularTotales();
 					// Precio Producto
-					obtienePrecioProducto(fila, montoVenta);
+					//obtienePrecioProducto(fila, montoVenta);
 				});
 				/**
 				 * TOTAL VENTA - Obtiene Precio Producto
@@ -120,9 +127,8 @@
 						precioProducto = montoVenta / cantidadVenta;
 						fila.find(".precio-producto").val(precioProducto.toFixed(2));
 					}
-					fila.find(".precio-producto").val(precioProducto.toFixed(2));
+					//fila.find(".precio-producto").val(precioProducto.toFixed(2));
 					// Total
-					calcularTotales();
 				}
 				/**
 				 * Función para calcular la suma total de "monto_venta" y "precio_producto"
@@ -141,7 +147,7 @@
 
 					// Actualizar los campos de "total_monto_venta" y "total_precio_producto"
 					$(".total-monto-venta").val(totalMontoVenta.toFixed(2));
-					$(".total-precio-producto").val(totalPrecioProducto.toFixed(2));
+					//$(".total-precio-producto").val(totalPrecioProducto.toFixed(2));
 				}
 				calcularTotales();
 			});
@@ -239,7 +245,7 @@ if($edit_tipo == 0){
     }
 	/* Aplica un estilo personalizado a los inputs de tipo number */
 	input[type="number"] {
-		font-size: 17px;
+		font-size: 15px;
 		color: red;
 		padding: 5px;
 		border: 1px solid #ccc;
@@ -309,8 +315,8 @@ if($edit_tipo == 0){
 					<!-- Editar -->
 					<th>Vendido</th>
 					<th>Devolución</th>
-					<th>Total Venta</th>
 					<th>Precio Producto</th>
+					<th>Total Venta</th>
 					<?php } ?>
 				</tr>
 			</thead>
@@ -357,8 +363,8 @@ if($edit_tipo == 0){
 						<!-- Editar -->
 						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="cantidad-venta" name="cantidad_venta" value="<?= $item_cantidad_venta ?>" <?=($edit_tipo == 2?'readonly':'')?>></td>
 						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="cantidad-devolucion" name="cantidad_devolucion" value="<?= $item_cantidad_devolucion ?>" readonly></td>
-						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="monto-venta" name="monto_venta" value="<?= $item_monto_venta ?>" <?=($edit_tipo == 2?'readonly':'')?>></td>
 						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="precio-producto" name="precio_producto" value="<?= $item_precio_producto ?>" readonly></td>
+						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="monto-venta" name="monto_venta" value="<?= $item_monto_venta ?>" <?=($edit_tipo == 2?'readonly':'')?>></td>						
 					</tr>
 				<?php
 				}
@@ -369,8 +375,8 @@ if($edit_tipo == 0){
 				<?php if($edit_tipo != 0){ ?>
 					<tr class="item-row">
 						<th colspan="6" style="text-align: right;"><b>Total:</b></th>
-						<th><input type="number" class="total-monto-venta" name="total_monto_venta" value="0" readonly></th>
 						<th><input type="number" class="total-precio-producto" name="total_precio_producto" value="0" readonly></th>
+						<th><input type="number" class="total-monto-venta" name="total_monto_venta" value="0" readonly></th>
 					</tr>
 				<?php } ?>
 			</tfooter>

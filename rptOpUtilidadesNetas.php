@@ -8,7 +8,8 @@ echo "<h1>Utilidad Neta por Periodo</h1>";
 echo"<form method='post' action='rptUtilidadesNetas.php' target='_blank'>";
 
 	echo"<center><table class='texto'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' required>";
+	echo "<tr><th align='left'>Territorio</th>
+	<td><select name='rpt_territorio' class='selectpicker' data-style='btn btn-success' required>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value=''></option>";
@@ -30,7 +31,6 @@ echo"<form method='post' action='rptUtilidadesNetas.php' target='_blank'>";
 	echo "</tr>";
 	
 	echo"\n </table><br>";
-	require('home_almacen.php');
 	echo "<center><input type='submit' name='reporte' value='Ver Reporte' class='boton'>
 	</center><br>";
 	echo"</form>";
