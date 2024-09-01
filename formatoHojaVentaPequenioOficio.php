@@ -193,6 +193,7 @@
         // echo $sqlDatosVenta;
         $respSalidaDet = mysqli_query($enlaceCon, $sqlSalidaDet);
         $montoTotal = 0;
+        $cantidadTotal = 0;
         while($dataSalidaDet = mysqli_fetch_array($respSalidaDet)){
             $codigo_material      = $dataSalidaDet['codigo_material'];
             $orden_detalle        = $dataSalidaDet['orden_detalle'];
@@ -236,6 +237,8 @@
             $cantidad_unitaria = intval($cantidad_unitaria);
             $pdf->multiCell(10.5, $descripcion_height / $row_index, $cantidad_unitaria, 'LTRB', false);
             $max_y = $pdf->getY();
+
+            $cantidadTotal += $cantidad_unitaria;
         
             // * PRECIO UNITARIO
             $pdf->SetY($y);
@@ -256,6 +259,16 @@
 
             $montoTotal += $montoCalculadoProducto;
         }
+        // TOTALES
+        $pdf->SetFont('Arial', 'B', 7);
+        $y = $pdf->getY();
+        $pdf->SetXY($x, $y);
+        $pdf->multiCell(10.5, $descripcion_height / $row_index, intval($cantidadTotal), 'LTRB', false);
+        $max_y = $pdf->getY();
+        $pdf->SetY($y);
+        $pdf->setX($ejeX + 13.5);
+        $pdf->multiCell(92.5, $descripcion_height / $row_index, "CANTIDAD TOTAL", 1, 'L');
+        $max_y = max($max_y, $pdf->getY());
 
         /****************************************/
         /*              PIE DE PAGINA           */
