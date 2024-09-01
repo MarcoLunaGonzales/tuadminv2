@@ -274,10 +274,12 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			<td align='left' class='bg-plomoclaro'>$nombre_responsable</td></tr>";
 		}
 		//hacemos la consulta para salidas
-		$sql_salidas="select s.nro_correlativo, sd.cantidad_unitaria, ts.nombre_tiposalida, s.observaciones, s.territorio_destino, s.cod_salida_almacenes,sd.cantidad_unitaria,s.cod_chofer,s.cod_tipo_doc,s.razon_social,s.almacen_destino, s.cod_chofer, s.hora_salida
+		$sql_salidas="select s.nro_correlativo, sum(sd.cantidad_unitaria), ts.nombre_tiposalida, s.observaciones, s.territorio_destino, s.cod_salida_almacenes,sum(sd.cantidad_unitaria), s.cod_chofer,s.cod_tipo_doc,s.razon_social,s.almacen_destino, s.cod_chofer, s.hora_salida
 		from salida_almacenes s, salida_detalle_almacenes sd, tipos_salida ts
 		where s.cod_tiposalida=ts.cod_tiposalida and s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen='$rpt_almacen' and
-		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta'";
+		s.salida_anulada=0 and sd.cod_material='$rpt_item' and s.fecha='$fecha_consulta' 
+		GROUP BY
+		s.nro_correlativo, ts.nombre_tiposalida, s.observaciones, s.territorio_destino, s.cod_salida_almacenes, s.cod_chofer,s.cod_tipo_doc,s.razon_social,s.almacen_destino, s.cod_chofer, s.hora_salida";
 		$resp_salidas=mysqli_query($enlaceCon,$sql_salidas);
 		while($dat_salidas=mysqli_fetch_array($resp_salidas))
 		{	$nro_salida=$dat_salidas[0];

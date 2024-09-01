@@ -73,10 +73,10 @@
 		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
 			$precio0=mysqli_result($respPrecio,0,0);
-			$precio0=redondear2($precio0);
+			$precio0=formatonumeroDec($precio0);
 		}else{
 			$precio0=0;
-			$precio0=redondear2($precio0);
+			$precio0=formatonumeroDec($precio0);
 		}
 		
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=1 and p.`codigo_material`=$codigo and p.cod_ciudad='1'";
@@ -84,10 +84,10 @@
 		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
 			$precio1=mysqli_result($respPrecio,0,0);
-			$precio1=redondear2($precio1);
+			$precio1=formatonumeroDec($precio1);
 		}else{
 			$precio1=0;
-			$precio1=redondear2($precio1);
+			$precio1=formatonumeroDec($precio1);
 		}
 
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=2 and p.`codigo_material`=$codigo  and p.cod_ciudad='1'";
@@ -95,10 +95,10 @@
 		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
 			$precio2=mysqli_result($respPrecio,0,0);
-			$precio2=redondear2($precio2);
+			$precio2=formatonumeroDec($precio2);
 		}else{
 			$precio2=0;
-			$precio2=redondear2($precio2);
+			$precio2=formatonumeroDec($precio2);
 		}
 
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=3 and p.`codigo_material`=$codigo  and p.cod_ciudad='1'";
@@ -106,10 +106,10 @@
 		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
 			$precio3=mysqli_result($respPrecio,0,0);
-			$precio3=redondear2($precio3);
+			$precio3=formatonumeroDec($precio3);
 		}else{
 			$precio3=0;
-			$precio3=redondear2($precio3);
+			$precio3=formatonumeroDec($precio3);
 		}
 
 		$sqlPrecio="select p.`precio` from `precios` p where p.`cod_precio`=4 and p.`codigo_material`=$codigo  and p.cod_ciudad='1'";
@@ -117,10 +117,10 @@
 		$numFilas=mysqli_num_rows($respPrecio);
 		if($numFilas==1){
 			$precio4=mysqli_result($respPrecio,0,0);
-			$precio4=redondear2($precio4);
+			$precio4=formatonumeroDec($precio4);
 		}else{
 			$precio4=0;
-			$precio4=redondear2($precio4);
+			$precio4=formatonumeroDec($precio4);
 		}
 
 		$indice++;

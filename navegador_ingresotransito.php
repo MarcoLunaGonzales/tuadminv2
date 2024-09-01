@@ -46,7 +46,7 @@ echo "<script language='Javascript'>
 
 
 	echo "<center><table class='texto'>";
-	echo "<tr><th>&nbsp;</th><th>Fecha Despacho</th><th>Tipo de Salida<br>(Origen)</th><th>Territorio<br>Origen</th><th>Nota de Remision<br>(Origen)</th><th>Observaciones</th><th>Detalle</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Fecha Despacho</th><th>Tipo de Salida<br>(Origen)</th><th>Almacén<br>Origen</th><th>Nota de Remision<br>(Origen)</th><th>Observaciones</th><th>Detalle</th></tr>";
 	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];

@@ -129,6 +129,5 @@ while($datFechas=mysqli_fetch_array($respFechas)){
 }
 
 echo "</table></center>";
-include("imprimirInc.php");
 
 ?>

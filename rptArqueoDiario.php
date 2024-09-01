@@ -1,9 +1,10 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
 require('conexion.inc');
 require('funcion_nombres.php');
 require('funciones.php');
+require('estilos_reportes_almacencentral.php');
+
 
 $fecha_ini=$_GET['fecha_ini'];
 $rpt_territorio=$_GET['rpt_territorio'];
@@ -23,7 +24,7 @@ $fecha_reporte=date("d/m/Y");
 echo "<h1>Reporte Arqueo Diario de Caja</h1>
 	<h2>Fecha: $fecha_ini &nbsp;&nbsp;&nbsp; Fecha Reporte: $fecha_reporte 
 	<br> 
-	$nombreTerritorio
+	Almacen: $nombreTerritorio
 	</h2>";
 
 	

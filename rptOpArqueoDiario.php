@@ -22,12 +22,14 @@ if($variableAdmin!=1){
 $fecha_rptdefault=date("Y-m-d");
 $globalCiudad=$_COOKIE['global_agencia'];
 
-echo "<table align='center' class='textotit'><tr><th>Reporte Arqueo Diario de Caja</th></tr></table><br>";
+echo "<h1>Reporte Arqueo Diario de Caja</h1>";
+
 echo"<form method='post' action='rptArqueoDiario.php'>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
 	
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto'>";
+	echo "<tr><th align='left'>Territorio</th><td>
+	<select name='rpt_territorio' class='selectpicker' data-style='btn btn-success'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);
 	while($dat=mysqli_fetch_array($resp))
@@ -52,6 +54,5 @@ echo"<form method='post' action='rptArqueoDiario.php'>";
 	</center><br>";
 	echo"</form>";
 	echo "</div>";
-	echo"<script type='text/javascript' language='javascript'  src='dlcalendar.js'></script>";
 
 ?>

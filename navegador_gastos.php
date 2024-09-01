@@ -46,6 +46,8 @@ require('funciones.php');
 
 $globalCiudad=$_COOKIE["global_agencia"];
 
+$globalAdmin=$_COOKIE["global_admin_cargo"];
+
 $fechaHoy=date("d/m/Y");
 
 echo "<h1>Registro de Gastos</h1>";
@@ -62,7 +64,13 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 	
 	$consulta = "select g.cod_gasto, g.descripcion_gasto, 
 		(select nombre_tipogasto from tipos_gasto where cod_tipogasto=g.cod_tipogasto)tipogasto, 
-		DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g where cod_ciudad='$globalCiudad' order by g.fecha_gasto desc";
+		DATE_FORMAT(g.fecha_gasto, '%d/%m/%Y'), monto, estado from gastos g where cod_ciudad='$globalCiudad'";
+
+	if($globalAdmin==0){
+		$consulta .= " "; 
+	}
+
+	$consulta. = " order by g.fecha_gasto desc";
 		
 	$resp = mysqli_query($enlaceCon,$consulta);
 

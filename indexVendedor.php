@@ -86,12 +86,14 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			
 			<li><a href="listadoProductosStock.php" target='_blank'>Stock Actual **</a></li>
 
-				
 			<li><span>Cobranzas</span>
 				<ul>
 					<li><a href="cobranzas/navegadorCobranzas.php" target="contenedorPrincipal">Listado de Cobranzas</a></li>
 				</ul>	
 			</li>
+
+			<li><a href="navegador_gastos.php" target="contenedorPrincipal">Gastos</a></li>			
+
 
 		</div>	
 	</nav>

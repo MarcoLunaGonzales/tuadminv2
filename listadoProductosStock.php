@@ -134,7 +134,9 @@
         $precioProducto3=precioVentaMayorCredito($enlaceCon, $codigo, $globalAgencia);
         $precio3F=formatonumeroDec($precioProducto3);
 
-		echo "<tr $color_fila><td align='center'>$indice_tabla</td>
+        $txtFilaMostrar="";
+		
+		echo ="<tr $color_fila><td align='center'>$indice_tabla</td>
 		<td align='center'>$codigo</td>
 		<td><div class='$class_producto'>$nombreProd</div></td>
 		<td>$nombreLinea</td>
@@ -146,6 +148,9 @@
 			
 		$sqlAlmacenes="SELECT a.cod_almacen, a.nombre_almacen from almacenes a order by 2 asc";
 		$respAlmacenes=mysqli_query($enlaceCon, $sqlAlmacenes);
+		$stockTotal=0;
+		
+		$txtDetalleFila="";
 		while($datAlmacenes=mysqli_fetch_array($respAlmacenes)){
 			$codAlmacenX=$datAlmacenes[0];
 			$nombreAlmacenX=$datAlmacenes[1];
@@ -154,8 +159,9 @@
 				$stockProductoXF="-";
 			}else{
 				$stockProductoXF=formatonumero($stockProductoX);
+				$stockTotal+=$stockProductoX;
 			}
-			echo "<td align='center'><span style='color:blue;font-size:20px;'>$stockProductoXF</span></td>";	
+			$txtDetalleFila.="<td align='center'><span style='color:blue;font-size:20px;'>$stockProductoXF</span></td>";	
 		}
 
 		echo "
@@ -164,6 +170,7 @@
 		<td>$capacidadCargaVelocidad</td>
 		<td>$nroAro</td>
 		</tr>";
+
 		
 		$indice_tabla++;
 	}

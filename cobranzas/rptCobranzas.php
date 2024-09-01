@@ -1,8 +1,9 @@
 <?php
-require('../function_formatofecha.php');
-require('../conexion.inc');
+//require('../function_formatofecha.php');
 require('../funcion_nombres.php');
 require('../funciones.php');
+require('../conexionmysqlipdf.inc');
+
 
  error_reporting(E_ALL);
  ini_set('display_errors', '1');
@@ -42,16 +43,21 @@ if($rpt_cliente!=0){
 $sql=$sql." order by 1";
 $resp=mysqli_query($enlaceCon, $sql);
 
-echo "<br><table cellspacing='0' border=1 align='center' class='texto' width='100%'>
+echo "<br><table cellspacing='0' border=1 align='center' class='texto'>
+<thead>
 <tr>
-<th width='7%'>Nro.Cob</th>
-<th width='7%'>Doc.Cob</th>
-<th width='15%'>Fecha</th>
-<th width='20%'>Cliente</th>
-<th width='10%'>Nota Venta</th>
-<th width='30%'>Observaciones</th>
-<th width='10%'>Monto Cobranza</th>
-</tr>";
+	<th width='7%'>Nro.Cob</th>
+	<th width='7%'>Doc.Cob</th>
+	<th width='15%'>Fecha</th>
+	<th width='20%'>Cliente</th>
+	<th width='10%'>Nota Venta</th>
+	<th width='30%'>Observaciones</th>
+	<th width='10%'>Monto Cobranza</th>
+	</tr>
+</thead>
+
+<tbody>
+";
 
 $totalCobro=0;
 while($datos=mysqli_fetch_array($resp)){	
@@ -79,7 +85,10 @@ while($datos=mysqli_fetch_array($resp)){
 }
 $totalCobro=formatonumeroDec($totalCobro);
 
-echo "<tr>
+echo "
+</tbody>
+<tfoot>
+	<tr>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
@@ -87,7 +96,8 @@ echo "<tr>
 	<td>&nbsp;</td>
 	<td>Total:</td>
 	<td align='right'>$totalCobro</td>
-</tr>";
+	</tr>
+</tfoot>";
 
 echo "</table>";
 ?>

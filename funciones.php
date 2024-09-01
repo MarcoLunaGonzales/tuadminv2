@@ -1,10 +1,10 @@
 <?php
 date_default_timezone_set('America/La_Paz');
-require_once 'conexionmysqli.inc';
+require_once 'conexionmysqlipdf.inc';
 
 function obtenerValorConfiguracion($id){
 	$estilosVenta=1;
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$sql = "SELECT valor_configuracion from configuraciones c where id_configuracion=$id";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$codigo=0;
@@ -55,7 +55,7 @@ function UltimoDiaMes($cadena_fecha)
 }
 
 function obtenerCodigo($sql)
-{	require("conexionmysqli.inc");
+{	require("conexionmysqlipdf.inc");
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nro_filas_sql = mysqli_num_rows($resp);
 	if($nro_filas_sql==0){
@@ -71,7 +71,7 @@ function obtenerCodigo($sql)
 
 function stockProducto($almacen, $item){
 	//
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$fechaActual=date("Y-m-d");
 
 	$sql_ingresos="select sum(id.cantidad_unitaria) from ingreso_almacenes i, ingreso_detalle_almacenes id
@@ -92,7 +92,7 @@ function stockProducto($almacen, $item){
 
 function stockProductoAFecha($almacen, $item, $fechaActual){
 	//
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	//$fechaActual=date("Y-m-d");
 
 	$sql_ingresos="select sum(id.cantidad_unitaria) from ingreso_almacenes i, ingreso_detalle_almacenes id
@@ -115,7 +115,7 @@ function stockProductoAFecha($almacen, $item, $fechaActual){
 
 function stockMaterialesEdit($almacen, $item, $cantidad){
 	//
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$cadRespuesta="";
 	$consulta="
 	    SELECT SUM(id.cantidad_restante) as total
@@ -132,7 +132,7 @@ function stockMaterialesEdit($almacen, $item, $cantidad){
 	return($cadRespuesta);
 }
 function restauraCantidades($codigo_registro){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$sql_detalle="select cod_ingreso_almacen, material, cantidad_unitaria
 				from salida_detalle_ingreso
 				where cod_salida_almacen='$codigo_registro'";
@@ -156,7 +156,7 @@ function restauraCantidades($codigo_registro){
 	return(1);
 }
 function numeroCorrelativo($tipoDoc){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$banderaErrorFacturacion=0;
 	//SACAMOS LA CONFIGURACION PARA CONOCER SI LA FACTURACION ESTA ACTIVADA
 	$sqlConf="select valor_configuracion from configuraciones where id_configuracion=3";
@@ -209,7 +209,7 @@ function numeroCorrelativo($tipoDoc){
 	}
 }
 function numeroCorrelativoTraspaso($globalAlmacen){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 
 	$sql="SELECT IFNULL(max(nro_correlativo)+1,1) from salida_almacenes where cod_tipo_doc='3' and cod_almacen='$globalAlmacen'";
 	$resp=mysqli_query($enlaceCon,$sql);
@@ -221,7 +221,7 @@ function numeroCorrelativoTraspaso($globalAlmacen){
 }
 
 function unidadMedida($codigo){
-	require("conexionmysqli.inc");	
+	require("conexionmysqlipdf.inc");	
 	$consulta="select u.abreviatura from material_apoyo m, unidades_medida u
 		where m.cod_unidad=u.codigo and m.codigo_material='$codigo'";
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -233,7 +233,7 @@ function unidadMedida($codigo){
 
 
 function nombreTipoDoc($codigo){
-	require "conexionmysqli.inc";
+	require "conexionmysqlipdf.inc";
 	$consulta="select u.abreviatura from tipos_docs u where u.codigo='$codigo'";
 	$rs=mysqli_query($enlaceCon,$consulta);
 	$registro=mysqli_fetch_array($rs);
@@ -243,7 +243,7 @@ function nombreTipoDoc($codigo){
 }
 
 function precioVenta($codigo,$agencia){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='1' and p.cod_ciudad='$agencia'";
 	//echo $consulta;
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -302,7 +302,7 @@ function precioVentaMayorCredito($enlaceCon,$codigo,$agencia){
 }
 
 function precioVentaCosto($codigo,$agencia){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$consulta="select p.`precio` from precios p where p.`codigo_material`='$codigo' and p.`cod_precio`='0' and p.cod_ciudad='$agencia'";
 	//echo $consulta;
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -317,7 +317,7 @@ function precioVentaCosto($codigo,$agencia){
 }
 //COSTO 
 function costoVentaFalse($codigo,$agencia){	
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$consulta="select sd.costo_almacen from salida_almacenes s, salida_detalle_almacenes sd where 
 		s.cod_salida_almacenes=sd.cod_salida_almacen and s.cod_almacen in  
 		(select a.cod_almacen from almacenes a where a.cod_ciudad='$agencia') and s.salida_anulada=0 and 
@@ -334,7 +334,7 @@ function costoVentaFalse($codigo,$agencia){
 }
 
 function costoVenta($codigo,$agencia){	
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 
 	$consulta="select id.costo_almacen from ingreso_almacenes i, ingreso_detalle_almacenes id where 
 	i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen in  
@@ -352,7 +352,7 @@ function costoVenta($codigo,$agencia){
 }
 
 function obtenerSaldoKardexAnterior($rpt_almacen, $rpt_item, $fecha){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	//desde esta parte viene el reporte en si
 	$costoInicialKardex=0;
 	$fecha_iniconsulta=$fecha;
@@ -384,7 +384,7 @@ function obtenerSaldoKardexAnterior($rpt_almacen, $rpt_item, $fecha){
 }
 
 function obtenerCodigoSucursal($cod_almacen){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$cod_respuesta=0;
 	$consulta="select cod_ciudad from almacenes where cod_almacen='$cod_almacen'";
 	$rs=mysqli_query($enlaceCon,$consulta);
@@ -396,7 +396,7 @@ function obtenerCodigoSucursal($cod_almacen){
 	return $cod_respuesta;
 }
 function montoVentaDocumento($codVenta){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select (sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria), s.descuento, s.monto_total
 	from `salida_almacenes` s, `salida_detalle_almacenes` sd 
 	where s.`cod_salida_almacenes`=sd.`cod_salida_almacen` and s.cod_salida_almacenes=$codVenta";
@@ -425,7 +425,7 @@ function montoVentaDocumento($codVenta){
  * Valor de Configuración
  */
 function valorConfig($id_configuracion){
-	require("conexionmysqli.inc");
+	require("conexionmysqlipdf.inc");
 	$sqlConf = "SELECT valor_configuracion FROM configuraciones where id_configuracion='$id_configuracion'";
 	$respConf = mysqli_query($enlaceCon,$sqlConf);
 	$response = mysqli_result($respConf,0,0);
@@ -435,7 +435,7 @@ function valorConfig($id_configuracion){
 
 //funcion nueva obtener tipo cambio monedas
 function obtenerValorTipoCambio($codigo,$fecha){
-	require("conexionmysqli.php");
+	require("conexionmysqlipdf.php");
 	$valor=0;
 	$sql="SELECT valor from tipo_cambiomonedas where cod_moneda=$codigo and fecha = '$fecha'";
 	$resp = mysqli_query($enlaceCon, $sql);
@@ -447,7 +447,7 @@ function obtenerValorTipoCambio($codigo,$fecha){
  
 //funcion nueva obtener moneda
 function obtenerMoneda($codigo){
-	require("conexionmysqli.php");
+	require("conexionmysqlipdf.php");
 	$sql="";
 	$sql="SELECT m.codigo,m.nombre,m.estado,m.abreviatura from monedas m where m.estado=1 and m.codigo='$codigo'";
 	return mysqli_query($enlaceCon, $sql);
@@ -455,7 +455,7 @@ function obtenerMoneda($codigo){
  
 //funcion nueva obtener tipo cambio monedas
 function obtenerTipoCambio($codigo,$fi,$fa){
-	require("conexionmysqli.php");
+	require("conexionmysqlipdf.php");
 	$sql="";
 	$sql="SELECT id,cod_moneda,fecha,valor from tipo_cambiomonedas where cod_moneda=$codigo and fecha between '$fi' and '$fa' order by fecha";
 	return mysqli_query($enlaceCon, $sql);
@@ -467,7 +467,7 @@ function obtenerTipoCambio($codigo,$fi,$fa){
  * ! Es importante tomar en cuenta la Moneda de cambio ACTUAL
  */
 function obtieneValorConversionActual($cod_moneda_actual){
-	require("conexionmysqli.php");
+	require("conexionmysqlipdf.php");
 	setlocale(LC_TIME, "Spanish");
 
 	$fecha_actual = date("Y-m-d");

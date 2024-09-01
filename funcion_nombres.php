@@ -1,6 +1,6 @@
 <?php
 function saca_nombre_muestra($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select descripcion from muestras_medicas where codigo='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$dat=mysqli_fetch_array($resp);
@@ -8,7 +8,7 @@ function saca_nombre_muestra($codigo){
 	return($nombre_muestra);
 }
 function nombreProducto($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select concat(descripcion, ' ',presentacion) from muestras_medicas where codigo='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$dat=mysqli_fetch_array($resp);
@@ -17,7 +17,7 @@ function nombreProducto($codigo){
 }
 
 function nombreGestion($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select g.`nombre_gestion` from `gestiones` g where g.`codigo_gestion`='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -25,7 +25,7 @@ function nombreGestion($codigo){
 }
 
 function nombreLinea($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_linea from lineas where codigo_linea='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -33,7 +33,7 @@ function nombreLinea($codigo){
 }
 
 function nombreVisitador($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select concat(paterno,' ',nombres) from funcionarios where codigo_funcionario='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -41,7 +41,7 @@ function nombreVisitador($codigo){
 }
 
 function nombreTerritorio($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select descripcion from ciudades where cod_ciudad in ($codigo) ";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre="";
@@ -52,7 +52,7 @@ function nombreTerritorio($codigo){
 }
 
 function nombreMedico($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select concat(ap_pat_med,' ', nom_med) from Clientes where cod_med='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -60,7 +60,7 @@ function nombreMedico($codigo){
 }
 
 function nombreDia($codigo){	
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select dia_contacto from orden_dias where id='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -69,7 +69,7 @@ function nombreDia($codigo){
 
 
 function nombreRutero($codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_rutero from rutero_maestro_cab where cod_rutero='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -77,7 +77,7 @@ function nombreRutero($codigo){
 }
 
 function nombreZona($codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select zona from zonas where cod_zona='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -85,7 +85,7 @@ function nombreZona($codigo){
 }
 
 function nombreCategoria($codigo, $link){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_categoria from categorias_producto where cod_categoria='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql, $link);
 	$nombre=mysqli_result($resp,0,0);
@@ -93,7 +93,7 @@ function nombreCategoria($codigo, $link){
 }
 
 function nombreCliente($codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_cliente from clientes where cod_cliente='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -101,7 +101,7 @@ function nombreCliente($codigo){
 }
 
 function nombreProveedor($codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_proveedor from proveedores where cod_proveedor='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre=mysqli_result($resp,0,0);
@@ -109,7 +109,7 @@ function nombreProveedor($codigo){
 }
 
 function nombreAlmacen($codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_almacen from almacenes where cod_almacen='$codigo'";
 	//echo $sql;
 	$resp=mysqli_query($enlaceCon,$sql);
@@ -122,7 +122,7 @@ function nombreAlmacen($codigo){
 }
 
 function nombreGrupo($codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_grupo from grupos where cod_grupo in ($codigo)";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre="";
@@ -134,7 +134,7 @@ function nombreGrupo($codigo){
 	return($nombre);
 }
 function nombreLineaProveedor($codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select nombre_linea_proveedor from proveedores_lineas where cod_linea_proveedor='$codigo'";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$dat=mysqli_fetch_array($resp);
@@ -144,7 +144,7 @@ function nombreLineaProveedor($codigo){
 }
 
 function obtenerNombreProductoSimple($enlaceCon, $codigo){
-	require("conexion.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select descripcion_material from material_apoyo where codigo_material=$codigo";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre="";
