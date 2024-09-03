@@ -435,7 +435,7 @@ function valorConfig($id_configuracion){
 
 //funcion nueva obtener tipo cambio monedas
 function obtenerValorTipoCambio($codigo,$fecha){
-	require("conexionmysqlipdf.php");
+	require("conexionmysqlipdf.inc");
 	$valor=0;
 	$sql="SELECT valor from tipo_cambiomonedas where cod_moneda=$codigo and fecha = '$fecha'";
 	$resp = mysqli_query($enlaceCon, $sql);
@@ -447,7 +447,7 @@ function obtenerValorTipoCambio($codigo,$fecha){
  
 //funcion nueva obtener moneda
 function obtenerMoneda($codigo){
-	require("conexionmysqlipdf.php");
+	require("conexionmysqlipdf.inc");
 	$sql="";
 	$sql="SELECT m.codigo,m.nombre,m.estado,m.abreviatura from monedas m where m.estado=1 and m.codigo='$codigo'";
 	return mysqli_query($enlaceCon, $sql);
@@ -455,7 +455,7 @@ function obtenerMoneda($codigo){
  
 //funcion nueva obtener tipo cambio monedas
 function obtenerTipoCambio($codigo,$fi,$fa){
-	require("conexionmysqlipdf.php");
+	require("conexionmysqlipdf.inc");
 	$sql="";
 	$sql="SELECT id,cod_moneda,fecha,valor from tipo_cambiomonedas where cod_moneda=$codigo and fecha between '$fi' and '$fa' order by fecha";
 	return mysqli_query($enlaceCon, $sql);
@@ -467,7 +467,7 @@ function obtenerTipoCambio($codigo,$fi,$fa){
  * ! Es importante tomar en cuenta la Moneda de cambio ACTUAL
  */
 function obtieneValorConversionActual($cod_moneda_actual){
-	require("conexionmysqlipdf.php");
+	require("conexionmysqlipdf.inc");
 	setlocale(LC_TIME, "Spanish");
 
 	$fecha_actual = date("Y-m-d");

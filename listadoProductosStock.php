@@ -133,17 +133,7 @@
         
         $precioProducto3=precioVentaMayorCredito($enlaceCon, $codigo, $globalAgencia);
         $precio3F=formatonumeroDec($precioProducto3);
-
-        $txtFilaMostrar="";
 		
-		echo ="<tr $color_fila><td align='center'>$indice_tabla</td>
-		<td align='center'>$codigo</td>
-		<td><div class='$class_producto'>$nombreProd</div></td>
-		<td>$nombreLinea</td>
-		<td>$nombreGrupo</td>
-		<td align='right'>$precioF</td>
-		<td align='right'>$precio2F</td>
-		<td align='right'>$precio3F</td>";
 
 			
 		$sqlAlmacenes="SELECT a.cod_almacen, a.nombre_almacen from almacenes a order by 2 asc";
@@ -164,12 +154,44 @@
 			$txtDetalleFila.="<td align='center'><span style='color:blue;font-size:20px;'>$stockProductoXF</span></td>";	
 		}
 
-		echo "
-		<td>$nombreModelo</td>
-		<td>$nombreMedida</td>
-		<td>$capacidadCargaVelocidad</td>
-		<td>$nroAro</td>
-		</tr>";
+		if($stockTotal>0){
+			echo "<tr $color_fila><td align='center'>$indice_tabla</td>
+			<td align='center'>$codigo</td>
+			<td><div class='textograndeazul'>$nombreProd</div></td>
+			<td>$nombreLinea</td>
+			<td>$nombreGrupo</td>
+			<td align='right'>$precioF</td>
+			<td align='right'>$precio2F</td>
+			<td align='right'>$precio3F</td>";
+
+			echo $txtDetalleFila;
+
+			echo "
+			<td>$nombreModelo</td>
+			<td>$nombreMedida</td>
+			<td>$capacidadCargaVelocidad</td>
+			<td>$nroAro</td>
+			</tr>";			
+		}else{
+			echo "<tr $color_fila><td align='center'>$indice_tabla</td>
+			<td align='center'>$codigo</td>
+			<td><div class='textomedianorojo'>$nombreProd</div></td>
+			<td>$nombreLinea</td>
+			<td>$nombreGrupo</td>
+			<td align='right'>$precioF</td>
+			<td align='right'>$precio2F</td>
+			<td align='right'>$precio3F</td>";
+
+			echo $txtDetalleFila;
+
+			echo "
+			<td>$nombreModelo</td>
+			<td>$nombreMedida</td>
+			<td>$capacidadCargaVelocidad</td>
+			<td>$nroAro</td>
+			</tr>";
+		}
+
 
 		
 		$indice_tabla++;

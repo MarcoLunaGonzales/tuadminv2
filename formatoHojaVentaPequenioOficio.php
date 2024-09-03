@@ -267,7 +267,7 @@
         $max_y = $pdf->getY();
         $pdf->SetY($y);
         $pdf->setX($ejeX + 13.5);
-        $pdf->multiCell(92.5, $descripcion_height / $row_index, "CANTIDAD TOTAL", 1, 'L');
+        //$pdf->multiCell(92.5, $descripcion_height / $row_index, "CANTIDAD TOTAL", 1, 'L');
         $max_y = max($max_y, $pdf->getY());
 
         /****************************************/
@@ -288,7 +288,7 @@
         $txtMonto=NumeroALetras::convertir($montoEntero);
         $pdf->setY($y);
         $pdf->SetFont('Arial','B',6);  
-        $pdf->setX($ejeX + 3);
+        $pdf->setX($ejeX + 13.5);
         $pdf->MultiCell(65.5, 3, utf8_decode("Son:".$txtMonto." ".$montoDecimal."/100 Bolivianos"), 1, 'L');
         // $pdf->Cell(62.5, 6, ("Son:".$txtMonto." ".$montoDecimal."/100 Bolivianos"), 1, 0, 'L');
 
@@ -296,7 +296,7 @@
         $pdf->setY($y);
         $pdf->setX($ejeX + 68.5);
         $pdf->SetFont('Arial','',6);
-        $pdf->Cell(24, 6, utf8_decode("SubTotal Bs:"), 1, 0, 'R');
+        $pdf->Cell(24, 6, utf8_decode("SubTotal Bs:"), 0, 0, 'R');
         $pdf->Cell(13.5, 6, number_format($montoTotal, 2, ".",","), 1, 0, 'R');
         $pdf->Ln();
 

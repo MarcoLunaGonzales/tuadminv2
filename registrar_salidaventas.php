@@ -4,6 +4,8 @@ echo "</head><body onLoad='funcionInicio();'>";
 require("conexion.inc");
 require("estilos.inc");
 require("funciones.php");
+
+
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
