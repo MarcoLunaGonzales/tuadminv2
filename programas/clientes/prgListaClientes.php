@@ -1,13 +1,12 @@
 <?php
 
-require("../../conexion.inc");
 require("../../estilos_almacenes.inc");
+require("../../conexionmysqli.inc");
 
 $globalAgencia=$_COOKIE["global_agencia"];
 $globalAlmacen=$_COOKIE["global_almacen"];
 
-echo "<br>";
-echo "<h1>Clientes</h1>";
+echo "<h2>Clientes</h2>";
 
 echo "<div class='divBotones'>
 <input class='boton' type='button' value='Adicionar' onclick='javascript:frmAdicionar();'>
@@ -18,7 +17,12 @@ echo "<div class='divBotones'>
 echo "<center>";
 echo "<table class='texto'>";
 echo "<tr>";
-echo "<th>&nbsp;</th><th>Cliente</th><th>NIT</th><th>Direccion</th><th>Ciudad</th>";
+echo "<th>&nbsp;</th><th>Cliente</th>
+<th>NIT</th>
+<th>Direccion</th>
+<th>Ciudad</th>
+<th>Precios</th>
+";
 echo "</tr>";
 $consulta="
     SELECT c.cod_cliente, c.nombre_cliente, c.nit_cliente, c.dir_cliente, c.cod_area_empresa, a.descripcion
@@ -36,7 +40,12 @@ while($reg=mysqli_fetch_array($rs))
     $codArea = $reg["cod_area_empresa"];
     $nomArea = $reg["descripcion"];
     echo "<tr>";
-    echo "<td><input type='checkbox' id='idchk$cont' value='$codCliente' ></td><td>$nomCliente</td><td>$nitCliente</td><td>$dirCliente</td><td>$nomArea</td>";
+    echo "<td><input type='checkbox' id='idchk$cont' value='$codCliente' ></td><td>$nomCliente</td><td>$nitCliente</td><td>$dirCliente</td>
+    <td>$nomArea</td>
+    <td>
+      <a href='../../clientesProductos.php?cod_cliente=$codCliente' title='Registrar Precios Clientes' class='text-dark'><i class='material-icons'>description</i></a>
+      <a href='../../clientePrecioVer.php?cod_cliente=$codCliente' title='Ver Precios de Cliente' class='text-info'><i class='material-icons'>visibility</i></a>
+    </td>";
     echo "</tr>";
    }
 echo "</table>";
