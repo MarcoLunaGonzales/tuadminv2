@@ -34,7 +34,7 @@ $fecha_rptdefault=date("d/m/Y");
 echo "<table align='center' class='textotit'><tr><th>Reporte Existencias en Transito</th></tr></table><br>";
 echo"<form method='post' action=''>";
 	echo"\n<table class='texto' border='1' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
 	if($global_tipoalmacen==1)
 	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	}
@@ -71,14 +71,14 @@ echo"<form method='post' action=''>";
 
 	echo "<tr><th align='left'>Tipo de Item:</th>";
 	echo "<td><select name='tipo_item' class='texto' OnChange='activa_tipomaterial(this.form)'>";
-	echo "<option value='1'>Muestra Médica</option>";
+	echo "<option value='1'>Muestra Mï¿½dica</option>";
 	echo "<option value='2'>Material de Apoyo</option>";
 	echo "</tr>";
 
-	echo "<tr><th align='left'>Línea</th><td><select name='rpt_linea' class='texto'>";
+	echo "<tr><th align='left'>Lï¿½nea</th><td><select name='rpt_linea' class='texto'>";
 	$sql="select codigo_linea, nombre_linea from lineas where linea_inventarios=1 order by nombre_linea";
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<option value='0' selected>Todas las líneas</option>";
+	echo "<option value='0' selected>Todas las lï¿½neas</option>";
 	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_linea=$dat[0];
 		$nombre_linea=$dat[1];

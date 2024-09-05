@@ -21,7 +21,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un Material para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un Material para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -80,7 +80,7 @@ echo "<script language='Javascript'>
 	}
 
 	echo "<center><table border='1' class='texto' cellspacing='0' width='100%'>";
-	echo "<tr><th>&nbsp;</th><th>Fecha Despacho</th><th>Tipo de Salida<br>(Origen)</th><th>Territorio<br>Origen</th><th>Nota de Remision<br>(Origen)</th><th>Observaciones</th><th>Funcionario Destino</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Fecha Despacho</th><th>Tipo de Salida<br>(Origen)</th><th>Almacen<br>Origen</th><th>Nota de Remision<br>(Origen)</th><th>Observaciones</th><th>Funcionario Destino</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];

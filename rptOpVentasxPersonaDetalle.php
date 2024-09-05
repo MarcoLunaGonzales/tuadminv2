@@ -72,7 +72,7 @@ echo"<form method='post' action=''>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
 	echo "<tr>
-		<th align='left'>Territorio</th>
+		<th align='left'>Almacen</th>
 		<td>
 		<select name='rpt_territorio[]' id='rpt_territorio' class='selectpicker' onChange='ajaxPersonalMultiple(this.form)' data-style='btn btn-info' multiple required>";
 

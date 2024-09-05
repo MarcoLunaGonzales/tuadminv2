@@ -22,7 +22,7 @@ $resp_nombre_almacen=mysqli_query($enlaceCon,$sql_nombre_almacen);
 $datos_nombre_almacen=mysqli_fetch_array($resp_nombre_almacen);
 $nombre_almacen=$datos_nombre_almacen[0];
 	echo "<h1>Reporte Existencias Almacen Valorado<h1>
-	<h2>Territorio: <strong>$nombre_territorio</strong> Nombre Almacen: <strong>$nombre_almacen</strong> <br>Existencias a Fecha: <strong>$rpt_fecha</strong><br>$txt_reporte</h2>";
+	<h2>Almacen: <strong>$nombre_territorio</strong> Nombre Almacen: <strong>$nombre_almacen</strong> <br>Existencias a Fecha: <strong>$rpt_fecha</strong><br>$txt_reporte</h2>";
 	//desde esta parte viene el reporte en si
 	$sql_item="select m.codigo_material, m.descripcion_material, g.nombre_grupo from material_apoyo m, grupos g
 	where m.codigo_material<>0 and m.estado='1' and m.cod_grupo=g.cod_grupo and m.cod_grupo in ($rptGrupo) order by 3,2";

@@ -19,7 +19,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un Almacen para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un Almacen para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -76,7 +76,7 @@ echo "<script language='Javascript'>
 	echo "<h1>Registro de Almacenes</h1>";
 
 	echo "<center><table class='texto'>";
-	echo "<tr><th>&nbsp;</th><th>Territorio</th><th>Nombre Almacen</th><th>Responsable</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Almacen</th><th>Nombre Almacen</th><th>Responsable</th></tr>";
 	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];

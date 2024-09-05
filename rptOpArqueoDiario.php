@@ -28,7 +28,7 @@ echo"<form method='post' action='rptArqueoDiario.php'>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
 	
-	echo "<tr><th align='left'>Territorio</th><td>
+	echo "<tr><th align='left'>Almacen</th><td>
 	<select name='rpt_territorio' class='selectpicker' data-style='btn btn-success'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);

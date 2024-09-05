@@ -17,7 +17,7 @@ $resp_nombre_almacen=mysqli_query($enlaceCon,$sql_nombre_almacen);
 $dat_almacen=mysqli_fetch_array($resp_nombre_almacen);
 $nombre_almacen=$dat_almacen[0];
 if($tipo_item==1)
-{	$nombre_tipoitem="Muestra Médica";
+{	$nombre_tipoitem="Muestra Mï¿½dica";
 	$sql_item="select descripcion, presentacion from muestras_medicas where codigo='$rpt_item'";
 }
 else
@@ -27,7 +27,7 @@ else
 $resp_item=mysqli_query($enlaceCon,$sql_item);
 $dat_item=mysqli_fetch_array($resp_item);
 $nombre_item="$dat_item[0] $dat_item[1]";
-echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Kardex de Existencia Fisica PEPS<br>Territorio: 
+echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Kardex de Existencia Fisica PEPS<br>Almacen: 
 <strong>$nombre_territorio</strong> Almacen: <strong>$nombre_almacen</strong> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: 
 <strong>$fecha_fin</strong>Item: <strong>$nombre_item</strong><br>$txt_reporte</th></tr></table>";
 

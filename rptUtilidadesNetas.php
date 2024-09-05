@@ -21,7 +21,7 @@ $fecha_reporte=date("d/m/Y");
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
 echo "<h1>Utilidad Neta x Periodo</h1>
-	<h2>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
+	<h2>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</h2>";
 	
 $sql="select (select p.nombre_proveedor from proveedores p, proveedores_lineas pl where p.cod_proveedor=pl.cod_proveedor and pl.cod_linea_proveedor=m.cod_linea_proveedor)as proveedor, sum( (sd.monto_unitario-sd.descuento_unitario) - (((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento))montoVenta, sum(sd.cantidad_unitaria), sum(sd.cantidad_unitaria*sd.costo_almacen)costo, s.descuento, s.monto_total, ((sum(sd.monto_unitario)-sum(sd.descuento_unitario))-sum(sd.cantidad_unitaria*sd.costo_almacen))as utilidad 

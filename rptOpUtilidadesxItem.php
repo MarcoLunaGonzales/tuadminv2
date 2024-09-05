@@ -19,7 +19,7 @@ echo "<h1>Ranking de Utilidades x Linea e Item</h1>";
 echo"<form method='post' action='rptUtilidadesxItem.php' target='_blank'>";
 
 	echo"<center><table class='texto'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' required>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio' class='texto' required>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value=''></option>";

@@ -21,10 +21,10 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$resp_linea=mysqli_query($enlaceCon,$sql_linea);
 			$dat_linea=mysqli_fetch_array($resp_linea);
 			$nombre_linea=$dat_linea[0];
-			$txt_linea="Línea: <strong>$nombre_linea</strong>";
+			$txt_linea="Lï¿½nea: <strong>$nombre_linea</strong>";
 		}
-		if($tipo_item==1){$nombre_item="Muestra Médica";}else{$nombre_item="Material de Apoyo";}
-		echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Existencias en transito<br>Territorio: <strong>$nombre_territorio</strong> Nombre Almacen: <strong>$nombre_almacen</strong> Tipo de Item: <strong>$nombre_item</strong> $txt_linea<br>$txt_reporte</th></tr></table>";
+		if($tipo_item==1){$nombre_item="Muestra Mï¿½dica";}else{$nombre_item="Material de Apoyo";}
+		echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Existencias en transito<br>Almacen: <strong>$nombre_territorio</strong> Nombre Almacen: <strong>$nombre_almacen</strong> Tipo de Item: <strong>$nombre_item</strong> $txt_linea<br>$txt_reporte</th></tr></table>";
 		//desde esta parte viene el reporte en si
 		if($tipo_item==1)
 		{	$sql_item="select codigo, descripcion, presentacion from muestras_medicas order by descripcion, presentacion";
@@ -35,11 +35,11 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		$resp_item=mysqli_query($enlaceCon,$sql_item);
 		if($tipo_item==1)
 		{
-			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Muestra</th><th>Línea</th><th>Cantidad</th></tr>";
+			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Muestra</th><th>Lï¿½nea</th><th>Cantidad</th></tr>";
 		}
 		if($tipo_item==2)
 		{
-			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Material de Apoyo</th><th>Línea</th><th>Tipo de Material</th><th>Cantidad</th></tr>";
+			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Material de Apoyo</th><th>Lï¿½nea</th><th>Tipo de Material</th><th>Cantidad</th></tr>";
 		}
 		$indice=1;
 		while($datos_item=mysqli_fetch_array($resp_item))

@@ -9,7 +9,7 @@ echo "<h1>Ranking de Ventas x Producto</h1>";
 echo"<form method='post' action='rptVentasxItem.php' target='_blank'>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td>
+	echo "<tr><th align='left'>Almacen</th><td>
 	<select name='rpt_territorio[]' class='selectpicker form-control' data-style='btn btn-success' multiple size='10'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);

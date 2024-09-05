@@ -22,7 +22,7 @@ $nombreGrupos=nombreGrupo($arrayRptGrupo);
 
 
 echo "<h1>Reporte Utilidades x Documento e Item</h1>
-	<h2>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
+	<h2>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte
 	<br>Grupos: $nombreGrupos
 	</h2>";

@@ -133,7 +133,7 @@ if($tipo_reporte==0)
 		$sql="select * from ciudades order by descripcion";
 		$resp=mysqli_query($enlaceCon,$sql);
 		$cadena_ciudades="<table cellspacing='0' class='textomini' width='100%'>
-		<tr><th>Territorio Destino</th><th>Cantidad</th></tr>";
+		<tr><th>Almacen Destino</th><th>Cantidad</th></tr>";
 		$bandera_producto=0;
 		$suma_salida_producto=0;
 		while($dat=mysqli_fetch_array($resp))

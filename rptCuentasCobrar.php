@@ -19,7 +19,7 @@ $fecha_reporte=date("d/m/Y");
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
 echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Reporte de Cuentas x Cobrar
-	<br>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
+	<br>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</tr></table>";
 
 $sql="select s.`cod_salida_almacenes`, s.`nro_correlativo`, s.`fecha`, c.`nombre_cliente`, s.`monto_final`,
