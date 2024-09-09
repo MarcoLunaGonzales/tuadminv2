@@ -91,11 +91,11 @@ $globalAlmacen=$_COOKIE['global_almacen'];
 				</td>
 
 				<td align="center">
-					<input id="precio_producto" name="precio_producto" type="number" value="<?=$precioProducto;?>" step="0.01" required>
+					<input id="precio_producto" name="precio_producto|<?=$codigoProducto;?>" type="number" value="<?=$precioProducto;?>" step="0.01" required>
 				</td>
 
 				<td align="center">
-					<input id="precio_producto" name="precio_producto" type="number" value="<?=$precioCliente;?>" step="0.01" required>
+					<input id="precio_cliente" name="precio_cliente|<?=$codigoProducto;?>" type="number" value="<?=$precioCliente;?>" step="0.01" required>
 				</td>
 
 			</tr>
