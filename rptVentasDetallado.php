@@ -1,9 +1,11 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
-require('conexion.inc');
 require('funcion_nombres.php');
 require('funciones.php');
+require('conexion.inc');
+require('estilos_reportes_almacencentral.php');
+
+
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
@@ -19,9 +21,9 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
-echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Detallado de Ventas por Marca y Producto
+echo "<h1>Detallado de Ventas por Marca y Producto
 	<br>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
-	<br>Fecha Reporte: $fecha_reporte</tr></table>";
+	<br>Fecha Reporte: $fecha_reporte</h1>";
 	
 $sql="SELECT 
 (select t.abreviatura from tipos_docs t where t.codigo=s.cod_tipo_doc)as tipodoc, 
@@ -141,7 +143,6 @@ $totalAntesDescuentosCabeceraF=formatonumeroDec($totalAntesDescuentosCabecera);
 $sumaDiferenciaPreciosCabeceraF="<span style='color:red; font-size:16px;'>$sumaDiferenciaPreciosCabecera</span>";
 
 echo "<tr>
-	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>

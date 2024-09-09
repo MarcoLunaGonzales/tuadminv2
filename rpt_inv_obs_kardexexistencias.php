@@ -12,7 +12,7 @@ echo "$rpt_territorio $rpt_almacen $tipo_item";
 	$resp_nombre_almacen=mysqli_query($enlaceCon,$sql_nombre_almacen);
 	$dat_almacen=mysqli_fetch_array($resp_nombre_almacen);
 	$nombre_almacen=$dat_almacen[0];
-	echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Observaciones entre Kardex de Existencia Fisica y Existencias<br>Territorio: <strong>$nombre_territorio</strong> Almacen: <strong>$nombre_almacen</strong>Tipo de Item: <strong>$nombre_tipoitem</strong></th></tr></table>";
+	echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Observaciones entre Kardex de Existencia Fisica y Existencias<br>Almacen: <strong>$nombre_territorio</strong> Almacen: <strong>$nombre_almacen</strong>Tipo de Item: <strong>$nombre_tipoitem</strong></th></tr></table>";
 	echo "<center><br><table border='1' class='texto' cellspacing='0' width='100%'>";
 	echo "<tr class='textomini'><th>Item</th><th>Saldo segun Kardex</th><th>Saldo segun Existencias</th></tr>";	
 	

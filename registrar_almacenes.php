@@ -23,7 +23,7 @@ echo "<form action='' method='post'>";
 echo "<h1>Adicionar Almacen</h1>";
 
 echo "<center><table class='texto'>";
-echo "<tr><th>Nombre Almacen</th><th>Territorio</th><th>Responsable</th></tr>";
+echo "<tr><th>Nombre Almacen</th><th>Almacen</th><th>Responsable</th></tr>";
 echo "<tr><td align='center'><input type='text' class='texto' value='$nombre_almacen' name='nombre_almacen' size='40' onKeyUp='javascript:this.value=this.value.toUpperCase();'></td>";
 $sql1="select * from ciudades order by descripcion";
 $resp1=mysqli_query($enlaceCon,$sql1);

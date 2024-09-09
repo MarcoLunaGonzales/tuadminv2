@@ -24,7 +24,7 @@ echo "<h1>Reporte Kardex de Movimiento Costos</h1>";
 echo"<form method='post' action='rptOpKardexCostos.php'>";
 
 	echo"<center><table class='texto'>";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio'  class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true' onChange='envia_select(this.form)'>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio'  class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true' onChange='envia_select(this.form)'>";
 	if($global_tipoalmacen==1)
 	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	}

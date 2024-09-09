@@ -46,6 +46,7 @@ echo"<form method='post' action='rpt_inv_ingresos.php' target='_blank'>";
 	echo "<tr><th align='left'>Almacen</th>
 	<td>";
 	$sql="SELECT cod_almacen, nombre_almacen from almacenes order by 2";
+	
 	$resp=mysqli_query($enlaceCon,$sql);
 
 	echo "<select name='rpt_almacen' class='selectpicker' data-style='btn btn-success' id='rpt_almacen' required>";

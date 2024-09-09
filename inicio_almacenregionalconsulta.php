@@ -23,9 +23,9 @@ echo "tamanonormal();";
 echo"</script>";
 $sql="select * from ciudades where cod_ciudad=102 order by descripcion";
 $resp=mysqli_query($enlaceCon,$sql);
-echo "<center><table border='0' class='textotit'><tr><th>Ingreso Hermes Inventarios Regional<br>Elegir Territorio</th></tr></table></center><br>";
+echo "<center><table border='0' class='textotit'><tr><th>Ingreso Hermes Inventarios Regional<br>Elegir Almacen</th></tr></table></center><br>";
 echo "<center><table border='1' class='texto' cellspacing='0' width='40%'>";
-echo "<tr><th>Territorio</th><th>&nbsp;</th></tr>";
+echo "<tr><th>Almacen</th><th>&nbsp;</th></tr>";
 $indice_tabla=1;
 while($dat=mysqli_fetch_array($resp))
 {

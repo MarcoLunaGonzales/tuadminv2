@@ -13,6 +13,6 @@ $nombre_global_almacen=$dat_almacen[1];
 //sacamos la fecha y la hora
 $fecha_sistema=date("d-m-Y");
 $hora_sistema=date("H:i");
-//echo "<center><table width='100%' border=1 cellspacing=0 class='linea1'><tr><th>Territorio $agencia</th><th>Usuario:$nombre_completo </th><th>Almacen: $nombre_global_almacen</th></tr><tr><th colspan='2'>Fecha del Servidor: $fecha_sistema</th><th>Hora del Servidor: $hora_sistema</th></tr></table></center><br>";
+//echo "<center><table width='100%' border=1 cellspacing=0 class='linea1'><tr><th>Almacen $agencia</th><th>Usuario:$nombre_completo </th><th>Almacen: $nombre_global_almacen</th></tr><tr><th colspan='2'>Fecha del Servidor: $fecha_sistema</th><th>Hora del Servidor: $hora_sistema</th></tr></table></center><br>";
 
 ?>

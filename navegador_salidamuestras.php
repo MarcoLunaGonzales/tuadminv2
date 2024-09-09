@@ -261,7 +261,7 @@ if ($global_usuario != 1061 and $global_usuario != 1062 and $global_usuario != 1
 }
 echo "</table></center><br>";
 echo "<center><table border='1' class='texto' cellspacing='0' width='100%'>";
-echo "<tr><th>&nbsp;</th><th>Numero Salida</th><th>Fecha/Hora<br>Registro Salida</th><th>Tipo de Salida</th><th>Territorio<br>Destino</th><th>Almacen Destino</th><th>Funcionario Destino</th><th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
+echo "<tr><th>&nbsp;</th><th>Numero Salida</th><th>Fecha/Hora<br>Registro Salida</th><th>Tipo de Salida</th><th>Almacen<br>Destino</th><th>Almacen Destino</th><th>Funcionario Destino</th><th>Observaciones</th><th>&nbsp;</th><th>&nbsp;</th></tr>";
 while ($dat = mysqli_fetch_array($resp)) {
     $codigo = $dat[0];
     $fecha_salida = $dat[1];

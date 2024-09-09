@@ -23,5 +23,5 @@ $resp_almacen=mysqli_query($enlaceCon,$sql_almacen);
 $dat_almacen=mysqli_fetch_array($resp_almacen);
 $global_almacen=$dat_almacen[0];
 $nombre_global_almacen=$dat_almacen[1];
-echo "<center>Territorio $agencia<br>Funcionario: $nombre_completo Nombre Almacen: $nombre_global_almacen</center><br>";
+echo "<center>Almacen $agencia<br>Funcionario: $nombre_completo Nombre Almacen: $nombre_global_almacen</center><br>";
 ?>

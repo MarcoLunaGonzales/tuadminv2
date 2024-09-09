@@ -41,7 +41,7 @@ function validar(f)
         return(false);
     }
     if(f.territorio.value=='')
-    {   alert('El campo Territorio esta vacio.');
+    {   alert('El campo Almacen esta vacio.');
         f.territorio.focus();
         return(false);
     }
@@ -190,7 +190,7 @@ else
 echo "<form action='' method='get'>";
 echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Salida de Almacen</th></tr></table><br>";
 echo "<table border='1' class='texto' cellspacing='0' align='center' width='90%'>";
-echo "<tr><th>Numero de Salida</th><th>Fecha</th><th>Tipo de Salida</th><th>Territorio Destino</th><th>Almacen Destino</th></tr>";
+echo "<tr><th>Numero de Salida</th><th>Fecha</th><th>Tipo de Salida</th><th>Almacen Destino</th><th>Almacen Destino</th></tr>";
 echo "<tr>";
 echo "<td align='center'>$codigo</td>";
 echo "<td align='center'>";

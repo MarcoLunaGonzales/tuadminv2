@@ -25,7 +25,7 @@ $fecha_reporte=date("d/m/Y");
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
 echo "<h1>Ranking de Utilidades x Linea e Item</h1>
-	<h2>Territorio: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
+	<h2>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
 	<br>Fecha Reporte: $fecha_reporte</h2>";
 	
 $sql="select m.`codigo_material`, m.`descripcion_material`, 

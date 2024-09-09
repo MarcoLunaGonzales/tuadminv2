@@ -29,7 +29,7 @@ echo "<h1>Reporte Utilidades x Documento</h1>";
 echo"<form method='post' action='rptOpKardexCostos.php'>";
 
 	echo"\n<center><table class='texto'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto'>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio' class='texto'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value=''></option>";

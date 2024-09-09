@@ -1,8 +1,8 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
-require('conexion.inc');
 require('funcion_nombres.php');
+require('conexion.inc');
+require('estilos_reportes_almacencentral.php');
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
@@ -18,9 +18,9 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
-echo "<table align='center' class='textotit' width='70%'><tr><td align='center'>Reporte Ventas x Documento y Producto
+echo "<h1>Reporte Ventas x Documento y Producto
 	<br>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
-	<br>Fecha Reporte: $fecha_reporte</tr></table>";
+	<br>Fecha Reporte: $fecha_reporte</h1>";
 
 $sql="select s.`fecha`,  
 	(select c.nombre_cliente from clientes c where c.`cod_cliente`=s.cod_cliente) as cliente, 

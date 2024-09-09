@@ -47,10 +47,10 @@ echo "<br><table align='center' class='texto' width='100%'>
 <tr>
 <th>Codigo</th>
 <th>CodigoInterno</th>
-<th>Item</th>
+<th>Producto</th>
 <th>Cantidad</th>
 <th>Monto Producto</th>
-<th>Descuento Cabecera</th>
+<th>Descuento</th>
 <th>Monto Producto Final</th>
 </tr>";
 

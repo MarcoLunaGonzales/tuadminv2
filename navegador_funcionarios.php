@@ -2,7 +2,7 @@
 /**
  * Desarrollado por Datanet-Bolivia.
  * @autor: Marco Antonio Luna Gonzales
- * Sistema de Visita Médica
+ * Sistema de Visita Mï¿½dica
  * * @copyright 2006
 */
 echo "<script language='Javascript'>
@@ -24,7 +24,7 @@ echo "<script language='Javascript'>
                                 }
                         }
                         if(j==0)
-                        {       alert('Debe seleccionar al menos un funcionario para proceder a su eliminación.');
+                        {       alert('Debe seleccionar al menos un funcionario para proceder a su eliminaciï¿½n.');
                         }
                         else
                         {
@@ -91,7 +91,7 @@ echo "<script language='Javascript'>
         where f.cod_cargo=c.cod_cargo and f.cod_ciudad=ci.cod_ciudad and f.cod_ciudad='$cod_ciudad' and f.estado='1' order by c.cargo,f.paterno";
 
 		$resp=mysqli_query($enlaceCon,$sql);
-        echo "<h1>Registro de Funcionarios<br>Territorio $nombre_ciudad</h1>";
+        echo "<h1>Registro de Funcionarios<br>Almacen $nombre_ciudad</h1>";
         
 		echo "<center><table border='0' class='textomini'><tr><th>Leyenda:</th><th>Funcionarios Retirados</th><td bgcolor='#ff6666' width='30%'></td></tr></table></center><br>";
 

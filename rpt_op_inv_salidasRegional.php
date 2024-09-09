@@ -45,7 +45,7 @@ else
 echo "<table align='center' class='textotit'><tr><th>Reporte Salida de Productos x Regional</th></tr></table><br>";
 echo"<form method='post' action=''>";
 	echo"\n<table class='texto' border='1' align='center' cellSpacing='0' width='30%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
 	if($global_tipoalmacen==1)
 	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	}
@@ -81,7 +81,7 @@ echo"<form method='post' action=''>";
 	echo "</select></td></tr>";
 	echo "<tr><th align='left'>Tipo de Item:</th>";
 	echo "<td><select name='tipo_item' class='texto'>";
-	echo "<option value='1'>Muestra Médica</option>";
+	echo "<option value='1'>Muestra Mï¿½dica</option>";
 	echo "<option value='2'>Material de Apoyo</option>";
 	echo "</tr>";
 	echo "<tr><th align='left'>Tipo de Salida</th>";
@@ -99,7 +99,7 @@ echo"<form method='post' action=''>";
 		}
 	}
 	echo "</select></td>";
-	echo "<tr><th align='left'>Línea</th><td><select name='rpt_linea' class='texto' multiple size='8'>";
+	echo "<tr><th align='left'>Lï¿½nea</th><td><select name='rpt_linea' class='texto' multiple size='8'>";
 	$sql="select codigo_linea, nombre_linea from lineas where linea_inventarios=1 order by nombre_linea";
 	$resp=mysqli_query($enlaceCon,$sql);
 	while($dat=mysqli_fetch_array($resp))

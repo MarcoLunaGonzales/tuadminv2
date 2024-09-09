@@ -9,7 +9,7 @@ echo"<form method='post' action='rptUtilidadesDocItem.php' target='_blank'>";
 
 	echo"<center><table class='texto'>\n";
 	echo "<tr>
-	<th align='left'>Territorio</th>
+	<th align='left'>Almacen</th>
 	<td>
 	<select name='rpt_territorio' class='texto' required>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";

@@ -46,7 +46,7 @@ echo "<h1>Reporte Existencias Almacen Valorado</h1>";
 echo"<form method='post' action=''>";
 	
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
 	
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	

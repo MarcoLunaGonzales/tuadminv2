@@ -21,7 +21,7 @@ $codigo_responsable=$dat[3];
 echo "<form action='guarda_modi_almacenes.php' method='post'>";
 echo "<center><table border='0' class='textotit'><tr><td>Editar Almacenes<td></tr></table></center><br>";
 echo "<center><table border='1' class='texto' cellspacing='0'>";
-echo "<tr><th>Nombre Almacen</th><th>Territorio</th><th>Responsable</th></tr>";
+echo "<tr><th>Nombre Almacen</th><th>Almacen</th><th>Responsable</th></tr>";
 echo "<input type='hidden' name='codigo' value='$codigo_registro'>";
 echo "<tr><td align='center'><input type='text' class='texto' name='nombre_almacen' value='$nombre_almacen' size='40' onKeyUp='javascript:this.value=this.value.toUpperCase();'></td>";
 $sql1="select * from ciudades order by descripcion";

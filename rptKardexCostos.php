@@ -26,7 +26,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	$dat_item=mysqli_fetch_array($resp_item);
 	$nombre_item="$dat_item[0] $dat_item[1]";
 	echo "<h1>Reporte Kardex de Existencia Fisica</h1>
-	<h2>Territorio: 
+	<h2>Almacen: 
 	<strong>$nombre_territorio</strong> Almacen: <strong>$nombre_almacen</strong> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: 
 	<strong>$fecha_fin</strong>Item: <strong>$nombre_item</strong><br>$txt_reporte</h2>";
 

@@ -25,7 +25,7 @@ echo "<h1>Reporte Salidas Almacen</h1>";
 
 echo"<form method='post' action=''>";
 	echo"\n<table class='texto' align='center'>\n";
-	echo "<tr><th align='left'>Territorio</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
+	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio' class='texto' onChange='envia_select(this.form)'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<option value=''></option>";
