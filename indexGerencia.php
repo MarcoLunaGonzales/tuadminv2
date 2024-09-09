@@ -193,7 +193,7 @@ if ($respVeri) {
 		<ul>
 			<li><span>Datos Generales</span>
 				<ul>
-					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Fabricantes</a></li>
+					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Marcas</a></li>
 
 					<!--li><a href="materiales_serviteca/list.php" target="contenedorPrincipal">Productos Serviteca</a></li-->
 
@@ -316,8 +316,8 @@ if ($respVeri) {
 							<li><a href="rpt_op_inv_ingresos.php" target="contenedorPrincipal">Ingresos</a></li>
 							<li><a href="rpt_op_inv_salidas.php" target="contenedorPrincipal">Salidas</a></li>
 							
-							<!--li><a href="rpt_op_inv_traspasos.php" target="contenedorPrincipal">Seguimiento Traspasos</a></li>
-							<li><a href="rpt_op_inv_ingresossalidas.php" target="contenedorPrincipal">Ingresos Vs. Salidas</a></li-->
+							<li><a href="rpt_op_inv_traspasos.php" target="contenedorPrincipal">Seguimiento Traspasos</a></li>
+							<li><a href="rpt_op_inv_ingresossalidas.php" target="contenedorPrincipal">Ingresos Vs. Salidas</a></li>
 							
 							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
@@ -331,10 +331,10 @@ if ($respVeri) {
 					<li><span>Ventas</span>
 						<ul>
 							<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Ventas x Documento</a></li>
-							<!--li><a href="rptOpVentasDetallado.php" target="contenedorPrincipal">Detallado por Item y Linea</a></li-->
+							<li><a href="rptOpVentasDetallado.php" target="contenedorPrincipal">Detallado por Producto y Marca</a></li>
 							<li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Producto</a></li>
 
-							<!--li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento e Item</a></li-->
+							<li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento y Producto</a></li>
 							<li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor</a></li>
 							<li><a href="rptOpVentasSucursalTipoPago.php" target="contenedorPrincipal">Ventas x Sucursal y Tipo de Pago</a></li>
 							<li><a href="rptOpVentasDimension.php" target="contenedorPrincipal">Estadisticos de Venta</a></li>

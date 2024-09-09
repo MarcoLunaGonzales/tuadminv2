@@ -1,6 +1,7 @@
 <?php
 require('function_formatofecha.php');
 require('funciones.php');
+require('funcion_nombres.php');
 require('conexionmysqli2.inc');
 require("estilos_almacenes.inc");
 
@@ -16,13 +17,16 @@ $tiposSalida=$_POST["tipos_salida"];
 $tiposIngresoString = implode(",", $tiposIngreso); 
 $tiposSalidaString = implode(",", $tiposSalida); 
 
+$nombreAlmacenOrigen=nombreAlmacen($rptAlmacenOrigen);
 
 $fecha_reporte=date("d/m/Y");
 $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
 $nombre_tiporeporte="Reporte Ingresos Vs. Salidas";
 
-echo "<h1>$nombre_tiporeporte <br> Fecha inicio: <strong>$rptFechaInicio</strong>Fecha final: <strong>$rptFechaFinal</strong> <br>$txt_reporte</th></tr></table>";
+echo "<h1>$nombre_tiporeporte <br> Fecha inicio: <strong>$rptFechaInicio</strong>Fecha final: <strong>$rptFechaFinal</strong> <br>$txt_reporte<br>
+	Almacen de Origen: <strong><span class='textomedianorojo'>$nombreAlmacenOrigen</span></strong>
+</h1>";
 
 $fecha_iniconsulta=$rptFechaInicio;
 $fecha_finconsulta=$rptFechaFinal;
@@ -41,12 +45,13 @@ while($datFechas=mysqli_fetch_array($respFechas)){
 	$fechaTransaccion=$datFechas[0];
 
 	$sqlIngreso="SELECT i.hora_ingreso, id.cod_material, ma.descripcion_material, id.cantidad_unitaria, 
-	(select t.nombre_tipoingreso from tipos_ingreso t where t.cod_tipoingreso=i.cod_tipoingreso), i.observaciones from ingreso_almacenes i, ingreso_detalle_almacenes id, material_apoyo ma where i.cod_ingreso_almacen=id.cod_ingreso_almacen and id.cod_material =ma.codigo_material and i.fecha='$fechaTransaccion' and i.cod_tipoingreso in ($tiposIngresoString) ";
+	(select t.nombre_tipoingreso from tipos_ingreso t where t.cod_tipoingreso=i.cod_tipoingreso), i.observaciones,
+	(select a.nombre_almacen from almacenes a where a.cod_almacen=i.cod_almacen)as almacen from ingreso_almacenes i, ingreso_detalle_almacenes id, material_apoyo ma where i.cod_ingreso_almacen=id.cod_ingreso_almacen and id.cod_material =ma.codigo_material and i.fecha='$fechaTransaccion' and i.cod_tipoingreso in ($tiposIngresoString) ";
 	//echo $sqlIngreso;
 	$respIngreso=mysqli_query($enlaceCon, $sqlIngreso);
 	$cantidadIngreso=0;
 	$fechaIngreso="";
-	$txtDetalleIngreso="<table class='textomini'><tr><th>Tipo</th><th>Hora</th><th>Obs.</th><th>Producto</th><th>Cantidad</th></tr>";
+	$txtDetalleIngreso="<table class='textomini'><tr><th>Almacen</th><th>Tipo</th><th>Hora</th><th>Obs.</th><th>Producto</th><th>Cantidad</th></tr>";
 	while($datIngreso=mysqli_fetch_array($respIngreso)){
 		$horaIngreso=$datIngreso[0];
 		$codProductoIngreso=$datIngreso[1];
@@ -55,8 +60,9 @@ while($datFechas=mysqli_fetch_array($respFechas)){
 		$cantidadUnitIngresoF=formatNumberInt($cantidadUnitIngreso);
 		$nombreTipoIngreso=$datIngreso[4];
 		$obsIngreso=$datIngreso[5];
+		$almacenDestino=$datIngreso[6];
 
-		$txtDetalleIngreso.="<tr><td>$nombreTipoIngreso</td><td>$horaIngreso</td><td>$obsIngreso</td><td>$nombreProductoIngreso</td><td>$cantidadUnitIngresoF</td></tr>";
+		$txtDetalleIngreso.="<tr><td>$almacenDestino</td><td>$nombreTipoIngreso</td><td>$horaIngreso</td><td>$obsIngreso</td><td>$nombreProductoIngreso</td><td>$cantidadUnitIngresoF</td></tr>";
 	}
 	$txtDetalleIngreso.="</table>";
 

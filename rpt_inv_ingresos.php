@@ -1,10 +1,10 @@
 <?php
-require('estilos_reportes_almacencentral.php');
-require('conexion.inc');
 require('function_formatofecha.php');
 require('funciones.php');
+require("conexionmysqli.php");
+require("estilos_almacenes.inc");
 
-$rpt_territorio=$_POST['rpt_territorio'];
+
 $rpt_almacen=$_POST['rpt_almacen'];
 $tipo_ingreso=$_POST['tipo_ingreso'];
 $tipoIngresoString=implode(",", $tipo_ingreso);
@@ -15,6 +15,7 @@ $proveedorString=implode(",", $proveedor);
 $fecha_ini=$_POST['exafinicial'];
 $fecha_fin=$_POST['exaffinal'];
 
+$rpt_linea=0;
 
 $fecha_reporte=date("d/m/Y");
 $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
@@ -26,7 +27,7 @@ while($datos_tipo_ingreso=mysqli_fetch_array($resp_tipo_ingreso)){
 }
 
 echo "<h1>Reporte Ingresos Almacen</h1>
-	<h1>$nombre_tipoingresomostrar Fecha inicio: <strong>$fecha_ini</strong> Fecha final: <strong>$fecha_fin</strong><br>$txt_reporte</h1>";
+	<h1>Fecha inicio: <strong>$fecha_ini</strong> Fecha final: <strong>$fecha_fin</strong><br>$txt_reporte</h1>";
 
 	//desde esta parte viene el reporte en si
 	
@@ -47,11 +48,12 @@ echo "<h1>Reporte Ingresos Almacen</h1>
 
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><br><table class='texto' width='100%'>";
-	echo "<tr class='textomini'><th>Nro.</th><th>Nota de Entrega</th><th>Fecha</th><th>Tipo de Ingreso</th>
-	<th>Marca</th><th>Observaciones</th><th>Estado</th>
-		<th>CodInterno</th><th>Material</th><th>Cantidad</th><th>CUnit</th><th>CItem</th>
+	echo "<tr class='textomini'><th>Nro.</th><th>Fecha</th><th>Tipo de Ingreso</th>
+	<th>Observaciones</th>
+		<th>Producto</th><th>Cantidad</th><th>Costo<br>Unitario</th><th>Costo<br>Total</th>
 	</th></tr>";
 	$costoTotal=0;
+	$color_fondo="";
 	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];
@@ -66,11 +68,16 @@ echo "<h1>Reporte Ingresos Almacen</h1>
 		$cod_material=$dat[8];
 		$nombre_material=$dat[9];
 		$cantidad_unitaria=$dat[10];
+		$cantidadUnitariaF=formatonumero($cantidad_unitaria);
+
 		$costo_unitario=$dat[11];
+		$costoUnitarioF=formatonumeroDec($costo_unitario);
+
 		$codigoInterno=$dat[12];
 		
 		$costoItem=$cantidad_unitaria*$costo_unitario;
-		
+		$costoItemF=formatonumeroDec($costoItem);
+
 		$costoTotal=$costoTotal+$costoItem;
 		
 		echo "<input type='hidden' name='fecha_ingreso$nro_correlativo' value='$fecha_ingreso_mostrar'>";
@@ -126,16 +133,25 @@ echo "<h1>Reporte Ingresos Almacen</h1>
 		}
 		$detalle_ingreso.="</table>";*/
 		if($rpt_linea==0)
-		{	echo "<tr bgcolor='$color_fondo'><td align='center'>$nro_correlativo</td><td align='center'>&nbsp;$nota_entrega</td><td align='center'>$fecha_ingreso_mostrar</td><td>$nombre_tipoingreso</td><td>$nombreProveedor</td><td>&nbsp;$obs_ingreso</td><td>&nbsp;$estado_ingreso</td>
-		<td align='left'>$codigoInterno</td>
-		<td align='left'>$nombre_material</td>
-		<td align='right'>$cantidad_unitaria</td>
-		<td align='right'>$costo_unitario</td>
-		<td align='right'>$costoItem</td>
-		</tr>";
+		{	echo "<tr bgcolor='$color_fondo'>
+			<td align='center'>$nro_correlativo</td>
+			<td align='center'>$fecha_ingreso_mostrar</td>
+			<td>$nombre_tipoingreso</td>
+			<td>&nbsp;$obs_ingreso</td>
+			<td align='left'>$nombre_material</td>
+			<td align='right'>$cantidadUnitariaF</td>
+			<td align='right'>$costoUnitarioF</td>
+			<td align='right'>$costoItemF</td>
+			</tr>";
 		}
+
+
 		if($rpt_linea!=0 and $bandera==1)
-		{	echo "<tr bgcolor='$color_fondo'><td align='center'>$nro_correlativo</td><td align='center'>&nbsp;$nota_entrega</td><td align='center'>$fecha_ingreso_mostrar</td><td>$nombre_tipoingreso</td><td>$nombreProveedor</td><td>&nbsp;$obs_ingreso</td><td>&nbsp;$estado_ingreso</td>
+		{	echo "<tr bgcolor='$color_fondo'><td align='center'>$nro_correlativo</td><td align='center'>&nbsp;$nota_entrega</td><td align='center'>$fecha_ingreso_mostrar</td>
+		<td>$nombre_tipoingreso</td>
+		<td>$nombreProveedor</td>
+		<td>&nbsp;$obs_ingreso</td>
+		<td>&nbsp;$estado_ingreso</td>
 		<td align='left'>$nombre_material</td>
 		<td align='right'>$cantidad_unitaria</td>
 		<td align='right'>$costo_unitario</td>
@@ -144,6 +160,6 @@ echo "<h1>Reporte Ingresos Almacen</h1>
 		}
 	}
 	$costoTotalF=formatonumeroDec($costoTotal);
-	echo "<tr><th colspan='11'>Costo Total</th><td align='right'>$costoTotalF</td></tr>";
+	echo "<tr><th colspan='7'>Costo Total</th><td align='right'>$costoTotalF</td></tr>";
 	echo "</table></center><br>";
 ?>

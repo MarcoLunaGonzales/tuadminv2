@@ -12,16 +12,17 @@ $fecha_finconsulta = $_POST['fecha_fin'];
 $rptTerritorio     = $_POST['territorios'];
 
 // Consulta SQL
-$sql = "SELECT pl.cod_linea_proveedor as codigo, COALESCE(pl.nombre_linea_proveedor, '-') as nombre,
+$sql = "SELECT pl.cod_linea_proveedor as codigo, COALESCE(CONCAT(pl.nombre_linea_proveedor,' ',pp.nombre), '-') as nombre,
         (sum(sd.monto_unitario)-sum(sd.descuento_unitario))montoVenta, sum(sd.cantidad_unitaria)cantidadventa, sum(((sd.monto_unitario-sd.descuento_unitario)/s.monto_total)*s.descuento)as descuentocabecera, concat(YEAR(s.fecha),'.',MONTH(s.fecha)) as mes
         from salida_almacenes s 
         INNER JOIN salida_detalle_almacenes sd ON s.cod_salida_almacenes=sd.cod_salida_almacen 
         INNER JOIN material_apoyo m ON sd.cod_material=m.codigo_material
         INNER JOIN almacenes a ON a.cod_almacen=s.cod_almacen
         LEFT JOIN proveedores_lineas pl ON pl.cod_linea_proveedor=m.cod_linea_proveedor
+        LEFT JOIN pais_procedencia pp ON pp.codigo=m.cod_pais_procedencia
         where s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
         and s.salida_anulada=0 and s.cod_tiposalida=1001 and a.cod_ciudad in ($rptTerritorio)
-        group by pl.cod_linea_proveedor, mes order by mes, montoVenta desc
+        group by pl.cod_linea_proveedor, pp.nombre, mes order by mes, montoVenta desc
         LIMIT $cantidad_registros";
 $resp = mysqli_query($enlaceCon, $sql);
 

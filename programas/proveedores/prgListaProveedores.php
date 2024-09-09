@@ -6,10 +6,10 @@ echo "<link rel='stylesheet' type='text/css' href='../../stilos.css'/>";
 
 echo "<center>";
 
-echo "<h1>Fabricantes</h1>";
+echo "<h1>Marcas</h1>";
 echo "<table class='texto'>";
 echo "<tr>";
-echo "<th>&nbsp;</th><th>Nombre</th><th>Direccion</th><th>Telefono 1</th><th>Telefono 2</th><th>Contacto</th><th>Tipo Marca</th><th>Marcas</th>";
+echo "<th>&nbsp;</th><th>Nombre</th><th>Direccion</th><th>Telefono 1</th><th>Telefono 2</th><th>Contacto</th><th>Detalle</th>";
 echo "</tr>";
 $consulta="SELECT p.cod_proveedor, p.nombre_proveedor, p.direccion, p.telefono1, p.telefono2, p.contacto, tp.nombre as tipo_proveedor
     FROM proveedores AS p
@@ -29,7 +29,7 @@ while($reg=mysqli_fetch_array($rs))
     $tipo_proveedor  = $reg["tipo_proveedor"];
     echo "<tr>";
     echo "<td><input type='checkbox' id='idchk$cont' value='$codProv' ></td><td>$nomProv</td><td>$direccion</td><td>$telefono1</td>
-	<td>$telefono2</td><td>$contacto</td><td>$tipo_proveedor</td>";
+	<td>$telefono2</td><td>$contacto</td>";
     echo "<td><a href='navegadorLineasDistribuidores.php?codProveedor=$codProv'><img src='../../imagenes/detalle.png' width='40' title='Ver Lineas'></a></td>";
 	echo "</tr>";
    }

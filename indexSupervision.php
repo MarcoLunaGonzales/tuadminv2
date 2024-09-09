@@ -84,7 +84,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 		<ul>
 			<li><span>Datos Generales</span>
 				<ul>
-					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Fabricantes</a></li>
+					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Marcas</a></li>
 					<li><span>Gestion de Productos</span>
 						<ul>
 							<li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li>
@@ -221,9 +221,9 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><span>Ventas</span>
 						<ul>
 							<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Ventas x Documento</a></li>
-							<li><a href="rptOpVentasDetallado.php" target="contenedorPrincipal">Detallado por Item y Linea</a></li>
-							<li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Item</a></li>
-							<li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento e Item</a></li>
+							<li><a href="rptOpVentasDetallado.php" target="contenedorPrincipal">Detallado por Producto y Marca</a></li>
+							<li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Producto</a></li>
+							<li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento y Producto</a></li>
 							<li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor</a></li>
 							<li><a href="rptOpVentasSucursalTipoPago.php" target="contenedorPrincipal">Ventas x Sucursal y Tipo de Pago</a></li>
 							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li>

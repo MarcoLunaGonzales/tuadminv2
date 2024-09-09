@@ -2,6 +2,7 @@
 require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
 require('funciones.php');
+require('funcion_nombres.php');
 require('conexionmysqli2.inc');
 
 $rptAlmacenOrigen=$_POST["rpt_almacen"];
@@ -13,12 +14,18 @@ $rptTipoReporte = $_POST['tipo_reporte'];
 
 $rptAlmacenDestinoString = implode(', ', $rptAlmacenDestino);
 
+$nombreAlmacenOrigen=nombreAlmacen($rptAlmacenOrigen);
+
 $fecha_reporte=date("d/m/Y");
 $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
 $nombre_tiporeporte="Reporte Seguimiento de Traspasos ".($rptTipoReporte == 0 ? "(DETALLADO)" : "(RESUMIDO)");
 
-echo "<h1>$nombre_tiporeporte<br>Fecha inicio: <strong>$rptFechaInicio</strong> Fecha final: <strong>$rptFechaFinal</strong> <br>$txt_reporte</th></tr></table>";
+echo "<h1>$nombre_tiporeporte<br>
+Fecha inicio: <strong>$rptFechaInicio</strong> Fecha final: <strong>$rptFechaFinal</strong> <br>
+$txt_reporte<br>
+Almacen de Origen: <strong><span class='textomedianorojo'>$nombreAlmacenOrigen</span></strong>
+</h1>";
 
 $fecha_iniconsulta=$rptFechaInicio;
 $fecha_finconsulta=$rptFechaFinal;
@@ -69,6 +76,7 @@ while($dat=mysqli_fetch_array($resp))
 	$codInterno=$dat[6];
 	$nombreProducto=$dat[7];
 	$cantidadProducto=$dat[8];
+	$cantidadProductoF=formatNumberInt($cantidadProducto);
 	$codSalidaAlmacen=$dat[9];
 
 	echo "<tr>
@@ -83,7 +91,7 @@ while($dat=mysqli_fetch_array($resp))
 		<td>$obs_salida</td>
 		<td>$codInterno</td>
 		<td>$nombreProducto</td>
-		<td>$cantidadProducto</td>";
+		<td align='right'>$cantidadProductoF</td>";
 	
 	$sqlIngreso="SELECT CONCAT(i.fecha,' ',i.hora_ingreso)as fecha, id.cod_material, ".($rptTipoReporte == 0 ? "id.cantidad_unitaria": " SUM(id.cantidad_unitaria)").", i.nro_correlativo
 				FROM ingreso_almacenes i, ingreso_detalle_almacenes id 
@@ -98,13 +106,14 @@ while($dat=mysqli_fetch_array($resp))
 		$fechaIngreso=$datIngreso[0];
 		$nro_correlativo_ingreso = $datIngreso[3];
 		$cantidadIngreso=$datIngreso[2];
+		$cantidadIngresoF=formatNumberInt($cantidadIngreso);
 	}
 	
 	if($rptTipoReporte == 0){ // DETALLADO
 		echo "<td bgcolor='#00FFA6'>$fechaIngreso</td>
 			<td bgcolor='#00FFA6' align='center'>$nro_correlativo_ingreso</td>";
 	}
-	echo "<td bgcolor='#00FFA6'>$cantidadIngreso</td>
+	echo "<td bgcolor='#00FFA6' align='right'>$cantidadIngresoF</td>
 		</tr>";
 
 	}

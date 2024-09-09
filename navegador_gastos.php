@@ -70,7 +70,7 @@ echo "<table border='1' cellspacing='0' class='textomini'><tr><th>Leyenda:</th><
 		$consulta .= " "; 
 	}
 
-	$consulta. = " order by g.fecha_gasto desc";
+	$consulta.= " order by g.fecha_gasto desc";
 		
 	$resp = mysqli_query($enlaceCon,$consulta);
 

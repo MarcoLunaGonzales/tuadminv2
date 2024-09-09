@@ -103,10 +103,13 @@ while($datos=mysqli_fetch_array($resp)){
 	$dias_credito_faltante = $datos['dias_credito_faltante'];
 	
 	
-	$montoCobro=redondear2($montoCobro);
-	$montoxCobrar=redondear2($montoxCobrar);
-	$montoVenta=redondear2($montoVenta);
+	// $montoCobro=redondear2($montoCobro);
+	// $montoxCobrar=redondear2($montoxCobrar);
+	// $montoVenta=redondear2($montoVenta);
 	
+	$montoCobroF=formatonumeroDec($montoCobro);
+	$montoxCobrarF=formatonumeroDec($montoxCobrar);
+	$montoVentaF=formatonumeroDec($montoVenta);
 
 	if($montoxCobrar>1){
 		$totalxCobrar=$totalxCobrar+$montoxCobrar;
@@ -116,17 +119,18 @@ while($datos=mysqli_fetch_array($resp)){
 		<td align='center' ".($dias_credito_faltante < 0 ? "style='background-color: #ffcccc;color: red; font-weight: bold; font-size: 16px;'" : "").">$fechaVenta</td>
 		<td style='text-align: center;'>$dias_credito_faltante</td>
 		<td>$nombreCliente</td>
-		<td align='right'>$montoVenta</td>
-		<td align='right'>$montoCobro</td>
-		<td align='right'>$montoxCobrar</td>
+		<td align='right'>$montoVentaF</td>
+		<td align='right'>$montoCobroF</td>
+		<td align='right'>$montoxCobrarF</td>
 		</tr>";
 	}
 }
-$totalxCobrar=redondear2($totalxCobrar);
+$totalxCobrarF=formatonumeroDec($totalxCobrar);
+
 echo "<tr>
 		<td colspan='6'>&nbsp;</td>
 		<td align='right'><b>Total:</b></td>
-		<td align='right'>$totalxCobrar</td>
+		<td align='right'>$totalxCobrarF</td>
 	</tr>";
 
 echo "</table>";

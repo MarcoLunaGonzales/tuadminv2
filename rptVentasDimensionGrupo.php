@@ -54,7 +54,7 @@ $cantidad_registros = obtenerValorConfiguracion(12);
 											<thead>
 												<tr>
 													<th class="text-center">#</th>
-													<th class="text-center">Nombre</th>
+													<th class="text-center">Grupo</th>
 													<th class="text-center">Cantidad</th>
 													<th class="text-center">Monto</th>
 												</tr>

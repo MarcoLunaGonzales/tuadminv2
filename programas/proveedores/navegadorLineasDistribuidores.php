@@ -79,7 +79,7 @@ echo "<center>";
 echo "<br><h1>Marcas <br> $nombreProveedor</h1>";
 echo "<table class='texto'>";
 echo "<tr>";
-echo "<th>&nbsp;</th><th>Linea</th><th>Abreviatura</th><th>Procedencia</th><th>Margen de precio</th><th>Contacto 1</th>
+echo "<th>&nbsp;</th><th>Marca</th><th>Abreviatura</th><th>Procedencia</th><th>Margen de precio</th><th>Contacto 1</th>
 <th>Contacto 2</th><th>Ajustar Stocks</th>";
 echo "</tr>";
 $consulta="select p.cod_linea_proveedor, p.nombre_linea_proveedor, p.abreviatura_linea_proveedor, p.contacto1, 

@@ -19,7 +19,7 @@ echo"<form method='post' action='rptVentasSucursalTipoPago.php' target='_blank'>
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
 	
-	echo "<tr><th align='left'>Sucursal</th>
+	echo "<tr><th align='left'>Almacen</th>
 		<td>
 			<select name='rpt_sucursal[]' id='rpt_sucursal' size='10' multiple required>";
 

@@ -9,8 +9,9 @@ echo "<h1>Estadisticos de Venta</h1>";
 echo"<form method='post' action='rptVentasDimension.php' target='_blank'>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Territorio</th><td>
-	<select name='rpt_territorio[]' class='selectpicker form-control' data-style='btn btn-success' multiple size='10'>";
+	
+	echo "<tr><th align='left'>Almacen</th><td>
+	<select name='rpt_territorio[]' class='selectpicker form-control' data-style='btn btn-success' data-actions-box='true' multiple size='10'>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);
 	while($dat=mysqli_fetch_array($resp))
@@ -38,7 +39,7 @@ echo"<form method='post' action='rptVentasDimension.php' target='_blank'>";
 	echo"\n </table><br>";
 	echo "<center>
 			<input type='submit' name='reporte' value='Reporte x Grupo'  formaction='rptVentasDimensionGrupo.php' class='boton-azul'>
-			<input type='submit' name='reporte' value='Reporte x Tipo de Aro'  formaction='rptVentasDimensionTipoAro.php' class='boton-verde'>
+			<input type='submit' name='reporte' value='Reporte x Aro'  formaction='rptVentasDimensionTipoAro.php' class='boton-verde'>
 			<input type='submit' name='reporte' value='Reporte x Marca'  formaction='rptVentasDimensionMarca.php' class='boton2'>
 			<input type='submit' name='reporte' value='Reporte x País de Procedencia'  formaction='rptVentasDimension.php' class='boton'>
 	</center><br>";
