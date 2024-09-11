@@ -46,7 +46,7 @@ if ($sql_cabecera) {
     $precio_producto     = 0;
     if(!empty($codigo) && $codigo > 0){
         // Editar
-        $consulta_eliminar_detalle = "DELETE FROM despacho_productosdetalle WHERE cod_despachoproducto = '$codigo'";
+        $consulta_eliminar_detalle = "DELETE FROM despacho_productosdetalle_devolucion WHERE cod_despachoproducto = '$codigo'";
         $sql_eliminar_detalle = mysqli_query($enlaceCon, $consulta_eliminar_detalle);
     }
     
@@ -61,9 +61,10 @@ if ($sql_cabecera) {
             $cantidad_devolucion = $cantidad_entrega - $cantidad_venta;
             $monto_venta         = $item['monto_venta'];
             $precio_producto     = $precio_producto = ($cantidad_venta != 0) ? ($monto_venta / $cantidad_venta) : 0;
+            $codigo_cliente = $item['codigo_cliente'];
         }
-        $consulta_detalle = "INSERT INTO despacho_productosdetalle (cod_despachoproducto, cod_material, cantidad_entrega, cantidad_venta, cantidad_devolucion, monto_venta, precio_producto) 
-                        VALUES ('$cod_despachoproducto', '$cod_material', '$cantidad_entrega', '$cantidad_venta', '$cantidad_devolucion', '$monto_venta', '$precio_producto')";
+        $consulta_detalle = "INSERT INTO despacho_productosdetalle_devolucion (cod_despachoproducto, cod_material, cantidad_entrega, cantidad_venta, cantidad_devolucion, monto_venta, precio_producto, cod_cliente) 
+                        VALUES ('$cod_despachoproducto', '$cod_material', '$cantidad_entrega', '$cantidad_venta', '$cantidad_devolucion', '$monto_venta', '$precio_producto','$codigo_cliente')";
         $sql_inserta_detalle = mysqli_query($enlaceCon, $consulta_detalle);
     }
 

@@ -42,11 +42,13 @@
 						var cantidad_entrega 	= $(this).find("input[name='cantidad_entrega']").val();
 						var cantidad_venta 		= $(this).find("input[name='cantidad_venta']").val();
 						var monto_venta 		= $(this).find("input[name='monto_venta']").val();
+						var cod_cliente 		= $(this).find("input[name='codigo_cliente']").val();
 						items.push({
 							codigo_material: codigo_material,
 							cantidad_entrega: cantidad_entrega,
 							cantidad_venta: cantidad_venta,
-							monto_venta: monto_venta
+							monto_venta: monto_venta,
+							codigo_cliente: cod_cliente
 						});
 					});
 
@@ -69,7 +71,7 @@
 					// return true;
 					$.ajax({
 						type: "POST",
-						url: "guarda_despachosalida.php",
+						url: "guarda_despachosalidadevolucion.php",
 						data: { 
 							data: armarJSON() 
 						},
@@ -188,14 +190,7 @@ if($edit_tipo == 1){
 		$edit_tipo 	   		   = (!empty($edit_fecha_entrega) && !empty($edit_fecha_recepcion)) ? 2 : 1; // Tipo(0:Registro, 1:Modificacion, 2:Vista)
 	}
 }
-// Titulo
-if($edit_tipo == 0){
-	$tipo_titulo = "Registro";
-}else if($edit_tipo == 1){
-	$tipo_titulo = "Recepción";
-}else{
-	$tipo_titulo = "Detalle";
-}
+
 ?>
 <style>
     /* Estilo para la tabla */
@@ -265,7 +260,7 @@ if($edit_tipo == 0){
 
 <form method="post" action="procesar_formulario.php">
 
-    <h1>Despacho de Productos - <?=$tipo_titulo?></h1>
+    <h1>Despacho de Productos - Devolución</h1>
 
 	<table border="0" class="table" cellspacing="0" align="center" style="border:#ccc 1px solid;">
 		<tbody>
@@ -330,6 +325,7 @@ if($edit_tipo == 0){
 			<thead>
 				<tr>
 					<th>#</th>
+					<th>Cliente/Ruta</th>
 					<th>Producto</th>
 					<th>Stock</th>
 					<th>Entregado</th>
@@ -348,19 +344,11 @@ if($edit_tipo == 0){
 				/*Esta Bandera es para la validacion de stocks*/
 				$busca_items = obtenerValorConfiguracion(15);
 
-				if($edit_tipo == 0){
-					// Nuevo
-					$consulta = "SELECT ma.codigo_material, ma.descripcion_material, 0 AS cantidad_entrega, 0 AS cantidad_venta, 0 AS cantidad_devolucion, 0 AS monto_venta, 0 AS precio_producto
-								FROM material_apoyo ma
-								WHERE ma.estado=1";
-				}else{
-					// Editar
-					$consulta = "SELECT ma.codigo_material, ma.descripcion_material, dpd.cantidad_entrega, dpd.cantidad_venta, dpd.cantidad_devolucion, dpd.monto_venta, dpd.precio_producto
-								FROM despacho_productosdetalle dpd
-								LEFT JOIN material_apoyo ma ON ma.codigo_material = dpd.cod_material
-								WHERE dpd.cod_despachoproducto = '$edit_cod_despacho'";
-				}
-				//echo $consulta;
+
+				$consulta = "SELECT ma.codigo_material, ma.descripcion_material, dpd.cantidad_entrega, dpd.cantidad_venta, dpd.cantidad_devolucion, dpd.monto_venta, dpd.precio_producto, c.nombre_cliente, c.cod_cliente
+							FROM despacho_productosdetalle dpd, clientes c, material_apoyo ma
+							WHERE dpd.cod_despachoproducto='$edit_cod_despacho' and ma.codigo_material = dpd.cod_material;";
+
 				$result = mysqli_query($enlaceCon, $consulta);
 				$index = 1;
 				while ($row = mysqli_fetch_array($result)) {
@@ -373,21 +361,34 @@ if($edit_tipo == 0){
 					$item_cantidad_devolucion = $row[4];
 					$item_monto_venta 		  = $row[5];
 					$item_precio_producto 	  = $row[6];
+					$nombre_cliente			= $row[7];
+					$cod_cliente			= $row[8];
+
 
 					$fechaActual=date("Y-m-d");
 					$stockProducto=stockProductoAFecha($globalAlmacen,$item_codigo_material,$fechaActual);
 
+					$precioClienteProducto=precioVentaCliente($cod_cliente, $item_codigo_material);
+
 				?>
 					<tr class="item-row">
-						<td><input type="hidden" name="codigo_material" value="<?= $item_codigo_material ?>"><?= $index++ ?></td>
+						<td>
+							<input type="hidden" name="codigo_material" value="<?= $item_codigo_material ?>"><?= $index++ ?>
+							<input type="hidden" name="codigo_cliente" value="<?= $cod_cliente ?>">
+						</td>
+						<td><?= $nombre_cliente; ?></td>
 						<td><?= $item_descripcion_material; ?></td>
 						<td><?= $stockProducto; ?></td>
 						<td><input type="number" class="cantidad-entrega" name="cantidad_entrega" value="<?= $item_cantidad_entrega ?>" <?=($edit_tipo == 0?'':'readonly')?>></td>
 						<!-- Editar -->
-						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="cantidad-venta" name="cantidad_venta" value="<?= $item_cantidad_venta ?>" <?=($edit_tipo == 2?'readonly':'')?>></td>
-						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="cantidad-devolucion" name="cantidad_devolucion" value="<?= $item_cantidad_devolucion ?>" readonly></td>
-						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="precio-producto" name="precio_producto" value="<?= $item_precio_producto ?>" readonly></td>
-						<td <?=($edit_tipo == 0?'hidden':'')?>><input type="number" class="monto-venta" name="monto_venta" value="<?= $item_monto_venta ?>" <?=($edit_tipo == 2?'readonly':'')?>></td>						
+						<td>
+							<input type="number" class="cantidad-venta" name="cantidad_venta" value="<?= $item_cantidad_venta ?>" ></td>
+						<td>
+							<input type="number" class="cantidad-devolucion" name="cantidad_devolucion" value="<?= $item_cantidad_devolucion ?>" readonly></td>
+						<td>
+							<input type="number" class="precio-producto" name="precio_producto" value="<?= $precioClienteProducto ?>" readonly></td>
+						<td>
+							<input type="number" class="monto-venta" name="monto_venta" value="<?= $item_monto_venta ?>" readonly></td>						
 					</tr>
 				<?php
 				}
@@ -397,7 +398,7 @@ if($edit_tipo == 0){
 				<!-- Editar (Solo aparece el total en la edición) -->
 				<?php if($edit_tipo != 0){ ?>
 					<tr class="item-row">
-						<th colspan="6" style="text-align: right;"><b>Total:</b></th>
+						<th colspan="7" style="text-align: right;"><b>Total:</b></th>
 						<th><input type="number" class="total-precio-producto" name="total_precio_producto" value="0" readonly></th>
 						<th><input type="number" class="total-monto-venta" name="total_monto_venta" value="0" readonly></th>
 					</tr>
@@ -408,7 +409,7 @@ if($edit_tipo == 0){
     <!-- Botón para enviar el formulario -->
     <div class="divBotones">
 		<?php if($edit_tipo < 2){ ?>
-			<input type="button" value="Guardar Despacho" class="boton" id="form_guardar">
+			<input type="button" value="Guardar Devolución y Ventas" class="boton" id="form_guardar">
 		<?php } ?>
 		<input class="boton2" type="button" value="Volver" onclick="javascript:cambiar_vista('navegador_despachoalmacenes.php');">
     </div>

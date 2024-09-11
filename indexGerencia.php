@@ -97,6 +97,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 						</ul>
 					</li>
 					<li><a href="navegador_funcionarios1.php" target="contenedorPrincipal">Funcionarios</a></li>
+					<li><a href="vehiculos/list.php" target="contenedorPrincipal">Vehiculos</a></li>
 					<li><a href="programas/clientes/inicioClientes.php" target="contenedorPrincipal">Clientes</a></li>
 					<li><span>Gestion de Almacenes</span>
 						<ul>

@@ -1,10 +1,9 @@
 <?php
-/**
- * Desarrollado por Datanet-Bolivia.
- * @autor: Marco Antonio Luna Gonzales
- * Sistema de Visita Médica
- * * @copyright 2006
-*/
+require("conexion.inc");
+require("estilos_almacenes.inc");
+	
+$cod_ciudad=$_GET['cod_ciudad'];
+
 echo "<script language='Javascript'>
                 function enviar_nav(cod_ciudad)
                 {       location.href='registro_funcionarios.php?cod_ciudad='+cod_ciudad;
@@ -74,10 +73,6 @@ echo "<script language='Javascript'>
                         location.href='navegador_funcionarios.php?cod_ciudad=$cod_ciudad&vista='+modo_vista+'';
                 }
                 </script>";
-        require("conexion.inc");
-		require("estilos_almacenes.inc");
-		
-		$cod_ciudad=$_GET['cod_ciudad'];
 		
 		$sql_cab="select descripcion from ciudades where cod_ciudad=$cod_ciudad";
                 $resp_cab=mysqli_query($enlaceCon,$sql_cab);
@@ -85,6 +80,9 @@ echo "<script language='Javascript'>
                 $nombre_ciudad=$dat_cab[0];
         echo "<form method='post' action=''>";
         //esta parte saca el ciclo activo
+	$restablecer="";
+
+
         $sql="select f.codigo_funcionario,c.cargo,f.paterno,f.materno,f.nombres,f.fecha_nac,f.direccion,f.telefono, f.celular,f.email,
 		ci.descripcion,f.estado
         from funcionarios f, cargos c, ciudades ci
@@ -143,7 +141,7 @@ echo "<script language='Javascript'>
 		}
 
 	   
-
+		$fondo_fila="";
 		echo "<tr bgcolor='$fondo_fila'><td align='center'>$indice_tabla</td>
 			<td align='center'><input type='checkbox' name='cod_contacto' value='$codigo'></td>
 				<td>&nbsp;$cargo</td><td>$nombre_f</td>

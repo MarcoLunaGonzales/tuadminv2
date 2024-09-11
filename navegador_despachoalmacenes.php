@@ -54,6 +54,7 @@ $global_agencia = $_COOKIE["global_agencia"];
                     <th>#</th>
                     <th>Fecha Entrega</th>
                     <th>Funcionario</th>
+                    <th>Vehiculo</th>
                     <th>Fecha Recepción</th>
                     <th>Observación</th>
                     <th>Funcionario Origen</th>
@@ -62,10 +63,11 @@ $global_agencia = $_COOKIE["global_agencia"];
             </thead>
             <tbody>
                 <?php
-                $consulta = "SELECT dp.codigo, DATE_FORMAT(dp.fecha_entrega,'%d-%m-%Y %H:%i:%s') as fecha_entrega, CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as funcionario, dp.fecha_recepcion, dp.observaciones, CONCAT(fs.nombres, ' ', fs.paterno, ' ', fs.materno) as created_funcionario, dp.created_at
+                $consulta = "SELECT dp.codigo, DATE_FORMAT(dp.fecha_entrega,'%d-%m-%Y %H:%i:%s') as fecha_entrega, CONCAT(f.nombres, ' ', f.paterno, ' ', f.materno) as funcionario, dp.fecha_recepcion, dp.observaciones, CONCAT(fs.nombres, ' ', fs.paterno, ' ', fs.materno) as created_funcionario, dp.created_at, concat(v.nombre,' ',v.abreviatura)as vehiculo
                             FROM despacho_productos dp
                             LEFT JOIN funcionarios f ON f.codigo_funcionario = dp.cod_funcionario
                             LEFT JOIN funcionarios fs ON fs.codigo_funcionario = dp.created_by
+                            LEFT JOIN vehiculos2 v ON v.codigo=dp.cod_vehiculo
                             ORDER BY dp.codigo DESC";
                 $resp  = mysqli_query($enlaceCon, $consulta);
                 $index = 1;
@@ -75,15 +77,17 @@ $global_agencia = $_COOKIE["global_agencia"];
                         <td><?= $index++ ?></td>
                         <td><?= $dat['fecha_entrega'] ?></td>
                         <td><?= $dat['funcionario'] ?></td>
+                        <td><?= $dat['vehiculo'] ?></td>
                         <td><?= empty($dat['fecha_recepcion']) ? '-' : $dat['fecha_recepcion'] ?></td>
                         <td><?= $dat['observaciones'] ?></td>
                         <td><?= $dat['created_funcionario'] ?></td>
                         <td>
                             <?php if(empty($dat['fecha_recepcion'])){ ?>
-                            <a href="registrar_despachoalmacenes.php?codigo=<?= $dat['codigo'] ?>" title="Modificar Despacho"><img src="imagenes/edit.png" width="30" alt="Modificar Despacho"></a>
+                            <a href="registrar_despachoentrega.php?codigo=<?= $dat['codigo'] ?>" title="Registrar Entrega"><img src="imagenes/edit.png" width="30" alt="Modificar Despacho"></a>
                             <?php } ?>
                             <?php if(!empty($dat['fecha_entrega']) && !empty($dat['fecha_recepcion'])){ ?>
                             <a href="registrar_despachoalmacenes.php?codigo=<?= $dat['codigo'] ?>" title="Detalle de Despacho"><img src="imagenes/detalle.png" width="30" alt="Detalle de Despacho"></a>
+                            <a href="generarVentaDespacho.php?codigo=<?= $dat['codigo'] ?>" title="Generar Ventas y Devoluciones"><img src="imagenes/processgo.png" width="30" alt="Vender y Devolver"></a>
                             <?php } ?>
                         </td>
                     </tr>

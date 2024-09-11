@@ -1,5 +1,5 @@
 <?php
-require('fpdf.php');
+require('fpdf186/fpdf.php');
 require('conexionmysqlipdf.inc');
 //require('funciones.php');
 require('NumeroALetras.php');
@@ -9,7 +9,6 @@ function redondear2($valor) {
    $float_redondeado=round($valor * 100) / 100; 
    return $float_redondeado; 
 }
-
 
 
 // error_reporting(E_ALL);
@@ -125,7 +124,7 @@ $pdf->SetXY(0,$y+52);		$pdf->Cell(0,0,"=========================================
 $sqlDetalle="select m.codigo_material, sum(s.`cantidad_unitaria`), m.`descripcion_material`, s.`precio_unitario`, 
 		sum(s.`descuento_unitario`), sum(s.`monto_unitario`) from `salida_detalle_almacenes` s, `material_apoyo` m where 
 		m.`codigo_material`=s.`cod_material` and s.`cod_salida_almacen`=$codigoVenta 
-		group by s.cod_material
+		group by s.cod_material, s.precio_unitario
 		order by s.orden_detalle";
 
 //		echo $sqlDetalle;
@@ -175,15 +174,16 @@ $pdf->SetXY(45,$y+$yyy+4);		$pdf->Cell(20,5,$descuentoVenta,0,0,"R");
 $pdf->SetXY(25,$y+$yyy+8);		$pdf->Cell(25,5,"Total Final:",0,0,"R");
 $pdf->SetXY(45,$y+$yyy+8);		$pdf->Cell(20,5,$montoFinal,0,0,"R");
 
-list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
-if($montoDecimal==""){
-	$montoDecimal="00";
-}
+
+// list($montoEntero, $montoDecimal) = explode('.', $montoFinal);
+// if($montoDecimal==""){
+// 	$montoDecimal="00";
+// }
 
 $pdf->SetFont('Arial','',7);
 
-$txtMonto=NumeroALetras::convertir($montoEntero);
-$pdf->SetXY(5,$y+$yyy+15);		$pdf->MultiCell(0,3,"Son:  $txtMonto"." ".$montoDecimal."/100 Bolivianos",0,"L");
+//$txtMonto=NumeroALetras::convertir($montoEntero);
+//$pdf->SetXY(5,$y+$yyy+15);		$pdf->MultiCell(0,3,"Son:  $txtMonto"." ".$montoDecimal."/100 Bolivianos",0,"L");
 $pdf->SetXY(0,$y+$yyy+21);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
 
 
