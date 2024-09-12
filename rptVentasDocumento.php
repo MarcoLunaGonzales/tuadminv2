@@ -73,7 +73,7 @@ while($datos=mysqli_fetch_array($resp)){
 	<td>$razonSocial</td>
 	<td>$obsVenta</td>
 	<td>$datosDoc</td>
-	<td>$montoVentaFormat</td>
+	<td align='right'>$montoVentaFormat</td>
 	</tr>";
 }
 $totalVentaFormat=number_format($totalVenta,2,".",",");

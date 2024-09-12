@@ -27,7 +27,7 @@ $cantidad_registros = obtenerValorConfiguracion(12);
 
 
 <div class="content text-center">
-	<h3 class="font-weight-bold text-primary">Reporte de Ventas por Tipo de Aro</h3>
+	<h3 class="font-weight-bold text-primary">Reporte de Ventas por Aro</h3>
 	<h6 class="font-weight-bold text-secondary">De: <?=$fecha_iniconsulta;?></h6>
 	<h6 class="font-weight-bold text-secondary">A: <?=$fecha_finconsulta;?></h6>
 	<h6 class="font-weight-bold text-secondary">Almacenes: <?=$nombre_territorio;?></h6>
@@ -40,7 +40,7 @@ $cantidad_registros = obtenerValorConfiguracion(12);
       		<div class="card">
         		<div class="card-header card-header-success card-header-icon">
                   	<div class="card-icon">
-                      	<i class="material-icons">bar_chart</i> Ventas por Tipo de Aro
+                      	<i class="material-icons">bar_chart</i> Ventas por Aro
                   	</div>
         		</div>
 
@@ -54,7 +54,7 @@ $cantidad_registros = obtenerValorConfiguracion(12);
 											<thead>
 												<tr>
 													<th class="text-center">#</th>
-													<th class="text-center">Nombre</th>
+													<th class="text-center">Aro</th>
 													<th class="text-center">Cantidad</th>
 													<th class="text-center">Monto</th>
 												</tr>

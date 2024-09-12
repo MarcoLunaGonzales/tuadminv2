@@ -1,16 +1,12 @@
-<html>
-<head>
-	<meta charset="utf-8" />
-</head>
-<body>
+<br><br>
 <?php
 set_time_limit(0);
 
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
-require('conexionmysqli.php');
 require('funcion_nombres.php');
 require('funciones.php');
+require('estilos_reportes_almacencentral.php');
+require('conexionmysqli.php');
 
 //  error_reporting(E_ALL);
 //  ini_set('display_errors', '1');
@@ -115,4 +111,3 @@ while($datosTiposPago=mysqli_fetch_array($respTiposPago)){
 <script type="text/javascript">
   totalesTablaVertical('ventasSucursal',2,1);
 </script>
-</body></html>

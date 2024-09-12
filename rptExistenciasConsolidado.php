@@ -17,6 +17,9 @@ $rptOrdenar=$_POST["rpt_ordenar"];
 $rptGrupo=$_POST["rpt_grupo"];
 $rptGrupo=implode(",",$rptGrupo);
 
+$rptPais=$_POST["rpt_pais"];
+$rptPais=implode(",",$rptPais);
+
 $rpt_fecha=$_POST["rpt_fecha"];
 
 $fecha_reporte=date("d/m/Y");
@@ -28,15 +31,15 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		
 		if($rptOrdenar==1){
 			$sql_item="select ma.codigo_material, ma.descripcion_material, ma.cantidad_presentacion,
-			(select p.nombre_linea_proveedor from proveedores_lineas p where p.cod_linea_proveedor=ma.cod_linea_proveedor)as nombreproveedor, ma.peso, ma.codigo_anterior
-			from material_apoyo ma
-			where ma.codigo_material<>0 and ma.estado='1' and ma.cod_linea_proveedor in ($rptGrupo) order by ma.descripcion_material";
+			(select p.nombre_linea_proveedor from proveedores_lineas p where p.cod_linea_proveedor=ma.cod_linea_proveedor)as nombreproveedor, ma.peso, ma.codigo_anterior, pp.nombre
+			from material_apoyo ma, pais_procedencia pp
+			where ma.codigo_material<>0 and ma.estado='1' and ma.cod_pais_procedencia=pp.codigo and ma.cod_linea_proveedor in ($rptGrupo) and ma.cod_pais_procedencia in ($rptPais) order by ma.descripcion_material";
 		}else{
 			$sql_item="select ma.codigo_material,
-			ma.descripcion_material, ma.cantidad_presentacion, p.nombre_linea_proveedor, ma.peso, ma.codigo_anterior
+			ma.descripcion_material, ma.cantidad_presentacion, p.nombre_linea_proveedor, ma.peso, ma.codigo_anterior, pp.nombre
 			 from proveedores_lineas p, 
-			material_apoyo ma where p.cod_linea_proveedor=ma.cod_linea_proveedor and ma.estado='1' 
-			and ma.cod_linea_proveedor in ($rptGrupo) order by 4,2";
+			material_apoyo ma, pais_procedencia pp where p.cod_linea_proveedor=ma.cod_linea_proveedor and ma.estado='1' and ma.cod_pais_procedencia=pp.codigo 
+			and ma.cod_linea_proveedor in ($rptGrupo) and ma.cod_pais_procedencia in ($rptPais) order by 4,2";
 		}
 		
 		//echo $sql_item;
@@ -50,7 +53,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		}else{
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th>";				
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Pais</th><th>Producto</th>";				
 		}
 		$sqlAlmacenes="SELECT a.cod_almacen, a.nombre_almacen from almacenes a where a.cod_almacen in ($rpt_almacen)";
 		$respAlmacenes=mysqli_query($enlaceCon, $sqlAlmacenes);
@@ -73,12 +76,15 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$nombreLinea=$datos_item[3];
 			$pesoItem=$datos_item[4];
 			$codigoInterno=$codigo_item;
+
+			$paisProcedencia=$datos_item[6];
 			
 			$cadena_mostrar="<tbody>";
 			if($rptOrdenar==1){
 				$cadena_mostrar.="<tr><td>$indice</td><td>$codigoInterno</td><td>$nombre_item</td>";
 			}else{
-				$cadena_mostrar.="<tr><td>$indice</td><td>$codigoInterno</td><td>$nombreLinea</td><td>$nombre_item</td>";	
+				$cadena_mostrar.="<tr><td>$indice</td><td>$codigoInterno</td><td>$nombreLinea</td>
+				<td>$paisProcedencia</td><td>$nombre_item</td>";	
 			}
 			
 			$sqlAlmacenes="SELECT a.cod_almacen, a.nombre_almacen from almacenes a where a.cod_almacen in ($rpt_almacen)";

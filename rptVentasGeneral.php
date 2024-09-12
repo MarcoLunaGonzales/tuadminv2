@@ -1,16 +1,16 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
-require('conexion.inc');
 require('funcion_nombres.php');
+require('conexion.inc');
+require('estilos_reportes_almacencentral.php');
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
 
 
 //desde esta parte viene el reporte en si
-$fecha_iniconsulta=cambia_formatofecha($fecha_ini);
-$fecha_finconsulta=cambia_formatofecha($fecha_fin);
+$fecha_iniconsulta=($fecha_ini);
+$fecha_finconsulta=($fecha_fin);
 
 $rpt_territorio=$_GET['rpt_territorio'];
 
@@ -18,9 +18,9 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
-echo "<table align='center' class='textotit' width='70%'><tr><td align='center'>Reporte Ventas x Documento
+echo "<h1>Reporte Ventas x Documento y Producto
 	<br>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
-	<br>Fecha Reporte: $fecha_reporte</tr></table>";
+	<br>Fecha Reporte: $fecha_reporte</h1>";
 
 $sql="select s.`fecha`,  
 	(select c.nombre_cliente from clientes c where c.`cod_cliente`=s.cod_cliente) as cliente, 
@@ -40,12 +40,12 @@ echo "<br><table align='center' class='texto' width='70%'>
 <th>Fecha</th>
 <th>Cliente</th>
 <th>Razon Social</th>
-<th>Documento</th>
+<th>Nro.Documento</th>
 <th>Monto</th>
 <th>
 	<table width='100%'>
 	<tr>
-		<th width='50%'>Item</th>
+		<th width='50%'>Producto</th>
 		<th width='25%'>Cantidad</th>
 		<th width='25%'>Monto</th>
 	</tr>
@@ -100,9 +100,9 @@ while($datos=mysqli_fetch_array($resp)){
 		
 		$totalVentaX=$totalVentaX+$montoVenta;
 		$tablaDetalle.="<tr>
-		<td>$nombreItem</td>
-		<td>$cantidadFormat</td>
-		<td>$montoPtr</td>		
+		<td width='50%'>$nombreItem</td>
+		<td width='25%' align='right'>$cantidadFormat</td>
+		<td width='25%' align='right'>$montoPtr</td>		
 		</tr>";
 	}
 	$totalPtr=number_format($totalVentaX,2,".",",");
@@ -113,8 +113,8 @@ while($datos=mysqli_fetch_array($resp)){
 	}
 	$tablaDetalle.="<tr>
 		<td>&nbsp;</td>
-		<th>Total:</th>
-		<th bgcolor='$colorObs'>$totalPtr</th>
+		<td><b>Total:</b></td>
+		<td align='right'><b>$totalPtr</b></td>
 	<tr></table>";
 
 	
@@ -123,7 +123,7 @@ while($datos=mysqli_fetch_array($resp)){
 	<td>$nombreCliente</td>
 	<td>$razonSocial</td>
 	<td>$datosDoc</td>
-	<td>$montoVentaFormat</td>
+	<td align='right'>$montoVentaFormat</td>
 	<td>$tablaDetalle</td>
 	</tr>";
 }
@@ -133,8 +133,8 @@ echo "<tr>
 	<td>-</td>
 	<td>-</td>
 	<td>-</td>
-	<th>Total Reporte</th>
-	<th>$totalVentaFormat</th>
+	<td><b>Total Reporte</b></td>
+	<td align='right'><b>$totalVentaFormat</b></th>
 </tr>";
 echo "</table></br>";
 

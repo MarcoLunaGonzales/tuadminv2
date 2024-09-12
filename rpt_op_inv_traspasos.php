@@ -8,7 +8,8 @@ echo "<h1>Reporte Seguimiento de Traspasos</h1>";
 echo"<form method='post' action='rpt_inv_traspasos.php' target='_blank'>";
 	echo"\n<table class='texto' align='center'>\n";
 
-	echo "<tr><th align='left'>Almacen Origen</th><td><select name='rpt_almacen' class='texto'>";
+	echo "<tr><th align='left'>Almacen Origen</th>
+	<td><select name='rpt_almacen' class='selectpicker' data-style='btn btn-success'>";
 	$sql="select cod_almacen, nombre_almacen from almacenes order by 2";
 	$resp=mysqli_query($enlaceCon, $sql);
 	while($dat=mysqli_fetch_array($resp))
@@ -37,7 +38,7 @@ echo"<form method='post' action='rpt_inv_traspasos.php' target='_blank'>";
 	$sql_tiposalida="select cod_tiposalida, nombre_tiposalida from tipos_salida where cod_tiposalida=1000 
 	 order by nombre_tiposalida";
 	$resp_tiposalida=mysqli_query($enlaceCon, $sql_tiposalida);
-	echo "<td><select name='tipo_salida' class='texto'>";
+	echo "<td><select name='tipo_salida' class='selectpicker' data-style='btn btn-success'>";
 	while($datos_tiposalida=mysqli_fetch_array($resp_tiposalida))
 	{	$codigo_tiposalida=$datos_tiposalida[0];
 		$nombre_tiposalida=$datos_tiposalida[1];

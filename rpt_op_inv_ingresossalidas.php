@@ -9,7 +9,8 @@ echo "<h1>Reporte Ingresos Vs. Salidas</h1>";
 echo"<form method='post' action='rpt_inv_ingresossalidas.php' target='_blank' >";
 	echo"\n<table class='texto' align='center'>\n";
 
-	echo "<tr><th align='left'>Almacen Origen</th><td><select name='rpt_almacen' class='texto'>";
+	echo "<tr><th align='left'>Almacen Origen</th>
+	<td><select name='rpt_almacen' class='selectpicker' data-style='btn btn-success'>";
 	$sql="select cod_almacen, nombre_almacen from almacenes order by 2";
 	$resp=mysqli_query($enlaceCon, $sql);
 	while($dat=mysqli_fetch_array($resp))

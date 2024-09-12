@@ -54,14 +54,14 @@ $cantidad_registros = obtenerValorConfiguracion(12);
 											<thead>
 												<tr>
 													<th class="text-center">#</th>
-													<th class="text-center">Nombre</th>
+													<th class="text-center">Marca</th>
 													<th class="text-center">Cantidad</th>
 													<th class="text-center">Monto</th>
 												</tr>
 											</thead>
 											<tbody>
 												<?php
-												$sql = "SELECT pl.cod_linea_proveedor as codigo, COALESCE(pl.nombre_linea_proveedor, '-') as nombre,
+												$sql = "SELECT pl.cod_linea_proveedor as codigo, COALESCE(CONCAT(pl.nombre_linea_proveedor,' ',pp.nombre), '-') as nombre,
 													(SUM(sd.monto_unitario) - SUM(sd.descuento_unitario)) AS montoVenta, 
 													SUM(sd.cantidad_unitaria) AS cantidadventa, 
 													SUM(((sd.monto_unitario - sd.descuento_unitario) / s.monto_total) * s.descuento) AS descuentocabecera
@@ -70,18 +70,21 @@ $cantidad_registros = obtenerValorConfiguracion(12);
 													INNER JOIN material_apoyo m ON sd.cod_material = m.codigo_material
 													INNER JOIN almacenes a ON a.cod_almacen = s.cod_almacen
 													LEFT JOIN proveedores_lineas pl ON pl.cod_linea_proveedor=m.cod_linea_proveedor
+													LEFT JOIN pais_procedencia pp ON pp.codigo=m.cod_pais_procedencia
 													WHERE s.fecha BETWEEN '$fecha_iniconsulta' AND '$fecha_finconsulta'
 													AND s.salida_anulada = 0 
 													AND s.cod_tiposalida = 1001 
 													AND a.cod_ciudad IN ($rptTerritorio)
-													GROUP BY pl.cod_linea_proveedor ";
+													GROUP BY pl.cod_linea_proveedor, pp.nombre ";
 
 												if ($rptOrdenar == 1) {
-													$sql .= "ORDER BY montoVenta DESC ";
+													$sql .= " ORDER BY montoVenta DESC ";
 												} elseif ($rptOrdenar == 2) {
-													$sql .= "ORDER BY cantidadventa DESC ";
+													$sql .= " ORDER BY cantidadventa DESC ";
 												}
 												$sql .= " LIMIT $cantidad_registros;";
+
+												//echo $sql;
 
 												$resp = mysqli_query($enlaceCon, $sql);
 												$indice = 1;

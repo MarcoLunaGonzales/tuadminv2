@@ -1,17 +1,18 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
-require('conexion.inc');
 require('funcion_nombres.php');
 require('funciones.php');
+require('conexion.inc');
+require('estilos_reportes_almacencentral.php');
+
+
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
-$rpt_ver=$_GET['rpt_ver'];
 
 //desde esta parte viene el reporte en si
-$fecha_iniconsulta=cambia_formatofecha($fecha_ini);
-$fecha_finconsulta=cambia_formatofecha($fecha_fin);
+$fecha_iniconsulta=($fecha_ini);
+$fecha_finconsulta=($fecha_fin);
 
 
 $rpt_territorio=$_GET['rpt_territorio'];
@@ -20,9 +21,9 @@ $fecha_reporte=date("d/m/Y");
 
 $nombre_territorio=nombreTerritorio($rpt_territorio);
 
-echo "<table align='center' class='textotit' width='100%'><tr><td align='center'>Detallado de Ventas por Linea e Item
+echo "<h1>Detallado de Ventas por Marca y Producto
 	<br>Almacen: $nombre_territorio <br> De: $fecha_ini A: $fecha_fin
-	<br>Fecha Reporte: $fecha_reporte</tr></table>";
+	<br>Fecha Reporte: $fecha_reporte</h1>";
 	
 $sql="SELECT 
 (select t.abreviatura from tipos_docs t where t.codigo=s.cod_tipo_doc)as tipodoc, 
@@ -42,18 +43,17 @@ echo "<br><table align='center' class='texto' width='100%'>
 <tr>
 <th>Documento</th>
 <th>Fecha</th>
-<th>Linea</th>
-<th>CodigoInterno</th>
-<th>Item</th>
+<th>Marca</th>
+<th>Producto</th>
 <th>Cantidad</th>
-<th>PrecioRegistrado</th>
+<th>Precio<br>Registrado</th>
 <th>PrecioVenta</th>
 <th>Dif.%</th>
 <th>Dif.(Bs.)</th>
 <th>Monto Venta</th>
-<th>Descuento</th>
+<th>Descuento1</th>
 <th>Subtotal</th>
-<th>DescuentoCabecera</th>
+<th>Descuento2</th>
 <th>TotalProducto</th>
 </tr>";
 
@@ -88,7 +88,10 @@ while($datos=mysqli_fetch_array($resp)){
 	$descuentoCabeceraAplicadoProducto=$datos[14];
 	$descuentoCabeceraAplicadoProductoF=formatonumeroDec($descuentoCabeceraAplicadoProducto);
 	
-	$diferenciaPorcentualPrecio=(($precioItem-$precioRegistrado)/$precioRegistrado)*100;
+	$diferenciaPorcentualPrecio=0;
+	if($precioRegistrado>0){
+		$diferenciaPorcentualPrecio=(($precioItem-$precioRegistrado)/$precioRegistrado)*100;
+	}
 	$diferenciaPorcentualPrecioF=formatonumeroDec($diferenciaPorcentualPrecio);
 	$diferenciaBsPrecio=$precioItem-$precioRegistrado;
 	$diferenciaBsPrecioF=formatonumeroDec($diferenciaBsPrecio);
@@ -118,7 +121,6 @@ while($datos=mysqli_fetch_array($resp)){
 	<td>$numeroDoc</td>
 	<td>$fechaHora</td>
 	<td>$lineaProveedor</td>
-	<td>$codInterno</td>
 	<td>$nombreItem</td>
 	<td>$cantidadItemF</td>
 	<td align='right'><p style='color:red'>$precioRegistradoF</p></td>
@@ -141,7 +143,6 @@ $totalAntesDescuentosCabeceraF=formatonumeroDec($totalAntesDescuentosCabecera);
 $sumaDiferenciaPreciosCabeceraF="<span style='color:red; font-size:16px;'>$sumaDiferenciaPreciosCabecera</span>";
 
 echo "<tr>
-	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>

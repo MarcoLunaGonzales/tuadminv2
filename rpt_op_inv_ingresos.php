@@ -32,40 +32,31 @@ function ajaxAlmacen(){
 	ajax.send(null)
 }
 		</script>";
-require("conexion.inc");
-if($global_tipoalmacen==1)
-{	require("estilos_almacenes_central.inc");
-}
-else
-{	require("estilos_almacenes.inc");
-}$fecha_rptdefault=date("d/m/Y");
+
+require("conexionmysqli.php");
+require("estilos_almacenes.inc");
+
+
+$fecha_rptdefault=date("d/m/Y");
 echo "<h1>Reporte Ingresos Almacen</h1>";
 
 echo"<form method='post' action='rpt_inv_ingresos.php' target='_blank'>";
 	echo"\n<table class='texto' align='center'>\n";
-	echo "<tr><th align='left'>Almacen</th><td><select name='rpt_territorio' id='rpt_territorio' class='texto' onChange='ajaxAlmacen(this);' required>";
-	if($global_tipoalmacen==1)
-	{	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
-	}
-	else
-	{	$sql="select cod_ciudad, descripcion from ciudades where cod_ciudad='$global_agencia' order by descripcion";
-	}
+
+	echo "<tr><th align='left'>Almacen</th>
+	<td>";
+	$sql="SELECT cod_almacen, nombre_almacen from almacenes order by 2";
+	
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<option value=''></option>";
-	while($dat=mysqli_fetch_array($resp))
-	{	$codigo_ciudad=$dat[0];
-		$nombre_ciudad=$dat[1];
-		if($rpt_territorio==$codigo_ciudad)
-		{	echo "<option value='$codigo_ciudad' selected>$nombre_ciudad</option>";
-		}
-		else
-		{	echo "<option value='$codigo_ciudad'>$nombre_ciudad</option>";
-		}
+
+	echo "<select name='rpt_almacen' class='selectpicker' data-style='btn btn-success' id='rpt_almacen' required>";
+	while($dat=mysqli_fetch_array($resp)){
+		$codigo=$dat[0];
+		$nombre=$dat[1];
+		echo "<option value='$codigo'>$nombre</option>";
 	}
-	echo "</select></td></tr>";
-	echo "<tr><th align='left'>Almacen</th><td>
-	<div id='divAlmacen'></div>
-	</td></tr>";
+	echo "</select>";
+	echo "</td></tr>";
 
 	echo "<tr><th align='left'>Tipo de Ingreso</th>";
 	$sql_tipoingreso="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso order by nombre_tipoingreso";

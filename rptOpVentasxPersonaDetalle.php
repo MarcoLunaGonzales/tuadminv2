@@ -74,7 +74,7 @@ echo"<form method='post' action=''>";
 	echo "<tr>
 		<th align='left'>Almacen</th>
 		<td>
-		<select name='rpt_territorio[]' id='rpt_territorio' class='selectpicker' onChange='ajaxPersonalMultiple(this.form)' data-style='btn btn-info' multiple required>";
+		<select name='rpt_territorio[]' id='rpt_territorio' class='selectpicker' onChange='ajaxPersonalMultiple(this.form)' data-actions-box='true' data-style='btn btn-info' multiple required>";
 
 	$sql="SELECT cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon,$sql);

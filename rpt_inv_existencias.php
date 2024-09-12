@@ -48,6 +48,10 @@ $rptOrdenar=$_POST["rpt_ordenar"];
 $rptGrupo=$_POST["rpt_grupo"];
 $rptGrupo=implode(",",$rptGrupo);
 
+$rptPais=$_POST["rpt_pais"];
+$rptPais=implode(",",$rptPais);
+
+
 $rptFormato=$_POST["rpt_formato"];
 
 $rptFormato=$_POST["rpt_formato"];
@@ -68,15 +72,16 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		
 		if($rptOrdenar==1){
 			$sql_item="select ma.codigo_material, ma.descripcion_material, ma.cantidad_presentacion,
-			(select p.nombre_linea_proveedor from proveedores_lineas p where p.cod_linea_proveedor=ma.cod_linea_proveedor)as nombreproveedor, ma.peso, ma.codigo_anterior
-			from material_apoyo ma
-			where ma.codigo_material<>0 and ma.estado='1' and ma.cod_linea_proveedor in ($rptGrupo) order by ma.descripcion_material";
+			(select p.nombre_linea_proveedor from proveedores_lineas p where p.cod_linea_proveedor=ma.cod_linea_proveedor)as nombreproveedor, ma.peso, ma.codigo_anterior, pp.nombre
+			from material_apoyo ma, pais_procedencia pp
+			where ma.codigo_material<>0 and ma.estado='1' and ma.cod_pais_procedencia=pp.codigo and ma.cod_linea_proveedor in ($rptGrupo) and ma.cod_pais_procedencia in ($rptPais) order by ma.descripcion_material";
 		}else{
 			$sql_item="select ma.codigo_material,
-			ma.descripcion_material, ma.cantidad_presentacion, p.nombre_linea_proveedor, ma.peso, ma.codigo_anterior
+			ma.descripcion_material, ma.cantidad_presentacion, p.nombre_linea_proveedor, ma.peso, ma.codigo_anterior, pp.nombre
 			 from proveedores_lineas p, 
-			material_apoyo ma where p.cod_linea_proveedor=ma.cod_linea_proveedor and ma.estado='1' 
-			and ma.cod_linea_proveedor in ($rptGrupo) order by 4,2";
+			material_apoyo ma, pais_procedencia pp
+			where p.cod_linea_proveedor=ma.cod_linea_proveedor and ma.estado='1' 
+			and ma.cod_linea_proveedor in ($rptGrupo) and pp.codigo=ma.cod_pais_procedencia and ma.cod_pais_procedencia in ($rptPais) order by 4,2";
 		}
 		
 		//echo $sql_item;
@@ -128,7 +133,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			if($rptFormato==1){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th><th>Cantidad</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Pais</th><th>Producto</th><th>Cantidad</th></tr>
 				</thead>";				
 			}
 			if($rptFormato==2){//PARA INVENTARIO
@@ -143,13 +148,13 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			if($rptFormato==3){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th><th>Cantidad</th><th>PrecioCosto</th><th>Subtotal</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Pais</th><th>Producto</th><th>Cantidad</th><th>PrecioCosto</th><th>Subtotal</th></tr>
 				</thead>";				
 			}
 			if($rptFormato==4){
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Producto</th><th>Cantidad</th><th>PrecioVenta</th><th>Subtotal</th></tr>
+					<tr><th>&nbsp;</th><th>Codigo</th><th>Marca</th><th>Pais</th><th>Producto</th><th>Cantidad</th><th>PrecioVenta</th><th>Subtotal</th></tr>
 				</thead>";				
 			}
 		}
@@ -162,6 +167,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$nombreLinea=$datos_item[3];
 			$pesoItem=$datos_item[4];
 			$codigoInterno=$codigo_item;
+			$paisProcedencia=$datos_item[6];
 			
 			$cadena_mostrar="<tbody>";
 			if($rptOrdenar==1){
@@ -175,9 +181,9 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			}else{
 				//$cadena_mostrar.="<tr><td>$indice</td><td>$codigo_item</td><td>$nombreLinea</td><td>$nombre_item</td><td>$pesoItem</td>";				
 				if($rptFormato==1 || $rptFormato==3 || $rptFormato==4){
-					$cadena_mostrar.="<tr><td>$indice</td><td>$codigoInterno</td><td>$nombreLinea</td><td>$nombre_item</td>";			
+					$cadena_mostrar.="<tr><td>$indice</td><td>$codigoInterno</td><td>$nombreLinea</td><td>$paisProcedencia</td><td>$nombre_item</td>";			
 				}else{
-					$cadena_mostrar.="<tr><td>$indice</td><td>$nombreLinea</td><td>$nombre_item</td>";				
+					$cadena_mostrar.="<tr><td>$indice</td><td>$nombreLinea</td><td>$paisProcedencia</td><td>$nombre_item</td>";				
 				}
 			}
 			
@@ -193,10 +199,10 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			}
 			
 			if($stock2<0)
-			{	$cadena_mostrar.="<td align='center'>0</td>";
+			{	$cadena_mostrar.="<td align='right'>0</td>";
 			}
 			else{	
-				$cadena_mostrar.="<td align='center'>$stock2</td>";
+				$cadena_mostrar.="<td align='right'>$stock2</td>";
 			}
 			
 			if($rptFormato==2){//para inventario

@@ -61,9 +61,9 @@ if($rpt_ver==1){
 	<th>Documento</th>
 	<th>Fecha</th>
 	<th>Vendedor</th>
-	<th>Linea</th>
+	<th>Marca</th>
 	<th>Codigo<br>Interno</th>
-	<th>Item</th>
+	<th>Producto</th>
 	<th>Cantidad</th>
 	<th>Precio<br>Sistema</th>
 	<th>Precio<br>Venta</th>
@@ -82,6 +82,7 @@ $totalDescuentos=0;
 $subTotalVenta=0;
 $subTotalDescuentos=0;
 $subTotalDiferenciaPrecios=0;
+$subTotalCosto=0;
 
 $sumaDiferenciaPreciosCabecera=0;
 
@@ -109,7 +110,10 @@ while($datos=mysqli_fetch_array($resp)){
 	
 	$nombreVendedor=$datos[13];
 	
-	$diferenciaPorcentualPrecio=(($precioItem-$precioRegistrado)/$precioRegistrado)*100;
+	$diferenciaPorcentualPrecio=0;
+	if($precioRegistrado>0){
+		$diferenciaPorcentualPrecio=(($precioItem-$precioRegistrado)/$precioRegistrado)*100;		
+	}
 	$diferenciaPorcentualPrecioF=formatonumeroDec($diferenciaPorcentualPrecio);
 	$diferenciaBsPrecio=$precioItem-$precioRegistrado;
 	$diferenciaBsPrecioF=formatonumeroDec($diferenciaBsPrecio);

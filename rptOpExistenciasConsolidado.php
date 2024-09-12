@@ -31,6 +31,18 @@ echo"<form method='post' action='rptExistenciasConsolidado.php' target='_blank'>
 		echo "<option value='$codigo' selected>$nombre</option>";
 	}
 	echo "</select></td></tr>";
+
+	echo "<tr><th align='left'>Pais de Procedencia</th>
+	<td><select name='rpt_pais[]' class='selectpicker' size='10' data-actions-box='true' data-live-search='true' multiple>";
+	$sql="select p.codigo, p.nombre from pais_procedencia p order by 2";
+	$resp=mysqli_query($enlaceCon,$sql);
+	while($dat=mysqli_fetch_array($resp))
+	{	$codigo=$dat[0];
+		$nombre=$dat[1];
+		echo "<option value='$codigo' selected>$nombre</option>";
+	}
+	echo "</select></td></tr>";
+
 	
 	echo "<tr><th align='left'>Ver:</th>";
 	echo "<td><select name='rpt_ver' class='selectpicker' data-actions-box='true' data-style='btn btn-success'>";
