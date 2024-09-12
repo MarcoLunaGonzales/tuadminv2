@@ -58,8 +58,11 @@
 	require('estilos.inc');
 	require('funciones.php');
 	require('funcion_nombres.php');
+    date_default_timezone_set('America/La_Paz');
 	
-	echo "<h1>Listado de Productos con Stock Actual</h1>";
+	echo "<h1 style='margin-bottom: 2px; font-family: Arial, sans-serif; font-weight: bold'>Listado de Productos con Stock Actual</h1>";
+	$fecha_hora = date('d-m-Y H:i');
+	echo "<h5 style='margin-top: 2px; color: #2c3e50; font-family: Arial, sans-serif; font-weight: bold; text-align: center;'>Fecha y Hora Actual: <span style='color: #16a085;'>$fecha_hora</span></h5>";
 				
 	echo "<form method='post' action=''>";
 	$sql="SELECT m.codigo_material, m.descripcion_material, m.estado, 
