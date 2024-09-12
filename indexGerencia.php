@@ -127,8 +127,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			</li>
 			<li><span>Salidas</span>
 				<ul>
-					<li><a href="navegador_salidamateriales.php" target="contenedorPrincipal">Listado de Traspasos</a></li>
-					<li><a href="navegadorVentas.php" target="contenedorPrincipal">Listado de Ventas</a></li>
+					<li><a href="navegador_salidamateriales.php" target="contenedorPrincipal">Listado de Salidas</a></li>
+					<li><a href="navegadorVentas2.php" target="contenedorPrincipal">Listado de Ventas</a></li>
 					<!--li><a href="navegadorVentasServiteca.php" target="contenedorPrincipal">Listado de Ventas Serviteca</a></li-->
 				</ul>	
 			</li>
@@ -165,7 +165,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 			</li-->
   						<!-- Versión Nueva -->
 
-			<li><a href="navegador_despachoalmacenes.php" target="contenedorPrincipal" >Despacho de Productos</a></li>		
+			<li><a href="navegador_despachoalmacenes.php" target="_blank">Despacho de Productos</a></li>		
 			
 			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
 			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>

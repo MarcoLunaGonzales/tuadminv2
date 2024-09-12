@@ -40,6 +40,14 @@ function nombreVisitador($codigo){
 	return($nombre);
 }
 
+function nombreFuncionario($codigo){	
+	require("conexionmysqlipdf.inc");
+	$sql="select concat(paterno,' ',nombres) from funcionarios where codigo_funcionario='$codigo'";
+	$resp=mysqli_query($enlaceCon,$sql);
+	$nombre=mysqli_result($resp,0,0);
+	return($nombre);
+}
+
 function nombreTerritorio($codigo){	
 	require("conexionmysqlipdf.inc.inc");
 	$sql="select descripcion from ciudades where cod_ciudad in ($codigo) ";
@@ -140,6 +148,16 @@ function nombreLineaProveedor($codigo){
 	$dat=mysqli_fetch_array($resp);
 	$nombre=$dat[0];
 	//$nombre=mysqli_result($resp,0,0);
+	return($nombre);
+}
+function nombreVehiculo($codigo){
+	require("conexionmysqlipdf.inc");
+	$sql="select abreviatura from vehiculos2 where codigo in ($codigo)";
+	$resp=mysqli_query($enlaceCon,$sql);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+		$nombre.=$dat[0];
+	}
 	return($nombre);
 }
 

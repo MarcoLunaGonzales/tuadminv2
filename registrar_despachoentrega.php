@@ -141,16 +141,20 @@
 				function calcularTotales() {
 					var totalMontoVenta = 0;
 					var totalPrecioProducto = 0;
+					var totalCantidadVenta = 0;
 
 					$(".item-row").each(function () {
 						var montoVenta = parseFloat($(this).find(".monto-venta").val()) || 0;
 						var precioProducto = parseFloat($(this).find(".precio-producto").val()) || 0;
+						var cantidadProducto = parseFloat($(this).find(".cantidad-venta").val()) || 0;
 
 						totalMontoVenta += montoVenta;
 						totalPrecioProducto += precioProducto;
+						totalCantidadVenta += cantidadProducto
 					});
 
 					// Actualizar los campos de "total_monto_venta" y "total_precio_producto"
+					$(".total-vendido-producto").val(totalCantidadVenta.toFixed(2));
 					$(".total-monto-venta").val(totalMontoVenta.toFixed(2));
 					//$(".total-precio-producto").val(totalPrecioProducto.toFixed(2));
 				}
@@ -333,7 +337,7 @@ if($edit_tipo == 1){
 					<?php if($edit_tipo != 0){ ?>
 					<!-- Editar -->
 					<th>Vendido</th>
-					<th>Devolución</th>
+					<!--th>Devolución</th-->
 					<th>Precio Producto</th>
 					<th>Total Venta</th>
 					<?php } ?>
@@ -383,8 +387,8 @@ if($edit_tipo == 1){
 						<!-- Editar -->
 						<td>
 							<input type="number" class="cantidad-venta" name="cantidad_venta" value="<?= $item_cantidad_venta ?>" ></td>
-						<td>
-							<input type="number" class="cantidad-devolucion" name="cantidad_devolucion" value="<?= $item_cantidad_devolucion ?>" readonly></td>
+						<!--td>
+						<input type="number" class="cantidad-devolucion" name="cantidad_devolucion" value="<?= $item_cantidad_devolucion ?>" readonly></td-->
 						<td>
 							<input type="number" class="precio-producto" name="precio_producto" value="<?= $precioClienteProducto ?>" readonly></td>
 						<td>
@@ -398,7 +402,8 @@ if($edit_tipo == 1){
 				<!-- Editar (Solo aparece el total en la edición) -->
 				<?php if($edit_tipo != 0){ ?>
 					<tr class="item-row">
-						<th colspan="7" style="text-align: right;"><b>Total:</b></th>
+						<th colspan="5" style="text-align: right;"><b>Total:</b></th>
+						<th><input type="number" class="total-vendido-producto" name="total-vendido-producto" value="0" readonly></th>
 						<th><input type="number" class="total-precio-producto" name="total_precio_producto" value="0" readonly></th>
 						<th><input type="number" class="total-monto-venta" name="total_monto_venta" value="0" readonly></th>
 					</tr>
@@ -409,7 +414,7 @@ if($edit_tipo == 1){
     <!-- Botón para enviar el formulario -->
     <div class="divBotones">
 		<?php if($edit_tipo < 2){ ?>
-			<input type="button" value="Guardar Devolución y Ventas" class="boton" id="form_guardar">
+			<input type="button" value="Guardar Ventas y Devolución" class="boton" id="form_guardar">
 		<?php } ?>
 		<input class="boton2" type="button" value="Volver" onclick="javascript:cambiar_vista('navegador_despachoalmacenes.php');">
     </div>

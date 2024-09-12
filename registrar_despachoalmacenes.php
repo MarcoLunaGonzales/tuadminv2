@@ -273,7 +273,7 @@ if($edit_tipo == 0){
 				<input type="hidden" id="edit_cod_despacho" value="<?=$edit_cod_despacho;?>">
 				<th>Vendedor</th>
 				<td align="center">
-					<select class="form-control selectpicker" data-style="btn btn-success" name="funcionario" id="funcionario" data-live-search="true" <?=($edit_tipo == 0 ? '':'disabled')?>>
+					<select class="selectpicker form-control" data-style="btn btn-success" name="funcionario" id="funcionario" data-live-search="true" <?=($edit_tipo == 0 ? '':'disabled')?>>
 						<?php
 						/*Esta Bandera es para la validacion de stocks*/
 						$busca_items = obtenerValorConfiguracion(15);
@@ -296,7 +296,7 @@ if($edit_tipo == 0){
 
 				<th>Vehiculo</th>
 				<td align="center">
-					<select class="form-control selectpicker" data-style="btn btn-success" name="vehiculo" id="vehiculo" data-live-search="true" <?=($edit_tipo == 0 ? '':'disabled')?>>
+					<select class="selectpicker form-control" data-style="btn btn-success" name="vehiculo" id="vehiculo" data-live-search="true" <?=($edit_tipo == 0 ? '':'disabled')?>>
 						<?php
 						/*Esta Bandera es para la validacion de stocks*/
 						$consulta = "SELECT v.codigo, v.nombre, v.abreviatura from vehiculos2 v";

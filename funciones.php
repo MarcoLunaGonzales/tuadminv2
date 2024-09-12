@@ -167,38 +167,7 @@ function numeroCorrelativo($tipoDoc){
 	$globalAgencia=$_COOKIE['global_agencia'];
 	$globalAlmacen=$_COOKIE['global_almacen'];
 	
-	if($facturacionActivada==1 && $tipoDoc==1){
-		//VALIDAMOS QUE LA DOSIFICACION ESTE ACTIVA
-		$sqlValidar="select count(*) from dosificaciones d 
-		where d.cod_sucursal='$globalAgencia' and d.cod_estado=1 and d.fecha_limite_emision>='$fechaActual'";
-		$respValidar=mysqli_query($enlaceCon,$sqlValidar);
-		$numFilasValidar=mysqli_result($respValidar,0,0);
-		
-		if($numFilasValidar==1){
-			$sqlCodDosi="select cod_dosificacion from dosificaciones d 
-			where d.cod_sucursal='$globalAgencia' and d.cod_estado=1";
-			$respCodDosi=mysqli_query($enlaceCon,$sqlCodDosi);
-			$codigoDosificacion=mysqli_result($respCodDosi,0,0);
-		
-			if($tipoDoc==1){//validamos la factura para que trabaje con la dosificacion
-				$sql="select IFNULL(max(nro_correlativo)+1,1) from salida_almacenes where cod_tipo_doc='$tipoDoc' 
-				and cod_dosificacion='$codigoDosificacion' and cod_almacen='$globalAlmacen'";	
-			}else{
-				$sql="select IFNULL(max(nro_correlativo)+1,1) from salida_almacenes where cod_tipo_doc='$tipoDoc' and cod_almacen='$globalAlmacen'";
-			}
-			//echo $sql;
-			$resp=mysqli_query($enlaceCon,$sql);
-			$codigo=mysqli_result($resp,0,0);
-			
-			$vectorCodigo = array($codigo,$banderaErrorFacturacion,$codigoDosificacion);
-			return $vectorCodigo;
-		}else{
-			$banderaErrorFacturacion=1;
-			$vectorCodigo = array("DOSIFICACION INCORRECTA O VENCIDA",$banderaErrorFacturacion,0);
-			return $vectorCodigo;
-		}
-	}
-	if( ( $facturacionActivada==1 && ($tipoDoc==2 || $tipoDoc==3) ) || $facturacionActivada!=1){
+	if( $tipoDoc==2 || $tipoDoc==3){
 		$sql="select IFNULL(max(nro_correlativo)+1,1) from salida_almacenes where cod_tipo_doc='$tipoDoc' and cod_almacen='$globalAlmacen'";
 		$resp=mysqli_query($enlaceCon,$sql);
 		while($dat=mysqli_fetch_array($resp)){
