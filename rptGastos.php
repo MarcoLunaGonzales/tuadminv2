@@ -1,9 +1,10 @@
 <?php
-require('estilos_reportes_almacencentral.php');
 require('function_formatofecha.php');
 require('conexion.inc');
 require('funcion_nombres.php');
 require('funciones.php');
+require('estilos_reportes_almacencentral.php');
+
 
 $fecha_ini=$_GET['fecha_ini'];
 $fecha_fin=$_GET['fecha_fin'];
@@ -20,8 +21,12 @@ $fecha_finconsulta=$fecha_fin;
 
 $fecha_reporte=date("d/m/Y");
 
+$nombreTerritorio=nombreTerritorio($rpt_territorio);
+
 echo "<h1>Reporte Detallado de Gastos</h1>
-	<h2>Fecha Inicio: $fecha_ini Fecha Final: $fecha_fin &nbsp;&nbsp;&nbsp; Fecha Reporte: $fecha_reporte</h2>";
+	<h2>Almacen: $nombreTerritorio 
+	<br>Fecha Inicio: $fecha_ini Fecha Final: $fecha_fin 
+	<br> Fecha Reporte: $fecha_reporte</h2>";
 
 echo "<br><center><table class='textomediano'>";
 echo "<tr><th colspan='4'>Detalle de Gastos</th></tr>";
