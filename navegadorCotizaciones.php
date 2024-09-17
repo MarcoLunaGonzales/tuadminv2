@@ -43,7 +43,7 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
                 <tbody>
                     <?php
                         $consulta = "SELECT
-                        CONCAT( c.nombre_cliente ) AS cliente,
+                        CONCAT(c.nombre_cliente, ' ', c.paterno) AS cliente,
                         p.codigo,
                         a.nombre_almacen,
                         td.nombre AS tipo_doc,
