@@ -1580,7 +1580,7 @@ $ventaDebajoCosto=mysqli_result($respConf,0,0);
 				$nit_cliente 	= $rowCliente['nit_cliente'];
 				$nombre_factura = $rowCliente['nombre_factura'];
 
-				$selected = ($cab_cod_cliente = $rowCliente['cod_cliente'] && !empty($cab_cod_cliente)) ? 'selected' : '';
+				$selected = ($cab_cod_cliente == $rowCliente['cod_cliente']) ? 'selected' : '';
 		?>
 			<option value='<?=$rowCliente['cod_cliente']?>' 
 					data-nit="<?=$nit_cliente?>" 
@@ -1799,7 +1799,6 @@ if($tipoDocDefault==2){
 							LEFT JOIN monedas m ON m.codigo = p.cod_moneda
 							LEFT JOIN tipo_cambiomonedas tm ON tm.cod_moneda = p.cod_moneda
 							WHERE p.codigo_material = '$cod_material'";
-			// echo $sqlPrecio;
 			$respPrecios = mysqli_query($enlaceCon,$sqlPrecio);
 			while($dataPrecio=mysqli_fetch_array($respPrecios)){
 				$arrayPrecios[] = [
@@ -1832,17 +1831,16 @@ if($tipoDocDefault==2){
 			/* Fin diferencia de fecha */
 	?>
 <div id="div<?=$nro_materialActivo?>">
-	<link href="stilos.css" rel="stylesheet" type="text/css">
-	<table border="0" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
+	<table border="1" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
 		<tbody>
 			<tr bgcolor="#FFFFFF">
 
-			<td width="5%" align="center">
+			<td width="7%" align="center">
 				<a href="javascript:buscarMaterial(form1, <?php echo $num;?>)"><img src='imagenes/buscar2.png' title="Buscar Producto" width="30"></a>
 				<a href="javascript:encontrarMaterial(<?php echo $num;?>)" class="btn btn-primary btn-sm btn-fab"><i class='material-icons float-left' title="Ver en otras Sucursales">place</i></a>
 			</td>
 
-			<td width="30%" align="center">
+			<td width="38%" align="center">
 				<input type="hidden" class="formIndex" value="<?php echo $num;?>">
 				<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="<?=$htmlPrecios?>">
 				<!-- Codigo de Material -->
@@ -1877,14 +1875,14 @@ if($tipoDocDefault==2){
 			</td>
 
 
-			<td align="center" width="15%">
+			<td align="center" width="10%">
 				<div id='idprecio<?php echo $num;?>'>
 					<input class="inputnumber" type="number" min="1" id="precio_unitario<?php echo $num;?>" name="precio_unitario<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);' step="0.01" style="height:20px;font-size:19px;width:100px;color:blue;" required value="<?=$cotizacion_precio_unitario?>"><br>
 					<b id="precio_of<?php echo $num;?>" style="font-size:15px;color:red;">Of.</b>
 				</div>
 			</td>
 
-			<td align="center" width="15%">
+			<td align="center" width="10%">
 				<input class="inputnumber" type="number" value="<?=$cotizacion_descuento_unitario?>" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial(<?php echo $num;?>);' onChange='calculaMontoMaterial(<?php echo $num;?>);'  value="0" step="0.01" readonly>
 			</td>
 
@@ -1902,7 +1900,6 @@ if($tipoDocDefault==2){
 	obtienePrecioProducto(<?=$nro_materialActivo?>);
 	calculaMontoMaterial(<?=$nro_materialActivo?>);
 </script>
-
 <?php
 	}
 }
