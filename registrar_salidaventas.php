@@ -1828,7 +1828,7 @@ if($tipoDocDefault==2){
 
 			// Suma total FINAL
 			$cotizacion_total_final += $cotizacion_total_item;
-			/* Fin diferencia de fecha */
+			/* Fin diferencia de fecha_ */
 	?>
 <div id="div<?=$nro_materialActivo?>">
 	<table border="1" align="center" width="100%"  class="texto" id="data<?php echo $num?>" >
