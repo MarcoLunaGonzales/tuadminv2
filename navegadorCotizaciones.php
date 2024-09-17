@@ -51,7 +51,7 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
                         p.observaciones,
                         p.estado,
                         p.nro_correlativo,
-                        c.nombre_cliente,
+                        CONCAT(c.nombre_cliente, ' ', c.paterno) as nombre_cliente,
                         p.monto_total,
                         p.descuento,
                         p.monto_final,
