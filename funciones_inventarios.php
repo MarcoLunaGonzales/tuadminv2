@@ -189,11 +189,11 @@ function insertar_detalleSalidaVenta($enlaceCon,$cod_salida, $cod_almacen, $cod_
 	return true;
 }
 
-function insertar_detalleCotizacion($enlaceCon,$cod_cotizacion, $cod_material, $cantidad_unitaria, $precio_unitario, $descuento_unitario, $monto_unitario, $orden){
+function insertar_detalleCotizacion($enlaceCon,$cod_cotizacion, $cod_material, $cantidad_unitaria, $precio_unitario, $descuento_unitario, $monto_unitario, $orden, $cod_almacen){
 	$banderaError=1;	
 	$sqlInsert="INSERT INTO cotizaciones_detalle (cod_cotizacion, cod_material, cantidad_unitaria, precio_unitario,
-	descuento_unitario, monto_unitario, orden_detalle) VALUES ('$cod_cotizacion', '$cod_material', '$cantidad_unitaria',
-	'$precio_unitario','$descuento_unitario','$monto_unitario','$orden')";	
+	descuento_unitario, monto_unitario, orden_detalle, cod_almacen) VALUES ('$cod_cotizacion', '$cod_material', '$cantidad_unitaria',
+	'$precio_unitario','$descuento_unitario','$monto_unitario','$orden', '$cod_almacen')";	
 	$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 	if($respInsert!=1){
 		$banderaError=2;
