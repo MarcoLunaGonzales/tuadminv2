@@ -210,12 +210,10 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
 					</li>	
-					<li><span>Costos</span>
+					<!--li><span>Costos</span>
 						<ul>
 							<li><a href="rptOpKardexCostos.php" target="contenedorPrincipal">Kardex de Movimiento Precio Promedio</a></li>
-							<!--li><a href="rptOpKardexCostosPEPS.php" target="contenedorPrincipal">Kardex de Movimiento PEPS</a></li>
-							<li><a href="rptOpKardexCostosUEPS.php" target="contenedorPrincipal">Kardex de Movimiento UEPS</a></li-->							
-							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>							
+							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>			
 						</ul>
 					</li-->
 					<li><span>Ventas</span>

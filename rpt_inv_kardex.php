@@ -100,7 +100,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	$dat_salidas_afecha=mysqli_fetch_array($resp_salidas_afecha);
 	$cantidad_sacada_afechaCaja=$dat_salidas_afecha[0];
 	$cantidad_inicial_kardexCaja=$cantidad_ingresada_afechaCaja-$cantidad_sacada_afechaCaja;
-	echo "<br><table class='texto' align='center'><tr class='titulos'><th>Existencia a fecha inicio reporte: Cajas $cantidad_inicial_kardexCaja, Sueltas $cantidad_inicial_kardex</th></tr></table>";
+	echo "<br><table class='texto' align='center'><tr class='titulos'><th>Existencia a fecha inicio reporte: $cantidad_inicial_kardex</th></tr></table>";
 	
 	
 	echo "<center><br><table class='texto' cellspacing='0' width='100%'>";
@@ -113,7 +113,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	<th>Observaciones<br>/ R. Social</th>
 	<th>Entrada</th>
 	<th>Salida</th>
-	<th>Saldo</th>
+	<th>Stock</th>
 	<th>PrecioVenta</th>
 	<th>Tipo Ingreso/<br>Salida</th>
 	<th>Sucursal<br>Origen/Destino</th>
