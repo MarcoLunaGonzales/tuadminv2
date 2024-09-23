@@ -69,6 +69,9 @@ while($reg=mysqli_fetch_array($rs)){
             <td>$dirCliente</td>
             <td>$nomArea</td>
             <td class='text-center'>
+                <a class='btn btn-sm btn-primary pt-4' href='asignaFuncionarioCliente.php?codcli=$codCliente' title='Asignar Funcionario' style='padding-left: 10px; padding-right: 10px;'>
+                    <i class='material-icons'>person_add</i>
+                </a>
                 <button class='btn btn-sm btn-info pt-4 editarCliente' data-cod_cliente='$codCliente' title='Editar' style='padding-left: 10px; padding-right: 10px;'>
                     <i class='material-icons'>edit</i>
                 </button>
