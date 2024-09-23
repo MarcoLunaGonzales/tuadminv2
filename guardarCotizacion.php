@@ -140,13 +140,15 @@ if($sql_inserta==1){
 			$precioUnitario		= empty($_POST["precio_unitario$i"]) ? 0 : $_POST["precio_unitario$i"];
 			$descuentoProducto	= empty($_POST["descuentoProducto$i"]) ? 0 : $_POST["descuentoProducto$i"];
 			$montoMaterial		= empty($_POST["montoMaterial$i"]) ? 0 : $_POST["montoMaterial$i"];
+			// Sucursal Seleccionada
+			$cod_almacen		= empty($_POST["cod_sucursales$i"]) ? '' : $_POST["cod_sucursales$i"];
 
 			//SE DEBE CALCULAR EL MONTO DEL MATERIAL POR CADA UNO PRECIO*CANTIDAD - EL DESCUENTO ES UN DATO ADICIONAL
 			$montoMaterialConDescuento = ($precioUnitario * $cantidadUnitaria) - $descuentoProducto;
 
 			$montoTotalVentaDetalle = $montoTotalVentaDetalle + $montoMaterialConDescuento;
 
-			$respuesta = insertar_detalleCotizacion($enlaceCon, $last_id, $codMaterial, $cantidadUnitaria, $precioUnitario, $descuentoProducto, $montoMaterialConDescuento, $i);
+			$respuesta = insertar_detalleCotizacion($enlaceCon, $last_id, $codMaterial, $cantidadUnitaria, $precioUnitario, $descuentoProducto, $montoMaterialConDescuento, $i, $cod_almacen);
 
 			if($respuesta!=1){
 				echo "<script>

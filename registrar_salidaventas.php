@@ -1773,12 +1773,13 @@ if($tipoDocDefault==2){
 					cd.precio_unitario,
 					cd.cantidad_unitaria,
 					cd.descuento_unitario,
-					cd.monto_unitario 
+					cd.monto_unitario,
+					cd.cod_almacen
 				FROM cotizaciones_detalle cd
 				LEFT JOIN material_apoyo m ON m.codigo_material = cd.cod_material
 				WHERE m.codigo_material = cd.cod_material 
 				AND cd.cod_cotizacion = '$cod_cotizacion'
-				ORDER BY cd.orden_detalle DESC";
+				ORDER BY cd.orden_detalle ASC";
 		// echo $sql2;
 		$resp2=mysqli_query($enlaceCon,$sql2);
 		while($rawCotizacion = mysqli_fetch_array($resp2)){
@@ -1814,7 +1815,22 @@ if($tipoDocDefault==2){
 			$jsonPrecios = str_replace('"', "'", $arrayPrecios);
 			$htmlPrecios = htmlspecialchars($jsonPrecios, ENT_QUOTES, 'UTF-8');
 
-			$stockProducto 		  = stockProducto($globalAlmacen, $cod_material);
+			// Almacen seleccionado en la cotización
+			$dsuc_cod_almacen  = $rawCotizacion['cod_almacen'] ?? $globalAlmacen;
+			// Detalle de Almacen
+			$sql_sucursal = "SELECT a.cod_almacen, a.nombre_almacen
+							FROM almacenes a
+							WHERE a.cod_almacen = '$dsuc_cod_almacen'";
+			$respSuc = mysqli_query($enlaceCon, $sql_sucursal);
+			$dsuc_nombre = '';
+			if ($respSuc) {
+				$d_sucursal = mysqli_fetch_assoc($respSuc);
+				if ($d_sucursal) {
+					$dsuc_nombre = $d_sucursal['nombre_almacen'];
+				}
+			}
+
+			$stockProducto 		  = stockProducto($dsuc_cod_almacen, $cod_material);
 			
 			$cotizacion_cantidad  = $rawCotizacion['cantidad_unitaria'];
 			$cotizacion_total  	  = $rawCotizacion['monto_unitario'];
@@ -1846,9 +1862,9 @@ if($tipoDocDefault==2){
 				<!-- Codigo de Material -->
 				<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="<?=$cod_material?>">
 				<!-- Codigo de Sucursal -->
-				<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$globalAlmacen?>">
+				<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$dsuc_cod_almacen?>">
 
-				<strong id="nombreSucursal<?php echo $num;?>"><?=$globalAlmacenNombre?></strong>
+				<strong id="nombreSucursal<?php echo $num;?>"><?=$dsuc_nombre?></strong>
 				<div id="cod_material<?php echo $num;?>" class='textomedianonegro'><?=$descripcion_material?></div>
 			</td>
 
