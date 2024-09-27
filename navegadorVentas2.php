@@ -409,7 +409,7 @@ echo "<table class='texto' cellspacing='0' width='90%'>
 <th>Ventas Registradas</th><td bgcolor='#f9e79f' width='5%'></td>
 <th>Ventas Entregadas</th><td bgcolor='#1abc9c' width='5%'></td>
 <th>Ventas Anuladas</th><td bgcolor='#e74c3c' width='5%'></td>
-<td bgcolor='' width='10%'>&nbsp;</td></tr></table><br>";
+<td bgcolor='' width='10%'>&nbsp;</td></tr></table>";
 //
 echo "<div class='divBotones mb-3'>
         <input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>
@@ -418,13 +418,12 @@ echo "<div class='divBotones mb-3'>
     </div>";
         
 echo "<center><table class='texto'>";
-
 echo "<tr><th>&nbsp;</th><th>Nro. Doc</th><th>Fecha/hora<br>Registro Salida</th><th>Vendedor</th><th>Cliente</th><th>TipoPago</th>
     <th>Razon Social</th><th>NIT</th><th>Monto</th><th>Observaciones</th><th>Imprimir</th><th>Editar</br>DatosVenta</th></tr>";
     
 echo "<input type='hidden' name='global_almacen' value='$global_almacen' id='global_almacen'>";
 
-echo "<div id='divCuerpo'>";
+//echo "<div id='divCuerpo'>";
 
 $consulta = "SELECT s.cod_salida_almacenes, s.fecha, s.hora_salida, ts.nombre_tiposalida, 
     (select a.nombre_almacen from almacenes a where a.`cod_almacen`=s.almacen_destino), s.observaciones, 
@@ -552,9 +551,9 @@ while ($dat = mysqli_fetch_array($resp)) {
     echo "</tr>";
 
 }
-echo "</table></center><br>";
+echo "</table></center>";
 
-echo "</div>";
+//echo "</div>";
 
 echo "<div class='divBotones'>
         <input type='button' value='Registrar' name='adicionar' class='boton' onclick='enviar_nav()'>

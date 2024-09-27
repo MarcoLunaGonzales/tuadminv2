@@ -13,7 +13,7 @@ $nombreCliente = $cliente['nombre_cliente'];
 
 // Obtener lista de funcionarios
 $consultaFuncionarios = "SELECT f.codigo_funcionario, CONCAT(f.nombres,' ',f.paterno) as nombre_funcionario
-                        FROM funcionarios AS f";
+                        FROM funcionarios AS f order by 2";
 $rsFuncionarios = mysqli_query($enlaceCon, $consultaFuncionarios);
 $funcionarios = [];
 while ($row = mysqli_fetch_assoc($rsFuncionarios)) {
@@ -36,7 +36,7 @@ while ($row = mysqli_fetch_assoc($rsAsignados)) {
 ?>
 
 <center>
-    <h3>Asignaciones de Funcionarios al Cliente: 
+    <h3>Funcionarios Asignados al Cliente: 
         <b><?php echo $nombreCliente; ?></b>
         <a class="btn btn-danger pt-4" href='inicioClientes.php' title='Lista de Clientes' style='padding-left: 10px; padding-right: 10px;'>
             <i class='material-icons'>arrow_back</i>
@@ -48,7 +48,7 @@ while ($row = mysqli_fetch_assoc($rsAsignados)) {
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="funcionario">Seleccionar Funcionario:</label>
-                    <select id="funcionario" class="selectpicker form-control" data-live-search="true" name="funcionario" required>
+                    <select id="funcionario" class="selectpicker form-control" data-style='btn btn-success' data-live-search="true" name="funcionario" required>
                         <option value="">-- Seleccionar --</option>
                         <?php foreach ($funcionarios as $funcionario): ?>
                             <option value="<?php echo $funcionario['codigo_funcionario']; ?>">
@@ -63,7 +63,7 @@ while ($row = mysqli_fetch_assoc($rsAsignados)) {
         </form>
     </div>
 
-    <h3>Lista de Funcionarios Asignados</h3>
+    <!--h3>Lista de Funcionarios Asignados</h3-->
     <div class="container">
         <table class="table table-bordered table-striped table-hover" id="tabla-asignados">
             <thead class="thead-light">
