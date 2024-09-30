@@ -85,7 +85,7 @@ $global_agencia = $_COOKIE["global_agencia"];
                         $txtDespacho="<a href='formatoNotaSalida.php?codSalida=$nrDespacho'>
                             <img src='imagenes/detalle.png' width='30'></a>";
                     }else{
-                        $txtDespacho="<a href='generarNotaDespacho.php?codigo=$codigoDespacho'>
+                        $txtDespacho="<a href='generarNotaDespacho.php?codigo=$codigoDespacho' onclick='return confirm(\"¿Estás seguro de ejecutar la Nota de Despacho?\");'>
                         <img src='imagenes/ejecutar.png' width='40' title='Ejecutar Nota Despacho'>
                         </a>";
                     }
@@ -95,7 +95,7 @@ $global_agencia = $_COOKIE["global_agencia"];
                         $txtVenta="<a href='formatoNotaRemision.php?codVenta=$nrVenta'>
                             <img src='imagenes/detalle.png' width='30'></a>";
                     }elseif(!empty($dat['fecha_recepcion'])){
-                        $txtVenta="<a href='generarNotaVenta.php?codigo=$codigoDespacho'>
+                        $txtVenta="<a href='generarNotaVenta.php?codigo=$codigoDespacho' onclick='return confirm(\"¿Estás seguro de ejecutar la Venta y Devolución?\");' >
                         <img src='imagenes/ejecutar.png' width='40' title='Ejecutar Venta'>
                         </a>";
                     }else{

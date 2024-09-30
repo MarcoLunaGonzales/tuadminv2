@@ -30,7 +30,7 @@ $nombreVehiculo=nombreVehiculo($codVehiculo);
 
 $observacionesAjuste="";
 
-$observaciones="Salida Automatica por Despacho. $nombreVendedor $nombreVehiculo.";
+$observaciones="Salida Automatica por Venta. $nombreVendedor $nombreVehiculo.";
 
 
 $usuarioVendedor=$codVendedor;
@@ -111,7 +111,7 @@ if($sql_inserta==1){
         $descuentoProducto=0;
         if($cantidadProductoX>0){
             //echo "PRODUCTO: ".$codProductoX." STOCK: ".$stockProductoX." CANT INSERT: ".$cantidadInsertX;
-            $respuesta=descontar_inventarios($enlaceCon, $codigo, $almacenOrigen, $codigoProductoX, $cantidadProductoX, $precioProductoX, $descuentoProducto, $montoProductoX, $i, $nombreClienteX);
+            $respuesta=descontar_inventarios($enlaceCon, $codigo, $almacenOrigen, $codigoProductoX, $cantidadProductoX, $precioProductoX, $descuentoProducto, $montoProductoX, $i, $nombreClienteX, $codClienteX);
             if($respuesta!=1){
                 echo "<script>
                     alert('Existio un error en el detalle. Contacte con el administrador del sistema.');
@@ -133,7 +133,11 @@ if($sql_inserta==1){
 }else{
     echo "<script>
             alert('Ocurrio un Problema. Contacte con el administrador!');
-        </script>";  }
+        </script>";  
+}
+
+//Aca Verificamos que haya salido el total y de no ser asi realizamos el ingreso por devolucion. 
+
 
 
 ?>

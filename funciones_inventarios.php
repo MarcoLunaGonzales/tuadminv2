@@ -2,7 +2,7 @@
 require("conexion.inc");
 require("funcionRecalculoCostos.php");
 
-function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_material, $cantidad, $precio, $descuento, $montoparcial, $orden, $observaciones=""){
+function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_material, $cantidad, $precio, $descuento, $montoparcial, $orden, $observaciones="", $codCliente='0'){
 	
 	//echo $cod_salida." ".$cod_almacen." ".$cod_material." ".$cantidad;
 	$cantidadPivote=$cantidad;
@@ -38,13 +38,12 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			$montoparcial=$cantidadInsert*$precio;
 			
 			$sqlInsert="insert into salida_detalle_almacenes (cod_salida_almacen, cod_material, cantidad_unitaria, lote, fecha_vencimiento, precio_unitario,
-			descuento_unitario, monto_unitario, cod_ingreso_almacen, orden_detalle, observaciones) values ('$cod_salida', '$codMaterial', '$cantidadInsert', '$loteProducto', '$fechaVencProducto',
-			'$precio','$descuento','$montoparcial','$codIngreso','$orden', '$observaciones')";
+			descuento_unitario, monto_unitario, cod_ingreso_almacen, orden_detalle, observaciones, cod_cliente) values ('$cod_salida', '$codMaterial', '$cantidadInsert', '$loteProducto', '$fechaVencProducto',
+			'$precio','$descuento','$montoparcial','$codIngreso','$orden', '$observaciones','$codCliente')";
 			$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 			
 			//AQUI DAMOS DE BAJA EL DESCUENTO POR SI HUBIERAN DOS REGISTROS O MAS
 			$descuento=0;
-
 			
 			if($respInsert!=1){
 				$banderaError=2;
