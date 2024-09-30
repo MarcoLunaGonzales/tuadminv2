@@ -107,7 +107,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							
 						</ul>	
 					</li>	
-					<li><a href="tipos_cambios/list.php" target="contenedorPrincipal">Tipo de Cambio</a></li>				
+					<li><a href="tipos_cambios/list.php" target="contenedorPrincipal">Tipo de Cambio</a></li>
+					<li><a href="transportadoras/generalLista.php" target="contenedorPrincipal">Transportadoras</a></li>								
 				</ul>	
 			</li>
 
