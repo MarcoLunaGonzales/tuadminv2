@@ -97,6 +97,8 @@ if($sql_inserta==1){
     $sqlDetalle="SELECT d.cod_material, d.cantidad_venta, d.precio_producto, d.monto_venta, d.cod_cliente from despacho_productosdetalle_devolucion d 
         where d.cod_despachoproducto='$codigoDespacho'";
     $respDetalle=mysqli_query($enlaceCon, $sqlDetalle);
+
+    $cantidadTotalVendida=0;
     while($datDetalle=mysqli_fetch_array($respDetalle)){
         $codigoProductoX=$datDetalle['cod_material'];
         $cantidadProductoX=$datDetalle['cantidad_venta'];
@@ -119,26 +121,40 @@ if($sql_inserta==1){
             }
             $i++;
         }
+        $cantidadTotalVendida+=$cantidadProductoX;
     }
     $sqlUpdVenta="UPDATE salida_almacenes set monto_total='$montoTotalVentaDetalle', monto_final='$montoTotalVentaDetalle' where cod_salida_almacenes='$codigo'";
     $respUpdVenta=mysqli_query($enlaceCon, $sqlUpdVenta);
     //UPDATE EN LA TABLA DESPACHO
     $sqlUpdateDespacho="UPDATE despacho_productos set nr_venta='$codigo' where codigo='$codigoDespacho'";
     $respUpdateDespacho=mysqli_query($enlaceCon, $sqlUpdateDespacho);
-    echo "<script>
-            alert('Se genero la nota correctamente!');
-            location.href='navegador_despachoalmacenes.php';
-        </script>";  
-
 }else{
     echo "<script>
             alert('Ocurrio un Problema. Contacte con el administrador!');
         </script>";  
 }
 
+
+
 //Aca Verificamos que haya salido el total y de no ser asi realizamos el ingreso por devolucion. 
+$sqlTotalEntregado="SELECT d.cantidad_entrega FROM despacho_productosdetalle d
+    WHERE d.cod_despachoproducto='$codigoDespacho'";
+$respTotalEntregado=mysqli_query($enlaceCon, $sqlTotalEntregado);
+$cantidadEntregada=0;
+if($datTotalEntregado=mysqli_fetch_array()){
+    $cantidadEntregada=$datTotalEntregado['cantidad_entrega'];
+}
 
 
+if($cantidadEntregada>$cantidadTotalVendida){
+    echo "se debe devolver ".$cantidadEntregada-$cantidadTotalVendida;
+}
+
+
+    // echo "<script>
+    //         alert('Se genero la nota correctamente!');
+    //         location.href='navegador_despachoalmacenes.php';
+    //     </script>";  
 
 ?>
 
