@@ -99,7 +99,7 @@ $global_agencia = $_COOKIE["global_agencia"];
                         <img src='imagenes/ejecutar.png' width='40' title='Ejecutar Venta'>
                         </a>";
                     }else{
-                        $txtVenta="-";
+                        $txtDevolucion="";
                     }
                 ?>
                     <tr class="<?= (empty($dat['fecha_recepcion'])) ? 'fila-verde' : '' ?>">
