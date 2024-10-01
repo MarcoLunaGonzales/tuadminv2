@@ -10,8 +10,8 @@ $codTipoDoc=$_GET['codTipoDoc'];
 
 
 //desde esta parte viene el reporte en si
-$fecha_iniconsulta=cambia_formatofecha($fecha_ini);
-$fecha_finconsulta=cambia_formatofecha($fecha_fin);
+$fecha_iniconsulta=($fecha_ini);
+$fecha_finconsulta=($fecha_fin);
 
 
 $rpt_territorio=$_GET['rpt_territorio'];
@@ -41,7 +41,6 @@ $resp=mysqli_query($enlaceCon,$sql);
 echo "<br><table align='center' class='texto' width='70%'>
 <tr>
 <th>Fecha</th>
-<th>Cliente</th>
 <th>Razon Social</th>
 <th>Observaciones</th>
 <th>Documento</th>
@@ -61,7 +60,6 @@ while($datos=mysqli_fetch_array($resp)){
 	$montoVentaFormat=number_format($montoVenta,2,".",",");
 	echo "<tr>
 	<td>$fechaVenta</td>
-	<td>$nombreCliente</td>
 	<td>$razonSocial</td>
 	<td>$obsVenta</td>
 	<td>$datosDoc</td>
@@ -70,7 +68,6 @@ while($datos=mysqli_fetch_array($resp)){
 }
 $totalVentaFormat=number_format($totalVenta,2,".",",");
 echo "<tr>
-	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>

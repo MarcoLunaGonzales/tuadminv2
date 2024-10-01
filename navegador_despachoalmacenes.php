@@ -93,13 +93,19 @@ $global_agencia = $_COOKIE["global_agencia"];
                     $txtVenta="";
                     if(!empty($dat['fecha_recepcion']) && $nrVenta>0){
                         $txtVenta="<a href='formatoNotaRemision.php?codVenta=$nrVenta'>
-                            <img src='imagenes/detalle.png' width='30'></a>";
+                            <img src='imagenes/factura1.jpg' width='30'></a>";
                     }elseif(!empty($dat['fecha_recepcion'])){
                         $txtVenta="<a href='generarNotaVenta.php?codigo=$codigoDespacho' onclick='return confirm(\"¿Estás seguro de ejecutar la Venta y Devolución?\");' >
                         <img src='imagenes/ejecutar.png' width='40' title='Ejecutar Venta'>
                         </a>";
                     }else{
-                        $txtDevolucion="";
+                    }
+
+                    if($nrDevolucion>0){    
+                         $txtDevolucion="<a href='formatoNotaIngreso.php?codigo_ingreso=$nrDevolucion'>
+                            <img src='imagenes/detalle_devolucion.png' width='30'></a>";                        
+                    }else{
+                        $txtDevolucion="-";
                     }
                 ?>
                     <tr class="<?= (empty($dat['fecha_recepcion'])) ? 'fila-verde' : '' ?>">
@@ -112,13 +118,13 @@ $global_agencia = $_COOKIE["global_agencia"];
                         <!--td><?= $dat['created_funcionario'] ?></td-->
                         <td align="center"><?=$txtDespacho;?></td>
                         <td align="center"><?=$txtVenta;?></td>
-                        <td>-</td>
+                        <td align="center"><?=$txtDevolucion;?></td>
                         <td>
                             <?php if(empty($dat['fecha_recepcion'])){ ?>
                             <a href="registrar_despachoentrega.php?codigo=<?= $dat['codigo'] ?>" title="Registrar Entrega"><img src="imagenes/entrega2.png" width="50" alt="Modificar Despacho"></a>
                             <?php } ?>
                             <?php if(!empty($dat['fecha_entrega']) && !empty($dat['fecha_recepcion'])){ ?>
-                            <a href="registrar_despachoalmacenes.php?codigo=<?= $dat['codigo'] ?>" title="Detalle de Despacho"><img src="imagenes/detalle.png" width="30" alt="Detalle de Despacho"></a>
+                            <!--a href="registrar_despachoalmacenes.php?codigo=<?= $dat['codigo'] ?>" title="Detalle de Despacho"><img src="imagenes/detalle.png" width="30" alt="Detalle de Despacho"></a-->
                             <?php } ?>
                         </td>                    </tr>
                 <?php

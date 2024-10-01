@@ -33,7 +33,7 @@ $incremento=3;
 $sqlDatosIngreso="select i.cod_ingreso_almacen, i.fecha, ti.nombre_tipoingreso, i.observaciones, i.nro_correlativo,
 (select s.nro_correlativo from salida_almacenes s where s.cod_salida_almacenes=i.cod_salida_almacen) as salida,
 (select a.nombre_almacen from salida_almacenes s, almacenes a where a.cod_almacen=s.cod_almacen and s.cod_salida_almacenes=i.cod_salida_almacen) as almacenorigen,
-(select a.nombre_almacen from almacenes a where a.cod_almacen=i.cod_almacen)as almacen
+(select a.nombre_almacen from almacenes a where a.cod_almacen=i.cod_almacen)as almacen, i.observaciones
 	FROM ingreso_almacenes i, tipos_ingreso ti
 	where i.cod_tipoingreso=ti.cod_tipoingreso and i.cod_ingreso_almacen='$codigoIngreso'";
 $respDatosIngreso=mysqli_query($enlaceCon,$sqlDatosIngreso);
@@ -46,21 +46,23 @@ while($datDatosIngreso=mysqli_fetch_array($respDatosIngreso)){
 	$almacenOrigen=$datDatosIngreso[6];
 
 	$almacenTrabajo=$datDatosIngreso[7];
+	$observaciones=$datDatosIngreso[8];
+
 }
 
 $pdf->SetXY(0,$y+3);		$pdf->Cell(0,0,"NOTA DE INGRESO",0,0,"C");
 
-$pdf->SetXY(0,$y+8);		$pdf->Cell(0,0,"Suc. $almacenTrabajo",0,0,"C");
+$pdf->SetXY(0,$y+8);		$pdf->Cell(0,0,"Almacen: $almacenTrabajo",0,0,"C");
 
 $pdf->SetXY(0,$y+13);		$pdf->Cell(0,0,"$nombreTipoDoc Nro. $nroDocIngreso", 0,0,"C");
 $pdf->SetXY(0,$y+15);		$pdf->Cell(0,0,"-------------------------------------------------------------------------------", 0,0,"C");
 
 
 $pdf->SetXY(0,$y+18);		$pdf->Cell(0,0,"FECHA: $fecha",0,0,"C");
-$pdf->SetXY(0,$y+22);		$pdf->Cell(0,0,"Almacen Origen: $almacenOrigen",0,0,"C");
-$pdf->SetXY(0,$y+25);		$pdf->Cell(0,0,"Nro. Salida Origen: $nroSalidaTraspaso",0,0,"C");
+$pdf->SetXY(0,$y+22);		$pdf->MultiCell(70,3,utf8_decode("Obs:".$observaciones),"C");
+//$pdf->SetXY(0,$y+25);		$pdf->Cell(0,0,"Nro. Salida Origen: $nroSalidaTraspaso",0,0,"C");
 
-$y=$y-16;
+$y=$y-13;
 
 $pdf->SetXY(0,$y+45);		$pdf->Cell(0,0,"=================================================================================",0,0,"C");
 $pdf->SetXY(10,$y+48);		$pdf->Cell(0,0,"Producto");

@@ -200,57 +200,55 @@ $serverSIAT=obtenerValorConfiguracion(7);
 
 			<li><span>Reportes</span>
 				<ul>
-					<li><span>Productos</span>
+					<!--li><span>Productos</span>
 						<ul>
 							<li><a href="rptOpProductos.php" target="contenedorPrincipal">Productos</a></li>
 							<li><a href="rptOpPrecios.php" target="contenedorPrincipal">Precios</a></li>
 						</ul>
-					</li>	
+					</li-->	
 					<li><span>Movimiento de Almacen</span>
 						<ul>
 							<li><a href="rpt_op_inv_kardex.php" target="contenedorPrincipal">Kardex de Movimiento</a></li>
 							<li><a href="rpt_op_inv_existencias.php" target="contenedorPrincipal">Existencias</a></li>
-							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias con Precio de Venta</a></li>
+							<!--li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias con Precio de Venta</a></li-->
 							<li><a href="rpt_op_inv_ingresos.php" target="contenedorPrincipal">Ingresos</a></li>
 							<li><a href="rpt_op_inv_salidas.php" target="contenedorPrincipal">Salidas</a></li>
 							<li><a href="rpt_op_inv_traspasos.php" target="contenedorPrincipal">Seguimiento Traspasos</a></li>
-							<li><a href="rpt_op_inv_ingresossalidas.php" target="contenedorPrincipal">Ingresos Vs. Salidas</a></li>
-							<li><a href="rptOpRotacion.php" target="contenedorPrincipal">Reporte Rotacion de Productos</a></li>	
+							<!--li><a href="rpt_op_inv_ingresossalidas.php" target="contenedorPrincipal">Ingresos Vs. Salidas</a></li>
+							<li><a href="rptOpRotacion.php" target="contenedorPrincipal">Reporte Rotacion de Productos</a></li-->	
 							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
 					</li>	
-					<li><span>Costos</span>
+					<!--li><span>Costos</span>
 						<ul>
 							<li><a href="rptOpKardexCostos.php" target="contenedorPrincipal">Kardex de Movimiento Precio Promedio</a></li>
 							<!--li><a href="rptOpKardexCostosPEPS.php" target="contenedorPrincipal">Kardex de Movimiento PEPS</a></li>
 							<li><a href="rptOpKardexCostosUEPS.php" target="contenedorPrincipal">Kardex de Movimiento UEPS</a></li-->							
-							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>							
+							<!--li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>		
 						</ul>
 					</li-->
 					<li><span>Ventas</span>
 						<ul>
 							<li><a href="rptOpVentasDocumento.php" target="contenedorPrincipal">Ventas x Documento</a></li>
-							<li><a href="rptOpVentasDetallado.php" target="contenedorPrincipal">Detallado por Item y Linea</a></li>
-							<li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Item</a></li>
-							<li><a href="rptOpVentasGeneral.php" target="contenedorPrincipal">Ventas x Documento e Item</a></li>
-							<li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor</a></li>
+							<!--li><a href="rptOpVentasDetallado.php" target="contenedorPrincipal">Detallado por Item y Linea</a></li-->
+							<!--li><a href="rptOpVentasxItem.php" target="contenedorPrincipal">Ranking de Ventas x Item</a></li-->
+							<li><a href="rptOpVentasGeneralCliente.php" target="contenedorPrincipal">Ventas x Cliente</a></li>
+							<!--li><a href="rptOpVentasxPersonaDetalle.php" target="contenedorPrincipal">Ventas x Vendedor</a></li>
 							<li><a href="rptOpVentasSucursalTipoPago.php" target="contenedorPrincipal">Ventas x Sucursal y Tipo de Pago</a></li>
-							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li>
+							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li-->
 						</ul>	
-					</li>
-					<li><span>Reportes Contables</span>
+					<!--li><span>Reportes Contables</span>
 						<ul>
 							<li><a href="rptOpLibroVentas.php" target="contenedorPrincipal">Libro de Ventas</a></li>
-							<!--li><a href="" target="contenedorPrincipal">Libro de Compras</a></li-->
-							<!--li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li-->
+							<li><a href="" target="contenedorPrincipal">Libro de Compras</a></li>
+							<li><a href="rptOpKardexCliente.php" target="contenedorPrincipal">Kardex x Cliente</a></li>
 						</ul>	
-					</li>
+					</li-->
 					<li><span>Utilidades</span>
 						<ul>
 							<li><a href="rptOpUtilidadesDocumento.php" target="contenedorPrincipal">Utilidades x Documento</a></li>
-							<li><a href="rptOpUtilidadesDocumentoServiteca.php" target="contenedorPrincipal">Utilidades x Documento Serviteca</a></li>
-							<li><a href="rptOpUtilidadesxItem.php" target="contenedorPrincipal">Ranking de Utilidades x Linea e Item</a></li>
-							<li><a href="rptOpUtilidadesDocItem.php" target="contenedorPrincipal">Utilidades x Documento e Item</a></li>
+							<!--li><a href="rptOpUtilidadesxItem.php" target="contenedorPrincipal">Ranking de Utilidades x Linea e Item</a></li>
+							<li><a href="rptOpUtilidadesDocItem.php" target="contenedorPrincipal">Utilidades x Documento e Item</a></li-->
 							<li><a href="rptOpUtilidadesNetas.php" target="contenedorPrincipal">Utilidad Neta x Periodo</a></li>
 						</ul>	
 					</li>

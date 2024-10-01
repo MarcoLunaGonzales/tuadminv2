@@ -14,7 +14,7 @@ function envia_formulario(f)
 	
 	fecha_ini=f.exafinicial.value;
 	fecha_fin=f.exaffinal.value;
-	window.open('rptVentasDocumento.php?rpt_territorio='+rpt_territorio+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&codTipoDoc='+codTipoDoc+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
+	window.open('rptVentasGeneralCliente.php?rpt_territorio='+rpt_territorio+'&fecha_ini='+fecha_ini+'&fecha_fin='+fecha_fin+'&codTipoDoc='+codTipoDoc+'','','scrollbars=yes,status=no,toolbar=no,directories=no,menubar=no,resizable=yes,width=1000,height=800');			
 	return(true);
 }
 </script>
@@ -24,7 +24,7 @@ require("conexion.inc");
 require("estilos_almacenes.inc");
 
 $fecha_rptdefault=date("Y-m-d");
-echo "<h1>Reporte Ventas x Documento</h1>";
+echo "<h1>Reporte Ventas x Cliente (Rutas)</h1>";
 echo"<form method='post' action=''>";
 
 	echo"\n<table class='texto' align='center' cellSpacing='0' width='50%'>\n";
