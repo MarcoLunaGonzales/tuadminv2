@@ -9,6 +9,9 @@ require("../funciones.php");
  ini_set('display_errors', '1');
 
 
+$global_usuario     = $_COOKIE['global_usuario'];
+$global_admin_cargo = $_COOKIE['global_admin_cargo'];
+
 $fecha=$_POST["fecha"];
 $fecha=formateaFechaVista($fecha);
 $hora=date("H:i:s");
@@ -94,8 +97,8 @@ for($i=1;$i<=$nroFilas;$i++)
 
 	//echo $i;
 }
-$sqlInsertC="INSERT INTO `cobros_cab` (`cod_cobro`,`fecha_cobro`,`monto_cobro`,`observaciones`,`cod_cliente`,`cod_estado`,`cod_gestion`,`nro_cobro`) 
-		VALUE ('$codigo','$fecha','$montoTotal','$observaciones','$cliente','1','$globalGestion','$nroCobranza')";
+$sqlInsertC="INSERT INTO `cobros_cab` (`cod_cobro`,`fecha_cobro`,`monto_cobro`,`observaciones`,`cod_cliente`,`cod_estado`,`cod_gestion`,`nro_cobro`,`cod_funcionario_registro`) 
+		VALUE ('$codigo','$fecha','$montoTotal','$observaciones','$cliente','1','$globalGestion','$nroCobranza','$global_usuario')";
 $respInsertC=mysqli_query($enlaceCon, $sqlInsertC);
 
 echo "<script type='text/javascript' language='javascript'>";

@@ -5,6 +5,10 @@ require('../function_formatofecha.php');
 require('../home_almacen.php');
 require('../funciones.php');
 
+
+$global_usuario     = $_COOKIE['global_usuario'];
+$global_admin_cargo = $_COOKIE['global_admin_cargo'];
+
 ?>
 
 
