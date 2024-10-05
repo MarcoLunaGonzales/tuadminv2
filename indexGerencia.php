@@ -163,10 +163,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="navegadorDolar.php" target="contenedorPrincipal">Cambiar Cotizacion de Dolar</a></li>
 				</ul>	
 			</li-->
-  						<!-- Versión Nueva -->
-
-			<li><a href="navegador_despachoalmacenes.php" target="_blank">Despacho de Productos</a></li>		
-			
+  						<!-- Versión Nueva -->			
 			<li><a href="registrar_salidaventas.php" target='_blank'>Vender / Facturar</a></li>
 			<li><a href="rptOpArqueoDiario.php?variableAdmin=1" target="contenedorPrincipal" >Arqueo de Caja</a></li>
 						

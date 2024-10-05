@@ -49,7 +49,7 @@ function nombreFuncionario($codigo){
 }
 
 function nombreTerritorio($codigo){	
-	require("conexionmysqlipdf.inc.inc");
+	require("conexionmysqlipdf.inc");
 	$sql="select descripcion from ciudades where cod_ciudad in ($codigo) ";
 	$resp=mysqli_query($enlaceCon,$sql);
 	$nombre="";
