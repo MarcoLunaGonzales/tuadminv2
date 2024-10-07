@@ -70,7 +70,9 @@ if($itemsNoUtilizar==""){
 				if($precioProducto=="")
 				{   $precioProducto=0;
 				}
-				$precioProducto=redondear2($precioProducto);
+
+				//$precioProducto=redondear2($precioProducto);
+				$precioProducto=ceil($precioProducto);
 
 				echo "<tr>
 				<td>$linea</td>

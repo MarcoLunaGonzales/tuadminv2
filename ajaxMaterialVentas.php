@@ -71,7 +71,7 @@ require("funciones.php");
 			?>
 	<input class="inputnumber" type="number" min="0" step="0.01" value="0" id="tipoPrecio<?php echo $num;?>" name="tipoPrecio<?php echo $num;?>" style="background:#ADF8FA;" onkeyup='calculaMontoMaterial(<?php echo $num;?>);' onchange='calculaMontoMaterial(<?php echo $num;?>);' >%
 	
-	<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial_bs(<?php echo $num;?>);' onChange='calculaMontoMaterial_bs(<?php echo $num;?>);'  value="0" style="background:#ADF8FA;" step="0.01">
+	<input class="inputnumber" type="number" value="0" id="descuentoProducto<?php echo $num;?>" name="descuentoProducto<?php echo $num;?>" onKeyUp='calculaMontoMaterial_bs(<?php echo $num;?>);' onChange='calculaMontoMaterial_bs(<?php echo $num;?>);'  value="0" style="background:#ADF8FA;" step="1">
 </td>
 
 <td align="center" width="10%">
