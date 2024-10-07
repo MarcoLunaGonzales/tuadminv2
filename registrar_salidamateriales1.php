@@ -465,7 +465,7 @@ else
 				</tr>
 				<tr align="center">
 					<th width="10%">-</th>
-					<th width="40%">Material</th>
+					<th width="40%">Producto</th>
 					<th width="20%">Stock</th>
 					<th width="20%">Cantidad</th>
 					<th width="10%">&nbsp;</th>
@@ -496,7 +496,7 @@ else
 			<div id="divProfileData" style="background-color:#FFF; width:950px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
 				<div id="divProfileDetail" style="visibility:hidden; text-align:center">
 					<table align='center'>
-						<tr><th>Marca</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
+						<tr><th>Marca</th><th>CodInterno</th><th>Producto</th><th>&nbsp;</th></tr>
 						<tr>
 						<td><select class="selectpicker textogranderojo" name='itemTipoMaterial' id="itemTipoMaterial" style="width:300px" data-live-search="true">
 						<?php

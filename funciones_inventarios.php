@@ -5,14 +5,20 @@ require("funcionRecalculoCostos.php");
 function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_material, $cantidad, $precio, $descuento, $montoparcial, $orden){
 	
 	//echo $cod_salida." ".$cod_almacen." ".$cod_material." ".$cantidad;
+	
 	$cantidadPivote=$cantidad;
 	
 	$banderaError=1;
 	
+	// $sqlExistencias="select id.cod_material, id.cantidad_restante, id.lote, id.fecha_vencimiento, id.cod_ingreso_almacen 
+	// 	from ingreso_almacenes i, ingreso_detalle_almacenes id 
+	// 	where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$cod_almacen' and i.ingreso_anulado=0 
+	// 	and id.cod_material='$cod_material' and id.cantidad_restante>0 order by id.lote, id.fecha_vencimiento asc";
+
 	$sqlExistencias="select id.cod_material, id.cantidad_restante, id.lote, id.fecha_vencimiento, id.cod_ingreso_almacen 
 		from ingreso_almacenes i, ingreso_detalle_almacenes id 
 		where i.cod_ingreso_almacen=id.cod_ingreso_almacen and i.cod_almacen='$cod_almacen' and i.ingreso_anulado=0 
-		and id.cod_material='$cod_material' and id.cantidad_restante>0 order by id.lote, id.fecha_vencimiento asc";
+		and id.cod_material='$cod_material' order by id.cod_ingreso_almacen desc";	
 	
 	//echo $sqlExistencias;
 	//AQUI SE DEBE CORREGIR EL DATO DE CANTIDAD RESTANTE >0 OJO
@@ -27,7 +33,7 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			$fechaVencProducto=$datExistencias[3];
 			$codIngreso=$datExistencias[4];
 			
-			// echo $codMaterial." ".$cantidadRestante." ".$loteProducto." ".$fechaVencProducto."<br>";
+			//echo $codMaterial." ".$cantidadRestante." ".$loteProducto." ".$fechaVencProducto."<br>";
 			
 			if($cantidadPivote<=$cantidadRestante){
 				$cantidadInsert=$cantidadPivote;
@@ -43,8 +49,9 @@ function descontar_inventarios($enlaceCon, $cod_salida, $cod_almacen, $cod_mater
 			'$precio','$descuento','$montoparcial','$codIngreso','$orden')";
 			$respInsert=mysqli_query($enlaceCon,$sqlInsert);
 			
-			// echo "DETALLE DE SALIDA <br>";
-			// echo $sqlInsert;
+			//echo "DETALLE DE SALIDA <br>";
+			//echo $sqlInsert;
+			
 			//AQUI DAMOS DE BAJA EL DESCUENTO POR SI HUBIERAN DOS REGISTROS O MAS
 			$descuento=0;
 

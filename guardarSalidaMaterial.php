@@ -309,7 +309,8 @@ if($tipoSalida == '1000'){ // Traspaso
 					$montoMaterial 		= $item->montoMaterial;
 					$index++;
 					
-					$respuesta = descontar_inventarios($enlaceCon, $codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$index);
+					//$respuesta = descontar_inventarios($enlaceCon, $codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$index);
+					$respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $index);
 
 					if($respuesta!=1){
 						echo "<script>
@@ -366,13 +367,16 @@ if($sql_inserta==1){
 			$montoMaterialConDescuento=($precioUnitario*$cantidadUnitaria)-$descuentoProducto;
 
 			$montoTotalVentaDetalle=$montoTotalVentaDetalle+$montoMaterialConDescuento;
-			if($banderaValidacionStock==1){
+			/*if($banderaValidacionStock==1){
 				echo "descontar_inventarios";
 				$respuesta=descontar_inventarios($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$i);
 			}else{
 				echo "insertar_detalleSalidaVenta";
 				$respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $i);
-			}
+			}*/
+			echo "insertar_detalleSalidaVenta";
+			$respuesta=insertar_detalleSalidaVenta($enlaceCon,$codigo, $almacenOrigen,$codMaterial,$cantidadUnitaria,$precioUnitario,$descuentoProducto,$montoMaterial,$banderaValidacionStock, $i);
+
 			if($respuesta!=1){
 				echo "<script>
 					alert('Existio un error en el detalle. Contacte con el administrador del sistema.');
