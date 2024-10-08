@@ -426,6 +426,7 @@ function setMateriales(f, cod, nombreMat, stockproducto, precioproducto, descuen
 	document.getElementById('stock'+numRegistro).value=parseInt(stockproducto);
 	document.getElementById('precio_unitario'+numRegistro).value=parseFloat(precioproducto);
 
+	/*desde aqui los descuentos de productos*/
 	var valorDescuentoMaximoBs = parseFloat(precioproducto*(descuentomaximoproducto/100));
 	console.log("valormaxbs: "+valorDescuentoMaximoBs);
 	document.getElementById('tipoPrecio'+numRegistro).max=parseFloat(descuentomaximoproducto);
