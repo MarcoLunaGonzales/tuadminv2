@@ -383,6 +383,12 @@ while ($dat = mysqli_fetch_array($resp)) {
             <img src='imagenes/pdf.png' border='0' title='PDF de Traspaso' width='40'>
         </a>";   
     }
+    // CONSIGNACIÓN
+    if($codTipoSalida == 1009){
+        echo "<a href='formatoHojaConsignacion.php?cod_salida_almacen=$codigo' target='_blank'>
+            <img src='imagenes/pdf.png' border='0' title='PDF de Consignación' width='40'>
+        </a>";   
+    }
     echo "</td>";
 	/*if($codTipoDoc==1){
 		echo "<td><a href='formatoFactura.php?codVenta=$codigo' target='_BLANK'>Ver F.P.</a></td>";
