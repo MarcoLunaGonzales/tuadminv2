@@ -33,7 +33,7 @@
 	<th>Producto</th>
 	<th>Marca</th>
 	<th>Grupo</th>
-	<th>Precio Contado / Credito</th>
+	<th>Precio -10</th>
 	<th>Precio Contado > 10</th>
 	<th>Precio Credito > 10</th>
 	</tr>";

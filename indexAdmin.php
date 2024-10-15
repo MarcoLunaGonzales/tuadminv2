@@ -46,7 +46,7 @@ include("datosUsuario.php");
 					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Marcas</a></li>
 					<li><span>Gestion de Productos</span>
 						<ul>
-							<li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li>
+							<!--li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li-->
 							<li><a href="navegador_grupos.php" target="contenedorPrincipal">Grupos</a></li>
 							<li><a href="navegador_material.php" target="contenedorPrincipal">Productos</a></li>
 							<li><a href="navegador_precios.php?orden=1" target="contenedorPrincipal">Precios (Orden Alfabetico)</a></li>

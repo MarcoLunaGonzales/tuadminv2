@@ -1,7 +1,8 @@
 <?php
 
-require("../../conexion.inc");
+require("../../conexionmysqli.inc");
 require("../../estilos_almacenes.inc");
+require("../../funcion_nombres.php");
 
 $globalAgencia=$_COOKIE["global_agencia"];
 $globalAlmacen=$_COOKIE["global_almacen"];
@@ -10,8 +11,8 @@ $fil_nombre   = $_GET['fil_nombre'] ?? '';
 $fil_nit      = $_GET['fil_nit'] ?? '';
 $fil_direcion = $_GET['fil_direccion'] ?? '';
 
-echo "<br>";
-echo "<h1>Clientes</h1>";
+//echo "<br>";
+echo "<h2>Clientes</h2>";
 
 echo "<div class='divBotones'>
 <input class='boton' type='button' value='Adicionar' onclick='javascript:frmAdicionar();'>
@@ -29,11 +30,12 @@ echo "<center>";
 echo "<table class='texto'>";
 echo "<tr>";
 
-echo '<th style="width: 30%;">Cliente</th>';
-echo '<th style="width: 15%;">NIT</th>';
-echo '<th style="width: 25%;">Dirección</th>';
-echo '<th style="width: 15%;">Ciudad</th>';
-echo '<th style="width: 10%;" class="text-center">Acciones</th>';
+echo '<th>Codigo</th>';
+echo '<th>Cliente</th>';
+echo '<th>NIT</th>';
+echo '<th>Dirección</th>';
+echo '<th>Funcionario Asignado</th>';
+echo '<th class="text-center">Acciones</th>';
 
 echo "</tr>";
 $consulta="SELECT c.cod_cliente, CONCAT(c.nombre_cliente,' ',c.paterno)as nombre_cliente, c.nit_cliente, c.dir_cliente, c.cod_area_empresa, a.descripcion
@@ -63,11 +65,15 @@ while($reg=mysqli_fetch_array($rs)){
     $dirCliente = $reg["dir_cliente"];
     $codArea = $reg["cod_area_empresa"];
     $nomArea = $reg["descripcion"];
+
+    $nombreVendedorAsignado = obtenerFuncionariosAsignados($enlaceCon, $codCliente);
+
     echo "<tr>";
-    echo "<td>$nomCliente</td>
+    echo "<td>$codCliente</td>
+    <td>$nomCliente</td>
             <td>$nitCliente</td>
             <td>$dirCliente</td>
-            <td>$nomArea</td>
+            <td><small>$nombreVendedorAsignado<small></td>
             <td class='text-center'>
                 <a class='btn btn-sm btn-primary pt-4' href='asignaFuncionarioCliente.php?codcli=$codCliente' title='Asignar Funcionario' style='padding-left: 10px; padding-right: 10px;'>
                     <i class='material-icons'>person_add</i>

@@ -5,7 +5,9 @@ require('funciones.php');
 require('function_formatofecha.php');
 require("estilos_almacenes.inc");
 
-$global_admin_cargo=$_COOKIE["global_admin_cargo"];
+$global_usuario     = $_COOKIE['global_usuario'];
+$global_admin_cargo = $_COOKIE['global_admin_cargo'];
+
 
 ?>
 <html>
@@ -67,11 +69,14 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
                         LEFT JOIN almacenes a ON a.cod_almacen = p.cod_almacen
                         LEFT JOIN tipos_docs td ON td.codigo = p.cod_tipo_doc
                         LEFT JOIN clientes c ON c.cod_cliente = p.cod_cliente
-                        LEFT JOIN funcionarios f ON f.codigo_funcionario = p.created_by
+                        LEFT JOIN funcionarios f ON f.codigo_funcionario = p.cod_chofer
                         LEFT JOIN tipos_pago tp ON tp.cod_tipopago = p.cod_tipopago
                     WHERE
-                        p.cod_almacen = '$global_almacen' 
-                    ORDER BY p.created_at 
+                        p.cod_almacen = '$global_almacen' ";
+                    if(!$global_admin_cargo){ // SI NO ES ADMINISTRADOR
+                        $consulta .= " AND p.cod_chofer = '$global_usuario' ";
+                    }
+                    $consulta.= " ORDER BY p.created_at 
                     DESC LIMIT 0, 100";
 
                         $resp = mysqli_query($enlaceCon, $consulta);

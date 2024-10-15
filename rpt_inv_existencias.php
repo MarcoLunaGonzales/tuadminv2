@@ -59,6 +59,8 @@ $rptFormato=$_POST["rpt_formato"];
 
 $rpt_fecha=$_POST["rpt_fecha"];
 
+$rpt_territorio=obtenerCodigoSucursal($rpt_almacen);
+
 $fecha_reporte=date("d/m/Y");
 $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 
@@ -139,7 +141,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			if($rptFormato==2){//PARA INVENTARIO
 				echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 				<thead>
-					<tr><th>&nbsp;</th><th>Marca</th><th>Producto</th><th>Cantidad</th>
+					<tr><th>&nbsp;</th><th>Marca</th><th>Pais</th><th>Producto</th><th>Cantidad</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th></tr>

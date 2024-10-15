@@ -87,7 +87,7 @@ $serverSIAT=obtenerValorConfiguracion(7);
 					<li><a href="programas/proveedores/inicioProveedores.php" target="contenedorPrincipal">Marcas</a></li>
 					<li><span>Gestion de Productos</span>
 						<ul>
-							<li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li>
+							<!--li><a href="navegador_tiposmaterial.php" target="contenedorPrincipal">Tipos de Producto</a></li-->
 							<li><a href="navegador_grupos.php" target="contenedorPrincipal">Grupos</a></li>
 							<li><a href="pais_procedencia/list.php" target="contenedorPrincipal">Paises de Origen</a></li>
 							<li><a href="navegador_material.php?vista=0&vista_ordenar=0&grupo=0" target="contenedorPrincipal">Productos</a></li>
@@ -107,7 +107,8 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							
 						</ul>	
 					</li>	
-					<li><a href="tipos_cambios/list.php" target="contenedorPrincipal">Tipo de Cambio</a></li>				
+					<li><a href="tipos_cambios/list.php" target="contenedorPrincipal">Tipo de Cambio</a></li>
+					<li><a href="transportadoras/generalLista.php" target="contenedorPrincipal">Transportadoras</a></li>								
 				</ul>	
 			</li>
 
@@ -210,12 +211,10 @@ $serverSIAT=obtenerValorConfiguracion(7);
 							<!--li><a href="rptOCPagar.php" target="contenedorPrincipal">OC por Pagar</a></li-->
 						</ul>
 					</li>	
-					<li><span>Costos</span>
+					<!--li><span>Costos</span>
 						<ul>
 							<li><a href="rptOpKardexCostos.php" target="contenedorPrincipal">Kardex de Movimiento Precio Promedio</a></li>
-							<!--li><a href="rptOpKardexCostosPEPS.php" target="contenedorPrincipal">Kardex de Movimiento PEPS</a></li>
-							<li><a href="rptOpKardexCostosUEPS.php" target="contenedorPrincipal">Kardex de Movimiento UEPS</a></li-->							
-							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>							
+							<li><a href="rptOpExistenciasCostos.php" target="contenedorPrincipal">Existencias</a></li>			
 						</ul>
 					</li-->
 					<li><span>Ventas</span>

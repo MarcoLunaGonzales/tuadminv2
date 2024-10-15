@@ -23,10 +23,12 @@ $fecha_rptdefault_ini=date("Y-m-01");
 $fecha_rptdefault=date("Y-m-d");
 
 echo "<table align='center' class='textotit'><tr><th>Reporte Cuentas x Cobrar</th></tr></table><br>";
-echo"<form method='post' action='rptOpKardexCostos.php'>";
+echo"<form method='post' action='rptCuentasCobrar.php' target='_BLANK'>";
 
 	echo"\n<table class='texto' border='1' align='center' cellSpacing='0' width='50%'>\n";
-	echo "<tr><th align='left'>Sucursal</th><td><select name='rpt_territorio' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>";
+	echo "<tr><th align='left'>Sucursal</th>
+	<td>
+	<select name='rpt_territorio' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true' required>";
 	$sql="select cod_ciudad, descripcion from ciudades order by descripcion";
 	$resp=mysqli_query($enlaceCon, $sql);
 	echo "<option value=''></option>";
@@ -38,7 +40,9 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 	echo "</select></td></tr>";
 	
 	// VENDEDORES
-	echo "<tr><th align='left'>Vendedor</th><td><select name='rpt_cod_vendedor' class='selectpicker' data-style='btn btn-info' data-show-subtext='true' data-live-search='true'>";
+	echo "<tr><th align='left'>Vendedor</th>
+	<td>
+		<select name='rpt_cod_vendedor[]' class='selectpicker form-control' data-style='btn btn-info' data-show-subtext='true' data-live-search='true' data-actions-box='true' data-size='8' multiple>";
 	$sql="SELECT f.`codigo_funcionario`,
 		concat(f.`paterno`,' ', f.`nombres`) as nombre 
 		FROM `funcionarios` f, funcionarios_agencias fa 
@@ -47,27 +51,26 @@ echo"<form method='post' action='rptOpKardexCostos.php'>";
 		GROUP BY codigo_funcionario 
 		ORDER BY 2";
 	$resp=mysqli_query($enlaceCon, $sql);
-	echo "<option value='0'>TODOS</option>";
 	while($dat=mysqli_fetch_array($resp))
 	{	$codigo_ciudad=$dat[0];
 		$nombre_ciudad=$dat[1];
-		echo "<option value='$codigo_ciudad'>$nombre_ciudad</option>";
+		echo "<option value='$codigo_ciudad' selected>$nombre_ciudad</option>";
 	}
 	echo "</select></td></tr>";
 	
 
 	echo "<tr><th align='left'>De fecha:</th>";
-	echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault_ini' id='exafinicial' size='10' name='exafinicial'>";
+	echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault_ini' id='fecha_ini' size='10' name='fecha_ini'>";
 	echo"  </TD>";
 	echo "</tr>";
 
 	echo "<tr><th align='left'>A fecha:</th>";
-			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='exaffinal' size='10' name='exaffinal'>";
+			echo" <TD bgcolor='#ffffff'><INPUT  type='date' class='texto' value='$fecha_rptdefault' id='fecha_fin' size='10' name='fecha_fin'>";
     		echo"  </TD>";
 	echo "</tr>";
 	
 	echo"\n </table><br>";
-	echo "<center><input type='button' name='reporte' value='Ver Reporte' onClick='envia_formulario(this.form)' class='boton'>
+	echo "<center><input type='submit' name='reporte' value='Ver Reporte' class='boton2'>
 	</center><br>";
 	echo"</form>";
 	echo "</div>";

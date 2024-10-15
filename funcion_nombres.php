@@ -153,4 +153,18 @@ function obtenerNombreProductoSimple($enlaceCon, $codigo){
 	}
 	return($nombre);
 }
+
+function obtenerFuncionariosAsignados($enlaceCon, $codigo){
+	require("conexionmysqlipdf.inc");
+	$sql="SELECT f.codigo_funcionario, concat(f.paterno,' ',f.materno,' ',f.nombres) from funcionarios f, funcionarios_clientes fc 
+		where fc.cod_funcionario=f.codigo_funcionario and fc.cod_cliente='$codigo'";
+	$resp=mysqli_query($enlaceCon,$sql);
+	$nombre="";
+	while($dat=mysqli_fetch_array($resp)){
+		$nombre.=$dat[1]."<br>";
+	}
+	return($nombre);
+}
+
+
 ?>
