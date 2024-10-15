@@ -93,7 +93,7 @@
     /************************************/
     $pdf->SetFont('Arial','B',13);    
     $textypos = 4;
-    $pdf->setY(4);$pdf->setX($ejeX + 71);
+    $pdf->setY(4);$pdf->setX($ejeX + 80);
     $pdf->Cell(5, $textypos, utf8_decode("NOTA DE CONSIGNACIÓN"));
     
     // Cambiar el color del texto a rojo
@@ -144,7 +144,16 @@
     $pdf->setY(29);$pdf->setX($ejeX + 52);
     $pdf->Cell(150,$textypos,utf8_decode($cab_dir_origen), '', 0, 'L');
     $pdf->Ln();
+
+    $pdf->SetFont('Arial','B',9);  
+    $pdf->setY(33);$pdf->setX($ejeX + 3);
+    $pdf->Cell(48,$textypos,utf8_decode("Glosa Consignación:"), '', 0, 'L');
+    $pdf->SetFont('Arial','',9);  
+    $pdf->setY(33);$pdf->setX($ejeX + 52);
+    $pdf->Cell(150,$textypos,utf8_decode($cab_observaciones), '', 0, 'L');
+    $pdf->Ln();
     
+    /*
     $pdf->SetFont('Arial','B',9);  
     $pdf->setY(33);$pdf->setX($ejeX + 3);
     $pdf->Cell(200,$textypos,utf8_decode("DATOS DEL DESTINARIO"), '', 0, 'C');
@@ -179,6 +188,7 @@
     $pdf->setY(43);$pdf->setX($ejeX + 40);
     $pdf->Cell(160,$textypos,utf8_decode("LLANTAS"), '', 0, 'L');
     $pdf->Ln();
+    */
 
     // DETALLE DE ITEMS
     $header = array("CANT.", "MARCA", "DESCRIPCION");

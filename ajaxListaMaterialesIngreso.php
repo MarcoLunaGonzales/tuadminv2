@@ -2,7 +2,7 @@
 <body>
 <table align='center' class="texto">
 <tr>
-<th>CodInterno</th><th>Producto</th><th>Stock</th></tr>
+<th>Codigo</th><th>Producto</th><th>Stock</th></tr>
 <?php
 require("conexion.inc");
 $codTipo=$_GET['codTipo'];
@@ -28,7 +28,7 @@ $itemsNoUtilizar="0";
 		$sql=$sql. " and descripcion_material like '%$nombreItem%'";
 	}
 	if($codTipo!=0){
-		$sql=$sql. " and cod_grupo = '$codTipo' ";
+		$sql=$sql. " and cod_linea_proveedor = '$codTipo' ";
 	}
 	if($codInterno!=""){
 		$sql=$sql. " and m.codigo_anterior like '%$codInterno%' ";
@@ -65,7 +65,9 @@ $itemsNoUtilizar="0";
 				}
 			}
 			
-			echo "<tr><td><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre\", $cantidadPresentacion, $costoItem)'>$codigoInterno</a></div></td><td><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre ($codigoInterno)\", $cantidadPresentacion, $costoItem)'>$nombre</a></div></td><td><div class='textograndenegro'>-</a></div></td></tr>";
+			echo "<tr><td align='center'><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre\", $cantidadPresentacion, $costoItem)'>$codigo</a></div></td>
+			<td><div class='textograndenegro'><a href='javascript:setMateriales(form1, $codigo, \"$nombre ($codigo)\", $cantidadPresentacion, $costoItem)'>$nombre</a></div></td>
+			<td><div class='textograndenegro'>-</a></div></td></tr>";
 		}
 	}else{
 		echo "<tr><td colspan='3'>Sin Resultados en la busqueda.</td></tr>";

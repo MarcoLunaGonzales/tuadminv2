@@ -200,7 +200,7 @@ if($fecha=="")
 }
 
 echo "<form action='guarda_ingresomateriales.php' method='post' name='form1'>";
-echo "<table border='0' class='textotit' align='center'><tr><th>Registrar Ingreso de Productos</th></tr></table><br>";
+echo "<center><h1 align='center'>Registrar Ingreso de Productos</h1></center>";
 
 
 // echo "<table border='0' class='texto' cellspacing='0' align='center' width='90%' style='border:#ccc 1px solid;'>";
@@ -383,7 +383,7 @@ echo "</div>";
 			<tr>
 			<td><select name='itemTipoMaterial' id="itemTipoMaterial" class="textogranderojo" style="width:300px">
 			<?php
-			$sqlTipo="select g.cod_grupo, g.nombre_grupo from grupos g
+			$sqlTipo="select g.cod_linea_proveedor, g.nombre_linea_proveedor from proveedores_lineas g
 			where g.estado=1 order by 2;";
 			$respTipo=mysqli_query($enlaceCon,$sqlTipo);
 			echo "<option value='0'>--</option>";
