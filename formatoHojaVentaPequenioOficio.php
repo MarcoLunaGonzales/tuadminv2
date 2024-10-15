@@ -152,7 +152,7 @@
         
         $pdf->SetFont('Arial','',6);    
         $pdf->setY(30); $pdf->setX($ejeX + 76);
-        $pdf->Cell(30, $textypos, $cab_dir_cliente, 'TBR', 0, 'L');
+        $pdf->Cell(30, $textypos, utf8_decode($cab_dir_cliente), 'TBR', 0, 'L');
         // $pdf->MultiCell(27.5, 1, utf8_decode($cab_dir_cliente), 0, 'L');
         $pdf->setY(35);$pdf->setX($ejeX + 76);
         $pdf->Cell(30, $textypos, $cab_tipo_venta, 'TBR', 0, 'L');
