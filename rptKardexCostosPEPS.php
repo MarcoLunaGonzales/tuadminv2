@@ -21,7 +21,7 @@ if($tipo_item==1)
 	$sql_item="select descripcion, presentacion from muestras_medicas where codigo='$rpt_item'";
 }
 else
-{	$nombre_tipoitem="Material de Apoyo";
+{	$nombre_tipoitem="Producto de Apoyo";
 	$sql_item="select descripcion_material from material_apoyo where codigo_material='$rpt_item'";
 }
 $resp_item=mysqli_query($enlaceCon,$sql_item);

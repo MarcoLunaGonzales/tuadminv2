@@ -28,7 +28,7 @@ $global_admin_cargo=$_COOKIE["global_admin_cargo"];
                         <th>Cant. Ingreso</th>
                         <th>Cant. Venta</th>
                         <th>COD. VENTA</th>
-                        <th>COD. Material</th>
+                        <th>COD. Producto</th>
                         <th>Producto</th>
                         <th>Fecha y Hora</th>
                     </tr>

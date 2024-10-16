@@ -23,7 +23,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			$nombre_linea=$dat_linea[0];
 			$txt_linea="L�nea: <strong>$nombre_linea</strong>";
 		}
-		if($tipo_item==1){$nombre_item="Muestra M�dica";}else{$nombre_item="Material de Apoyo";}
+		if($tipo_item==1){$nombre_item="Muestra M�dica";}else{$nombre_item="Producto de Apoyo";}
 		echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Existencias en transito<br>Almacen: <strong>$nombre_territorio</strong> Nombre Almacen: <strong>$nombre_almacen</strong> Tipo de Item: <strong>$nombre_item</strong> $txt_linea<br>$txt_reporte</th></tr></table>";
 		//desde esta parte viene el reporte en si
 		if($tipo_item==1)
@@ -39,7 +39,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		}
 		if($tipo_item==2)
 		{
-			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Material de Apoyo</th><th>L�nea</th><th>Tipo de Material</th><th>Cantidad</th></tr>";
+			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Producto de Apoyo</th><th>L�nea</th><th>Tipo de Producto</th><th>Cantidad</th></tr>";
 		}
 		$indice=1;
 		while($datos_item=mysqli_fetch_array($resp_item))

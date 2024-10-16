@@ -46,7 +46,7 @@ if ($grupo_ingreso == 1) {
     echo "<center><table border='0' class='textotit'><tr><th>Buscar Ingreso de Muestras</th></tr></table></center><br>";
 } else {
     echo "<form method='post' action='navegador_ingresomateriales.php'>";
-    echo "<center><table border='0' class='textotit'><tr><th>Buscar Ingreso de Material de Apoyo</th></tr></table></center><br>";
+    echo "<center><table border='0' class='textotit'><tr><th>Buscar Ingreso de Producto de Apoyo</th></tr></table></center><br>";
 }
 echo "<br><center>";
 echo "<table border='1' class='texto' cellspacing='0'>";

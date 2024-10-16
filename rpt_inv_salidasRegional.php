@@ -11,7 +11,7 @@ $fecha_iniconsulta=cambia_formatofecha($fecha_ini);
 $fecha_finconsulta=cambia_formatofecha($fecha_fin);
 
 if($tipo_item==1)
-{$nombre_item="Muestra Médica";}else{$nombre_item="Material de Apoyo";}
+{$nombre_item="Muestra Mï¿½dica";}else{$nombre_item="Producto de Apoyo";}
 $nombre_lineas=$rpt_linea1;
 $codigo_lineas=$rpt_linea;
 echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Salida de Productos x Regional<br>Tipo de Salida: $nombre_tiposalida<br> Fecha inicio: <strong>$fecha_ini</strong> Fecha final: <strong>$fecha_fin</strong> Tipo de Item: <strong>$nombre_item</strong><br>Linea: <strong>$nombre_lineas</strong><br>$txt_reporte</th></tr></table>";

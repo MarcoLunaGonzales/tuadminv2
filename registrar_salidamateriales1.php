@@ -443,6 +443,22 @@ else
 					?>
 					</select>
 				</th>
+				<th align='center' v-show="tipo_salida == 1009">
+					<label style="color:black;">Cliente</label>
+					<select name='cliente' id='cliente' required class='selectpicker form-control' data-style='btn btn-rose'>
+					<?php
+						$sqlCliente = "SELECT c.cod_cliente, c.nombre_cliente
+									FROM clientes c
+									ORDER BY c.nombre_cliente ASC";
+						$respCliente = mysqli_query($enlaceCon,$sqlCliente);
+						while($data = mysqli_fetch_array($respCliente)){
+					?>
+						<option value="<?= $data['cod_cliente'] ?>"><?= $data['nombre_cliente'] ?></option>
+					<?php		
+						}
+					?>
+					</select>
+				</th>
 				<th align='center' v-bind:colspan="tipo_salida == 1000 ? 1 : 5">
 					<label style="color:black;">Observaciones</label>
 					<input type='text' class='form-control' name='observaciones' placeholder="Ingrese observaciones" style="background:white;">

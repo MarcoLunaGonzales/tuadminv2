@@ -727,7 +727,7 @@ if($tipoDocDefault==2){
 
 	<tr align="center">
 		<td width="5%">&nbsp;</td>
-		<td width="30%">Material</td>
+		<td width="30%">Producto</td>
 		<td width="10%">Stock</td>
 		<td width="10%">Cantidad</td>
 		<td width="10%">Precio </td>
@@ -749,7 +749,7 @@ if($tipoDocDefault==2){
 <div id="divProfileData" style="background-color:#FFF; width:950px; height:350px; position:absolute; top:50px; left:170px; -webkit-border-radius: 20px; 	-moz-border-radius: 20px; visibility: hidden; z-index:2; overflow: auto;">
   	<div id="divProfileDetail" style="visibility:hidden; text-align:center">
 		<table align='center'>
-			<tr><th>Grupo</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
+			<tr><th>Grupo</th><th>CodInterno</th><th>Producto</th><th>&nbsp;</th></tr>
 			<tr>
 			<td><select class="textomedianorojo" name='itemTipoMaterial' style="width:300px">
 			<?php

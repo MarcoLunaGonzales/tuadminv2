@@ -24,7 +24,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un Material para proceder a su eliminaci�n.');
+			{	alert('Debe seleccionar al menos un Producto para proceder a su eliminación.');
 			}
 			else
 			{
@@ -54,13 +54,13 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j>1)
-			{	alert('Debe seleccionar solamente un Material para editar sus datos.');
+			{	alert('Debe seleccionar solamente un Producto para editar sus datos.');
 			}
 			else
 			{
 				if(j==0)
 				{
-					alert('Debe seleccionar un Material para editar sus datos.');
+					alert('Debe seleccionar un Producto para editar sus datos.');
 				}
 				else
 				{
@@ -79,7 +79,7 @@ echo "<script language='Javascript'>
 	$resp=mysqli_query($enlaceCon,$sql);
 	echo "<center><table border='0' class='textotit'><tr><td>Registro de Productos</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='90%'>";
-	echo "<tr><th>&nbsp;</th><th>Tipo de Material</th><th>Nombre Material</th><th>Producto</th><th>Forma Farmaceutica</th><th>Presentaci�n</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Tipo de Producto</th><th>Nombre Producto</th><th>Producto</th><th>Forma Farmaceutica</th><th>Presentación</th></tr>";
 	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];

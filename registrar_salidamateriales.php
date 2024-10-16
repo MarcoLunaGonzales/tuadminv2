@@ -284,7 +284,7 @@ for($i=0;$i<=40;$i++)
     }
 }
 echo "</select></th></tr>";
-echo "<tr><th>&nbsp;</th><th>Material</th><th>Stock</th><th>Cantidad Unitaria</th><th>Precio</th><th>Monto</th></tr>";
+echo "<tr><th>&nbsp;</th><th>Producto</th><th>Stock</th><th>Cantidad Unitaria</th><th>Precio</th><th>Monto</th></tr>";
 for($indice_detalle=1;$indice_detalle<=$cantidad_material;$indice_detalle++)
 {   echo "<tr>";
     echo "<td align='center'>$indice_detalle</td>";

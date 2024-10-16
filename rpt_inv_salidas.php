@@ -77,7 +77,7 @@ if($tipo_reporte==0)
 		//aqui sacamos el detalle
 		$detalle_salida="";
 		$detalle_salida.="<table border='0' class='textomini' cellspacing='0' width='100%' align='center'>";
-		$detalle_salida.="<tr><th>&nbsp;</th><th width='80%'>Material</th><th width='20%'>Cantidad</th></tr>";
+		$detalle_salida.="<tr><th>&nbsp;</th><th width='80%'>Producto</th><th width='20%'>Cantidad</th></tr>";
 		$sql_detalle="select s.cod_material, s.cantidad_unitaria from salida_detalle_almacenes s
 		where s.cod_salida_almacen='$codigo'";
 		$resp_detalle=mysqli_query($enlaceCon,$sql_detalle);
@@ -125,7 +125,7 @@ if($tipo_reporte==0)
 	$resp_producto=mysqli_query($enlaceCon,$sql_producto);
 	echo "<table class='texto' width='70%' align='center'>";
 
-	echo "<tr><th>Material</th><th>Salidas</th></tr>";
+	echo "<tr><th>Producto</th><th>Salidas</th></tr>";
 	
 	while($dat_producto=mysqli_fetch_array($resp_producto))
 	{	$codigo_producto=$dat_producto[0];

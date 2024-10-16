@@ -93,7 +93,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		if($rptOrdenar==1){
 			/*echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 			<thead>
-				<tr><th>&nbsp;</th><th>Codigo</th><th>Material</th><th>Peso[Kg]</th>
+				<tr><th>&nbsp;</th><th>Codigo</th><th>Producto</th><th>Peso[Kg]</th>
 				<th>Cantidad</th></tr>
 			</thead>";*/
 			if($rptFormato==1){

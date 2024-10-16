@@ -48,7 +48,7 @@ $cantidad_materiales=mysqli_num_rows($resp_detalle_salida);
 
 echo "<input type='hidden' name='codigo_salida' value='$codigo_registro'>";
 echo "<input type='hidden' name='cantidad_material' value='$cantidad_materiales'>";
-echo "<tr><th width='5%'>&nbsp;</th><th width='45%'>Material</th><th width='25%'>Cantidad de Origen</th><th>Cantidad Recibida</th></tr>";
+echo "<tr><th width='5%'>&nbsp;</th><th width='45%'>Producto</th><th width='25%'>Cantidad de Origen</th><th>Cantidad Recibida</th></tr>";
 
 $indice_detalle=1;
 

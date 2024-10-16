@@ -257,11 +257,7 @@ echo "<tr>
 	<th>Nro. Ingreso: <b>$nro_correlativo<b></th>";
 echo"<th><input type='text' disabled='true' class='texto' value='$fecha' id='fecha' size='10' name='fecha'></th>
 	<th>Tipo de Ingreso: </td><th>";
-$sql1="SELECT cod_tipoingreso, nombre_tipoingreso 
-		FROM tipos_ingreso 
-		WHERE cod_tipoingreso = '1000'
-		OR cod_tipoingreso = '1005' 
-		ORDER BY cod_tipoingreso ASC";
+$sql1="select cod_tipoingreso, nombre_tipoingreso from tipos_ingreso where cod_tipoingreso='1000' order by nombre_tipoingreso";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<select name='tipo_ingreso' id='tipo_ingreso' class='texto'>";
 while($dat1=mysqli_fetch_array($resp1))
@@ -332,27 +328,6 @@ echo "<th colspan='1'>Observaciones:</th>
 
 echo "</tr>";
 
-
-echo "<tr id='cliente-row' style='display: none;'>";
-echo "<th>Cliente:</th>";
-
-		$sqlCliente = "SELECT c.cod_cliente, c.nombre_cliente
-		FROM clientes c
-		ORDER BY c.nombre_cliente ASC";
-		$respCliente = mysqli_query($enlaceCon,$sqlCliente);
-		
-		echo "<th align='center'>
-		<select name='cliente' id='cliente' class='selectpicker' data-style='btn btn-info' data-live-search='true'>
-			<option value=''>-</option>
-		";
-		while($data = mysqli_fetch_array($respCliente)){
-			$codigo = $data['cod_cliente'];
-			$nombre = $data['nombre_cliente'];
-			
-			echo "<option value='$codigo'>$nombre</option>";
-		}
-		echo "</select></th>";
-echo "</tr>";
 
 echo "</table><br>";
 ?>
@@ -459,17 +434,5 @@ echo "</div>";
             $('#fecha_factura_proveedor').prop('readonly', true);
         }
     });
-	
-	$('#tipo_ingreso').change(function() {
-		var selectedValue = $(this).val();
-		
-		// Si el tipo de ingreso es '1005', mostramos el campo Cliente
-		if (selectedValue == '1005') {
-			$('#cliente-row').show();
-		} else {
-			$('#cliente-row').hide();
-			$('#cod_tipopago').val('');
-		}
-	});
 </script>
 </body>

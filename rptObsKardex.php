@@ -60,7 +60,7 @@ echo"<form method='post' action=''>";
 	echo "<tr><th align='left'>Tipo de Item:</th>";
 	echo "<td><select name='tipo_item' class='texto'>";
 	echo "<option value='1'>Muestra M�dica</option>";
-	echo "<option value='2'>Material de Apoyo</option>";
+	echo "<option value='2'>Producto de Apoyo</option>";
 	echo "</tr>";
 	echo"\n </table><br>";
 	require('home_almacen.php');

@@ -46,7 +46,7 @@ if ($grupo_salida == 1) {
     echo "<center><table border='0' class='textotit'><tr><th>Buscar Salida de Muestras</th></tr></table></center><br>";
 } else {
     echo "<form method='post' action='navegador_salidamateriales.php'>";
-    echo "<center><table border='0' class='textotit'><tr><th>Buscar Salida de Material de Apoyo</th></tr></table></center><br>";
+    echo "<center><table border='0' class='textotit'><tr><th>Buscar Salida de Producto de Apoyo</th></tr></table></center><br>";
 }
 echo "<br><center>";
 echo "<table border='1' class='texto' cellspacing='0'>";

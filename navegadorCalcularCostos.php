@@ -58,7 +58,7 @@ echo"<form method='post' action='navegadorCalcularCostos.php'>";
 	}
 	echo "</select></td></tr>";
 	
-	/*echo "<tr><th align='left'>Material</th><td><select name='rpt_item' class='texto'>";
+	/*echo "<tr><th align='left'>Producto</th><td><select name='rpt_item' class='texto'>";
 	
 	$sql_item="select codigo_material, descripcion_material from material_apoyo where codigo_material<>0 order by descripcion_material";
 	

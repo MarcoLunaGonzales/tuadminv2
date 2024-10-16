@@ -3,7 +3,7 @@ echo "<script language='Javascript'>
 	function validar(f)
 	{
 		if(f.nombre_material.value=='')
-		{	alert('El campo Nombre de Material esta vacio.');
+		{	alert('El campo Nombre de Producto esta vacio.');
 			f.nombre_material.focus();
 			return(false);
 		}
@@ -15,7 +15,7 @@ require("estilos_administracion.inc");
 echo "<form action='guarda_materiales.php' method='post'>";
 echo "<center><table border='0' class='textotit'><tr><td>Adicionar Productos</td></tr></table></center><br>";
 echo "<center><table border='1' class='texto' cellspacing='0'>";
-echo "<tr><th align='left'>Tipo de Material</th>";
+echo "<tr><th align='left'>Tipo de Producto</th>";
 $sql1="select * from tipos_material order by nombre_tipomaterial";
 $resp1=mysqli_query($enlaceCon,$sql1);
 echo "<td><select name='tipo_material' class='texto'>";
@@ -26,7 +26,7 @@ while($dat1=mysqli_fetch_array($resp1))
 }
 echo "</select></td>";
 echo "</tr>";
-echo "<tr><th align='left'>Nombre de Material</th>";
+echo "<tr><th align='left'>Nombre de Producto</th>";
 echo "<td align='center'><input type='text' class='texto' name='nombre_material' size='40' onKeyUp='javascript:this.value=this.value.toUpperCase();'></td>";
 echo "</tr>";
 echo "<tr><th align='left'>Producto</th>";

@@ -153,6 +153,14 @@
     $pdf->Cell(150,$textypos,utf8_decode($cab_observaciones), '', 0, 'L');
     $pdf->Ln();
     
+    $pdf->SetFont('Arial','B',9);  
+    $pdf->setY(37);$pdf->setX($ejeX + 3);
+    $pdf->Cell(48,$textypos,utf8_decode("Cliente:"), '', 0, 'L');
+    $pdf->SetFont('Arial','',9);  
+    $pdf->setY(37);$pdf->setX($ejeX + 52);
+    $pdf->Cell(150,$textypos,utf8_decode($cab_cliente), '', 0, 'L');
+    $pdf->Ln();
+    
     /*
     $pdf->SetFont('Arial','B',9);  
     $pdf->setY(33);$pdf->setX($ejeX + 3);

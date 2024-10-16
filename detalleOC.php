@@ -34,7 +34,7 @@
 	$resp_detalle=mysqli_query($enlaceCon,$sql_detalle);
 	echo "<br><table border=1 cellspacing='0' class='textomini' width='70%' align='center'>";
 	
-	echo "<tr><th>&nbsp;</th><th>Material</th><th>Cantidad</th><th>Lote</th><th>FechaVenc.</th><th>Precio</th><th>Monto</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Producto</th><th>Cantidad</th><th>Lote</th><th>FechaVenc.</th><th>Precio</th><th>Monto</th></tr>";
 	
 	$indice=1;
 	$montoTotal=0;

@@ -19,7 +19,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	$dat_almacen=mysqli_fetch_array($resp_nombre_almacen);
 	$nombre_almacen=$dat_almacen[0];
 	
-	$nombre_tipoitem="Material de Apoyo";
+	$nombre_tipoitem="Producto de Apoyo";
 		$sql_item="select descripcion_material from material_apoyo where codigo_material='$rpt_item'";
 
 	$resp_item=mysqli_query($enlaceCon,$sql_item);

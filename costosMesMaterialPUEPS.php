@@ -24,9 +24,9 @@ function enviar(f){
 			where ma.`cod_tipo_material`=t.`cod_tipomaterial` order by 3,2";
 
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<center><table border='0' class='textotit'><tr><td>Registro de Costos x Mes<br>Año: $codAnio Mes: $codMes</td></tr></table></center><br>";
+	echo "<center><table border='0' class='textotit'><tr><td>Registro de Costos x Mes<br>Aï¿½o: $codAnio Mes: $codMes</td></tr></table></center><br>";
 	echo "<center><table border='1' class='texto' cellspacing='0' width='60%' id='main'>";
-	echo "<tr><th>Material</th>
+	echo "<tr><th>Producto</th>
 	<th>Costo</th>
 	</tr>";
 	$indice=1;

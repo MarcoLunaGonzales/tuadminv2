@@ -146,7 +146,7 @@ for($i=0;$i<=15;$i++)
     }
 }
 echo "</select><th></tr>";
-echo "<tr><th>&nbsp;</th><th>Material</th><th>Cantidad Unitaria</th><th>Precio</th><th>Monto</th></tr>";
+echo "<tr><th>&nbsp;</th><th>Producto</th><th>Cantidad Unitaria</th><th>Precio</th><th>Monto</th></tr>";
 for($indice_detalle=1;$indice_detalle<=$cantidad_material;$indice_detalle++)
 {   echo "<tr><td align='center'>$indice_detalle</td>";
     //obtenemos los valores de las variables creadas en tiempo de ejecucion

@@ -23,7 +23,7 @@ if($rpt_territorio!=0)
 			$nombre_linea=$dat_linea[0];
 			$txt_linea="L�nea: <strong>$nombre_linea</strong>";
 		}
-		if($tipo_item==1){$nombre_item="Muestra M�dica";}else{$nombre_item="Material de Apoyo";}
+		if($tipo_item==1){$nombre_item="Muestra M�dica";}else{$nombre_item="Producto de Apoyo";}
 		echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Existencias Almacen<br>Almacen: <strong>$nombre_territorio</strong> Nombre Almacen: <strong>$nombre_almacen</strong> Tipo de Item: <strong>$nombre_item</strong> $txt_linea <br>Existencias a Fecha: <strong>$rpt_fecha</strong><br>$txt_reporte</th></tr></table>";
 		//desde esta parte viene el reporte en si
 		if($tipo_item==1)
@@ -40,7 +40,7 @@ if($rpt_territorio!=0)
 		}
 		if($tipo_item==2)
 		{
-			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Material de Apoyo</th><th>L�nea</th><th>Tipo de Material</th><th>Cantidad</th></tr>";
+			echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Producto de Apoyo</th><th>L�nea</th><th>Tipo de Producto</th><th>Cantidad</th></tr>";
 		}
 		$indice=1;
 		while($datos_item=mysqli_fetch_array($resp_item))
@@ -143,7 +143,7 @@ if($rpt_territorio==0)
 			$nombre_linea=$dat_linea[0];
 			$txt_linea="L�nea: <strong>$nombre_linea</strong>";
 		}
-		if($tipo_item==1){$nombre_item="Muestra M�dica";}else{$nombre_item="Material de Apoyo";}
+		if($tipo_item==1){$nombre_item="Muestra M�dica";}else{$nombre_item="Producto de Apoyo";}
 		echo "<table align='center' class='textotit'><tr><td align='center'>Reporte Existencias Almacen<br>Todos los territorios Tipo de Item: <strong>$nombre_item</strong> $txt_linea<BR>Existencias a Fecha: <strong>$rpt_fecha</strong><BR>$txt_reporte</th></tr></table>";
 		//desde esta parte viene el reporte en si
 		if($tipo_item==1)
@@ -165,7 +165,7 @@ if($rpt_territorio==0)
 		order by c.descripcion";
 		$resp_almacenes=mysqli_query($enlaceCon,$sql_almacenes);
 		if($tipo_item==1){echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Muestra</th><th>L�nea</th>";}
-		if($tipo_item==2){echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Material de Apoyo</th><th>L�nea</th><th>Tipo Material</th>";}
+		if($tipo_item==2){echo "<br><table cellspacing='0' border=1 align='center' class='texto'><tr><th>&nbsp;</th><th>Producto de Apoyo</th><th>L�nea</th><th>Tipo Producto</th>";}
 		while($datos_almacenes=mysqli_fetch_array($resp_almacenes))
 		{	$rpt_almacen=$datos_almacenes[0];
 			$nombre_almacen=$datos_almacenes[2];
