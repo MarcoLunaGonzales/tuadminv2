@@ -6,7 +6,7 @@ include 'assets/php-barcode-master/barcode.php';
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-// Modigo de Material
+// Modigo de Producto
 $cod_material = $_GET['cod_material'];
 
 $sqlConf="SELECT ma.codigo_material, ma.descripcion_material, ROUND(p.precio, 2)

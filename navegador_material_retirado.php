@@ -2,7 +2,7 @@
 /**
  * Desarrollado por Datanet-Bolivia.
  * @autor: Marco Antonio Luna Gonzales
- * Sistema de Visita Médica
+ * Sistema de Visita Mï¿½dica
  * * @copyright 2005
 */
 echo "<script language='Javascript'>
@@ -42,10 +42,10 @@ echo "<script language='Javascript'>
 	echo "<form method='post' action=''>";
 	$sql="select * from material_apoyo where estado='Retirado' order by descripcion_material";
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<center><table border='0' class='textotit'><tr><td>Material de Apoyo Retirado de todas las Líneas</td></tr></table></center><br>";
+	echo "<center><table border='0' class='textotit'><tr><td>Producto de Apoyo Retirado de todas las Lï¿½neas</td></tr></table></center><br>";
 	$indice_tabla=1;
 	echo "<center><table border='1' class='texto' cellspacing='0' width='40%'>";
-	echo "<tr><th>&nbsp;</th><th>&nbsp;</th><th>Material de Apoyo Retirado</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>&nbsp;</th><th>Producto de Apoyo Retirado</th></tr>";
 	while($dat=mysqli_fetch_array($resp))
 	{
 		$codigo=$dat[0];

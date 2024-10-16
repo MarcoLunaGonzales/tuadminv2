@@ -49,7 +49,7 @@ function calcularPrecio(fila){
 	where i.cod_ingreso_almacen='$codigo' and m.codigo_material=i.cod_material";
 	$resp_detalle=mysqli_query($enlaceCon,$sql_detalle);
 	echo "<br><table class='texto' align='center'>";
-	echo "<tr><th>&nbsp;</th><th>Material</th><th>Cantidad</th><th>Precio[u] Compra</th><th>Precio Total Compra</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Producto</th><th>Cantidad</th><th>Precio[u] Compra</th><th>Precio Total Compra</th></tr>";
 	$indice=1;
 	while($dat_detalle=mysqli_fetch_array($resp_detalle))
 	{	$cod_material=$dat_detalle[0];

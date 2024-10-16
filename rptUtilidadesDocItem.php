@@ -50,7 +50,7 @@ echo "<center><table class='textomediano'>
 <th>Nro</th>
 <th>Cliente</th>
 <th>Vendedor</th>
-<th>Material</th>
+<th>Producto</th>
 <th>Glosa</th>
 <th>Cantidad</th>
 <th>Costo[u]</th>

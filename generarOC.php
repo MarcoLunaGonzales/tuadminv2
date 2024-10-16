@@ -211,7 +211,7 @@ function validar(f){
 	echo "<input type='hidden' value='$filasDetalle' name='numeroItems' id='numeroItems'>";
 	echo "<br><table border=1 cellspacing='0' class='textomini' width='90%' align='center' id='detalle'>";
 	
-	echo "<tr><th>&nbsp;</th><th>Material</th><th>Cantidad</th><th>Precio Bs.</th><th>Precio $us.</th><th>Monto Bs.</th><th>Monto Dol.</th></tr>";
+	echo "<tr><th>&nbsp;</th><th>Producto</th><th>Cantidad</th><th>Precio Bs.</th><th>Precio $us.</th><th>Monto Bs.</th><th>Monto Dol.</th></tr>";
 	
 	$indice=1;
 	$montoTotal=0;

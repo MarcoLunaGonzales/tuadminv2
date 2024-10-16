@@ -27,7 +27,7 @@
 	echo "</table><br>";
 	
 	echo "<table class='texto'>";
-	echo "<tr><th>CodigoInterno</th><th>Material</th><th>Cantidad</th></tr>";
+	echo "<tr><th>CodigoInterno</th><th>Producto</th><th>Cantidad</th></tr>";
 	echo "<form method='post' action=''>";
 	$sql_detalle="select s.cod_material, sum(s.cantidad_unitaria) from salida_detalle_almacenes s 
 	where s.cod_salida_almacen='$codigo_salida' group by s.cod_material";

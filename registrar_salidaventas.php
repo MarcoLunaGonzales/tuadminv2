@@ -1859,7 +1859,7 @@ if($tipoDocDefault==2){
 			<td width="38%" align="center">
 				<input type="hidden" class="formIndex" value="<?php echo $num;?>">
 				<input type="hidden" name="precioVentaArray<?php echo $num;?>" id="precioVentaArray<?php echo $num;?>" value="<?=$htmlPrecios?>">
-				<!-- Codigo de Material -->
+				<!-- Codigo de Producto -->
 				<input type="hidden" name="materiales<?php echo $num;?>" id="materiales<?php echo $num;?>" value="<?=$cod_material?>">
 				<!-- Codigo de Sucursal -->
 				<input type="hidden" name="cod_sucursales<?php echo $num;?>" id="cod_sucursales<?php echo $num;?>" value="<?=$dsuc_cod_almacen?>">
@@ -1938,7 +1938,7 @@ if($tipoDocDefault==2){
 			<tr>
 				<th>
 				</th>
-				<th>Marca</th><th>CodInterno</th><th>Material</th><th>&nbsp;</th></tr>
+				<th>Marca</th><th>CodInterno</th><th>Producto</th><th>&nbsp;</th></tr>
 			<tr>
 			<td>
 				<div class="custom-control" style="padding-left: 0px;">

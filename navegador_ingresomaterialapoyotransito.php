@@ -21,7 +21,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un Material para proceder a su eliminaci�n.');
+			{	alert('Debe seleccionar al menos un Producto para proceder a su eliminaci�n.');
 			}
 			else
 			{
@@ -71,7 +71,7 @@ echo "<script language='Javascript'>
 	FROM salida_almacenes s, tipos_salida ts, ciudades c, almacenes a 
 	where s.cod_tiposalida=ts.cod_tiposalida and s.almacen_destino='$global_almacen'  and s.cod_almacen<>'$global_almacen' and s.estado_salida=1 and s.grupo_salida='2' and c.cod_ciudad=s.territorio_destino and a.cod_almacen=s.cod_almacen and s.salida_anulada <> 1";
 	$resp=mysqli_query($enlaceCon,$sql);
-	echo "<center><table border='0' class='textotit'><tr><th>Ingreso de Material de Apoyo en Transito</th></tr></table></center><br>";
+	echo "<center><table border='0' class='textotit'><tr><th>Ingreso de Producto de Apoyo en Transito</th></tr></table></center><br>";
 	require('home_almacen.php');
 
 	if($global_usuario!=1129)

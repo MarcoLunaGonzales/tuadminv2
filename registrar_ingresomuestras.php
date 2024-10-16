@@ -177,7 +177,7 @@ for($i=0;$i<=50;$i++)
     }
 }
 echo "</select><th></tr>";
-echo "<tr><th width='5%'>&nbsp;</th><th width='35%'>Material</th><th width='20%'>Nro. Lote</th><th width='20%'>Fecha Vencimiento</th><th width='20%'>Cantidad Unitaria</th><th>Precion</th><th>Neto</th></tr>";
+echo "<tr><th width='5%'>&nbsp;</th><th width='35%'>Producto</th><th width='20%'>Nro. Lote</th><th width='20%'>Fecha Vencimiento</th><th width='20%'>Cantidad Unitaria</th><th>Precion</th><th>Neto</th></tr>";
 for($indice_detalle=1;$indice_detalle<=$cantidad_material;$indice_detalle++)
 {   echo "<tr><td align='center'>$indice_detalle</td>";
     $sql_materiales="select codigo, descripcion, presentacion from muestras_medicas order by descripcion";

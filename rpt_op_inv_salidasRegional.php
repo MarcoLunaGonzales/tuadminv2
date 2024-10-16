@@ -82,7 +82,7 @@ echo"<form method='post' action=''>";
 	echo "<tr><th align='left'>Tipo de Item:</th>";
 	echo "<td><select name='tipo_item' class='texto'>";
 	echo "<option value='1'>Muestra M�dica</option>";
-	echo "<option value='2'>Material de Apoyo</option>";
+	echo "<option value='2'>Producto de Apoyo</option>";
 	echo "</tr>";
 	echo "<tr><th align='left'>Tipo de Salida</th>";
 	$sql_tiposalida="select cod_tiposalida, nombre_tiposalida from tipos_salida where tipo_almacen='$global_tipoalmacen' order by nombre_tiposalida";

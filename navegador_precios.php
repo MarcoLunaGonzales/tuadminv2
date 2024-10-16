@@ -179,7 +179,7 @@ function enviar(f){
 	
 	echo "<center><table class='texto' id='main'>";
 
-	echo "<tr><th>Material</th>
+	echo "<tr><th>Producto</th>
 	<th>Costo</th>
 	<th>Precio Normal</th>
 	<th>Precio Super Oferta<br><input type='text' size='2' name='valorPrecioB' id='valorPrecioB' value='0'>

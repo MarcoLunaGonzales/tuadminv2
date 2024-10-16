@@ -33,7 +33,7 @@ $nombre_almacen=$datos_nombre_almacen[0];
 	<tr>
 	<th>&nbsp;</th>
 	<th>Codigo</th>
-	<th>Material</th>
+	<th>Producto</th>
 	<th>Grupo</th>
 	<th>Cantidad</th>
 	<th>Costo Unitario</th>

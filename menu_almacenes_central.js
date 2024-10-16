@@ -1,4 +1,4 @@
-//©Xara Ltd
+//ï¿½Xara Ltd
 if(typeof(loc)=="undefined"||loc==""){var loc="";if(document.body&&document.body.innerHTML){var tt=document.body.innerHTML;var ml=tt.match(/["']([^'"]*)menu_almacenes_central.js["']/i);if(ml && ml.length > 1) loc=ml[1];}}
 
 var bd=0
@@ -31,35 +31,35 @@ submenuItem("Observaciones Kardex y Existencias",loc+"../"+"rpt_op_inv_obs_karde
 endSubmenu("menu_almacenes_central_b3");
 
 startSubmenu("menu_almacenes_central_b2_2","menu_almacenes_central_menu",116);
-submenuItem("Búsqueda",loc+"../"+"navegador_salidabusqueda.php?grupo_salida=2","","menu_almacenes_central_plain");
+submenuItem("Bï¿½squeda",loc+"../"+"navegador_salidabusqueda.php?grupo_salida=2","","menu_almacenes_central_plain");
 submenuItem("Listado General",loc+"../"+"navegador_salidamateriales.php","","menu_almacenes_central_plain");
 endSubmenu("menu_almacenes_central_b2_2");
 
 startSubmenu("menu_almacenes_central_b2_1","menu_almacenes_central_menu",116);
-submenuItem("Búsqueda",loc+"../"+"navegador_salidabusqueda.php?grupo_salida=1","","menu_almacenes_central_plain");
+submenuItem("Bï¿½squeda",loc+"../"+"navegador_salidabusqueda.php?grupo_salida=1","","menu_almacenes_central_plain");
 submenuItem("Listado General",loc+"../"+"navegador_salidamuestras.php","","menu_almacenes_central_plain");
 endSubmenu("menu_almacenes_central_b2_1");
 
 startSubmenu("menu_almacenes_central_b2","menu_almacenes_central_menu",216);
 mainMenuItem("menu_almacenes_central_b2_1","Salida de Muestras",0,0,"javascript:;","","",1,1,"menu_almacenes_central_l");
-mainMenuItem("menu_almacenes_central_b2_2","Salida de Material de Apoyo",0,0,"javascript:;","","",1,1,"menu_almacenes_central_l");
+mainMenuItem("menu_almacenes_central_b2_2","Salida de Producto de Apoyo",0,0,"javascript:;","","",1,1,"menu_almacenes_central_l");
 submenuItem("Salidas para ciclos enteros",loc+"../"+"navegador_salidaciclosenteros.php","","menu_almacenes_central_plain");
 endSubmenu("menu_almacenes_central_b2");
 
 startSubmenu("menu_almacenes_central_b1_2","menu_almacenes_central_menu",116);
-submenuItem("Búsqueda",loc+"../"+"navegador_ingresobusqueda.php?grupo_ingreso=2","","menu_almacenes_central_plain");
+submenuItem("Bï¿½squeda",loc+"../"+"navegador_ingresobusqueda.php?grupo_ingreso=2","","menu_almacenes_central_plain");
 submenuItem("Listado General",loc+"../"+"navegador_ingresomateriales.php","","menu_almacenes_central_plain");
 endSubmenu("menu_almacenes_central_b1_2");
 
 startSubmenu("menu_almacenes_central_b1_1","menu_almacenes_central_menu",116);
-submenuItem("Búsqueda",loc+"../"+"navegador_ingresobusqueda.php?grupo_ingreso=1","","menu_almacenes_central_plain");
+submenuItem("Bï¿½squeda",loc+"../"+"navegador_ingresobusqueda.php?grupo_ingreso=1","","menu_almacenes_central_plain");
 submenuItem("Listado General",loc+"../"+"navegador_ingresomuestras.php","","menu_almacenes_central_plain");
 endSubmenu("menu_almacenes_central_b1_1");
 
 startSubmenu("menu_almacenes_central_b1","menu_almacenes_central_menu",305);
 mainMenuItem("menu_almacenes_central_b1_1","Ingreso de Muestras",0,0,"javascript:;","","",1,1,"menu_almacenes_central_l");
-mainMenuItem("menu_almacenes_central_b1_2","Ingreso de Material de Apoyo",0,0,"javascript:;","","",1,1,"menu_almacenes_central_l");
-submenuItem("Ingreso de Material de Apoyo en Tránsito",loc+"../"+"navegador_ingresomaterialapoyotransito.php","","menu_almacenes_central_plain");
+mainMenuItem("menu_almacenes_central_b1_2","Ingreso de Producto de Apoyo",0,0,"javascript:;","","",1,1,"menu_almacenes_central_l");
+submenuItem("Ingreso de Producto de Apoyo en Trï¿½nsito",loc+"../"+"navegador_ingresomaterialapoyotransito.php","","menu_almacenes_central_plain");
 endSubmenu("menu_almacenes_central_b1");
 
 loc="";

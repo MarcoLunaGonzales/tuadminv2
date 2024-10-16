@@ -51,13 +51,13 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		if($rptOrdenar==1){
 			echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 			<thead>
-			<tr><th>&nbsp;</th><th>Codigo</th><th>Material</th>
+			<tr><th>&nbsp;</th><th>Codigo</th><th>Producto</th>
 			<th>CantidadPresentacion</th><th>Cajas</th><th>Unidades</th><th>PrecioVenta</th></tr>
 			</thead>";
 		}else{
 			echo "<br><table border=0 align='center' class='textomediano' width='70%'>
 			<thead>
-			<tr><th>&nbsp;</th><th>Codigo</th><th>Linea Marca</th><th>Material</th>
+			<tr><th>&nbsp;</th><th>Codigo</th><th>Linea Marca</th><th>Producto</th>
 			<th>CantidadPresentacion</th><th>Cajas</th><th>Unidades</th><th>PrecioVenta</th><th>Monto</th></tr>
 			</thead>";
 		}

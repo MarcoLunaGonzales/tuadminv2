@@ -19,7 +19,7 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j==0)
-			{	alert('Debe seleccionar al menos un Tipo de Material para proceder a su eliminación.');
+			{	alert('Debe seleccionar al menos un Tipo de Producto para proceder a su eliminaciï¿½n.');
 			}
 			else
 			{
@@ -49,13 +49,13 @@ echo "<script language='Javascript'>
 				}
 			}
 			if(j>1)
-			{	alert('Debe seleccionar solamente un Tipo de Material para editar sus datos.');
+			{	alert('Debe seleccionar solamente un Tipo de Producto para editar sus datos.');
 			}
 			else
 			{
 				if(j==0)
 				{
-					alert('Debe seleccionar un Material para editar sus datos.');
+					alert('Debe seleccionar un Producto para editar sus datos.');
 				}
 				else
 				{
