@@ -139,11 +139,7 @@
 
     $pdf->SetFont('Arial','B',9);  
     $pdf->setY(29);$pdf->setX($ejeX + 3);
-    $pdf->Cell(48,$textypos,utf8_decode("Domicilio del Punto de Partida:"), '', 0, 'L');
-    $pdf->SetFont('Arial','',9);  
-    $pdf->setY(29);$pdf->setX($ejeX + 52);
-    $pdf->Cell(150,$textypos,utf8_decode($cab_dir_origen), '', 0, 'L');
-    $pdf->Ln();
+    $pdf->Cell(48,$textypos,utf8_decode("Razón Social:"), '', 0, 'L');
     
     $pdf->SetFont('Arial','B',9);  
     $pdf->setY(33);$pdf->setX($ejeX + 3);
@@ -152,10 +148,17 @@
     
     $pdf->SetFont('Arial','B',9);  
     $pdf->setY(36);$pdf->setX($ejeX + 3);
-    $pdf->Cell(22,$textypos,utf8_decode("Razón Social:"), '', 0, 'L');
+    $pdf->Cell(22,$textypos,utf8_decode("Domicilio del Punto de Partida:"), '', 0, 'L');
     $pdf->SetFont('Arial','',9);  
-    $pdf->setY(36);$pdf->setX($ejeX + 25);
-    $pdf->Cell(105,$textypos,utf8_decode("Razing Trade LTDA."), '', 0, 'L');
+
+    $pdf->SetFont('Arial','',9);  
+    $pdf->setY(29);$pdf->setX($ejeX + 33);
+    $pdf->Cell(150,$textypos,utf8_decode("Razing Trade LTDA."), '', 0, 'L');
+    $pdf->Ln();
+
+
+    $pdf->setY(36);$pdf->setX($ejeX + 55);
+    $pdf->Cell(105,$textypos,utf8_decode($cab_dir_origen), '', 0, 'L');
     $pdf->SetFont('Arial','B',9);  
     $pdf->setY(36);$pdf->setX($ejeX + 130);
     $pdf->Cell(10,$textypos,utf8_decode("NIT :"), '', 0, 'L');
@@ -168,7 +171,7 @@
     $pdf->setY(39.5);$pdf->setX($ejeX + 3);
     $pdf->Cell(50,$textypos,utf8_decode("Domicilio del Punto de Llegada:"), '', 0, 'L');
     $pdf->SetFont('Arial','',9);  
-    $pdf->setY(39.5);$pdf->setX($ejeX + 52);
+    $pdf->setY(39.5);$pdf->setX($ejeX + 55);
     $pdf->Cell(91,$textypos,utf8_decode($cab_dir_destino), '', 0, 'L');
     $pdf->Ln();
     
@@ -176,7 +179,7 @@
     $pdf->setY(43);$pdf->setX($ejeX + 3);
     $pdf->Cell(42,$textypos,utf8_decode("Bienes Transportados: "), '', 0, 'L');
     $pdf->SetFont('Arial','',9);  
-    $pdf->setY(43);$pdf->setX($ejeX + 40);
+    $pdf->setY(43);$pdf->setX($ejeX + 55);
     $pdf->Cell(160,$textypos,utf8_decode("LLANTAS"), '', 0, 'L');
     $pdf->Ln();
 
