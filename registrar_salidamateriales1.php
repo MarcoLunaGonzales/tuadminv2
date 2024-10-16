@@ -445,7 +445,7 @@ else
 				</th>
 				<th align='center' v-show="tipo_salida == 1009">
 					<label style="color:black;">Cliente</label>
-					<select name='cliente' id='cliente' required class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true'>
+					<select name='cliente' id='cliente' class='selectpicker form-control' data-style='btn btn-rose' data-live-search='true'>
 						<option value="">-</option>
 					<?php
 						$sqlCliente = "SELECT c.cod_cliente, c.nombre_cliente
