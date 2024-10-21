@@ -362,10 +362,14 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 	}
 	$suma_saldo_finalCaja=$suma_ingresosCaja-$suma_salidasCaja+$cantidad_inicial_kardexCaja;
 	$suma_saldo_final=$suma_ingresos-$suma_salidas+$cantidad_inicial_kardex;
+
+	$suma_ingresosCajaF=formatNumberInt(redondear2($suma_ingresosCaja));
+	$suma_salidasCajaF=formatNumberInt(redondear2($suma_salidasCaja));
+	$suma_saldo_finalCajaF=formatNumberInt(redondear2($suma_saldo_finalCaja));
 	echo "<tr class='titulos'><th colspan='6'>Sumas</th>
-	<th align='right' style='text-align:right'>$suma_ingresosCaja</td>
-	<th align='right' style='text-align:right'>$suma_salidasCaja</td>
-	<th align='right' style='text-align:right'>$suma_saldo_finalCaja</td>";
+	<th align='right' style='text-align:right'>$suma_ingresosCajaF</td>
+	<th align='right' style='text-align:right'>$suma_salidasCajaF</td>
+	<th align='right' style='text-align:right'>$suma_saldo_finalCajaF</td>";
 
 	// <th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_ingresos</td>
 	// <th align='right'class='bg-plomoclaro' style='text-align:right'>$suma_salidas</td>
