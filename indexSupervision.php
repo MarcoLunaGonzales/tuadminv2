@@ -37,6 +37,63 @@
     background-color: #ffffff !important;
   }
 
+	/**
+	* Estilos para el boton de notificaciones
+	**/
+	.notification-btn {
+		background-color: transparent;
+		border: none;
+		position: relative;
+		right: 0px;
+		cursor: pointer;
+		font-size: 16px;
+		color: #fff;
+		z-index: 99999;
+	}
+
+	.notification-icon {
+		border-radius: 50%;
+		font-size: 24px;
+		color: #fff;
+		position: relative;
+		transition: transform 0.8s ease;
+		text-shadow: 
+			1px 1px 0 white, /* Right */
+			-1px 1px 0 white, /* Left */
+			1px -1px 0 white, /* Top */
+			-1px -1px 0 white; /* Bottom */
+	}
+
+
+	.notification-icon.active {
+		animation: pulse 3s infinite;
+	}
+
+	@keyframes pulse {
+		0% {
+			box-shadow: 0 0 0 0 rgba(255, 223, 0, 0.7);
+		}
+		50% {
+			box-shadow: 0 0 0 20px rgba(255, 223, 0, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(255, 223, 0, 0);
+		}
+	}
+
+
+	.notification-badge {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 10px;
+		height: 10px;
+		background-color: red;
+		border-radius: 50%;
+		border: 2px solid white;
+		pointer-events: none;
+	}
+
 </style>
      <link rel="stylesheet" href="dist/css/demo.css" />
      <link rel="stylesheet" href="dist/mmenu.css" />
@@ -49,13 +106,61 @@ require_once 'datosUsuario.php';
 require_once 'funciones.php';
 
 $serverSIAT=obtenerValorConfiguracion(7);
+/**
+ * Verificación notificación
+ */
+require('conexion.inc');
+$fecha_actual = date('Y-m-d');
+$sqlVeri = "SELECT ns.codigo, ns.cod_producto, ns.stock_minimo, ns.stock, ns.fecha_registro
+			FROM notificaciones_stocks ns
+			WHERE ns.fecha_registro = '$fecha_actual'";
+$respVeri = mysqli_query($enlaceCon, $sqlVeri);
+$cant_notif = 0;
+if ($respVeri) {
+    $cant_notif = mysqli_num_rows($respVeri);
+}
 
 ?>
 <div id="page">
+	<!-- Modal -->
+	<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="notificationModalLabel">Notificación de Inventario</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+					<a href="/ruta-al-reporte" class="btn btn-warning">Ver Reporte</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="header">
 		<a href="#menu"><span></span></a>
 		<?=$_COOKIE["global_empresa_nombre"];?>
 		<div style="position:absolute; width:95%; height:50px; text-align:right; top:0px; font-size: 9px; font-weight: bold; color: #fff;">
+			<?php
+				if($cant_notif > 0){
+			?>
+			<!-- Botón de Notificaciones -->
+			<button ttype="button" class="notification-btn" title="Tienes notificaciones pendientes" id="abreModalNotificacion" onclick="window.contenedorPrincipal.location.href='notificacionesStocks.php'">
+				<i class="material-icons notification-icon active text-warning" style="font-size:17px;">notifications</i>
+				<span class="notification-badge"></span>
+			</button>
+			<?php
+				}else{
+			?>
+			<!-- Botón de Notificaciones -->
+			<button ttype="button" class="notification-btn" title="No tienes notificaciones">
+				<i class="material-icons notification-icon" style="font-size:17px;">notifications</i>
+			</button>
+			<?php
+				}
+			?>
 			[<?=$fechaSistemaSesion;?>][<?=$horaSistemaSesion;?>]		<button onclick="location.href='salir.php'" style="position:relative;z-index:99999;right:0px;" class="boton-rojo" title="Salir">
 				<i class="material-icons" style="font-size: 16px">logout</i>
 			</button>

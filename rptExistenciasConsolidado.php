@@ -65,7 +65,7 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 		echo "<th>Total Producto</th></tr>
 				</thead>";
 		$cadena_mostrar="";
-		$indice=0;
+		$indice=1;
 		while($datos_item=mysqli_fetch_array($resp_item)){	
 
 			$totalProducto=0;
@@ -81,9 +81,9 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			
 			$cadena_mostrar="<tbody>";
 			if($rptOrdenar==1){
-				$cadena_mostrar.="<tr><td>$indice</td><td>$codigoInterno</td><td>$nombre_item</td>";
+				$cadena_mostrar.="<tr class='textomedianonegro'><td>$indice</td><td>$codigoInterno</td><td>$nombre_item</td>";
 			}else{
-				$cadena_mostrar.="<tr><td>$indice</td><td>$codigoInterno</td><td>$nombreLinea</td>
+				$cadena_mostrar.="<tr class='textomedianonegro'><td>$indice</td><td>$codigoInterno</td><td>$nombreLinea</td>
 				<td>$paisProcedencia</td><td>$nombre_item</td>";	
 			}
 			
@@ -105,6 +105,10 @@ $txt_reporte="Fecha de Reporte <strong>$fecha_reporte</strong>";
 			
 			$cadena_mostrar.="<td align='center'>$totalProducto</td></tr>";
 			
+			if($totalProducto==0){
+				$cadena_mostrar=str_replace("<tr class='textomedianonegro'>", "<tr class='textomedianorojo'>", $cadena_mostrar);
+			}
+
 			if($rpt_ver==1){	
 				echo $cadena_mostrar;
 			}
